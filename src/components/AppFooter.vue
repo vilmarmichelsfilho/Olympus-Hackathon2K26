@@ -47,7 +47,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 5vw;
+    margin: 5vw 5vw 10vw 5vw;
     font-family: "BBH Hegarty", sans-serif;
 }
 .midia ul {
@@ -73,9 +73,8 @@ ul {
 }
 .rights-reserved {
     font-family: "Cinzel", serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
-  font-style: normal;
+    font-weight: 900;
+    font-style: normal;
     text-align: center;
     margin-top: 15vw;
 }
