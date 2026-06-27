@@ -37,8 +37,10 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  color: white;
+  background: black;
+  background: url('./homeBackground.png');
+  background-size: 100vw;
   transition:
     color 0.5s,
     background-color 0.5s;
