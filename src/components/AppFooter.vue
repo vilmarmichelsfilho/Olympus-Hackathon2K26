@@ -41,7 +41,8 @@ import FacebookIcon from '@iconify-vue/mdi/facebook'; import InstagramIcon from 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=BBH+Hegarty&family=Cinzel:wght@400..900&display=swap');
 footer {
-    margin-bottom: 15vw;
+    padding-bottom: 10vw;
+    background: linear-gradient(155deg, #DE6D1C 30%, #DB9864, #dbab86 90%, #ffffff 110%);
 }
 .midia {
     display: flex;

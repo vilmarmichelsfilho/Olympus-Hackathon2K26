@@ -40,7 +40,7 @@ body {
   color: white;
   background: black;
   background: url('./homeBackground.png');
-  background-size: 100vw;
+  background-size: cover;
   transition:
     color 0.5s,
     background-color 0.5s;

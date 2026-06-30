@@ -19,6 +19,6 @@ div.app-container {
   max-width: 100vw;
 }
 .content-wrap {
-    flex-wrap: 1;
+    flex: 1;
 }
 </style>
