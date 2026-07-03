@@ -7,3 +7,4 @@ const turmas = reactive([
         time: 'Preto'
     }
 ])
+export{turmas}

@@ -7,3 +7,4 @@ const administradores = reactive([
         senha: '2026_olimpiedas_2026',
     }
 ])
+export {administradores}
