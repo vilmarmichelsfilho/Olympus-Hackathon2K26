@@ -2,10 +2,9 @@ import { reactive } from "vue";
 const jogos = reactive([
     {
         id: 1,
-        data: '23/06/2026',
-        horario: '11:55',
+        data: Date("2026-07-07"),
+        horario: '14:30',
         local: 'Ginasio',
-        status: 'Inativo',
         fase: 'Semi-final',
         modalidade: 'Volei',
         time1: 'Preto',
