@@ -1,10 +1,18 @@
 <script setup>
+import { jogos } from '@/data/jogos';
  import { ref } from 'vue';
  import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
+import TableJogos from './TableJogos.vue';
  const menuAberto = ref(false)
  function abrirMenu() {
   menuAberto.value = !menuAberto.value
  }
+ const jogosVerificados = [];
+  for( let jogo of jogos){
+if(jogo.status == "AoVivo"){
+  jogosVerificados.push(jogo)
+}
+  }
 </script>
 
 <template>
@@ -21,6 +29,21 @@
       <h1 class="nome-site">Olympos</h1>
     </div>
   </div>
+  <div class="placares">
+    <ul>
+    <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id" 
+    :data="jogo.data" 
+    :horario="jogo.horario" 
+    :modalidade="jogo.modalidade" 
+    :time1="jogo.time1" 
+    :time2="jogo.time2" 
+    :pontuacao1="jogo.pontuacao1" 
+    :pontuacao2="jogo.pontuacao2" 
+    :status="jogo.status">
+    </TableJogos>
+    </ul>
+  </div>
+
 </template>
 
 <style scoped>

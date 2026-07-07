@@ -5,7 +5,7 @@ const jogos = reactive([
         data: '23/06/2026',
         horario: '11:55',
         local: 'Ginasio',
-        status: 'Inativo',
+        status: 'AoVivo',
         fase: 'Semi-final',
         modalidade: 'Volei',
         time1: 'Preto',
@@ -13,5 +13,18 @@ const jogos = reactive([
         pontuacao1: 0,
         pontuacao2: 0,
     },
+    {
+        id: 2,
+        data: '23/06/2026',
+        horario: '11:00',
+        local: 'Ginasio',
+        status: 'AoVivo',
+        fase: 'Semi-final',
+        modalidade: 'futebol',
+        time1: ' Time Roxo',
+        time2: 'Time Azul',
+        pontuacao1: 1,
+        pontuacao2: 2,
+    }
 ])
 export{jogos}
