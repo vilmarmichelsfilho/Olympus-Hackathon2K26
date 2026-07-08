@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { jogos } from '@/data/jogos';
  import { ref } from 'vue';
  import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
@@ -7,12 +8,10 @@ import TableJogos from './TableJogos.vue';
  function abrirMenu() {
   menuAberto.value = !menuAberto.value
  }
- const jogosVerificados = [];
-  for( let jogo of jogos){
-if(jogo.status == "AoVivo"){
-  jogosVerificados.push(jogo)
-}
-  }
+ const jogosVerificados = computed (() =>
+ jogos.filter(jogo => jogo.status === 'AoVivo')
+ )
+
 </script>
 
 <template>
@@ -31,15 +30,18 @@ if(jogo.status == "AoVivo"){
   </div>
   <div class="placares">
     <ul>
-    <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id" 
-    :data="jogo.data" 
-    :horario="jogo.horario" 
-    :modalidade="jogo.modalidade" 
-    :time1="jogo.time1" 
-    :time2="jogo.time2" 
-    :pontuacao1="jogo.pontuacao1" 
-    :pontuacao2="jogo.pontuacao2" 
-    :status="jogo.status">
+    <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id"
+    :data="jogo.data"
+    :horario="jogo.horario"
+    :modalidade="jogo.modalidade"
+    :time1="jogo.time1"
+    :time2="jogo.time2"
+    :pontuacao1="jogo.pontuacao1"
+    :pontuacao2="jogo.pontuacao2"
+    :status="jogo.status"
+    :escudo1="jogo.escudo1"
+    :escudo2="jogo.escudo2"
+    >
     </TableJogos>
     </ul>
   </div>
@@ -95,5 +97,15 @@ font-weight: 400;
     background-size:cover;
     background-repeat:no-repeat;
     background-position:center;
+}
+.placares ul {
+  position: relative;
+  margin-top: -20vw;
+  background-color: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  z-index: 10;
 }
 </style>
