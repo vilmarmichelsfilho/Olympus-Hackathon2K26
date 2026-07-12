@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div app-conteiner>
+  <div class="app-conteiner">
     <RouterView></RouterView>
   </div>
 
@@ -13,6 +13,6 @@ import { RouterView } from 'vue-router'
 div.app-conteiner{
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
 }
 </style>
