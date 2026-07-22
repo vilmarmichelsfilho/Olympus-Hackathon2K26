@@ -50,6 +50,24 @@ button{
   width: 20vw;
   border-radius: 10px;
 }
-
+@media (min-width: 1200px) {
+  li {
+    max-width: 40vw;
+    margin: 2vw 0;
+    padding: 1vw 2vw;
+    border-radius: 40px;
+  }
+  li h3 {
+    font-size: 2rem;
+  }
+  li h4 {
+    font-size: 1.7rem;
+  }
+  li img {
+    width: 100%;
+    max-width: 10vw;
+    margin: 20px auto 0 auto;
+  }
+}
 </style>
 

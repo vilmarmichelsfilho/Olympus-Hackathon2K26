@@ -6,14 +6,20 @@ import DesenvolvedoresCard from '@/Components/desenvolvedoresCard.vue'
   <main>
     <section class="sobrenos">
 <img src="/images/coroa.png" alt="coroa">
-     <h2>SOBRE NÓS</h2>
-  <p>Agradecemos nosso professor Kennedy por nos mentorar nesse projeto ambicioso de criar um site capaz de suportar as informações das olimpíadas escolares IFC.</p>
-  <ul>
+    <div class="grupo1">
+      <h2>SOBRE NÓS</h2>
+  <p class="maisescuro">Agradecemos nosso professor Kennedy por nos mentorar nesse projeto ambicioso de criar um site capaz de suportar as informações das olimpíadas escolares IFC.</p>
+    </div>
+    <div class="grupo2">
+      <ul>
 <DesenvolvedoresCard v-for="desenvolvedor in desenvolvedores" :key="desenvolvedor.id" :nome="desenvolvedor.nome" :funcao="desenvolvedor.funcao" :imagem="desenvolvedor.foto" :id="desenvolvedor.id" :visivel="desenvolvedor.visivel" @mostrar="mostrar"/>
   </ul>
+    </div>
+ <div class="grupo3">
   <p>
     Queremos também agradecer a chapa Kairos por contribuir conosco para a realização desse projeto.
   </p>
+ </div>
   </section>
   </main>
 </template>
@@ -25,8 +31,13 @@ main{
   display: flex;
   justify-content: center;
 }
+section.sobrenos{
+  position: relative;
+}
 img{
-  margin: 0 0 0 6vw;
+  position: absolute;
+  left: 20%;
+  transform: translate(-50%, -50%);
 }
 h2{
   font-family: 'Anton SC', sans-serif;
@@ -38,10 +49,53 @@ p{
   font-size: 1.8rem;
   color: #00000040;
   font-weight:bold;
-  margin: 0 auto 0 3vw;
+  margin: 0 0 0 3vw;
 }
 ul{
  padding: 0;
  align-items: center;
+ place-items: center;
+}
+@media (min-width: 1200px) {
+  section.sobrenos {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    justify-content: space-between;
+    gap: 10vw;
+    padding: 0 5vw;
+    align-items: start;
+  }
+  img {
+    left: 95vw;
+  }
+  .grupo1 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .grupo3 {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 20vw;
+  }
+  .grupo2 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .grupo2 ul {
+    width: 100%;
+  }
+  h2 {
+    font-size: 5.5rem;
+    margin: 0 0 15px 0;
+  }
+  p {
+    font-size: 2rem;
+    min-width: 550px;
+    margin: 0;
+  }
+  p.maisescuro {
+    color: #666060;
+    font-size: 2.3rem;
+  }
 }
 </style>
