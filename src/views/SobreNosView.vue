@@ -29,15 +29,21 @@ import DesenvolvedoresCard from '@/Components/desenvolvedoresCard.vue'
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Krona+One&family=Poller+One&display=swap');
 main{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  width: 99vw;
 }
 section.sobrenos{
   position: relative;
+  background-color: #FFf;
 }
 img{
   position: absolute;
   left: 20%;
   transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 20vw;
+  padding: 0.5vw 4vw 0.5vw 4vw;
 }
 h2{
   font-family: 'Anton SC', sans-serif;
@@ -57,16 +63,22 @@ ul{
  place-items: center;
 }
 @media (min-width: 1200px) {
+  main{
+    background-color: #641313;
+    background-image: linear-gradient(to right,#641313, #151313);
+  }
   section.sobrenos {
+    margin: 5vw 0;
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     justify-content: space-between;
     gap: 10vw;
-    padding: 0 5vw;
+    padding: 2vw 5vw;
     align-items: start;
+    border-radius: 20px;
   }
   img {
-    left: 95vw;
+    left: 90vw;
   }
   .grupo1 {
     grid-column: 1;
