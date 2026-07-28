@@ -144,6 +144,7 @@ font-weight: 400;
   .barra-desktop {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 1rem 2.5rem;
     margin: 0rem 0rem 0 60rem;
   }
