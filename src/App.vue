@@ -1,10 +1,21 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { RouterView } from 'vue-router'
+import AppHeader from './components/AppHeader.vue';
 </script>
 
 <template>
-    <RouterView />
+  <AppHeader></AppHeader>
+  <div app-conteiner>
+    <RouterView></RouterView>
+
+  </div>
+
 </template>
 
 <style scoped>
+div.app-conteiner{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
 </style>
