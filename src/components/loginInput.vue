@@ -35,7 +35,7 @@ function trocarVizu() {
 .icon {
     background: white;
     border-radius: 1000rem;
-    padding: 0.2rem;
+    padding: 0.25rem;
     margin-left: 0.3rem;
 }
 input {
@@ -53,6 +53,7 @@ input:focus {
 button {
     background: none;
     border: none;
+    margin-left: 19rem;
 }
 .botao {
   border: 1px solid rgba(255, 255, 255, 0.5);

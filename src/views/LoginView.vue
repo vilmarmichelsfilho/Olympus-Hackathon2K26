@@ -42,7 +42,7 @@ import loginButton from '@/components/loginButton.vue';
     -webkit-backdrop-filter: blur(10px); 
     border-radius: 12px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-    padding: 1rem 0;
+    padding: 3rem 0;
     max-width: 90%;
     display: flex;
     flex-direction: column;
