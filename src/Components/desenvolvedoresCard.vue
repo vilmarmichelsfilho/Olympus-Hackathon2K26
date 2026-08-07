@@ -52,7 +52,7 @@ button{
 }
 @media (min-width: 1200px) {
   li {
-    max-width: 40vw;
+    max-width: 35vw;
     margin: 2vw 0;
     padding: 1vw 2vw;
     border-radius: 40px;
