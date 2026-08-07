@@ -31,7 +31,7 @@ main{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 99vw;
+  width: 100vw;
 }
 section.sobrenos{
   position: relative;
