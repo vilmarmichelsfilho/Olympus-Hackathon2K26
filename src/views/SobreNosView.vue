@@ -32,10 +32,12 @@ main{
   flex-direction: column;
   justify-content: center;
   width: 100vw;
+  margin: 15vw 0;
 }
 section.sobrenos{
   position: relative;
   background-color: #FFf;
+  border-radius: 20px;
 }
 img{
   position: absolute;
@@ -43,12 +45,13 @@ img{
   transform: translate(-50%, -50%);
   background-color: white;
   border-radius: 20vw;
-  padding: 0.5vw 4vw 0.5vw 4vw;
+  padding: 0.6vw 6vw 0.6vw 6vw;
 }
 h2{
   font-family: 'Anton SC', sans-serif;
   font-size: 5.5rem;
   margin: 5vw 0 0 3vw;
+  color: #000000;
 }
 p{
   font-family: 'Krona One', sans-serif;
@@ -64,6 +67,7 @@ ul{
 }
 @media (min-width: 1200px) {
   main{
+    margin: 0;
     background-color: #641313;
     background-image: linear-gradient(to right,#641313, #151313);
   }
