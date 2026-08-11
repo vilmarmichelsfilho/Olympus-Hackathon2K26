@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 const props = defineProps(['nome','tipo']);
+const model = defineModel();
 import UserIcon from '@iconify-vue/mdi/user';
 import KeyIcon from '@iconify-vue/mdi/key';
 import EyeIcon from '@iconify-vue/mdi/eye';
@@ -8,7 +9,6 @@ import EyeOutlineIcon from '@iconify-vue/mdi/eye-outline';
 
 const tipoInput = ref(props.tipo);
 const toggle = ref(false);
-
 function trocarVizu() {
     if (toggle.value == false) {
         toggle.value = true;
@@ -24,7 +24,7 @@ function trocarVizu() {
     <div class="botao">
         <KeyIcon class="icon" v-show="props.nome=='Senha'" style="width: 2rem; height: 2rem; color: black;"></KeyIcon>
         <UserIcon class="icon" v-show="props.nome=='Login'" style="width: 2rem; height: 2rem; color: black;"></UserIcon>
-        <input :type="tipoInput" :placeholder="props.nome" maxlength="25">
+        <input :type="tipoInput" :placeholder="props.nome" maxlength="25" v-model="model">
         <button v-show="props.nome=='Senha' && toggle==false" v-on:click.prevent="trocarVizu"><EyeOutlineIcon style="width: 1.5rem; color: white;" /></button>
         <button v-show="props.nome=='Senha' && toggle==true" v-on:click.prevent="trocarVizu"><EyeIcon style="width: 1.5rem; color: white;" /></button>
     </div>
