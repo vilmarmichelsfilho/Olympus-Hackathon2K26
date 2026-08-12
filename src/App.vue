@@ -1,10 +1,18 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import AppHeader from './components/AppHeader.vue';
+
+if (localStorage.getItem("primeiraVisita") === null) {
+    localStorage.setItem("logado", "false");
+    localStorage.setItem("primeiraVisita", "true");
+}
 </script>
 
 <template>
-  <div class="app-conteiner">
+  <AppHeader></AppHeader>
+  <div app-conteiner>
     <RouterView></RouterView>
+
   </div>
 
 </template>
