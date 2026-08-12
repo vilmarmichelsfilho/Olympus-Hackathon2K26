@@ -6,7 +6,24 @@ const emit = defineEmits(['fechar']);
 
 const nome = ref('');
 const cor = ref('');
-let imagem;
+let imagem = null;
+
+function checarDados() {
+    if (nome.value !== '') {
+        if (cor.value !== '') {
+            if (imagem !== null) {
+                adicionarTimes(nome,cor,imagem);
+                emit('fechar');
+            } else {
+                alert('Adicione um escudo/imagem ao time')
+            }
+        } else {
+            alert('Preencha a cor do time')
+        }
+    } else {
+        alert('Preencha o nome do time')
+    }
+}
 
 function pegarImagem(event) {
     const arquivo = event.target.files[0]
@@ -15,7 +32,6 @@ function pegarImagem(event) {
     reader.onload = () => {
         const imagemTexto = reader.result
         imagem = imagemTexto;
-        alert(imagem)
     }
     reader.readAsDataURL(arquivo)
 }
@@ -44,7 +60,7 @@ function pegarImagem(event) {
             </div>
             <div class="botoes">
                 <button style="align-items: center; display: flex; justify-content: center;" class="save"
-                v-on:click.prevent="adicionarTimes(nome,cor,imagem), emit('fechar')">
+                v-on:click.prevent="checarDados()">
                     <ContentSaveOutlineIcon width="1.5vw" />Salvar
                 </button>
                 <button class="cancel" v-on:click="emit('fechar')">Cancelar</button>
