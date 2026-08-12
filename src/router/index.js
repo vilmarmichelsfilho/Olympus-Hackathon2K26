@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import RankingTimesView from '@/views/RankingTimesView.vue'
-import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SobreNosView from '@/views/SobreNosView.vue'
 import AdministradoresView from '@/views/AdministradoresView.vue'
@@ -19,9 +18,10 @@ const router = createRouter({
       name: 'RankingTimes',
       component: RankingTimesView
     },
+    {
       path: '/sobrenos',
       name: 'sobrenos',
-      component: SobreNosView,
+      component: SobreNosView
     },
     {
       path: '/login',
@@ -33,7 +33,7 @@ const router = createRouter({
       name: 'administradores',
       component: AdministradoresView,
     }
-  ],
-  }
+  ]
+}
 )
 export default router
