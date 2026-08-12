@@ -21,6 +21,6 @@ if (localStorage.getItem("primeiraVisita") === null) {
 div.app-conteiner{
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
 }
 </style>
