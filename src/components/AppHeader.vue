@@ -1,11 +1,12 @@
 <script setup>
+import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { jogos } from '@/data/jogos';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from './TableJogos.vue';
-
+import router from '@/router/index.js';
 const menuAberto = ref(false)
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
@@ -13,6 +14,9 @@ function abrirMenu() {
 const jogosVerificados = computed(() =>
   jogos.filter(jogo => jogo.status === 'AoVivo')
 )
+function login() {
+  router.replace("/login")
+}
 </script>
 
 <template>
@@ -31,7 +35,9 @@ const jogosVerificados = computed(() =>
 
     <header class="barra-desktop">
       <div class="logotipo">
-        <img src="@/assets/logodesktop.png" alt="" class="logo-desktop" />
+        <RouterLink to="/">
+          <img src="@/assets/logodesktop.png" alt="" class="logo-desktop" />
+        </RouterLink>
       </div>
 
       <div class="busca">
@@ -40,12 +46,12 @@ const jogosVerificados = computed(() =>
       </div>
 
       <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Times</a>
-        <a href="#">Sobre nós</a>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/">Times</RouterLink>
+        <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
       </nav>
 
-      <button class="btn-login">
+      <button class="btn-login" v-on:click="login()">
         Log-in <span class="seta">→</span>
       </button>
     </header>
