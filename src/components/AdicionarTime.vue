@@ -1,6 +1,24 @@
 <script setup>
+import { adicionarTimes } from '@/Utils/adicionarUtils';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
+import { ref } from 'vue';
 const emit = defineEmits(['fechar']);
+
+const nome = ref('');
+const cor = ref('');
+let imagem;
+
+function pegarImagem(event) {
+    const arquivo = event.target.files[0]
+    if (!arquivo) return
+    const reader = new FileReader()
+    reader.onload = () => {
+        const imagemTexto = reader.result
+        imagem = imagemTexto;
+        alert(imagem)
+    }
+    reader.readAsDataURL(arquivo)
+}
 </script>
 
 <template>
@@ -13,19 +31,20 @@ const emit = defineEmits(['fechar']);
             <div class="inputs">
                 <div class="nome">
                     <h3>Nome do Time</h3>
-                    <input type="text" placeholder="Digite" class="inputAnim">
+                    <input type="text" placeholder="Digite" class="inputAnim" v-model="nome">
                 </div>
                 <div class="cor">
                     <h3>Cor do Time</h3>
-                    <input type="text" placeholder="Digite" class="inputAnim">
+                    <input type="text" placeholder="Digite" class="inputAnim" v-model="cor">
                 </div>
             </div>
             <div class="imagem">
                 <h3>Imagem de Escudo Time</h3>
-                <input type="file" accept="/image">
+                <input type="file" accept="/image" @change="pegarImagem">
             </div>
             <div class="botoes">
-                <button style="align-items: center; display: flex; justify-content: center;" class="save">
+                <button style="align-items: center; display: flex; justify-content: center;" class="save"
+                v-on:click.prevent="adicionarTimes(nome,cor,imagem), emit('fechar')">
                     <ContentSaveOutlineIcon width="1.5vw" />Salvar
                 </button>
                 <button class="cancel" v-on:click="emit('fechar')">Cancelar</button>

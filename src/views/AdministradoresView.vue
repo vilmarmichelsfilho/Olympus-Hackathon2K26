@@ -1,5 +1,6 @@
 <script setup>
 import AdicionarTime from '@/components/AdicionarTime.vue';
+import { times } from '@/data/times';
 import router from '@/router';
 import { ref } from 'vue';
 
