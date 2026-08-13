@@ -12,8 +12,11 @@ function checarDados() {
     if (nome.value !== '') {
         if (cor.value !== '') {
             if (imagem !== null) {
-                adicionarTimes(nome,cor,imagem);
+                adicionarTimes(nome, cor, imagem);
                 emit('fechar');
+                nome.value = '';
+                cor.value = '';
+                imagem.value = null;
             } else {
                 alert('Adicione um escudo/imagem ao time')
             }
@@ -23,6 +26,13 @@ function checarDados() {
     } else {
         alert('Preencha o nome do time')
     }
+}
+
+function fechar() {
+    emit('fechar');
+    nome.value = '';
+    cor.value = '';
+    imagem.value = null;
 }
 
 function pegarImagem(event) {
@@ -56,14 +66,14 @@ function pegarImagem(event) {
             </div>
             <div class="imagem">
                 <h3>Imagem de Escudo Time</h3>
-                <input type="file" accept="/image" @change="pegarImagem">
+                <input type="file" accept="image/png, image/jpeg, .jpg" @change="pegarImagem">
             </div>
             <div class="botoes">
                 <button style="align-items: center; display: flex; justify-content: center;" class="save"
-                v-on:click.prevent="checarDados()">
+                    v-on:click.prevent="checarDados()">
                     <ContentSaveOutlineIcon width="1.5vw" />Salvar
                 </button>
-                <button class="cancel" v-on:click="emit('fechar')">Cancelar</button>
+                <button class="cancel" v-on:click="fechar()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -74,6 +84,7 @@ function pegarImagem(event) {
     display: flex;
     gap: 3vw;
 }
+
 .botoes {
     display: flex;
     flex-direction: column;
