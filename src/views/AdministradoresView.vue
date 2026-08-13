@@ -14,8 +14,18 @@ const time = ref(false);
 
 <template>
     <button v-on:click="time=true">Adicionar Time</button>
-    <AdicionarTime v-if="time" @fechar="time=false"></AdicionarTime>
+    <AdicionarTime @fechar="time=false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 </template>
 
 <style scoped>
+.popup {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup.aberto {
+    opacity: 1;
+    visibility: visible;
+}
 </style>

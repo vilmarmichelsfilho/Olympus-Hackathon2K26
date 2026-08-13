@@ -1,6 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import AppHeader from './components/AppHeader.vue';
+import FooterApp from './components/FooterApp.vue';
 
 if (localStorage.getItem("primeiraVisita") === null) {
     localStorage.setItem("logado", "false");
@@ -12,9 +13,8 @@ if (localStorage.getItem("primeiraVisita") === null) {
   <AppHeader></AppHeader>
   <div app-conteiner>
     <RouterView></RouterView>
-
   </div>
-
+  <FooterApp></FooterApp>
 </template>
 
 <style scoped>
