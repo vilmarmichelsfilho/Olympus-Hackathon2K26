@@ -56,7 +56,7 @@ function pegarImagem(event) {
             </div>
             <div class="imagem">
                 <h3>Imagem de Escudo Time</h3>
-                <input type="file" accept="/image" @change="pegarImagem">
+                <input type="file" accept="image/png, image/jpeg, .jpg" @change="pegarImagem">
             </div>
             <div class="botoes">
                 <button style="align-items: center; display: flex; justify-content: center;" class="save"
