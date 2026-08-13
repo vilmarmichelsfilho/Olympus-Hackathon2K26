@@ -32,7 +32,7 @@ const modalidades = reactive([
     },
     {
         id: 7,
-        nome: 'Ea fc',
+        nome: 'FIFA',
         image: '/images/imagem-modalidades/eafc.png'
     },
     {

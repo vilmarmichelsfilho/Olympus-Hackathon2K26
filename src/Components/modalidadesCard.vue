@@ -21,14 +21,16 @@ li.card-content{
 .modalidade-img{
   object-fit: cover;
   width: 42vw;
-  height: 25vh;
+  height: 48vw;
   z-index: 1;
   border-radius: 20px;
 }
 .modalidade-titulo{
+  position: absolute;
+  font-size: 3rem;
+  margin: 3vw 4vw;
   z-index: 2;
-  background: transparent;
-  color: #ffffff;
-  font-weight: bold;
+  color: transparent;
+  -webkit-text-stroke: 1px white;
 }
 </style>
