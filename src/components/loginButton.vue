@@ -1,8 +1,11 @@
 <script setup>
+import { logar } from '@/Utils/loginUtils';
+const props = defineProps(['login','senha']);
+
 </script>
 
 <template>
-    <button><slot></slot></button>
+    <button v-on:click="logar(props.login,props.senha)"><slot></slot></button>
 </template>
 
 <style scoped>
