@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { jogos } from '@/data/jogos';
+import { jogos } from '@/data/jogos.js';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
@@ -196,7 +196,7 @@ const jogosVerificados = computed(() =>
     margin: 0;
     background-color: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    
+
   }
   .logotipo {
     display: flex;

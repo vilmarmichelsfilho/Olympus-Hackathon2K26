@@ -22,6 +22,17 @@ td{
   font-family: "Krona One", sans-serif;
   color: black;
   text-align: center;
-  padding: 2vw;
+}
+@media (min-width: 1000px){
+  tr{
+    border: none;
+  }
+  td{
+color: white;
+background-color: black;
+padding: 1vw 0;
+font-size: 2.5vw;
+font-weight: 100;
+  }
 }
 </style>
