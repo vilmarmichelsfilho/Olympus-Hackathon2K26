@@ -1,4 +1,5 @@
 <script setup>
+import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue';
 import AdicionarTime from '@/components/AdicionarTime.vue';
 import { times } from '@/data/times';
 import router from '@/router';
@@ -13,11 +14,18 @@ const time = ref(false);
 </script>
 
 <template>
-    <button v-on:click="time=true">Adicionar Time</button>
+    <div class="display">
+        <NavegacaoAdministradores></NavegacaoAdministradores>
+    </div>
     <AdicionarTime @fechar="time=false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 </template>
 
 <style scoped>
+.display {
+    background: #15161A;
+    width: 100%;
+    height: 100vh;
+}
 .popup {
     opacity: 0;
     visibility: hidden;
