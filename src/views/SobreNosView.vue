@@ -4,7 +4,7 @@ import DesenvolvedoresCard from '@/components/desenvolvedoresCard.vue';
 </script>
 <template>
   <main>
-    <section class="sobrenos">
+    <section class="sobrenos" id="sobrenos">
       <div>
         <img src="/images/coroa.png" alt="coroa" />
         <h2>SOBRE NÓS</h2>
@@ -46,7 +46,6 @@ main {
   justify-content: center;
   width: 100%;
   margin: 15vw 0;
-  background-color: #000000;
 }
 section.sobrenos {
   position: relative;
@@ -83,11 +82,6 @@ ul {
   margin: 1vw 2vw;
 }
 @media (min-width: 1200px) {
-  main {
-    margin: 0;
-    background-color: #641313;
-    background-image: linear-gradient(to right, #641313, #151313);
-  }
   section.sobrenos {
     margin: 5vw 0;
     display: flex;

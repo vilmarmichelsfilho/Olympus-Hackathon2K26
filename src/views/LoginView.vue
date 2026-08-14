@@ -44,6 +44,12 @@ if (localStorage.getItem("logado") == "true") {
     place-items: center;
     font-family: "Krona One", sans-serif;
 }
+@media (min-width: 1200px) {
+    .container {
+        background: none;
+        background-size: 0;
+    }
+}
 .loginContainer {
     border: 1px solid rgba(255, 255, 255, 0.35);
     background: rgba(255, 255, 255, 0.3);
