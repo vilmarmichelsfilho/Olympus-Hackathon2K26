@@ -162,23 +162,22 @@ section.rankingtimes {
   align-items: center;
   margin: 50vh 0 0 0;
 }
-
 section.rankingtimes h3 {
   display: none;
 }
-
 section.rankingtimes div.jogosrestantes {
   display: none;
 }
-
 div.tabela-container {
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 90vw;
   height: auto;
   border-radius: 2vw;
-  padding: 8vw 3vw 15vw 3vw;
+  padding: 8vw 5vw 15vw 5vw;
 }
-
 table {
   border-collapse: collapse;
 }
