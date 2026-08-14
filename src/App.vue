@@ -19,7 +19,7 @@ if (localStorage.getItem("primeiraVisita") === null) {
     <div app-conteiner>
       <RouterView></RouterView>
     </div>
-    <FooterApp></FooterApp>
+    <FooterApp v-if="$route.path !== '/administradores'"></FooterApp>
   </div>
 </template>
 
