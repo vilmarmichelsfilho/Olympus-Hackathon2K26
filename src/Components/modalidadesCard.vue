@@ -39,6 +39,7 @@ li {
   z-index: 1;
   border-radius: 20px;
 }
+
 .modalidade-titulo {
   position: absolute;
   font-size: 8vw;
@@ -47,6 +48,7 @@ li {
   color: transparent;
   -webkit-text-stroke: 1px white;
 }
+
 .pop-up-overlay {
   position: fixed;
   top: 0;
@@ -59,6 +61,7 @@ li {
   align-items: center;
   z-index: 1000;
 }
+
 .popup-box {
   position: relative;
   width: 90%;
@@ -74,16 +77,19 @@ li {
   justify-content: center;
   overflow: hidden;
 }
-div.popup-box h3{
+
+div.popup-box h3 {
   font-size: 10vw;
   margin: 2vw 5vw;
   color: black;
   font-weight: bold;
 }
-div.popup-box p{
+
+div.popup-box p {
   font-size: 5vw;
   margin: 2vw 5vw;
 }
+
 .botao-fechar {
   position: absolute;
   top: 2vw;
@@ -91,6 +97,7 @@ div.popup-box p{
   cursor: pointer;
   color: white;
 }
+
 .btn-entrar {
   position: absolute;
   bottom: 4vw;
