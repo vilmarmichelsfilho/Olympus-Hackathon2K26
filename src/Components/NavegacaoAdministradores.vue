@@ -4,6 +4,13 @@ import UserIcon from '@iconify-vue/mdi/user';
 import SearchIcon from '@iconify-vue/mdi/search';
 import GearIcon from '@iconify-vue/mdi/gear';
 import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics';
+
+const emit = defineEmits(['tela'])
+
+function sair() {
+    localStorage.setItem('logado', 'false')
+}
+
 </script>
 
 <template>
@@ -26,16 +33,16 @@ import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics';
             </div>
             <nav>
                 <ul>
-                    <li>Times</li>
-                    <li>Jogos</li>
-                    <li>Horários</li>
-                    <li>Conflitos</li>
+                    <li v-on:click="emit('tela','times')">Times</li>
+                    <li v-on:click="emit('tela','jogos')">Jogos</li>
+                    <li v-on:click="emit('tela','horarios')">Horários</li>
+                    <li v-on:click="emit('tela','conflitos')">Conflitos</li>
                 </ul>
             </nav>
         </div>
         <div class="separa"></div>
         <div class="saida">
-            <RouterLink>
+            <RouterLink to="/" v-on:click="sair()">
                 <GearIcon height="2vw" />
                 <p>Sair</p>
             </RouterLink>
@@ -116,6 +123,15 @@ import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics';
 }
 .navegacao li {
     font-weight: bolder;
+    cursor: pointer;
+    padding-left: 0.5vw;
+    border-radius: 0.1vw;
+    transition: 0.3s;
+}
+.navegacao li:hover {
+    color: white;
+    font-size: 0.9vw;
+    background: linear-gradient(90deg, #E85002 1%, rgba(0, 0, 0, 0) 1%);
 }
 .separa {
     height: 0.1vw;
@@ -129,9 +145,5 @@ import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics';
     gap: 0.3vw;
     text-decoration: none;
     color: #AEB9E1;
-    transition: 0.3s;
-}
-.saida a:hover {
-    font-size: 1.2vw;
 }
 </style>
