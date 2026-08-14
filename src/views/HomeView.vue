@@ -1,24 +1,14 @@
 <script setup>
 import modalidadesCard from '@/Components/modalidadesCard.vue';
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
 import { modalidades } from '@/data/modalidades';
-let modal = ref(0);
-function abrirModal(){
- if(modal.value == 0){
-  modal.value = 1;
- }
- else{
-  modal.value = 0
- }
-}
 </script>
 <template>
   <main>
     <section class="selecao-modalidades">
       <div class="container">
-       <div class="conteiner"><img src="/images/coroa.png" alt="coroa"></div>
+        <div class="conteiner"><img src="/images/coroa.png" alt="coroa"></div>
         <div class="log-in">
           <RouterLink to="/login" class="link">
             Log-in
@@ -31,12 +21,10 @@ function abrirModal(){
       </p>
       <div class="modalidades">
         <ul class="modalidades-">
-          <modalidadesCard v-for="modalidade in modalidades" :key="modalidade.id" :id="modalidade.id"
-            :imagem="modalidade.image" :nome="modalidade.nome" @selecionar="abrirModal">
+          <modalidadesCard v-for="modalidade in modalidades" :key="modalidade.id" :imagem="modalidade.image"
+            :nome="modalidade.nome" :desc="modalidade.desc">
           </modalidadesCard>
         </ul>
-      </div>
-      <div class="modalidade-pop-up" v-if="modal">
       </div>
     </section>
   </main>
@@ -51,32 +39,37 @@ main {
 }
 
 section.selecao-modalidades {
-  position: relative;
+  padding: 0 0 10vw 0;
   background-color: #FFf;
   border-radius: 20px;
   margin: 10vh 0;
 }
-section.selecao-modalidades div.container{
+
+section.selecao-modalidades div.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: black;
 }
-section.selecao-modalidades div.container > *{
+
+section.selecao-modalidades div.container>* {
   width: 50%;
   height: 20vw;
 }
-section.selecao-modalidades div.container div.conteiner{
+
+section.selecao-modalidades div.container div.conteiner {
   background-color: white;
   border-radius: 0 40vw 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-section.selecao-modalidades div.container img{
+
+section.selecao-modalidades div.container img {
   width: 15vw;
   height: 12vw;
 }
+
 section.selecao-modalidades .container .log-in {
   width: 40vw;
   margin: 0 3vw 0 0;
@@ -92,8 +85,9 @@ section.selecao-modalidades .container .log-in {
   padding: 0 0 0 2.5vw;
   text-decoration: none;
   color: white;
-  font-size: 2rem;
+  font-size: 5vw;
 }
+
 section .flecha-icon {
   background-color: white;
   margin: 1vw 0;
@@ -104,7 +98,7 @@ section .flecha-icon {
 
 section.selecao-modalidades h2 {
   font-family: 'Anton SC', sans-serif;
-  font-size: 5.5rem;
+  font-size: 12vw;
   color: black;
   margin: 0 5vw;
 }
@@ -112,7 +106,7 @@ section.selecao-modalidades h2 {
 section.selecao-modalidades p {
   color: black;
   font-family: 'Krona One', sans-serif;
-  font-size: 1.8rem;
+  font-size: 6vw;
   color: #00000040;
   margin: 1vw 5vw;
 }
@@ -121,8 +115,8 @@ section.selecao-modalidades ul {
   display: flex;
   flex-wrap: wrap;
   gap: 6vw;
-  margin: 0 4vw 0 4vw;
   list-style: none;
+  margin: 2vw 4vw;
 }
 
 @media (min-width: 1000px) {
