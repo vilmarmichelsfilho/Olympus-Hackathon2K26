@@ -16,9 +16,12 @@ tr{
   border-bottom: 3px solid #B1B1B1;
 }
 td{
-  font-size: 2.5rem;
+  font-size: 5vw;
   font-weight: bold;
   padding: 3vw 2vw;
   font-family: "Krona One", sans-serif;
+  color: black;
+  text-align: center;
+  padding: 2vw;
 }
 </style>
