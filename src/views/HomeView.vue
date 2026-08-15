@@ -58,7 +58,6 @@ const totalJogosConcluidos = computed(() => {
         <Pagination />
       </template>
     </Carousel>
-
       </div>
     </section>
   <section class="rankingtimes">
@@ -353,6 +352,12 @@ section.rankingtimes div.conteiner-esquerdo{
   }
   section.rankingtimes h3 span{
     color: #E85002;
+  }
+  div.conteiner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
   section.rankingtimes div.jogosrestantes {
     display: block;
