@@ -18,6 +18,7 @@ function mostrarModal() {
       <img class="modalidade-img" :src="props.imagem" :alt="props.nome">
     </div>
   </li>
+  <Teleport to="body">
   <div class="pop-up-overlay" v-if="modal">
     <div class="popup-box" :style="{ backgroundImage: `url(${props.imagem})` }">
       <CloseIcon height="3em" class="botao-fechar" @click.prevent="mostrarModal()"></CloseIcon>
@@ -26,6 +27,7 @@ function mostrarModal() {
       <RouterLink to="/" class="btn-entrar">Entrar</RouterLink>
     </div>
   </div>
+  </Teleport>
 </template>
 <style scoped>
 li {
@@ -108,5 +110,36 @@ div.popup-box p {
   border-radius: 8vw;
   text-decoration: none;
   font-size: 6vw;
+}
+@media (min-width: 1000px) {
+  .modalidade-img {
+    width: 25vw;
+    height: 30vw;
+  }
+  .modalidade-titulo {
+    font-size: 4vw;
+    margin: 2vw 2vw;
+  }
+  .popup-box {
+    width: 60vw;
+    height: 40vw;
+    border-radius: 2vw;
+  }
+  div.popup-box .btn-entrar {
+    padding: 1vw 4vw;
+    font-size: 2.5vw;
+  }
+  div.popup-box .botao-fechar {
+    top: 1vw;
+    right: 1vw;
+  }
+  div.popup-box h3 {
+    font-size: 4vw;
+    margin: 1vw 2vw;
+  }
+  div.popup-box p {
+    font-size: 2vw;
+    margin: 1vw 2vw;
+  }
 }
 </style>
