@@ -90,7 +90,7 @@ const progressoPorcentagem = computed(() => {
       </div>
       <div class="jogosrestantes">
         <p class="numero"><span>{{ totalJogosConcluidos }}</span>/{{ quantidadedejogos }}</p>
-        <p>Jogos Restantes</p>
+        <p>Jogos Concluídos</p>
       </div>
     </div>
     <div class="tabela-container">
@@ -192,7 +192,6 @@ section.selecao-modalidades h2 {
 }
 
 section.selecao-modalidades p {
-  color: black;
   font-family: 'Krona One', sans-serif;
   font-size: 6vw;
   color: #00000040;
@@ -322,7 +321,6 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: 1vw;
   max-width: fit-content;
   margin: 2vw 0;
@@ -331,7 +329,7 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
   color: black;
   font-size: 1.5vw;
   }
-  section.flecha-icon {
+  section .flecha-icon {
   border-radius: 100vw;
   background-color: white;
   padding: 0.5vw;
