@@ -9,7 +9,7 @@ import { ref, computed } from 'vue';
 import modalidadesCard from '@/Components/modalidadesCard.vue';
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
 import { modalidades } from '@/data/modalidades';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 const quantidadedejogos = ref(jogos.length)
 const totalJogosConcluidos = computed(() => {
@@ -340,7 +340,6 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
   div.modalidades-mobile {
     display: none;
   }
- @media (min-width: 1200px) {
   div.carrossel-modalidades {
     display: block;
     width: 100%;
@@ -383,6 +382,9 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
 :deep(.carousel__icon) {
   width: 4vw;
   height: 4vw;
+}
+section.rankingtimes {
+  margin: 7vw 0 10vw 0;
 }
 section.rankingtimes div.conteiner-esquerdo{
   display: flex;
@@ -448,5 +450,5 @@ section.rankingtimes div.conteiner-esquerdo{
     margin: 1.5vw 0 0 0;
     gap: 1vw;
   }
-}}
+}
 </style>
