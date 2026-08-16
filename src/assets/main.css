@@ -1,1 +1,7 @@
 @import './base.css';
+
+@media (min-width: 1200px) {
+    body {
+        background: linear-gradient(140deg ,#641313, #151313 80%);
+    }
+}
