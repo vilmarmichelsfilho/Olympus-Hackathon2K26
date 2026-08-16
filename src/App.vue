@@ -2,13 +2,11 @@
 import { RouterView } from 'vue-router'
 import AppHeader from './components/AppHeader.vue';
 import FooterApp from './components/FooterApp.vue';
-
 if (localStorage.getItem("primeiraVisita") === null) {
   localStorage.setItem("logado", "false");
   localStorage.setItem("primeiraVisita", "true");
 }
 </script>
-
 <template>
   <div class="image">
     <AppHeader class="header" v-if="$route.path !== '/administradores'"></AppHeader>
