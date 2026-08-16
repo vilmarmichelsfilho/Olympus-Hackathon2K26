@@ -57,15 +57,14 @@ defineProps(['horario','data','modalidade','time1','time2','pontuacao1','pontuac
 
 .linha-time {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 2rem;
   margin-bottom: 0.3rem;
 }
 
 .nome {
   margin: 0;
-  color: black;
+  color: white;
   font-size: 0.95rem;
   font-weight: 600;
   white-space: nowrap;
@@ -75,7 +74,7 @@ defineProps(['horario','data','modalidade','time1','time2','pontuacao1','pontuac
 
 .placar {
   margin: 0;
-  color: black;
+  color: white;
   font-size: 0.95rem;
   font-weight: 700;
   flex-shrink: 0;
