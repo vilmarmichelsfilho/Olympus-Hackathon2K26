@@ -15,6 +15,22 @@ const quantidadedejogos = ref(jogos.length)
 const totalJogosConcluidos = computed(() => {
   return jogos.filter(jogo => jogo.status === 'concluido').length
 })
+const currentSlide = ref(0);
+function aoMudarSlide(data) {
+  const total = modalidades.length;
+  if (!total) return;
+  let rawIndex = data.currentSlideIndex;
+  if (data.slidingToIndex !== undefined) {
+    rawIndex = data.slidingToIndex;
+  }
+  const indexReal = ((rawIndex % total) + total) % total;
+  currentSlide.value = indexReal;
+}
+const progressoPorcentagem = computed(() => {
+  const total = modalidades.length;
+  if (!total) return 0;
+  return ((currentSlide.value + 1) / total) * 100;
+});
 </script>
 <template>
 <main>
@@ -45,7 +61,7 @@ const totalJogosConcluidos = computed(() => {
         </ul>
       </div>
       <div class="carrossel-modalidades">
-        <Carousel :items-to-show="3" :wrap-around="true" :snap-align="'center'">
+        <Carousel :items-to-show="3" :wrap-around="true" :snap-align="'center'" @slide-start="aoMudarSlide" v-model="currentSlide">
       <Slide v-for="modalidade in modalidades" :key="modalidade.id">
         <modalidadesCard
           :nome="modalidade.nome"
@@ -55,10 +71,15 @@ const totalJogosConcluidos = computed(() => {
       </Slide>
       <template #addons>
         <Navigation />
-        <Pagination />
       </template>
     </Carousel>
-      </div>
+    <div class="barra-progresso-container">
+    <div
+      class="barra-progresso-preenchimento"
+      :style="{ width: progressoPorcentagem + '%' }"
+    ></div>
+  </div>
+</div>
     </section>
   <section class="rankingtimes">
     <div class="conteiner">
@@ -304,7 +325,7 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
   align-items: center;
   gap: 1vw;
   max-width: fit-content;
-  margin: 2cqb 0;
+  margin: 2vw 0;
   padding: 0 2vw;
   text-decoration: none;
   color: black;
@@ -325,6 +346,29 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
     width: 100%;
     margin-top: 20px;
   }
+  :deep(.carousel__slide) {
+  transform: scale(0.80);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+:deep(.carousel__slide--active) {
+  transform: scale(1.05);
+  z-index: 2;
+}
+.barra-progresso-container {
+  width: 60%;
+  height: 0.6vw;
+  background-color: rgb(172, 170, 170);
+  border-radius: 2vw;
+  margin: 2vw auto 0 auto;
+  overflow: hidden;
+}
+.barra-progresso-preenchimento {
+  height: 100%;
+  background-color: #E85002;
+  border-radius: 2vw;
+  transition: width 0.3s ease;
+}
   .carousel__slide {
     padding: 2vw;
     display: flex;
@@ -332,7 +376,7 @@ section.selecao-modalidades div.container div.conteiner-modalidades {
   }
   :deep(.carousel__prev),
   :deep(.carousel__next) {
-  color: #FFFFFF;
+  color: #E85002;
   width: 5vw;
   height: 5vw;
 }
