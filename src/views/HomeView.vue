@@ -11,7 +11,7 @@ import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
 import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
-const quantidadedejogos = ref(jogos.length)
+const quantidadedejogos = computed(() => {return jogos.length})
 const totalJogosConcluidos = computed(() => {
   return jogos.filter(jogo => jogo.status === 'concluido').length
 })
