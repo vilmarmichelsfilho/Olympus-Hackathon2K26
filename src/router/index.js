@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import RankingTimesView from '@/views/RankingTimesView.vue'
+import TimesView from '@/views/TimesView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SobreNosView from '@/views/SobreNosView.vue'
 import AdministradoresView from '@/views/AdministradoresView.vue'
@@ -14,9 +14,9 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/RankingTimes',
-      name: 'RankingTimes',
-      component: RankingTimesView
+      path: '/times',
+      name: 'times',
+      component: TimesView,
     },
     {
       path: '/sobrenos',

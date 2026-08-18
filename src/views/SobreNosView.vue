@@ -1,6 +1,6 @@
 <script setup>
 import { desenvolvedores, mostrar } from '@/Utils/sobrenosUtils.js'
-import DesenvolvedoresCard from '@/components/desenvolvedoresCard.vue';
+import desenvolvedoresCard from '@/Components/desenvolvedoresCard.vue';
 </script>
 <template>
   <main>
@@ -21,7 +21,7 @@ import DesenvolvedoresCard from '@/components/desenvolvedoresCard.vue';
       </div>
       <div>
         <ul>
-          <DesenvolvedoresCard
+          <desenvolvedoresCard
             v-for="desenvolvedor in desenvolvedores"
             :key="desenvolvedor.id"
             :nome="desenvolvedor.nome"
