@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import AppHeader from './Components/AppHeader.vue';
-import FooterApp from './Components/FooterApp.vue';
+import AppHeader from './components/AppHeader.vue';
+import FooterApp from './components/FooterApp.vue';
 if (localStorage.getItem("primeiraVisita") === null) {
   localStorage.setItem("logado", "false");
   localStorage.setItem("primeiraVisita", "true");

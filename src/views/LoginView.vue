@@ -1,6 +1,15 @@
 <script setup>
-import loginInput from '@/Components/loginInput.vue';
-import loginButton from '@/Components/loginButton.vue';
+import loginInput from '@/components/loginInput.vue';
+import loginButton from '@/components/loginButton.vue';
+import { ref } from 'vue';
+import router from '@/router';
+
+const login = ref('');
+const senha = ref('');
+
+if (localStorage.getItem("logado") == "true") {
+    router.replace("/administradores")
+}
 </script>
 
 <template>
@@ -12,12 +21,12 @@ import loginButton from '@/Components/loginButton.vue';
             </div>
             <div class="input">
                 <h1>Log-in</h1>
-                <loginInput :nome="'Login'" :tipo="'input'"></loginInput>
-                <loginInput :nome="'Senha'" :tipo="'password'"></loginInput>
+                <loginInput :nome="'Login'" :tipo="'input'" v-model="login"></loginInput>
+                <loginInput :nome="'Senha'" :tipo="'password'" v-model="senha"></loginInput>
             </div>
             <div class="text">
                 <p>Só organizadores das olimpíadas tem acesso ao painel de controle</p>
-                <loginButton>Entrar</loginButton>
+                <loginButton :login="login" :senha="senha">Entrar</loginButton>
             </div>
         </div>
     </div>
@@ -45,7 +54,7 @@ import loginButton from '@/Components/loginButton.vue';
     border: 1px solid rgba(255, 255, 255, 0.35);
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
     border-radius: 12px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
     padding: 3rem 0;
