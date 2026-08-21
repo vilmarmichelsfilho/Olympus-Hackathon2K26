@@ -1,11 +1,11 @@
 <script setup>
 import { logar } from '@/Utils/loginUtils';
 const props = defineProps(['login','senha']);
-
+const emit = defineEmits(['fechar'])
 </script>
 
 <template>
-    <button v-on:click="logar(props.login,props.senha)"><slot></slot></button>
+    <button v-on:click="logar(props.login,props.senha);emit('fechar')"><slot></slot></button>
 </template>
 
 <style scoped>
