@@ -1,15 +1,21 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import loginView from './components/loginView.vue';
 import AppHeader from './components/AppHeader.vue';
 import FooterApp from './components/FooterApp.vue';
+import { ref } from 'vue';
 if (localStorage.getItem("primeiraVisita") === null) {
   localStorage.setItem("logado", "false");
   localStorage.setItem("primeiraVisita", "true");
 }
+const loginPop = ref('false');
+function login() {
+  loginPop.value = !loginPop.value;
+}
 </script>
 <template>
   <div class="image">
-    <AppHeader class="header" v-if="$route.path !== '/administradores'"></AppHeader>
+    <AppHeader class="header" v-if="$route.path !== '/administradores'" @login-pop="login"></AppHeader>
     <div class="texto" v-if="$route.path !== '/administradores'">
       <h2>Olimpíadas ifc</h2>
       <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
@@ -19,6 +25,7 @@ if (localStorage.getItem("primeiraVisita") === null) {
     </div>
     <FooterApp v-if="$route.path !== '/administradores'"></FooterApp>
   </div>
+  <loginView v-show="loginPop==true" @fechar-pop="login"></loginView>
 </template>
 
 <style scoped>

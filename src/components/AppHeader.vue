@@ -8,15 +8,14 @@ import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from './TableJogos.vue';
 import router from '@/router/index.js';
 const menuAberto = ref(false)
+
+const emit = defineEmits(['loginPop'])
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
 }
 const jogosVerificados = computed(() =>
   jogos.filter(jogo => jogo.status === 'AoVivo')
 )
-function login() {
-  router.replace("/login")
-}
 </script>
 
 <template>
@@ -51,7 +50,7 @@ function login() {
         <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
       </nav>
 
-      <button class="btn-login" v-on:click="login()">
+      <button class="btn-login" v-on:click.prevent="emit('loginPop')">
         Log-in <span class="seta">→</span>
       </button>
     </header>
