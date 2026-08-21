@@ -1,5 +1,5 @@
 <script setup>
-import rankingtimesChild from '@/Components/rankingtimesChild.vue';
+import rankingtimesChild from '@/components/rankingtimesChild.vue';
 </script>
 <template>
   <main>

@@ -1,6 +1,6 @@
 <script setup>
-import loginInput from '@/Components/loginInput.vue';
-import loginButton from '@/Components/loginButton.vue';
+import loginInput from '@/components/loginInput.vue';
+import loginButton from '@/components/loginButton.vue';
 </script>
 
 <template>
