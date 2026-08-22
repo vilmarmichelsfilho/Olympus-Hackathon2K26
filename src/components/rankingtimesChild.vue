@@ -1,6 +1,6 @@
 <script setup>
 import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
-import timeCard from './timeCard.vue';
+import timeCard from '@/Components/timeCard.vue';
 import { jogos } from '@/data/jogos.js';
 import { computed } from 'vue';
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';

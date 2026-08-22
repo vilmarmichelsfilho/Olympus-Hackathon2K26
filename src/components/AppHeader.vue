@@ -6,7 +6,6 @@ import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from './TableJogos.vue';
-import router from '@/router/index.js';
 const menuAberto = ref(false)
 
 const emit = defineEmits(['loginPop'])
