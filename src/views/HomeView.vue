@@ -1,86 +1,88 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
-import CloseIcon from '@iconify-vue/mdi/close';
-import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
-import timeCard from '@/components/timeCard.vue';
-import { jogos } from '@/data/jogos';
-import { ref, computed } from 'vue';
-import modalidadesCard from '@/components/modalidadesCard.vue';
-import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
-import { modalidades } from '@/data/modalidades';
-import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import 'vue3-carousel/carousel.css';
-const modalAberto = ref(0);
-const modalidadeSelecionadaId = ref(null);
+import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
+import CloseIcon from '@iconify-vue/mdi/close'
+import { timesDoMaiorAoMenor } from '@/Utils/timesUtils'
+import timeCard from '@/components/timeCard.vue'
+import { jogos } from '@/data/jogos'
+import { ref, computed } from 'vue'
+import modalidadesCard from '@/components/modalidadesCard.vue'
+import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
+import { modalidades } from '@/data/modalidades'
+import { Carousel, Slide, Navigation } from 'vue3-carousel'
+import 'vue3-carousel/carousel.css'
+const modalAberto = ref(0)
+const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {
-  const resultado = modalidades.find(m => m.id === modalidadeSelecionadaId.value);
+  const resultado = modalidades.find((m) => m.id === modalidadeSelecionadaId.value)
   if (resultado) {
-    return resultado;
+    return resultado
   } else {
-    return null;
+    return null
   }
-});
+})
 
 const imagem = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.image;
+    return modalidadeSelecionada.value.image
   } else {
-    return '';
+    return ''
   }
-});
+})
 
 const nome = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.nome;
+    return modalidadeSelecionada.value.nome
   } else {
-    return '';
+    return ''
   }
-});
+})
 
 const desc = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.desc;
+    return modalidadeSelecionada.value.desc
   } else {
-    return '';
+    return ''
   }
-});
+})
 
 function mostrarModal(id) {
-  modalidadeSelecionadaId.value = id;
-  modalAberto.value = 1;
+  modalidadeSelecionadaId.value = id
+  modalAberto.value = 1
 }
 
 function fecharModal() {
-  modalAberto.value = 0;
-  modalidadeSelecionadaId.value = null;
+  modalAberto.value = 0
+  modalidadeSelecionadaId.value = null
 }
-const quantidadedejogos = computed(() => { return jogos.length })
-const totalJogosConcluidos = computed(() => {
-  return jogos.filter(jogo => jogo.status === 'concluido').length
+const quantidadedejogos = computed(() => {
+  return jogos.length
 })
-const currentSlide = ref(0);
+const totalJogosConcluidos = computed(() => {
+  return jogos.filter((jogo) => jogo.status === 'concluido').length
+})
+const currentSlide = ref(0)
 function aoMudarSlide(data) {
-  const total = modalidades.length;
-  if (!total) return;
-  let rawIndex = data.currentSlideIndex;
+  const total = modalidades.length
+  if (!total) return
+  let rawIndex = data.currentSlideIndex
   if (data.slidingToIndex !== undefined) {
-    rawIndex = data.slidingToIndex;
+    rawIndex = data.slidingToIndex
   }
-  const indexReal = ((rawIndex % total) + total) % total;
-  currentSlide.value = indexReal;
+  const indexReal = ((rawIndex % total) + total) % total
+  currentSlide.value = indexReal
 }
 const progressoPorcentagem = computed(() => {
-  const total = modalidades.length;
-  if (!total) return 0;
-  return ((currentSlide.value + 1) / total) * 100;
-});
+  const total = modalidades.length
+  if (!total) return 0
+  return ((currentSlide.value + 1) / total) * 100
+})
 </script>
 <template>
   <main>
     <section class="selecao-modalidades">
       <div class="container">
-        <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa"></div>
+        <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
         <div class="log-in-mobile">
           <RouterLink to="/login" class="link">
             Log-in
@@ -89,56 +91,82 @@ const progressoPorcentagem = computed(() => {
         </div>
       </div>
       <h2>Olimpíadas ifc</h2>
-      <p>Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos acontecendo no campus
+      <p>
+        Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos
+        acontecendo no campus
       </p>
       <div class="log-in-desktop">
         <RouterLink to="/login" class="link-desktop">
-          Log-in
+          <h3>Log-in</h3>
           <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
         </RouterLink>
       </div>
       <div class="modalidades-mobile">
         <ul class="modalidades-">
-          <modalidadesCard v-for="modalidade in modalidades" :key="modalidade.id" :imagem="modalidade.image"
-            :nome="modalidade.nome" :id="modalidade.id" @mostrar="mostrarModal">
+          <modalidadesCard
+            v-for="modalidade in modalidades"
+            :key="modalidade.id"
+            :imagem="modalidade.image"
+            :nome="modalidade.nome"
+            :id="modalidade.id"
+            @mostrar="mostrarModal"
+          >
           </modalidadesCard>
         </ul>
       </div>
       <div class="carrossel-modalidades">
-        <Carousel :items-to-show="3" :wrap-around="true" :snap-align="'center'" @slide-start="aoMudarSlide"
-          v-model="currentSlide">
+        <Carousel
+          :items-to-show="3"
+          :wrap-around="true"
+          :snap-align="'center'"
+          @slide-start="aoMudarSlide"
+          v-model="currentSlide"
+        >
           <Slide v-for="modalidade in modalidades" :key="modalidade.id">
-            <modalidadesCard :nome="modalidade.nome" :imagem="modalidade.image" :id="modalidade.id"
-              @mostrar="mostrarModal" />
+            <modalidadesCard
+              :nome="modalidade.nome"
+              :imagem="modalidade.image"
+              :id="modalidade.id"
+              @mostrar="mostrarModal"
+            />
           </Slide>
           <template #addons>
             <Navigation />
           </template>
         </Carousel>
         <div class="barra-progresso-container">
-          <div class="barra-progresso-preenchimento" :style="{ width: progressoPorcentagem + '%' }"></div>
+          <div
+            class="barra-progresso-preenchimento"
+            :style="{ width: progressoPorcentagem + '%' }"
+          ></div>
         </div>
       </div>
-      <div class="pop-up-overlay" v-if="modalAberto">
-        <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
-          <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
-          <h3 class="pop-up-titulo">{{ nome }}</h3>
-          <p class="descricao">{{ desc }}</p>
-          <RouterLink to="/" class="btn-entrar">Entrar</RouterLink>
+      <Transition name="modal">
+        <div class="pop-up-overlay" v-if="modalAberto">
+          <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
+            <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
+            <h3 class="pop-up-titulo">{{ nome }}</h3>
+            <p class="descricao">{{ desc }}</p>
+            <RouterLink to="/" class="btn-entrar">Entrar</RouterLink>
+          </div>
         </div>
-      </div>
+      </Transition>
     </section>
     <section class="rankingtimes">
       <div class="conteiner">
         <div class="conteiner-esquerdo">
           <h3>Ranking Dos <span>Times</span></h3>
           <div class="contentlink">
-            <RouterLink to="/times" class="link-times">Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
+            <RouterLink to="/times" class="link-times"
+              >Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
             </RouterLink>
           </div>
         </div>
         <div class="jogosrestantes">
-          <p class="numero"><span>{{ totalJogosConcluidos }}</span>/{{ quantidadedejogos }}</p>
+          <p class="numero">
+            <span>{{ totalJogosConcluidos }}</span
+            >/{{ quantidadedejogos }}
+          </p>
           <p>Jogos Concluídos</p>
         </div>
       </div>
@@ -152,8 +180,13 @@ const progressoPorcentagem = computed(() => {
             </tr>
           </thead>
           <tbody>
-            <timeCard v-for="time in timesDoMaiorAoMenor" :key="time.id" :id="time.id" :pontuacao="time.pontuacao_geral"
-              :cor="time.cor">
+            <timeCard
+              v-for="time in timesDoMaiorAoMenor"
+              :key="time.id"
+              :id="time.id"
+              :pontuacao="time.pontuacao_geral"
+              :cor="time.cor"
+            >
             </timeCard>
           </tbody>
         </table>
@@ -173,13 +206,13 @@ main {
 
 section.selecao-modalidades {
   padding: 0 0 10vw 0;
-  background-color: #FFf;
+  background-color: #fff;
   border-radius: 20px;
   margin: 10vh 0;
 }
 
 div.carrossel-modalidades {
-  display: none
+  display: none;
 }
 
 section.selecao-modalidades div.container {
@@ -189,7 +222,7 @@ section.selecao-modalidades div.container {
   background-color: black;
 }
 
-section.selecao-modalidades div.container>* {
+section.selecao-modalidades div.container > * {
   width: 50%;
   height: 20vw;
 }
@@ -215,7 +248,7 @@ section.selecao-modalidades .container .log-in-mobile {
   width: 40vw;
   margin: 0 3vw 0 0;
   height: 15vw;
-  background-color: #E85002;
+  background-color: #e85002;
   border-radius: 30px;
 }
 
@@ -238,7 +271,7 @@ section .flecha-icon {
   background-color: white;
   margin: 1vw 0;
   border-radius: 100vw;
-  color: #E85002;
+  color: #e85002;
   padding: 0.5vw;
 }
 
@@ -247,6 +280,7 @@ section.selecao-modalidades h2 {
   font-size: 12vw;
   color: black;
   margin: 0 5vw;
+  margin-top: 15vw;
 }
 
 section.selecao-modalidades p {
@@ -254,6 +288,14 @@ section.selecao-modalidades p {
   font-size: 6vw;
   color: #00000040;
   margin: 1vw 5vw;
+}
+section.selecao-modalidades h3{
+  font-family: 'Krona One', sans-serif;
+  font-size: 1.5vw;
+}
+
+div.modalidades-mobile {
+  margin-top: 25vw;
 }
 
 section.selecao-modalidades ul {
@@ -277,6 +319,38 @@ section.selecao-modalidades ul {
   z-index: 1000;
 }
 
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.28s ease;
+}
+
+.modal-enter-active .popup-box,
+.modal-leave-active .popup-box {
+  transition:
+    opacity 0.4s ease,
+    transform 0.35s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .popup-box,
+.modal-leave-to .popup-box {
+  opacity: 0;
+  transform: translateY(2rem) scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-enter-active,
+  .modal-leave-active,
+  .modal-enter-active .popup-box,
+  .modal-leave-active .popup-box {
+    transition-duration: 0.01ms;
+  }
+}
+
 .popup-box {
   position: relative;
   width: 90%;
@@ -289,21 +363,48 @@ section.selecao-modalidades ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-end;
   overflow: hidden;
+}
+
+.popup-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.35) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+div.popup-box h3,
+div.popup-box p,
+.popup-box .btn-entrar {
+  position: relative;
+  z-index: 2;
 }
 
 div.popup-box h3 {
   font-size: 10vw;
-  margin: 2vw 5vw;
-  color: black;
+  margin: 0 5vw 1vw;
+  color: rgb(250, 245, 245);
   font-weight: bold;
 }
 
 div.popup-box p {
   font-size: 4vw;
-  margin: 2vw 5vw;
+  line-height: 1.4;
+  margin: 0 5vw 5vw;
   color: white;
+  padding-bottom: 4vw;
 }
 
 .botao-fechar {
@@ -315,15 +416,17 @@ div.popup-box p {
 }
 
 .btn-entrar {
+  font-family: 'Krona One', sans-serif;
   position: absolute;
-  bottom: 4vw;
-  right: 6vw;
-  background-color: #E85002;
+  bottom: 3vw;
+  right: 2vw;
+  background-color: #e85002;
   color: white;
   padding: 2vw 12vw;
   border-radius: 8vw;
   text-decoration: none;
-  font-size: 6vw;
+  font-size: 5vw;
+  margin-left: 43vw;
 }
 
 section.rankingtimes {
@@ -357,14 +460,14 @@ table {
 }
 
 thead {
-  border-bottom: 1.5px solid #E85002;
+  border-bottom: 1.5px solid #e85002;
 }
 
 th {
   color: black;
   font-size: 5vw;
   text-align: center;
-  font-family: "Krona One", sans-serif;
+  font-family: 'Krona One', sans-serif;
   padding: 2vw 0;
 }
 
@@ -396,7 +499,7 @@ tbody {
     margin: 3vw 5vw;
     padding: 5vw;
     border-radius: 1vw;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 
   section.selecao-modalidades div.container {
@@ -405,7 +508,7 @@ tbody {
     position: static;
   }
 
-  section.selecao-modalidades div.container>* {
+  section.selecao-modalidades div.container > * {
     width: auto;
     height: auto;
   }
@@ -445,12 +548,12 @@ tbody {
   }
 
   section.selecao-modalidades .container .log-in-mobile {
-    display: none
+    display: none;
   }
 
   .link-desktop {
     border-radius: 2vw;
-    background-color: #E85002;
+    background-color: #e85002;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -459,7 +562,7 @@ tbody {
     margin: 2vw 0;
     padding: 0 2vw;
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 1.5vw;
   }
 
@@ -481,8 +584,10 @@ tbody {
   }
 
   :deep(.carousel__slide) {
-    transform: scale(0.80);
-    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform: scale(0.8);
+    transition:
+      transform 0.4s ease,
+      opacity 0.4s ease;
   }
 
   :deep(.carousel__slide--active) {
@@ -501,7 +606,7 @@ tbody {
 
   .barra-progresso-preenchimento {
     height: 100%;
-    background-color: #E85002;
+    background-color: #e85002;
     border-radius: 2vw;
     transition: width 0.3s ease;
   }
@@ -514,7 +619,7 @@ tbody {
 
   :deep(.carousel__prev),
   :deep(.carousel__next) {
-    color: #E85002;
+    color: #e85002;
     width: 5vw;
     height: 5vw;
   }
@@ -568,7 +673,7 @@ tbody {
   }
 
   section.rankingtimes h3 span {
-    color: #E85002;
+    color: #e85002;
   }
 
   div.conteiner {
@@ -595,7 +700,7 @@ tbody {
   }
 
   div.jogosrestantes p span {
-    color: #E85002;
+    color: #e85002;
   }
 
   div.tabela-container {
