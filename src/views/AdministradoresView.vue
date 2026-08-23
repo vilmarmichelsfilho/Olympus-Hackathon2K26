@@ -1,5 +1,9 @@
 <script setup>
 import NavegacaoAdministradores from '@/Components/NavegacaoAdministradores.vue';
+import AdicionarModalidade from '@/Components/AdicionarModalidade.vue';
+import EditarModalidade from '@/Components/EditarModalidade.vue';
+import { modalidades } from '@/data/modalidades';
+import DashboardModalidades from '@/Components/DashboardModalidades.vue';
 import AdicionarTime from '@/Components/AdicionarTime.vue';
 import router from '@/router';
 import { ref } from 'vue';
@@ -16,6 +20,14 @@ function mudarTela(valor) {
 }
 
 const time = ref(false);
+const modalidadeAdicionar = ref(false);
+const modalidadeEditar = ref(false);
+function exluirModalidade(id) {
+const index = modalidades.findIndex((modalidade) => modalidade.id === id);
+if (index !== -1) {
+modalidades.splice(index, 1);
+}
+}
 </script>
 
 <template>
@@ -24,8 +36,11 @@ const time = ref(false);
         <div class="times" v-show="telaAtual=='times'">
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
+        <DashboardModalidades v-show="telaAtual == 'modalidades'" @adicionar-modalidade="modalidadeAdicionar = true" @editar-modalidade="modalidadeEditar = true" @excluir-modalidade="exluirModalidade($event)"></DashboardModalidades>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
+    <AdicionarModalidade @fecharAdicionarModalidade="modalidadeAdicionar = false" class="popup" :class="{ aberto: modalidadeAdicionar }"></AdicionarModalidade>
+    <EditarModalidade @fechar="modalidadeEditar = false" class="popup" :class="{ aberto: modalidadeEditar }"></EditarModalidade>
 </template>
 
 <style scoped>
