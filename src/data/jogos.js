@@ -3,7 +3,7 @@ import { reactive } from "vue";
 const jogos = reactive([
   {
     id: 1,
-    data: "20-06-2026",
+    data: "2026-06-20",
     horario: "09:00",
     local: "Quadra A",
     status: "concluido",
@@ -18,7 +18,7 @@ const jogos = reactive([
   },
   {
     id: 2,
-    data: "21-06-2026",
+    data: "2026-06-21",
     horario: "10:30",
     local: "Ginásio",
     status: "concluido",
@@ -33,7 +33,7 @@ const jogos = reactive([
   },
   {
     id: 3,
-    data: "22-06-2026",
+    data: "2026-06-22",
     horario: "14:00",
     local: "Campo 1",
     status: "concluido",
@@ -48,7 +48,7 @@ const jogos = reactive([
   },
   {
     id: 4,
-    data: "23-06-2026",
+    data: "2026-06-23",
     horario: "15:30",
     local: "Quadra B",
     status: "concluido",
@@ -63,7 +63,7 @@ const jogos = reactive([
   },
   {
     id: 5,
-    data: "24-06-2026",
+    data: "2026-06-24",
     horario: "16:00",
     local: "Ginásio",
     status: "concluido",
@@ -78,7 +78,7 @@ const jogos = reactive([
   },
   {
     id: 6,
-    data: "25-06-2026",
+    data: "2026-06-25",
     horario: "17:30",
     local: "Campo 2",
     status: "concluido",
@@ -93,7 +93,7 @@ const jogos = reactive([
   },
   {
     id: 7,
-    data: "26-06-2026",
+    data: "2026-06-26",
     horario: "18:00",
     local: "Quadra A",
     status: "concluido",
@@ -108,7 +108,7 @@ const jogos = reactive([
   },
   {
     id: 8,
-    data: "07-07-2026",
+    data: "2026-07-07",
     horario: "14:30",
     local: "Ginásio",
     status: "AoVivo",
@@ -123,7 +123,7 @@ const jogos = reactive([
   },
   {
     id: 9,
-    data: "07-07-2026",
+    data: "2026-07-07",
     horario: "15:00",
     local: "Campo 1",
     status: "AoVivo",
@@ -138,7 +138,7 @@ const jogos = reactive([
   },
   {
     id: 10,
-    data: "08-07-2026",
+    data: "2026-07-08",
     horario: "09:00",
     local: "Quadra B",
     status: "pendente",
@@ -153,7 +153,7 @@ const jogos = reactive([
   },
   {
     id: 11,
-    data: "08-07-2026",
+    data: "2026-07-08",
     horario: "10:30",
     local: "Quadra A",
     status: "pendente",
@@ -168,7 +168,7 @@ const jogos = reactive([
   },
   {
     id: 12,
-    data: "09-07-2026",
+    data: "2026-07-09",
     horario: "11:00",
     local: "Ginásio",
     status: "pendente",
@@ -183,7 +183,7 @@ const jogos = reactive([
   },
   {
     id: 13,
-    data: "09-07-2026",
+    data: "2026-07-09",
     horario: "14:00",
     local: "Campo 1",
     status: "pendente",
@@ -198,7 +198,7 @@ const jogos = reactive([
   },
   {
     id: 14,
-    data: "10-07-2026",
+    data: "2026-07-10",
     horario: "15:00",
     local: "Quadra B",
     status: "pendente",
@@ -213,7 +213,7 @@ const jogos = reactive([
   },
   {
     id: 15,
-    data: "10-07-2026",
+    data: "2026-07-10",
     horario: "16:30",
     local: "Quadra A",
     status: "pendente",
@@ -228,7 +228,7 @@ const jogos = reactive([
   },
   {
     id: 16,
-    data: "11-07-2026",
+    data: "2026-07-11",
     horario: "10:00",
     local: "Ginásio principal",
     status: "pendente",
@@ -243,7 +243,7 @@ const jogos = reactive([
   },
   {
     id: 17,
-    data: "11-07-2026",
+    data: "2026-07-11",
     horario: "14:00",
     local: "Estádio Central",
     status: "pendente",
@@ -258,7 +258,7 @@ const jogos = reactive([
   },
   {
     id: 18,
-    data: "12-07-2026",
+    data: "2026-07-12",
     horario: "11:00",
     local: "Quadra B",
     status: "pendente",
@@ -273,8 +273,8 @@ const jogos = reactive([
   },
   {
     id: 19,
-    data: "12-07-2026",
-    horario: "16:00",
+    data: "2026-07-12",
+    horario: "18:00",
     local: "Ginásio principal",
     status: "pendente",
     fase: "Final",
@@ -288,9 +288,9 @@ const jogos = reactive([
   },
   {
     id: 20,
-    data: "13-07-2026",
+    data: "2026-07-30",
     horario: "18:00",
-    local: "Campo 1",
+    local: "Ginásio principal",
     status: "pendente",
     fase: "Jogo das Estrelas",
     modalidade: "Futebol",
