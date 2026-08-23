@@ -4,6 +4,11 @@ const turmas = reactive([
         id: 1,
         ano_turma: 1,
         nome: '2info2',
+    },
+    {
+        id: 2,
+        ano_turma: 2,
+        nome: '3info2',
     }
 ])
 export{turmas}

@@ -1,4 +1,6 @@
 <script setup>
+import TurmasCard from '../TurmasCard.vue';
+import { turmas } from '@/data/turmas';
 </script>
 
 <template>
@@ -14,6 +16,9 @@
                     <img src="/public/images/coroa.png" alt="logo">
                     <button>Adicionar</button>
                 </div>
+                <ul>
+                    <TurmasCard v-for="turma in turmas" :key="turma.id" :nome="turma.nome"></TurmasCard>
+                </ul>
             </div>
         </div>
     </div>
@@ -48,12 +53,13 @@ p {
 .turmasContainer {
     background-color: white;
     width: 73vw;
-    padding: 1vw 1vw 1vw 1vw;
+    padding: 1vw 0 0 0;
     border-top: solid 0.15vw #E85002;
     border-left: solid 0.15vw #E85002;
 }
 
 .turmasContainer div {
+    padding: 0 1vw 0 1vw;
     align-items: center;
     display: flex;
     justify-content: space-between;
