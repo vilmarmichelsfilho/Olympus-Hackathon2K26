@@ -5,6 +5,9 @@ const times = reactive([
         escudo: 'No image',
         nome: 'Pretuxos',
         cor: 'Preto',
+        time1: 'none',
+        time2: 'none',
+        time3: 'none',
         pontuacao_geral: 4,
     },
      {

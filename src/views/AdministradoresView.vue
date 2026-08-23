@@ -1,6 +1,7 @@
 <script setup>
 import NavegacaoAdministradores from '@/Components/NavegacaoAdministradores.vue';
 import AdicionarTime from '@/Components/AdicionarTime.vue';
+import TurmasView from '@/components/AdministradoesViews/TurmasView.vue';
 import router from '@/router';
 import { ref } from 'vue';
 
@@ -12,6 +13,8 @@ if (localStorage.getItem("logado") != "true") {
 }
 
 function mudarTela(valor) {
+    let tela = '/administradores#'+valor;
+    router.replace(tela)
     telaAtual.value = valor;
 }
 
@@ -24,6 +27,7 @@ const time = ref(false);
         <div class="times" v-show="telaAtual=='times'">
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
+        <TurmasView class="turmas" v-show="telaAtual=='turmas'"></TurmasView>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 </template>
