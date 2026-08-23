@@ -124,7 +124,7 @@ const progressoPorcentagem = computed(() => {
           <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
           <h3 class="pop-up-titulo">{{ nome }}</h3>
           <p class="descricao">{{ desc }}</p>
-          <RouterLink to="/" class="btn-entrar">Entrar</RouterLink>
+          <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar">Entrar</RouterLink>
         </div>
       </div>
     </section>
