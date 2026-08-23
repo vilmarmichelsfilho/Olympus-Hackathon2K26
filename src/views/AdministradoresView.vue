@@ -1,6 +1,6 @@
 <script setup>
-import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue';
-import AdicionarTime from '@/components/AdicionarTime.vue';
+import NavegacaoAdministradores from '@/Components/NavegacaoAdministradores.vue';
+import AdicionarTime from '@/Components/AdicionarTime.vue';
 import router from '@/router';
 import { ref } from 'vue';
 

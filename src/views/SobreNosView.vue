@@ -1,6 +1,6 @@
 <script setup>
 import { desenvolvedores, mostrar } from '@/Utils/sobrenosUtils.js'
-import desenvolvedoresCard from '@/components/desenvolvedoresCard.vue';
+import desenvolvedoresCard from '@/Components/desenvolvedoresCard.vue';
 </script>
 <template>
   <main>
