@@ -47,13 +47,11 @@ const options = {
 </script>
 
 <template>
-  <div style="height: 25rem; width: 30rem;">
+  <div style="height: 25rem; width: 100%; max-width: 30rem;">
   <Bar :data="data" :options="options" />
 </div>
 </template>
 
-<style setup>
 
-</style>
 
 

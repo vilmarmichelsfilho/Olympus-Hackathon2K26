@@ -14,54 +14,126 @@ import ProximosJogos from '@/components/ProximosJogos.vue'
 
 <template>
 <div class="tudo">
+  <div class="titulo">
+    <h1>Controle das Olimpiadas, IFC</h1>
+    <h3>pagina destinada para visão geral dos jogos</h3>
+  </div>
 
-
-  <H1>Controle das Olimpiadas, IFC</H1>
-  <H3>pagina destinada para  visão geral dos jogos</H3>
   <div class="controls">
- <ul>
-  <li>
-   <OympusControl titulo="Total de jogos" :valor="jogos.length" :icone="trophie" :rota="administradores"> </OympusControl>
-  </li>
-  <li>
-   <OympusControl titulo="Total de jogos" :valor="totalJogosHoje" :icone="calendar" :rota="administradores"> </OympusControl>
-</li>
-<li>
-     <OympusControl titulo="Total de jogos" :valor="totalConflitos" :icone="conflito" :rota="administradores"> </OympusControl>
-</li>
-<li>
-        <OympusControl titulo="voltar para" :icone="home" :rota="administradores"> </OympusControl>
-</li>
- </ul>
-</div>
+    <ul>
+      <li>
+        <OympusControl titulo="Total de jogos" :valor="jogos.length" :icone="trophie" rota="/administradores" />
+      </li>
+      <li>
+        <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />
+      </li>
+      <li>
+        <OympusControl titulo="Conflitos" :valor="totalConflitos" :icone="conflito" rota="/administradores" />
+      </li>
+      <li>
+        <OympusControl titulo="voltar para" :icone="home" rota="/administradores" />
+      </li>
+    </ul>
+  </div>
+
   <div class="parte-baixo">
     <div class="grafico"><GraficoJogos /></div>
-    <ProximosJogos />
+
+
+    <div class="controls-mobile">
+      <ul>
+        <li>
+          <OympusControl titulo="Total de jogos" :valor="jogos.length" :icone="trophie" rota="/administradores" />
+        </li>
+        <li>
+          <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />
+        </li>
+        <li>
+          <OympusControl titulo="Conflitos" :valor="totalConflitos" :icone="conflito" rota="/administradores" />
+        </li>
+      </ul>
+    </div>
+
+    <div class="proximos">
+      <ProximosJogos />
+    </div>
   </div>
 </div>
 </template>
 
-
 <style scoped>
-
+.titulo h3{
+color: gray;
+}
 li {
   list-style: none;
 }
+
 .controls ul {
   display: flex;
-   gap: 1rem;
+  gap: 1rem;
 }
 
+.tudo {
+  min-width: 0;
+}
 
 .parte-baixo {
   display: flex;
-  gap: 1rem;
   margin-top: 1vw;
-
+  min-width: 0;
 }
+
 .grafico {
   background-color: white;
-
+  width: 100%;
+  min-width: 0;
 }
 
+.proximos {
+  min-width: 0;
+  width: 100%;
+}
+
+
+.controls-mobile {
+  display: none;
+}
+
+@media (max-width: 440px) {
+  .tudo {
+    flex-direction: column;
+  }
+  .parte-baixo {
+    display: grid;
+  }
+  .controls ul {
+    display: grid;
+  }
+  .titulo {
+    display: none;
+  }
+  .controls {
+    display: none;
+  }
+  .proximos {
+    background-color: white;
+  }
+
+
+  .controls-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .controls-mobile ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

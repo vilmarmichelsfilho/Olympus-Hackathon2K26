@@ -16,13 +16,23 @@ if (localStorage.getItem("logado") != "true") {
 function mudarTela(valor) {
     telaAtual.value = valor;
 }
-
+const menuAberto = ref(false)
+function toggleMenu() {
+    menuAberto.value = !menuAberto.value;
+}
 const time = ref(false);
 </script>
 
 <template>
     <div class="display">
-        <NavegacaoAdministradores @tela="mudarTela"></NavegacaoAdministradores>
+      <button class="btn-hamburger" @click="toggleMenu">☰</button>
+
+        <NavegacaoAdministradores
+          @tela="mudarTela"
+          class="nav-lateral"
+          :class="{ 'nav-aberto': menuAberto }"
+        ></NavegacaoAdministradores>
+
         <div class="times" v-show="telaAtual=='times'">
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
@@ -43,6 +53,7 @@ const time = ref(false);
     width: 100%;
     height: 100vh;
     display: flex;
+    min-width: 0;
 }
 
 .popup {
@@ -54,5 +65,38 @@ const time = ref(false);
 .popup.aberto {
     opacity: 1;
     visibility: visible;
+}
+.btn-hamburger {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .btn-hamburger {
+        display: block;
+    }
+
+    .nav-lateral {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 99;
+        transition: left 0.3s ease;
+    }
+
+    .nav-aberto {
+        left: 0;
+    }
 }
 </style>
