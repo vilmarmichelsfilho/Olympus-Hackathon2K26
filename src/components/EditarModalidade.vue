@@ -1,230 +1,189 @@
 <script setup>
 import { ref, watch } from 'vue';
-import CloseIcon from '@iconify-vue/mdi/close';
-import UploadIcon from '@iconify-vue/mdi/upload';
+import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 
-const props = defineProps({
-  modalidade: Object
-});
-
+const props = defineProps(['modalidade']);
 const emit = defineEmits(['fechar', 'atualizar']);
 
 const nome = ref('');
-const descricao = ref('');
-const imagem = ref('');
+const desc = ref('');
 const tempo = ref('');
+let imagem = null;
 
-// Preenche os campos quando a modalidade selecionada mudar
-watch(() => props.modalidade, (novaVal) => {
-  if (novaVal) {
-    nome.value = novaVal.nome || '';
-    descricao.value = novaVal.desc || '';
-    imagem.value = novaVal.image || '';
-    tempo.value = novaVal.tempo || '';
+watch(
+  () => props.modalidade,
+  (nova) => {
+    if (nova) {
+      nome.value = nova.nome ?? '';
+      desc.value = nova.desc ?? '';
+      tempo.value = nova.tempo ?? '';
+      imagem = nova.image ?? null;
+    }
+  },
+  { immediate: true }
+);
+
+function checarDados() {
+  if (nome.value !== '') {
+    if (desc.value !== '') {
+      if (imagem !== null) {
+        emit('atualizar', {
+          id: props.modalidade.id,
+          nome: nome.value,
+          desc: desc.value,
+          tempo: tempo.value,
+          image: imagem
+        });
+        emit('fechar');
+      } else {
+        alert('Adicione uma imagem à modalidade');
+      }
+    } else {
+      alert('Preencha a descrição da modalidade');
+    }
+  } else {
+    alert('Preencha o nome da modalidade');
   }
-}, { immediate: true });
+}
 
-function salvarEdicao() {
-  emit('atualizar', {
-    id: props.modalidade.id,
-    nome: nome.value,
-    desc: descricao.value,
-    image: imagem.value,
-    tempo: tempo.value
-  });
+function fechar() {
   emit('fechar');
+}
+
+function pegarImagem(event) {
+  const arquivo = event.target.files[0];
+  if (!arquivo) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    imagem = reader.result;
+  };
+  reader.readAsDataURL(arquivo);
 }
 </script>
 
 <template>
-  <div class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div>
-          <h2>Editar Modalidade</h2>
-          <p>Controle das Modalidades</p>
+  <div class="overlay">
+    <div class="dialog">
+      <div class="titulos">
+        <h2>Editar Modalidade</h2>
+        <h4 style="color: grey; font-size: 1vw; font-weight: bolder;">Controle das modalidades</h4>
+      </div>
+      <div class="inputs">
+        <div class="nome">
+          <h3>Nome da Modalidade</h3>
+          <input type="text" placeholder="Digite" v-model="nome">
         </div>
-        <button class="close-btn" @click="$emit('fechar')">
-          <CloseIcon height="1.2em" />
+        <div class="desc">
+          <h3>Descrição da Modalidade</h3>
+          <input type="text" placeholder="Digite" v-model="desc">
+        </div>
+      </div>
+      <div class="partedebaixo">
+        <div class="tempo">
+          <h3>Tempo da Modalidade</h3>
+          <input type="text" placeholder="Digite" v-model="tempo">
+        </div>
+        <div class="imagem">
+          <h3>Imagem da Modalidade</h3>
+          <input type="file" accept="image/png, image/jpeg, .jpg" @change="pegarImagem">
+        </div>
+      </div>
+      <div class="botoes">
+        <button style="align-items: center; display: flex; justify-content: center;" class="save"
+          v-on:click.prevent="checarDados()">
+          <ContentSaveOutlineIcon width="1.5vw" />Salvar
         </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="input-group">
-          <label>Modalidade*</label>
-          <input type="text" v-model="nome" placeholder="-" />
-        </div>
-
-        <div class="input-group">
-          <label>Descrição*</label>
-          <textarea v-model="descricao" placeholder="text"></textarea>
-        </div>
-
-        <div class="row-group">
-          <div class="input-group half">
-            <label>PNG*</label>
-            <div class="file-input-wrapper">
-              <input type="text" v-model="imagem" placeholder="photo" readonly />
-              <button type="button"><UploadIcon height="1em" /> selecione</button>
-            </div>
-          </div>
-
-          <div class="input-group half">
-            <label>Tempo</label>
-            <input type="text" v-model="tempo" placeholder="-" />
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="save-btn" @click="salvarEdicao">Salvar Alterações</button>
-        <button class="clear-btn" @click="$emit('fechar')">Cancelar / Limpar</button>
+        <button class="cancel" v-on:click="fechar()">Cancelar</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Aproveita exatamente os mesmos estilos do modal de Adicionar */
-.modal-overlay {
+.inputs {
+  display: flex;
+  gap: 3vw;
+}
+
+.partedebaixo {
+  display: flex;
+  gap: 3vw;
+  margin-top: 1vw;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+div.imagem{
+  max-width: 35vw;
+}
+button.cancel {
+  background: none;
+  border: none;
+  font-weight: bolder;
+}
+
+button.cancel:hover {
+  text-decoration: underline;
+}
+
+button.save {
+  background: #6EAC31;
+  border: none;
+  color: white;
+  font-weight: bolder;
+  font-size: 1.1vw;
+  padding: 0.1vw 2vw;
+  border-radius: 0.2vw;
+  transition: 0.3s;
+  margin-bottom: 0.5vw;
+}
+
+button.save:hover {
+  transform: scale(1.05);
+  background: #507c23;
+}
+
+h2 {
+  font-size: 2vw;
+  font-weight: bolder;
+}
+
+h3 {
+  font-weight: bolder;
+  margin-bottom: 0.2vw;
+}
+
+input {
+  color: black;
+  background: #E2E2E2;
+  border: solid #bdbdbd 0.1vw;
+  border-radius: 0.2vw;
+  transition: 0.3s;
+}
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+  color: black;
+  background: white;
+  border: solid rgb(185, 184, 184) 0.15vw;
+  padding: 4vw 3vw;
+  border-radius: 1vw;
+}
+
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-card {
-  background-color: #FFFFFF;
-  width: 100%;
-  max-width: 550px;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.modal-header h2 {
-  font-size: 1.4rem;
-  color: #111827;
-  margin: 0 0 4px 0;
-}
-
-.modal-header p {
-  font-size: 0.85rem;
-  color: #6B7280;
-  margin: 0;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #6B7280;
-}
-
-.input-group {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group label {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #374151;
-  margin-bottom: 6px;
-}
-
-.input-group input,
-.input-group textarea {
-  background-color: #F9FAFB;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  color: #1F2937;
-  outline: none;
-}
-
-.input-group textarea {
-  resize: none;
-  height: 80px;
-}
-
-.row-group {
-  display: flex;
-  gap: 15px;
-}
-
-.half {
-  flex: 1;
-}
-
-.file-input-wrapper {
-  display: flex;
-  gap: 8px;
-}
-
-.file-input-wrapper input {
-  flex: 1;
-}
-
-.file-input-wrapper button {
-  background-color: #F3F4F6;
-  border: 1px solid #D1D5DB;
-  border-radius: 6px;
-  padding: 0 12px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.modal-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 25px;
-  gap: 10px;
-}
-
-.save-btn {
-  background-color: #16A34A;
-  color: white;
-  border: none;
-  width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.save-btn:hover {
-  background-color: #15803D;
-}
-
-.clear-btn {
-  background: none;
-  border: none;
-  color: #6B7280;
-  font-size: 0.85rem;
-  cursor: pointer;
+  z-index: 100;
 }
 </style>
