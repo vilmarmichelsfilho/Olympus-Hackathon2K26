@@ -6,7 +6,7 @@ import router from '@/router';
 import { ref } from 'vue';
 import DashboardControlView from './DashboardControlView.vue';
 
-const telaAtual = ref('times')
+const telaAtual = ref('dashboard')
 
 if (localStorage.getItem("logado") != "true") {
     router.replace("/")
@@ -36,9 +36,9 @@ const time = ref(false);
         <div class="times" v-show="telaAtual=='times'">
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
-        <div v-if="telaAtual === 'times'">
+        <div v-if="telaAtual === 'dashboard'" class="dashboard">
                 <DashboardControlView />
-            </div>
+        </div>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 
@@ -48,6 +48,10 @@ const time = ref(false);
 </template>
 
 <style scoped>
+.dashboard {
+    margin: 1vw 2vw;
+}
+
 .display {
     background: #15161A;
     width: 100%;
