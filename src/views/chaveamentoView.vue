@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { modalidades } from '@/data/modalidades'
 import { useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { jogos } from '@/data/jogos'
 import Bracket from 'vue-tournament-bracket'
 
@@ -19,7 +20,6 @@ const nome = computed(() => {
 const jogosdamodalidade = computed(() => {
   return jogos.filter((jogo) => jogo.modalidade == modalidadeSelecionada.value.nome)
 })
-
 const formatarParaBracket = (fase) => {
   return jogosdamodalidade.value
     .filter((jogo) => jogo.fase === fase)
@@ -53,22 +53,25 @@ const rounds = computed(() => [
     <section class="chaveamento">
       <div class="header-chaveamento">
         <div class="coroa">
-    <img src="/public/images/coroa.png" alt="coroa" />
-  </div>
+          <img src="/public/images/coroa.png" alt="coroa" />
+        </div>
         <h3>{{ nome }}<br /> <span>Games</span></h3>
       </div>
-
-      <div class="scroll-container">
+      <div v-if="jogosdamodalidade.length === 0" class="sem-jogos">
+        <p>Não há jogos para esta modalidade ainda.</p>
+       <RouterLink class="linkparahome">Voltar para a Home</RouterLink>
+      </div>
+      <div v-else class="scroll-container">
         <bracket :rounds="rounds">
-    <template #player="{ player }">
-  <div v-if="player.isFirst" class="match-time">
-    {{ player.dataHorario }}
-  </div>
-  <span class="team-name" :class="{ 'align-right': player.isFirst, 'align-left': !player.isFirst }">
-    {{ player.name }}
-  </span>
-  <span v-if="!player.isFirst" class="vs">X</span>
-</template>
+          <template #player="{ player }">
+            <div v-if="player.isFirst" class="match-time">
+              {{ player.dataHorario }}
+            </div>
+            <span class="team-name" :class="{ 'align-right': player.isFirst, 'align-left': !player.isFirst }">
+              {{ player.name }}
+            </span>
+            <span v-if="!player.isFirst" class="vs">X</span>
+          </template>
         </bracket>
       </div>
     </section>
@@ -126,6 +129,33 @@ h3 span{
   font-size: 10vw;
   color: #E85002;
 }
+.sem-jogos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 20px;
+  text-align: center;
+}
+
+.sem-jogos p {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.sem-jogos .linkparahome {
+  background-color: #E85002;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 .scroll-container {
   width: 100%;
   max-width: 100vw;
