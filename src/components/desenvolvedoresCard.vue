@@ -3,6 +3,12 @@
  defineEmits(['mostrar'])
  import ArrowDownIcon from '@iconify-vue/mdi/arrow-down';
 import ArrowUpIcon from '@iconify-vue/mdi/arrow-up';
+import { ref } from 'vue';
+
+const aberto = ref(false)
+function abrir() {
+  aberto.value = !aberto.value
+}
 </script>
 <template>
   <li>
@@ -10,12 +16,31 @@ import ArrowUpIcon from '@iconify-vue/mdi/arrow-up';
         <div class="container-esquerda"> <h3>{{props.nome}}</h3>
     <h4>{{ props.funcao }}</h4>
     </div>
-    <button @click.prevent="$emit('mostrar', props.id)"> <ArrowDownIcon height="3.5em" color="white" v-if="props.visivel == false"></ArrowDownIcon> <ArrowUpIcon height="3.5em" color="white" v-else> </ArrowUpIcon></button>
+    <button @click.prevent="abrir"> <ArrowDownIcon height="3.5em" color="white" v-if="aberto == false"></ArrowDownIcon> <ArrowUpIcon height="3.5em" color="white" v-else> </ArrowUpIcon></button>
 </div>
-    <img src="/public/images/coroa.png" alt="Imagem do desenvolvedor" v-if="props.visivel == true">
+<Transition name="abrir">
+  <div v-if="aberto" class="conteudo"><img src="/public/images/coroa.png" alt="Imagem do desenvolvedor"></div>
+</Transition>
+    
 </li>
 </template>
 <style scoped>
+.abrir-enter-active,
+.abrir-leave-active {
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+.abrir-enter-from,
+.abrir-leave-to {
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(-10px);
+}
+.abrir-enter-to,
+.abrir-leave-from {
+  opacity: 1;
+  max-height: 200px;
+}
 li{
   background-color: #FF9408;
   margin: 5vw 0;

@@ -1,12 +1,14 @@
 <script setup>
+import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
-import { jogos } from '@/data/jogos';
+import { jogos } from '@/data/jogos.js';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
-import TableJogos from './TableJogos.vue';
-
+import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
+
+const emit = defineEmits(['loginPop'])
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
 }
@@ -31,7 +33,9 @@ const jogosVerificados = computed(() =>
 
     <header class="barra-desktop">
       <div class="logotipo">
-        <img src="@/assets/logodesktop.png" alt="" class="logo-desktop" />
+        <RouterLink to="/">
+          <img src="@/assets/logodesktop.png" alt="" class="logo-desktop" />
+        </RouterLink>
       </div>
 
       <div class="busca">
@@ -40,12 +44,12 @@ const jogosVerificados = computed(() =>
       </div>
 
       <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Times</a>
-        <a href="#">Sobre nós</a>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/">Times</RouterLink>
+        <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
       </nav>
 
-      <button class="btn-login">
+      <button class="btn-login" v-on:click.prevent="emit('loginPop')">
         Log-in <span class="seta">→</span>
       </button>
     </header>
@@ -196,7 +200,7 @@ const jogosVerificados = computed(() =>
     margin: 0;
     background-color: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    
+
   }
   .logotipo {
     display: flex;

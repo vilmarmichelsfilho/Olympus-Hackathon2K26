@@ -1,5 +1,4 @@
 import { administradores } from "@/data/administradores";
-import { reactive, computed, ref } from "vue"
 import router from "@/router";
 
 function logar(usuario,senha) {
