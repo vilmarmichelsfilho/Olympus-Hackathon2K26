@@ -37,7 +37,7 @@ const time = ref(false);
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
         <div v-if="telaAtual === 'dashboard'" class="dashboard">
-                <DashboardControlView />
+                <DashboardControlView @editar2="mudarTela('times')"/>
         </div>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>

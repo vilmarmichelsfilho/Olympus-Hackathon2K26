@@ -6,6 +6,8 @@ const proximosJogos = computed(() => {
   return jogos.filter((jogo) => jogo.status === 'pendente').slice(0, 5)
 })
 
+defineEmits(['editar'])
+
 function formatarDataBR(dataISO) {
   const [, mes, dia] = dataISO.split('-')
   return `${dia}/${mes}`
@@ -39,7 +41,7 @@ function formatarDataBR(dataISO) {
           </tbody>
         </table>
       </div>
-      <button class="editar">Editar ↗</button>
+      <button class="editar" v-on:click.prevent="$emit('editar')">Editar ↗</button>
     </div>
   </div>
 </template>

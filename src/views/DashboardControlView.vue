@@ -10,6 +10,8 @@ import home from '@/assets/home.png';
 import GraficoJogos from '@/components/GraficoJogos.vue';
 import ProximosJogos from '@/components/ProximosJogos.vue'
 
+defineEmits(['editar2'])
+
 </script>
 
 <template>
@@ -55,7 +57,7 @@ import ProximosJogos from '@/components/ProximosJogos.vue'
     </div>
 
     <div class="proximos">
-      <ProximosJogos />
+      <ProximosJogos @editar="$emit('editar2')" />
     </div>
   </div>
 </div>
