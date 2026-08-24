@@ -33,7 +33,7 @@ function fechar() {
     emit('fecharAdicionarModalidade');
     nome.value = '';
     desc.value = '';
-    imagem.value = null;
+    imagem = null;
     tempo.value = '';
 }
 
