@@ -19,7 +19,7 @@ let descricaoExibida = computed(() => {
     <td>{{ descricaoExibida }}</td>
     <td><img :src="imagem" :alt="nome"></td>
     <td>{{ tempo }}
- <button @click="$emit('editar-Modalidade', id)"><EditIcon height="1.5em"></EditIcon></button>
+ <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="1.5em"></EditIcon></button>
  <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="1.5em" style="color: red;"/></button>
     </td>
   </tr>
@@ -72,6 +72,24 @@ td button {
 
 td button:hover {
   opacity: 0.7;
+}
+@media (max-width: 750px){
+  tr{
+    border-bottom: 1px solid #b5b2b2;
+  }
+  td{
+    color: black;
+    font-size: 3vw;
+    font-weight: bold;
+    align-items: center;
+  }
+  td img{
+    width: 10vw;
+    height: 10vw;
+  }
+  .edit{
+    color: black;
+  }
 }
 </style>
 

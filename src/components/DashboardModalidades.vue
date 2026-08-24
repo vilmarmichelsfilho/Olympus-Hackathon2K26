@@ -58,7 +58,7 @@ section.dashboard h3 {
   font-size: 2.5vw;
 }
 
-section.dashboard > p {
+section.dashboard  p {
   color: #8A99AD;
   font-size: 1.2vw;
   margin-bottom: 1vw;
@@ -128,4 +128,33 @@ th:nth-child(1), td:nth-child(1) { width: 25%; }
 th:nth-child(2), td:nth-child(2) { width: 40%; }
 th:nth-child(3), td:nth-child(3) { width: 15%; text-align: center; }
 th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
+@media (max-width: 750px){
+ section.dashboard h3{
+    color: black;
+    font-weight: bold;
+    font-size: 6vw
+  }
+  section.dashboard p{
+    font-size: 3.3vw;
+  }
+  div.conteiner{
+    width: 80vw;
+    min-height: 70vw;
+    background: transparent;
+  }
+  div.content img{
+    display: none;
+  }
+  div.content button {
+  color: black;
+  border: 1px solid black;
+}
+thead{
+  border-bottom: 2px solid #E85002;
+}
+th{
+  color: black;
+  font-size: 3vw
+}
+}
 </style>

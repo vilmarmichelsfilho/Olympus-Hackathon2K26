@@ -78,4 +78,9 @@ modalidades.splice(index, 1);
     opacity: 1;
     visibility: visible;
 }
+@media (max-width: 750px){
+.display{
+background-color: white;
+}
+}
 </style>
