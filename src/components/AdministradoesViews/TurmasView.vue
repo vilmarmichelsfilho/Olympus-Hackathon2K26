@@ -1,7 +1,23 @@
 <script setup>
+import { ref } from 'vue';
 import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 import TurmasCard from '../TurmasCard.vue';
+import { adicionar, editar } from '@/Utils/turmasUtils.js';
 import { turmas } from '@/data/turmas';
+
+const add = ref(false);
+const edit = ref(false);
+
+const id = ref('');
+
+function adicionardd(nome) {
+    add.value = false;
+    adicionar(nome)
+}
+function editardd(nome) {
+    edit.value=false;
+    editar(id.value,nome)
+}
 </script>
 
 <template>
@@ -15,15 +31,16 @@ import { turmas } from '@/data/turmas';
                 <div>
                     <p>a</p>
                     <img src="/public/images/coroa.png" alt="logo">
-                    <button>Adicionar</button>
+                    <button v-on:click.prevent="add=true">Adicionar</button>
                 </div>
                 <ul>
-                    <TurmasCard v-for="turma in turmas" :key="turma.id" :nome="turma.nome" :id="turma.id"></TurmasCard>
+                    <TurmasCard v-for="turma in turmas" :key="turma.id" :nome="turma.nome" @editar="edit=true,id=turma.id" :id="turma.id"></TurmasCard>
                 </ul>
             </div>
         </div>
     </div>
-    <AdicionarOuEditar></AdicionarOuEditar>
+    <AdicionarOuEditar @fechar="edit=false" v-show="edit" @adicionar="editardd" class="edit"></AdicionarOuEditar>
+    <AdicionarOuEditar @fechar="add=false" v-show="add" @adicionar="adicionardd" class="add"></AdicionarOuEditar>
 </template>
 
 <style scoped>

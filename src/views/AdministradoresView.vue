@@ -27,7 +27,9 @@ const time = ref(false);
         <div class="times" v-show="telaAtual=='times'">
             <button v-on:click="time=true">Adicionar Time</button>
         </div>
-        <TurmasView class="turmas" v-show="telaAtual=='turmas'"></TurmasView>
+        <div class="turmas" v-show="telaAtual=='turmas'">
+            <TurmasView class="turmas"></TurmasView>
+        </div>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 </template>

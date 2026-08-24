@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 
+const emit = defineEmits(['fechar','adicionar'])
+
 const tecnico = ref('info')
 const ano = ref('')
 const serie = ref('')
@@ -43,8 +45,8 @@ const serie = ref('')
                     <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
                 </div>
                 <div class="botoes">
-                    <button type="submit"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon> Salvar Alterações</button>
-                    <button type="reset">Cancelar/Limpar</button>
+                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar',ano+tecnico+serie)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>
         </div>
@@ -53,6 +55,38 @@ const serie = ref('')
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+
+.botoes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+}
+button:disabled {
+    background: grey;
+}
+button:disabled:hover {
+    transform: scale(1);
+    text-decoration: none;
+}
+button {
+    border: none;
+    background: none;   
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+button:hover {
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+
+.salvar {
+    background: #6EAC31;
+    padding: 0.5vw 2vw;
+    border-radius: 0.7vw;
+    color: white;
+}
 
 h4 {
     font-size: 1vw;

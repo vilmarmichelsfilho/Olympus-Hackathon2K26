@@ -4,6 +4,7 @@ import EditOutlineIcon from '@iconify-vue/mdi/edit-outline';
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline';
 import { ref } from 'vue';
 const props = defineProps(['nome','id']);
+const emit = defineEmits(['editar'])
 import { excluir } from '@/Utils/turmasUtils';
 
 const edit = ref(false);
@@ -13,7 +14,7 @@ const edit = ref(false);
 <li>
     <h3>{{ props.nome }}</h3>
     <div class="botoes">
-        <button class="editar"><EditOutlineIcon height="2vw"></EditOutlineIcon>Editar</button>
+        <button class="editar" v-on:click.prevent="emit('editar')"><EditOutlineIcon height="2vw"></EditOutlineIcon>Editar</button>
         <button class="excluir" v-on:click.prevent="edit=true"><TrashCanOutlineIcon height="2vw"></TrashCanOutlineIcon>Excluir</button>
     </div>
     <Confirm v-show="edit" @cancelar="edit=false" @excluir="excluir(props.id)"></Confirm>
