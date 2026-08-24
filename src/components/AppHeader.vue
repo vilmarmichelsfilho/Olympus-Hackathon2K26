@@ -5,7 +5,7 @@ import { jogos } from '@/data/jogos.js';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
-import TableJogos from './TableJogos.vue';
+import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
 
 const emit = defineEmits(['loginPop'])
