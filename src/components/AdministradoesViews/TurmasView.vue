@@ -1,4 +1,5 @@
 <script setup>
+import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 import TurmasCard from '../TurmasCard.vue';
 import { turmas } from '@/data/turmas';
 </script>
@@ -17,11 +18,12 @@ import { turmas } from '@/data/turmas';
                     <button>Adicionar</button>
                 </div>
                 <ul>
-                    <TurmasCard v-for="turma in turmas" :key="turma.id" :nome="turma.nome"></TurmasCard>
+                    <TurmasCard v-for="turma in turmas" :key="turma.id" :nome="turma.nome" :id="turma.id"></TurmasCard>
                 </ul>
             </div>
         </div>
     </div>
+    <AdicionarOuEditar></AdicionarOuEditar>
 </template>
 
 <style scoped>
