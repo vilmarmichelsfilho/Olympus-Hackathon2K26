@@ -66,22 +66,22 @@ function pegarImagem(event) {
     <div class="dialog">
       <div class="titulos">
         <h2>Editar Modalidade</h2>
-        <h4 style="color: grey; font-size: 1vw; font-weight: bolder;">Controle das modalidades</h4>
+        <h4>Controle das modalidades</h4>
       </div>
       <div class="inputs">
         <div class="nome">
           <h3>Nome da Modalidade</h3>
-          <input type="text" placeholder="Digite" v-model="nome">
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="nome">
         </div>
         <div class="desc">
           <h3>Descrição da Modalidade</h3>
-          <input type="text" placeholder="Digite" v-model="desc">
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="desc">
         </div>
       </div>
       <div class="partedebaixo">
         <div class="tempo">
           <h3>Tempo da Modalidade</h3>
-          <input type="text" placeholder="Digite" v-model="tempo">
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="tempo">
         </div>
         <div class="imagem">
           <h3>Imagem da Modalidade</h3>
@@ -116,9 +116,8 @@ function pegarImagem(event) {
   flex-direction: column;
   justify-content: center;
 }
-div.imagem{
-  max-width: 35vw;
-}
+
+
 button.cancel {
   background: none;
   border: none;
@@ -156,12 +155,26 @@ h3 {
   margin-bottom: 0.2vw;
 }
 
+h4 {
+  color: grey;
+  font-size: 1vw;
+  font-weight: bolder;
+}
+
 input {
   color: black;
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
   border-radius: 0.2vw;
   transition: 0.3s;
+}
+
+input.inputAnim:focus {
+    outline: none;
+    transform: scale(1.05);
+    color: #DE6D1C;
+    font-weight: bolder;
+    border: solid #DE6D1C 0.1vw;
 }
 .dialog {
   display: flex;
@@ -185,5 +198,53 @@ input {
   align-items: center;
   justify-content: center;
   z-index: 100;
+}
+
+@media (max-width: 1000px) {
+  h2 {
+    font-size: 5vw;
+  }
+
+  h4 {
+    font-size: 3vw;
+  }
+
+  .dialog {
+    justify-content: center;
+    min-width: 80vw;
+  }
+
+  .inputs {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .inputs input {
+    min-width: 70vw;
+  }
+
+  .partedebaixo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .partedebaixo input {
+    min-width: 70vw;
+  }
+
+  .imagem {
+    max-width: none;
+  }
+
+  .partedebaixo .imagem input {
+    text-align: center;
+    font-size: 2.8vw;
+    min-width: 72vw;
+  }
+
+  button.save {
+    padding: 0.5vw 2vw;
+    font-size: 3vw;
+  }
 }
 </style>
