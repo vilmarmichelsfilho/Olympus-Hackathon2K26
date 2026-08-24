@@ -3,10 +3,10 @@ import { RouterLink } from 'vue-router'
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
 import CloseIcon from '@iconify-vue/mdi/close';
 import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
-import timeCard from '@/Components/timeCard.vue';
+import timeCard from '@/components/timeCard.vue';
 import { jogos } from '@/data/jogos';
 import { ref, computed } from 'vue';
-import modalidadesCard from '@/Components/modalidadesCard.vue';
+import modalidadesCard from '@/components/modalidadesCard.vue';
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
 import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';

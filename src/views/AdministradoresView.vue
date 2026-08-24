@@ -1,10 +1,10 @@
 <script setup>
-import NavegacaoAdministradores from '@/Components/NavegacaoAdministradores.vue';
-import AdicionarModalidade from '@/Components/AdicionarModalidade.vue';
-import EditarModalidade from '@/Components/EditarModalidade.vue';
+import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue';
+import AdicionarModalidade from '@/components/AdicionarModalidade.vue';
+import EditarModalidade from '@/components/EditarModalidade.vue';
 import { modalidades } from '@/data/modalidades';
-import DashboardModalidades from '@/Components/DashboardModalidades.vue';
-import AdicionarTime from '@/Components/AdicionarTime.vue';
+import DashboardModalidades from '@/components/DashboardModalidades.vue';
+import AdicionarTime from '@/components/AdicionarTime.vue';
 import router from '@/router';
 import { ref } from 'vue';
 
@@ -47,7 +47,8 @@ modalidades.splice(index, 1);
 .display {
     background: #15161A;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     display: flex;
 }
 

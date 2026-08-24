@@ -1,5 +1,5 @@
 <script setup>
-import modalidadesDashboardChild from '@/Components/modalidadeDashboardChild.vue';
+import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
 defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
 </script>
@@ -44,7 +44,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
 section.dashboard {
   background-color: transparent;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 20px;

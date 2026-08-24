@@ -62,7 +62,8 @@ function sair() {
     gap: 3vw;
     padding: 1.5vw;
     background: #202125;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     max-width: 20vw;
     box-shadow: 10px 10px 30px 2px rgba(0, 0, 0, 0.644);
 }
