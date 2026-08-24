@@ -8,7 +8,6 @@ import DashboardModalidades from '@/components/DashboardModalidades.vue';
 import AdicionarTime from '@/components/AdicionarTime.vue';
 import router from '@/router';
 import { ref } from 'vue';
-
 const telaAtual = ref('times')
 const modalidadeEditar = ref(false);
 const modalidadeEditarId = ref(null);

@@ -2,12 +2,11 @@
 import { computed } from 'vue'
 import { modalidades } from '@/data/modalidades'
 import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { jogos } from '@/data/jogos'
 import Bracket from 'vue-tournament-bracket'
 
 const route = useRoute()
-const router = useRouter()
 const modalidadeId = computed(() => Number(route.params.id))
 
 const modalidadeSelecionada = computed(() => {
@@ -21,9 +20,6 @@ const nome = computed(() => {
 const jogosdamodalidade = computed(() => {
   return jogos.filter((jogo) => jogo.modalidade == modalidadeSelecionada.value.nome)
 })
-const voltarHome = () => {
-  router.push('/')
-}
 const formatarParaBracket = (fase) => {
   return jogosdamodalidade.value
     .filter((jogo) => jogo.fase === fase)
@@ -63,7 +59,7 @@ const rounds = computed(() => [
       </div>
       <div v-if="jogosdamodalidade.length === 0" class="sem-jogos">
         <p>Não há jogos para esta modalidade ainda.</p>
-        <button @click="voltarHome">Voltar para a Home</button>
+       <RouterLink class="linkparahome">Voltar para a Home</RouterLink>
       </div>
       <div v-else class="scroll-container">
         <bracket :rounds="rounds">
@@ -149,7 +145,7 @@ h3 span{
   font-weight: bold;
 }
 
-.sem-jogos button {
+.sem-jogos .linkparahome {
   background-color: #E85002;
   color: white;
   border: none;
@@ -158,12 +154,8 @@ h3 span{
   font-size: 1rem;
   cursor: pointer;
   font-weight: bold;
-  transition: background 0.2s;
 }
 
-.sem-jogos button:hover {
-  background-color: #d04502;
-}
 .scroll-container {
   width: 100%;
   max-width: 100vw;
