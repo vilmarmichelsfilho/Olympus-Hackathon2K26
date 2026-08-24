@@ -6,6 +6,7 @@ import { editarModalidade } from '@/Utils/editarUtils.js';
 import { modalidades } from '@/data/modalidades';
 import DashboardModalidades from '@/components/DashboardModalidades.vue';
 import AdicionarTime from '@/components/AdicionarTime.vue';
+import TurmasView from '@/components/AdministradoesViews/TurmasView.vue';
 import router from '@/router';
 import { ref } from 'vue';
 const telaAtual = ref('times')
@@ -22,6 +23,8 @@ if (localStorage.getItem("logado") != "true") {
 }
 
 function mudarTela(valor) {
+    let tela = '/administradores#'+valor;
+    router.replace(tela)
     telaAtual.value = valor;
 }
 
@@ -47,6 +50,9 @@ modalidades.splice(index, 1);
         @editar-modalidade="abrirEditar($event)"
         @excluir-modalidade="exluirModalidade($event)">
     </DashboardModalidades>
+        <div class="turmas" v-show="telaAtual=='turmas'">
+            <TurmasView class="turmas"></TurmasView>
+        </div>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
     <AdicionarModalidade @fecharAdicionarModalidade="modalidadeAdicionar = false" class="popup" :class="{ aberto: modalidadeAdicionar }"></AdicionarModalidade>

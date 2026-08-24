@@ -33,10 +33,11 @@ function sair() {
             </div>
             <nav>
                 <ul>
-                    <li v-on:click="emit('tela','times')">Times</li>
                     <li v-on:click="emit('tela','jogos')">Jogos</li>
+                    <li v-on:click="emit('tela','times')">Times</li>
                     <li v-on:click="emit('tela','horarios')">Horários</li>
                     <li v-on:click="emit('tela','conflitos')">Conflitos</li>
+                    <li v-on:click="emit('tela','turmas')">Turmas</li>
                     <li v-on:click="emit('tela','modalidades')">Modalidades</li>
                 </ul>
             </nav>
