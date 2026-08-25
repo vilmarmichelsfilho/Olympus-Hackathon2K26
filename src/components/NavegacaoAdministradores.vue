@@ -150,4 +150,15 @@ function sair() {
     text-decoration: none;
     color: #AEB9E1;
 }
+@media(max-width: 760px) {
+    .all{
+        min-width: 45vw;
+    }
+    .saida a{
+        font-size: 4vw;
+    }
+    .logo{
+        font-size: 3vw;
+    }
+}
 </style>
