@@ -13,6 +13,8 @@ import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
 
+defineEmits(['login']);
+
 const modalAberto = ref(0);
 const modalidadeSelecionadaId = ref(null);
 const modalidadeSelecionada = computed(() => {
@@ -119,7 +121,7 @@ const jogosVerificados = computed(() =>
       <p>Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos acontecendo no campus
       </p>
       <div class="log-in-desktop">
-        <RouterLink to="/login" class="link-desktop">
+        <RouterLink v-on:click.prevent="$emit('login')" class="link-desktop">
           Log-in
           <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
         </RouterLink>

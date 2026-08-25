@@ -1,8 +1,8 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import loginView from './Components/loginView.vue';
-import AppHeader from './Components/AppHeader.vue';
-import FooterApp from './Components/FooterApp.vue';
+import loginView from './components/loginView.vue';
+import AppHeader from './components/AppHeader.vue';
+import FooterApp from './components/FooterApp.vue';
 import { ref } from 'vue';
 if (localStorage.getItem("primeiraVisita") === null) {
   localStorage.setItem("logado", "false");
@@ -21,7 +21,7 @@ function login() {
       <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
     </div>
     <div app-conteiner>
-      <RouterView></RouterView>
+      <RouterView @login="login()"></RouterView>
     </div>
     <FooterApp v-if="$route.path !== '/administradores'"></FooterApp>
   </div>
