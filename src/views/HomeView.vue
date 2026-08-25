@@ -233,14 +233,18 @@ main {
   background-color: black;
   padding: 0 0 20vw 0;
 }
-
 section.selecao-modalidades {
   padding: 0 0 10vw 0;
   background-color: #fff;
   border-radius: 20px;
   margin: 10vh 0;
 }
-
+.texto-acontece h3 {
+  color: white;
+}
+.texto-acontece p{
+  color: gray;
+}
 div.carrossel-modalidades {
   display: none;
 }

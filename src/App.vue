@@ -69,4 +69,9 @@ function login() {
   flex-direction: column;
   width: 100%;
 }
+@media(max-width: 1000px) {
+  .texto {
+    display: none;
+  }
+}
 </style>

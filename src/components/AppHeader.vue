@@ -80,6 +80,7 @@ const jogosVerificados = computed(() =>
 </template>
 
 <style scoped>
+
 .olympus-screen {
   position: relative;
   min-height: 100vh;
