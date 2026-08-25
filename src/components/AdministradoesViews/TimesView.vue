@@ -1,6 +1,11 @@
 <script setup>
 import { times } from '@/data/times';
 import timesCard from '../timesCard.vue';
+import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
+import { ref } from 'vue';
+
+const add = ref(false)
+
 </script>
 
 <template>
@@ -13,7 +18,7 @@ import timesCard from '../timesCard.vue';
             <div class="cima">
                 <p>a</p>
                 <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
-                <button>Adicionar</button>
+                <button v-on:click.prevent="add=true">Adicionar</button>
             </div>
             <div class="desc">
                 <ul>
@@ -25,10 +30,11 @@ import timesCard from '../timesCard.vue';
                 </ul>
             </div>
             <ul>
-                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.vitorias" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3" ></timesCard>
+                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.derrotas" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3" :id="time.id"></timesCard>
             </ul>
         </div>
     </div>
+    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''" :um1="''" :dois1="''" :tres1="''" :vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
 </template>
 
 <style scoped>
@@ -38,11 +44,25 @@ button {
     font-size: 1vw;
 }
 
+.cima button {
+    background: none;
+    padding: 0.3vw 1vw;
+    border: solid white 0.15vw;
+    font-size: 0.75vw;
+    border-radius: 3vw;
+    transition: 0.3s;
+}
+.cima button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0.5vw 0.1vw white;
+}
+
 .cima {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1vw;
+    margin: 1vw 2vw 0 2vw;
 }
 .cima p {
     opacity: 0;

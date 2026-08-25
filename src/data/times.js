@@ -7,7 +7,7 @@ const times = reactive([
         nome: 'Falcões',
         cor: 'Preto',
         time1: 'Raptors',
-        time2: 'Titans',
+        time2: '2info2',
         time3: 'Warriors',
         vitorias: 5,
         empates: 2,
