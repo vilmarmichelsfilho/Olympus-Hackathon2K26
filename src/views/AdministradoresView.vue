@@ -8,6 +8,7 @@ import { modalidades } from '@/data/modalidades';
 import DashboardModalidades from '@/components/DashboardModalidades.vue';
 import AdicionarTime from '@/components/AdicionarTime.vue';
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue';
+import TimesView from '@/components/AdministradoesViews/TimesView.vue';
 import router from '@/router';
 import { ref } from 'vue';
 import DashboardControlView from './DashboardControlView.vue';
@@ -52,7 +53,7 @@ function exluirModalidade(id) {
         </NavegacaoAdministradores>
 
         <div class="times" v-show="telaAtual == 'times'">
-            <button v-on:click="time = true">Adicionar Time</button>
+            <TimesView></TimesView>
         </div>
         <div v-if="telaAtual === 'dashboard'" class="dashboard">
             <DashboardControlView @editar2="mudarTela('times')" />
