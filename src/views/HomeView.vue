@@ -12,7 +12,7 @@ import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
-
+const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0);
 const modalidadeSelecionadaId = ref(null);
 const modalidadeSelecionada = computed(() => {
@@ -109,10 +109,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
       <div class="container">
         <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
         <div class="log-in-mobile">
-          <RouterLink to="/login" class="link">
-            Log-in
+        <button class="link" v-on:click.prevent="emit('loginPop')">
+      Log-in
             <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-          </RouterLink>
+      </button>
         </div>
       </div>
 
@@ -122,10 +122,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
         acontecendo no campus
       </p>
       <div class="log-in-desktop">
-        <RouterLink to="/login" class="link-desktop">
-          <h3>Log-in</h3>
-          <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-        </RouterLink>
+        <button class="link-desktop" v-on:click.prevent="emit('loginPop')">
+      Log-in
+            <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
+      </button>
       </div>
       <div class="modalidades-mobile">
         <ul class="modalidades-">

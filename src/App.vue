@@ -21,7 +21,7 @@ function login() {
       <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
     </div>
     <div app-conteiner>
-      <RouterView></RouterView>
+      <RouterView @login-pop="login"></RouterView>
     </div>
     <FooterApp v-if="$route.path !== '/administradores'"></FooterApp>
   </div>
