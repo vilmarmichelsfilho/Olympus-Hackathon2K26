@@ -1,18 +1,20 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
-import CloseIcon from '@iconify-vue/mdi/close'
-import { timesDoMaiorAoMenor } from '@/Utils/timesUtils'
-import timeCard from '@/components/timeCard.vue'
-import { jogos } from '@/data/jogos'
-import { ref, computed } from 'vue'
-import modalidadesCard from '@/components/modalidadesCard.vue'
-import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
-import { modalidades } from '@/data/modalidades'
-import { Carousel, Slide, Navigation } from 'vue3-carousel'
-import 'vue3-carousel/carousel.css'
-const modalAberto = ref(0)
-const modalidadeSelecionadaId = ref(null)
+import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
+import CloseIcon from '@iconify-vue/mdi/close';
+import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
+import timeCard from '@/components/timeCard.vue';
+import { jogos } from '@/data/jogos';
+import { ref, computed } from 'vue';
+import modalidadesCard from '@/components/modalidadesCard.vue';
+import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
+import { modalidades } from '@/data/modalidades';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import 'vue3-carousel/carousel.css';
+import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
+
+const modalAberto = ref(0);
+const modalidadeSelecionadaId = ref(null);
 const modalidadeSelecionada = computed(() => {
   const resultado = modalidades.find((m) => m.id === modalidadeSelecionadaId.value)
   if (resultado) {
@@ -77,9 +79,36 @@ const progressoPorcentagem = computed(() => {
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
+  const total = modalidades.length;
+  if (!total) return 0;
+  return ((currentSlide.value + 1) / total) * 100;
+});
+const jogosVerificados = computed(() =>
+  jogos.filter(jogo => jogo.status === 'AoVivo')
+);
 </script>
 <template>
-  <main>
+  <main><div class="texto-acontece">
+    <h3>Acontecendo Agora</h3>
+      <p>Jogos por todo o Campus do IFC Araquari</p>
+  </div>
+
+     <div class="acontecendo">
+
+           <TableJogosDesktop v-for="jogo in jogosVerificados" :key="jogo.id"
+          :data="jogo.data"
+          :horario="jogo.horario"
+          :modalidade="jogo.modalidade"
+          :time1="jogo.time1"
+          :time2="jogo.time2"
+          :pontuacao1="jogo.pontuacao1"
+          :pontuacao2="jogo.pontuacao2"
+          :status="jogo.status"
+          :escudo1="jogo.escudo1"
+          :escudo2="jogo.escudo2"
+        >
+           </TableJogosDesktop>
+       </div>
     <section class="selecao-modalidades">
       <div class="container">
         <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
@@ -87,9 +116,11 @@ const progressoPorcentagem = computed(() => {
           <RouterLink to="/login" class="link">
             Log-in
             <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-          </RouterLink>
+</RouterLink>
+
         </div>
       </div>
+
       <h2>Olimpíadas ifc</h2>
       <p>
         Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos
@@ -141,14 +172,12 @@ const progressoPorcentagem = computed(() => {
           ></div>
         </div>
       </div>
-      <Transition name="modal">
-        <div class="pop-up-overlay" v-if="modalAberto">
-          <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
-            <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
-            <h3 class="pop-up-titulo">{{ nome }}</h3>
-            <p class="descricao">{{ desc }}</p>
-            <RouterLink to="/" class="btn-entrar">Entrar</RouterLink>
-          </div>
+      <div class="pop-up-overlay" v-if="modalAberto">
+        <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
+          <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
+          <h3 class="pop-up-titulo">{{ nome }}</h3>
+          <p class="descricao">{{ desc }}</p>
+          <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar">Entrar</RouterLink>
         </div>
       </Transition>
     </section>
@@ -214,7 +243,23 @@ section.selecao-modalidades {
 div.carrossel-modalidades {
   display: none;
 }
-
+.acontecendo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin: 0vw 20vw;
+}
+.texto-acontece{
+  text-align: center;
+  margin: 0vw 0vw 3vw;
+}
+.texto-acontece h3{
+font-size: 3vw;
+}
+.texto-acontece p{
+ font-size: 1.5vw;
+}
 section.selecao-modalidades div.container {
   display: flex;
   justify-content: space-between;
@@ -487,7 +532,14 @@ tbody {
   border-radius: 6vw;
   padding: 0.5vw 4vw;
 }
-
+@media(max-width: 1020px) {
+  .texto-acontece{
+    display: none;
+  }
+  .acontecendo{
+    display: none;
+  }
+}
 @media (min-width: 1000px) {
   main {
     background-image: linear-gradient(to left, #151313 0%, #3d0f0f 100%);
