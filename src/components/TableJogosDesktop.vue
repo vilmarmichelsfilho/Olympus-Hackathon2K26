@@ -39,7 +39,7 @@ defineProps(['horario','data','modalidade','time1','time2','pontuacao1','pontuac
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
-  border: 1px solid orangered;
+  border: 1px solid rgb(255, 255, 255);
 }
 
 .thumb {

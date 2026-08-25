@@ -68,6 +68,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 1vw 5vw;
+    color: white;
 }
 
 .meio {
