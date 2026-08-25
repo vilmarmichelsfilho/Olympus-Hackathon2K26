@@ -4,7 +4,7 @@ import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 
 const emit = defineEmits(['fechar','adicionar'])
 
-const tecnico = ref('info')
+const tecnico = ref('INFO')
 const ano = ref('')
 const serie = ref('')
 </script>
@@ -17,9 +17,9 @@ const serie = ref('')
                 <div class="input">
                     <h3>Técnico</h3>
                     <select name="tecnico" id="tecnico" placeholder="Técnico" v-model="tecnico">
-                        <option value="info">info</option>
-                        <option value="agro">agro</option>
-                        <option value="quimi">quimi</option>
+                        <option value="INFO">INFO</option>
+                        <option value="AGRO">AGRO</option>
+                        <option value="QUIMI">QUIMI</option>
                     </select>
                 </div>
                 <div class="sla">
@@ -45,7 +45,7 @@ const serie = ref('')
                     <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar',ano+tecnico+serie)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar',ano+tecnico+serie,ano)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>

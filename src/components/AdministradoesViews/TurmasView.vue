@@ -10,13 +10,13 @@ const edit = ref(false);
 
 const id = ref('');
 
-function adicionardd(nome) {
+function adicionardd(nome,ano) {
     add.value = false;
-    adicionar(nome)
+    adicionar(nome,ano);
 }
-function editardd(nome) {
+function editardd(nome,ano) {
     edit.value=false;
-    editar(id.value,nome)
+    editar(id.value,nome,ano);
 }
 </script>
 
