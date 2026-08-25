@@ -79,36 +79,32 @@ const progressoPorcentagem = computed(() => {
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
-  const total = modalidades.length;
-  if (!total) return 0;
-  return ((currentSlide.value + 1) / total) * 100;
-});
-const jogosVerificados = computed(() =>
-  jogos.filter(jogo => jogo.status === 'AoVivo')
-);
+const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === 'AoVivo'))
 </script>
 <template>
-  <main><div class="texto-acontece">
-    <h3>Acontecendo Agora</h3>
+  <main>
+    <div class="texto-acontece">
+      <h3>Acontecendo Agora</h3>
       <p>Jogos por todo o Campus do IFC Araquari</p>
-  </div>
+    </div>
 
-     <div class="acontecendo">
-
-           <TableJogosDesktop v-for="jogo in jogosVerificados" :key="jogo.id"
-          :data="jogo.data"
-          :horario="jogo.horario"
-          :modalidade="jogo.modalidade"
-          :time1="jogo.time1"
-          :time2="jogo.time2"
-          :pontuacao1="jogo.pontuacao1"
-          :pontuacao2="jogo.pontuacao2"
-          :status="jogo.status"
-          :escudo1="jogo.escudo1"
-          :escudo2="jogo.escudo2"
-        >
-           </TableJogosDesktop>
-       </div>
+    <div class="acontecendo">
+      <TableJogosDesktop
+        v-for="jogo in jogosVerificados"
+        :key="jogo.id"
+        :data="jogo.data"
+        :horario="jogo.horario"
+        :modalidade="jogo.modalidade"
+        :time1="jogo.time1"
+        :time2="jogo.time2"
+        :pontuacao1="jogo.pontuacao1"
+        :pontuacao2="jogo.pontuacao2"
+        :status="jogo.status"
+        :escudo1="jogo.escudo1"
+        :escudo2="jogo.escudo2"
+      >
+      </TableJogosDesktop>
+    </div>
     <section class="selecao-modalidades">
       <div class="container">
         <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
@@ -116,8 +112,7 @@ const jogosVerificados = computed(() =>
           <RouterLink to="/login" class="link">
             Log-in
             <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-</RouterLink>
-
+          </RouterLink>
         </div>
       </div>
 
@@ -172,12 +167,16 @@ const jogosVerificados = computed(() =>
           ></div>
         </div>
       </div>
-      <div class="pop-up-overlay" v-if="modalAberto">
-        <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
-          <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
-          <h3 class="pop-up-titulo">{{ nome }}</h3>
-          <p class="descricao">{{ desc }}</p>
-          <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar">Entrar</RouterLink>
+      <Transition name="modal">
+        <div v-if="modalAberto" class="pop-up-overlay">
+          <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
+            <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
+            <h3 class="pop-up-titulo">{{ nome }}</h3>
+            <p class="descricao">{{ desc }}</p>
+            <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar"
+              >Entrar</RouterLink
+            >
+          </div>
         </div>
       </Transition>
     </section>
@@ -255,10 +254,10 @@ div.carrossel-modalidades {
   margin: 0vw 0vw 3vw;
 }
 .texto-acontece h3{
-font-size: 3vw;
+  font-size: 3vw;
 }
 .texto-acontece p{
- font-size: 1.5vw;
+  font-size: 1.5vw;
 }
 section.selecao-modalidades div.container {
   display: flex;
