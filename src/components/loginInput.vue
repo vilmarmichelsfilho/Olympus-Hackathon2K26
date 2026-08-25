@@ -55,6 +55,13 @@ button {
     border: none;
     margin-left: 19rem;
 }
+
+@media (max-width: 1200px) {
+    button {
+        margin-left: 0;
+    }
+}
+
 .botao {
   border: 1px solid rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.4);

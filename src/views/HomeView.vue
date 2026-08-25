@@ -109,10 +109,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
       <div class="container">
         <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
         <div class="log-in-mobile">
-        <button class="link" v-on:click.prevent="emit('loginPop')">
+        <RouterLink class="link" to="/login">
       Log-in
             <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-      </button>
+      </RouterLink>
         </div>
       </div>
 

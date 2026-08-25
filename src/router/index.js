@@ -4,6 +4,7 @@ import TimesView from '@/views/TimesView.vue'
 import SobreNosView from '@/views/SobreNosView.vue'
 import AdministradoresView from '@/views/AdministradoresView.vue'
 import chaveamentoView from '@/views/chaveamentoView.vue'
+import LoginView from '@/views/LoginView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/sobrenos',
       name: 'sobrenos',
       component: SobreNosView
+    },
+     {
+      path: '/login',
+      name: 'login',
+      component: LoginView
     },
     {
       path: '/administradores',

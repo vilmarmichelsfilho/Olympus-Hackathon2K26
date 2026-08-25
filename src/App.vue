@@ -15,15 +15,15 @@ function login() {
 </script>
 <template>
   <div class="image">
-    <AppHeader class="header" v-if="$route.path !== '/administradores'" @login-pop="login"></AppHeader>
-    <div class="texto" v-if="$route.path !== '/administradores'">
+    <AppHeader class="header" v-if="$route.path !== '/administradores' && $route.path !== '/login'" @login-pop="login"></AppHeader>
+    <div class="texto" v-if="$route.path !== '/administradores' && $route.path !== '/login'">
       <h2>Olimpíadas ifc</h2>
       <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
     </div>
     <div app-conteiner>
       <RouterView @login-pop="login"></RouterView>
     </div>
-    <FooterApp v-if="$route.path !== '/administradores'"></FooterApp>
+    <FooterApp v-if="$route.path !== '/administradores' && $route.path !== '/login'"></FooterApp>
   </div>
   <loginView v-show="loginPop==true" @fechar-pop="login"></loginView>
 </template>
