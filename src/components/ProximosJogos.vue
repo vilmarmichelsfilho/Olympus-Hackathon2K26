@@ -49,6 +49,7 @@ function formatarDataBR(dataISO) {
 <style scoped>
 .tudo {
   min-width: 0;
+  
 }
 
 .proximos-jogos {
@@ -59,6 +60,7 @@ function formatarDataBR(dataISO) {
  border-radius: 0 0 0 12px;
   padding: 1rem;
   border-left: 10px solid #f97316;
+  color: white;
 }
 
 .tabela-scroll {
