@@ -46,6 +46,7 @@ main {
   justify-content: center;
   width: 100%;
   margin: 15vw 0;
+  
 }
 section.sobrenos {
   position: relative;

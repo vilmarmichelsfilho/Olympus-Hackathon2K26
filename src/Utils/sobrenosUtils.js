@@ -4,28 +4,28 @@ const desenvolvedores = reactive([
     id: 1,
     nome: 'Vitor Avanzi Lipinski',
     funcao: 'Web Designer',
-    foto: '',
+    foto: '/images/devs/vitor.png',
     visivel: false
   },
   {
     id: 2,
     nome: 'Davi',
-    funcao: 'Programador',
-    foto: '',
+    funcao: 'Developer',
+    foto: '/images/devs/davi.png',
     visivel: false
   },
   {
     id: 3,
     nome: 'Igor Decker',
-    funcao: 'Programador',
-    foto: '',
+    funcao: 'Developer',
+    foto: '/images/devs/igor.png',
     visivel:false
   },
   {
     id: 4,
     nome: 'Vilmar Michels',
-    funcao: 'Programador Principal',
-    foto: '',
+    funcao: 'Main Developer',
+    foto: '/images/devs/vilmar.png',
     visivel: false
   }]);
 
