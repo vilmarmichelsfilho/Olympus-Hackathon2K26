@@ -16,7 +16,7 @@ function sair() {
 <template>
     <div class="all">
         <div class="usuario">
-            <UserIcon height="3vw" class="user""/>
+            <UserIcon height="3vw" class="user" />
             <div>
                 <h3>Admin</h3>
                 <p>Painel de Controle</p>
@@ -33,10 +33,12 @@ function sair() {
             </div>
             <nav>
                 <ul>
-                    <li v-on:click="emit('tela','times')">Times</li>
                     <li v-on:click="emit('tela','jogos')">Jogos</li>
+                    <li v-on:click="emit('tela','times')">Times</li>
                     <li v-on:click="emit('tela','horarios')">Horários</li>
                     <li v-on:click="emit('tela','conflitos')">Conflitos</li>
+                    <li v-on:click="emit('tela','turmas')">Turmas</li>
+                    <li v-on:click="emit('tela','modalidades')">Modalidades</li>
                 </ul>
             </nav>
         </div>
@@ -61,7 +63,8 @@ function sair() {
     gap: 3vw;
     padding: 1.5vw;
     background: #202125;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     max-width: 20vw;
     box-shadow: 10px 10px 30px 2px rgba(0, 0, 0, 0.644);
 }
@@ -94,7 +97,7 @@ function sair() {
     background: none;
     border: none;
     font-weight: bolder;
-    
+
 }
 .pesquisar input:focus {
     outline: none;

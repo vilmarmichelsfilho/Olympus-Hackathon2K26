@@ -70,7 +70,7 @@ h2 {
 }
 p {
   font-family: 'Krona One', sans-serif;
-  font-size: 1rem;
+  font-size: 4vw;
   color: #00000040;
   font-weight: bold;
   margin: 5vw 0 5vw 3vw;
@@ -103,7 +103,7 @@ ul {
     margin: 0 0 15px 0;
   }
   p {
-    font-size: 1.7rem;
+    font-size: 1.5vw;
     min-width: 550px;
     margin: 2vw 0;
   }
