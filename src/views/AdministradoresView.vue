@@ -46,7 +46,7 @@ function exluirModalidade(id) {
 
 <template>
     <div class="display">
-        <button class="btn-hamburger" @click="toggleMenu"><HamburgerMenuIcon width="10vw" style="position: fixed; right: 3vw; opacity: 0.9; color: white; background: black; padding: 0.5vw; border-radius: 100vw;"></HamburgerMenuIcon></button>
+        <button class="btn-hamburger" @click="toggleMenu"><HamburgerMenuIcon width="10vw" style="position: fixed; right: 5vw; opacity: 0.9; color: white; background: black; padding: 0.5vw; border-radius: 100vw;"></HamburgerMenuIcon></button>
 
         <NavegacaoAdministradores @tela="mudarTela" class="nav-lateral" :class="{ 'nav-aberto': menuAberto }">
         </NavegacaoAdministradores>

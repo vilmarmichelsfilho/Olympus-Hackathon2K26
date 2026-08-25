@@ -20,7 +20,7 @@ li {
   width: 42vw;
   height: 48vw;
   z-index: 1;
-  border-radius: 20px;
+  border-radius: 25px;
 }
 
 .modalidade-titulo {
@@ -35,7 +35,7 @@ li {
 @media (min-width: 1000px) {
   .modalidade-img {
     width: 25vw;
-    height: 30vw;
+    height: 35vw;
   }
 
   .modalidade-titulo {
