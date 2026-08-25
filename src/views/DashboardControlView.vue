@@ -64,6 +64,9 @@ defineEmits(['editar2'])
 </template>
 
 <style scoped>
+.titulo h1 {
+  color: white;
+}
 .titulo h3{
 color: gray;
 }
@@ -81,28 +84,19 @@ li {
 }
 
 .parte-baixo {
-  display: flex;
+  display: flex ;
   margin-top: 1vw;
   min-width: 0;
 }
 
-.grafico {
-  background-color: white;
-  width: 100%;
-  min-width: 0;
-}
-
-.proximos {
-  min-width: 0;
-  width: 100%;
-}
-
+.grafico { flex: 3; min-width: 0; background-color: white; }
+.proximos { flex: 2; min-width: 0; }
 
 .controls-mobile {
   display: none;
 }
 
-@media (max-width: 440px) {
+@media (max-width: 1366px) {
   .tudo {
     flex-direction: column;
   }

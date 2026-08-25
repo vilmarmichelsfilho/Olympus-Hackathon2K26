@@ -65,7 +65,6 @@ li .corpo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 5rem;
 }
 
 .icone-value {
@@ -90,7 +89,7 @@ li .corpo {
 .card-seta {
   color: orange;
   font-weight: bold;
-  font-size: 3rem;
+  font-size: 2rem;
   text-decoration: none;
   cursor: pointer;
 }

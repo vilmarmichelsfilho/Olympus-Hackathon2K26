@@ -26,9 +26,9 @@ const jogosVerificados = computed(() =>
     </header>
 
     <nav class="menu-mobile" v-if="menuAberto">
-      <a href="#" @click="abrirMenu">Home</a>
-      <a href="#" @click="abrirMenu">Sobre Nós</a>
-      <a href="#" @click="abrirMenu">Pontuação</a>
+    <RouterLink to="/" @click="abrirMenu">Home</RouterLink>
+     <RouterLink to="/sobrenos" @click="abrirMenu">Sobre Nós</RouterLink>
+      <RouterLink to="/times" @click="abrirMenu">Times</RouterLink>
     </nav>
 
     <header class="barra-desktop">
