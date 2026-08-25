@@ -301,8 +301,11 @@ section.selecao-modalidades .container .log-in-mobile {
 }
 
 .link {
+  border: none;
+  background: transparent;
   align-items: center;
   display: flex;
+  gap: 1vw;
   justify-content: space-between;
   margin: 1vw 3vw;
   padding: 0 0 0 2.5vw;
