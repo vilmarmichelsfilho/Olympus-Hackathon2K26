@@ -140,11 +140,6 @@ button.save {
   margin-bottom: 0.5vw;
 }
 
-button.save:hover {
-  transform: scale(1.05);
-  background: #507c23;
-}
-
 h2 {
   font-size: 2vw;
   font-weight: bolder;
@@ -162,7 +157,7 @@ h4 {
 }
 
 input {
-  color: black;
+  color: gray;
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
   border-radius: 0.2vw;
@@ -172,9 +167,9 @@ input {
 input.inputAnim:focus {
     outline: none;
     transform: scale(1.05);
-    color: #DE6D1C;
     font-weight: bolder;
     border: solid #DE6D1C 0.1vw;
+    box-shadow: 0 0 10px 1px #DE6D1C;
 }
 .dialog {
   display: flex;

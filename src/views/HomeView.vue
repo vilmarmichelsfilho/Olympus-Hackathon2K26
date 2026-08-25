@@ -12,9 +12,7 @@ import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
-
-defineEmits(['login']);
-
+const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0);
 const modalidadeSelecionadaId = ref(null);
 const modalidadeSelecionada = computed(() => {
@@ -111,10 +109,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
       <div class="container">
         <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
         <div class="log-in-mobile">
-          <RouterLink to="/login" class="link">
-            Log-in
+        <button class="link" v-on:click.prevent="emit('loginPop')">
+      Log-in
             <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-          </RouterLink>
+      </button>
         </div>
       </div>
 
@@ -123,12 +121,12 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
         Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos
         acontecendo no campus
       </p>
-     <div class="log-in-desktop">
-  <RouterLink to="/login" class="link-desktop">
-    <h3>Log-in</h3>
-    <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-  </RouterLink>
-</div>
+      <div class="log-in-desktop">
+        <button class="link-desktop" v-on:click.prevent="emit('loginPop')">
+      Log-in
+            <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
+      </button>
+      </div>
       <div class="modalidades-mobile">
         <ul class="modalidades-">
           <modalidadesCard
@@ -307,8 +305,11 @@ section.selecao-modalidades .container .log-in-mobile {
 }
 
 .link {
+  border: none;
+  background: transparent;
   align-items: center;
   display: flex;
+  gap: 1vw;
   justify-content: space-between;
   margin: 1vw 3vw;
   padding: 0 0 0 2.5vw;
