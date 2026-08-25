@@ -59,7 +59,7 @@ const rounds = computed(() => [
       </div>
       <div v-if="jogosdamodalidade.length === 0" class="sem-jogos">
         <p>Não há jogos para esta modalidade ainda.</p>
-       <RouterLink class="linkparahome">Voltar para a Home</RouterLink>
+       <RouterLink to="/" class="linkparahome">Voltar para a Home</RouterLink>
       </div>
       <div v-else class="scroll-container">
         <bracket :rounds="rounds">

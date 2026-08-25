@@ -6,17 +6,17 @@ const emit = defineEmits(['fecharAdicionarModalidade']);
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
-let imagem = null;
+let imagem = ref(null);
 
 function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
-      if (imagem !== null) {
-        adicionarModalidade(nome.value, desc.value, imagem, tempo.value);
+      if (imagem.value !== null) {
+        adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value);
         emit('fecharAdicionarModalidade');
         nome.value = '';
         desc.value = '';
-        imagem = null;
+        imagem.value = null;
         tempo.value = '';
       } else {
         alert('Adicione uma imagem à modalidade')
@@ -33,7 +33,7 @@ function fechar() {
   emit('fecharAdicionarModalidade');
   nome.value = '';
   desc.value = '';
-  imagem = null;
+  imagem.value = null;
   tempo.value = '';
 }
 
@@ -43,7 +43,7 @@ function pegarImagem(event) {
   const reader = new FileReader()
   reader.onload = () => {
     const imagemTexto = reader.result
-    imagem = imagemTexto;
+    imagem.value = imagemTexto;
   }
   reader.readAsDataURL(arquivo)
 }
@@ -78,10 +78,10 @@ function pegarImagem(event) {
       </div>
       <div class="botoes">
         <button style="align-items: center; display: flex; justify-content: center;" class="save"
-          v-on:click.prevent="checarDados()">
+          v-on:click.prevent="checarDados()" :disabled="tempo==''||desc==''||nome=='' ||imagem===null">
           <ContentSaveOutlineIcon width="1.5vw" />Salvar
         </button>
-        <button class="cancel" v-on:click="fechar()">Cancelar</button>
+        <button class="cancel" v-on:click="fechar()" >Cancelar</button>
       </div>
     </div>
   </div>
@@ -126,10 +126,8 @@ button.save {
   transition: 0.3s;
   margin-bottom: 0.5vw;
 }
-
-button.save:hover {
-  transform: scale(1.05);
-  background: #507c23;
+button.save:disabled {
+    background: grey;
 }
 
 h2 {
@@ -149,7 +147,7 @@ h4 {
 }
 
 input {
-  color: black;
+  color:  gray;
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
   border-radius: 0.2vw;
@@ -159,8 +157,8 @@ input {
 input.inputAnim:focus {
   outline: none;
   transform: scale(1.05);
-  color: #DE6D1C;
   font-weight: bolder;
+  box-shadow: 0 0 10px 1px #DE6D1C;
   border: solid #DE6D1C 0.1vw;
 }
 
