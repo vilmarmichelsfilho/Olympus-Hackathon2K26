@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { jogos } from '@/data/jogos'
 
 const proximosJogos = computed(() => {
-  return jogos.filter((jogo) => jogo.status === 'pendente').slice(0, 5)
+  return jogos.filter((jogo) => jogo.status === 'agendado').slice(0, 5)
 })
 
 defineEmits(['editar'])
@@ -138,7 +138,7 @@ tbody td:nth-child(2) {
 
 @media (max-width: 440px) {
   .proximos-jogos {
-   
+
     background-color: white;
     color: black;
     padding: 12px;
