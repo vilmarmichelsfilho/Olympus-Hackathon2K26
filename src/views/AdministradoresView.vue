@@ -12,7 +12,6 @@ import { ref } from 'vue';
 import DashboardControlView from './DashboardControlView.vue';
 
 const telaAtual = ref('dashboard')
-const telaAtual = ref('times')
 const modalidadeEditar = ref(false);
 const modalidadeEditarId = ref(null);
 function abrirEditar(id) {
@@ -26,7 +25,7 @@ if (localStorage.getItem("logado") != "true") {
 }
 
 function mudarTela(valor) {
-    let tela = '/administradores#'+valor;
+    let tela = '/administradores#' + valor;
     router.replace(tela)
     telaAtual.value = valor;
 }
@@ -37,54 +36,45 @@ function toggleMenu() {
 const time = ref(false);
 const modalidadeAdicionar = ref(false);
 function exluirModalidade(id) {
-const index = modalidades.findIndex((modalidade) => modalidade.id === id);
-if (index !== -1) {
-modalidades.splice(index, 1);
-}
+    const index = modalidades.findIndex((modalidade) => modalidade.id === id);
+    if (index !== -1) {
+        modalidades.splice(index, 1);
+    }
 }
 </script>
 
 <template>
     <div class="display">
-      <button class="btn-hamburger" @click="toggleMenu">☰</button>
+        <button class="btn-hamburger" @click="toggleMenu">☰</button>
 
-        <NavegacaoAdministradores
-          @tela="mudarTela"
-          class="nav-lateral"
-          :class="{ 'nav-aberto': menuAberto }"
-        ></NavegacaoAdministradores>
+        <NavegacaoAdministradores @tela="mudarTela" class="nav-lateral" :class="{ 'nav-aberto': menuAberto }">
+        </NavegacaoAdministradores>
 
-        <div class="times" v-show="telaAtual=='times'">
-            <button v-on:click="time=true">Adicionar Time</button>
+        <div class="times" v-show="telaAtual == 'times'">
+            <button v-on:click="time = true">Adicionar Time</button>
         </div>
         <div v-if="telaAtual === 'dashboard'" class="dashboard">
-                <DashboardControlView @editar2="mudarTela('times')"/>
+            <DashboardControlView @editar2="mudarTela('times')" />
         </div>
+        <div class="turmas" v-show="telaAtual == 'turmas'">
+            <TurmasView></TurmasView>
+        </div>
+        <DashboardModalidades v-show="telaAtual == 'modalidades'" @adicionar-modalidade="modalidadeAdicionar = true"
+            @editar-modalidade="abrirEditar($event)" @excluir-modalidade="exluirModalidade($event)">
+        </DashboardModalidades>
+        <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
+        <AdicionarModalidade @fecharAdicionarModalidade="modalidadeAdicionar = false" class="popup"
+            :class="{ aberto: modalidadeAdicionar }"></AdicionarModalidade>
+        <EditarModalidade :modalidade="modalidades.find(m => m.id === modalidadeEditarId)"
+            @atualizar="editarModalidade($event.id, $event)" @fechar="modalidadeEditar = false" class="popup"
+            :class="{ aberto: modalidadeEditar }">
+        </EditarModalidade>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
 
     <div class="controle">
 
     </div>
-        <DashboardModalidades
-        v-show="telaAtual == 'modalidades'"
-        @adicionar-modalidade="modalidadeAdicionar = true"
-        @editar-modalidade="abrirEditar($event)"
-        @excluir-modalidade="exluirModalidade($event)">
-    </DashboardModalidades>
-        <div class="turmas" v-show="telaAtual=='turmas'">
-            <TurmasView class="turmas"></TurmasView>
-        </div>
-    </div>
-    <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
-    <AdicionarModalidade @fecharAdicionarModalidade="modalidadeAdicionar = false" class="popup" :class="{ aberto: modalidadeAdicionar }"></AdicionarModalidade>
-       <EditarModalidade
-        :modalidade="modalidades.find(m => m.id === modalidadeEditarId)"
-        @atualizar="editarModalidade($event.id, $event)"
-        @fechar="modalidadeEditar = false"
-        class="popup"
-        :class="{ aberto: modalidadeEditar }">
-    </EditarModalidade>
 </template>
 
 <style scoped>
@@ -111,6 +101,7 @@ modalidades.splice(index, 1);
     opacity: 1;
     visibility: visible;
 }
+
 .btn-hamburger {
     display: none;
     position: fixed;
@@ -143,9 +134,11 @@ modalidades.splice(index, 1);
     .nav-aberto {
         left: 0;
     }
-@media (max-width: 750px){
-.display{
-background-color: white;
 }
+
+@media (max-width: 750px) {
+    .display {
+        background-color: white;
+    }
 }
 </style>
