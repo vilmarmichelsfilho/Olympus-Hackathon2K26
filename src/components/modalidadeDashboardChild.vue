@@ -79,7 +79,7 @@ td button:hover {
   }
   td{
     color: black;
-    font-size: 3vw;
+    font-size: 3.6vw;
     font-weight: bold;
     align-items: center;
   }

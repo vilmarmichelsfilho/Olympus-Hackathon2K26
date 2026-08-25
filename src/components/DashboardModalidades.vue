@@ -43,7 +43,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
 <style scoped>
 section.dashboard {
   background-color: transparent;
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -129,16 +129,22 @@ th:nth-child(2), td:nth-child(2) { width: 40%; }
 th:nth-child(3), td:nth-child(3) { width: 15%; text-align: center; }
 th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
 @media (max-width: 750px){
+  section.dashboard{
+    padding: 20px 0;
+  }
  section.dashboard h3{
     color: black;
     font-weight: bold;
-    font-size: 6vw
-  }
-  section.dashboard p{
-    font-size: 3.3vw;
+    font-size: 8vw
   }
   div.conteiner{
-    width: 80vw;
+    border-radius: 0;
+  }
+  section.dashboard p{
+    font-size: 4vw;
+  }
+  div.conteiner{
+    width: 100vw;
     min-height: 70vw;
     background: transparent;
   }
@@ -154,7 +160,7 @@ thead{
 }
 th{
   color: black;
-  font-size: 3vw
+  font-size: 3.6vw
 }
 }
 </style>
