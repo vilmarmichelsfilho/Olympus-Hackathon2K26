@@ -12,7 +12,7 @@ import timesCard from '../timesCard.vue';
         <div class="times">
             <div class="cima">
                 <p>a</p>
-                <img src="/public/images/coroa.png" alt="">
+                <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
                 <button>Adicionar</button>
             </div>
             <div class="desc">
@@ -25,7 +25,7 @@ import timesCard from '../timesCard.vue';
                 </ul>
             </div>
             <ul>
-                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.vitorias" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3"></timesCard>
+                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.vitorias" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3" ></timesCard>
             </ul>
         </div>
     </div>
@@ -34,16 +34,31 @@ import timesCard from '../timesCard.vue';
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 
+button {
+    font-size: 1vw;
+}
+
 .cima {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 1vw;
 }
 .cima p {
     opacity: 0;
 }
 
+.desc span {
+    opacity: 0;
+}
+
+.desc {
+    border-bottom: solid 0.2vw #E85002;
+}
+
 .desc ul {
+    font-size: 1.1vw;
+    margin: 0 1vw;
     padding: 0;
     list-style: none;
     display: flex;
@@ -53,8 +68,7 @@ import timesCard from '../timesCard.vue';
 
 .times {
     background: #0B1739;
-    padding: 1vw;
-    border-radius: 1vw 1vw 0 0;
+    border-radius: 1vw;
     width: 70vw;
 }
 
