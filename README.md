@@ -3,6 +3,8 @@
 
 A organização das Olimpíadas Internas do Instituto Federal Catarinense (IFC) – Campus Araquari envolve o gerenciamento de diversas informações, como equipes, modalidades, partidas, horários, locais, árbitros, resultados e classificações. O controle dessas informações pode gerar dificuldades logísticas, conflitos de horários e problemas na comunicação com os participantes. Nesse contexto, o projeto propõe o desenvolvimento de uma aplicação web que auxilie na gestão e organização das Olimpíadas Internas do Campus Araquari, buscando centralizar as informações e facilitar tanto a administração quanto o acompanhamento das competições.
 
+Integrantes: Vilmar Michels Filho, Igor Gabriel Decker, Vitor Avanzi Lipinski, Davi Augusto Ramos.
+
 ## Funcionalidades
 
 * RF001 - Manter Times: O sistema deve permitir manter os times informando: cod_time, nome_time, cor_time, escudo_time e pontuacaogeral_time.
