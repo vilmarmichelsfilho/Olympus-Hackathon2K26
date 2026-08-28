@@ -17,7 +17,7 @@ function adicionarModalidade(nome, desc, imagem, tempo) {
         image: imagem,
         nome: nome,
         desc: desc,
-        tempo: tempo,
+        tempo: Number(tempo),
     })
 }
 export{adicionarTimes, adicionarModalidade}
