@@ -18,13 +18,16 @@ let descricaoExibida = computed(() => {
     <td>{{ nome }}</td>
     <td>{{ descricaoExibida }}</td>
     <td><img :src="imagem" :alt="nome"></td>
-    <td>{{ tempo }}
- <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="1.5em"></EditIcon></button>
- <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="1.5em" style="color: red;"/></button>
+    <td>{{ tempo }}m
+ <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="3.5em" ></EditIcon></button>
+ <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="3.5em" style="color: red;"/></button>
     </td>
   </tr>
 </template>
 <style scoped>
+.edit{
+  color: white;
+}
 tr {
   width: 100%;
   border-bottom: 1px solid #1E293B;
@@ -61,8 +64,6 @@ td button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5vw;
-  margin-left: 0.75vw;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -86,6 +87,9 @@ td button:hover {
   td img{
     width: 10vw;
     height: 10vw;
+  }
+  td button{
+    height: 1em;
   }
   .edit{
     color: black;

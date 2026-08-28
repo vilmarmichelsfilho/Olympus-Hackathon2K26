@@ -12,7 +12,7 @@ function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if (imagem.value !== null) {
-        adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value);
+        adicionarModalidade(nome.value, desc.value, imagem.value, Number(tempo.value));
         emit('fecharAdicionarModalidade');
         nome.value = '';
         desc.value = '';
@@ -68,8 +68,8 @@ function pegarImagem(event) {
       </div>
       <div class="partedebaixo">
         <div class="tempo">
-          <h3>Tempo da Modalidade</h3>
-          <input type="text" placeholder="Digite" class="inputAnim" v-model="tempo">
+          <h3>Tempo da Modalidade(em minutos)</h3>
+          <input type="number" min="0" max="99" oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== 'E'" placeholder="Digite" class="inputAnim" v-model="tempo">
         </div>
         <div class="imagem">
           <h3>Imagem da Modalidade</h3>
@@ -106,9 +106,11 @@ function pegarImagem(event) {
 }
 
 button.cancel {
+  margin: 0.2vw 0;
   background: none;
   border: none;
   font-weight: bolder;
+  font-size: 1.1vw;
 }
 
 button.cancel:hover {
@@ -136,6 +138,7 @@ h2 {
 }
 
 h3 {
+  font-size: 1vw;
   font-weight: bolder;
   margin-bottom: 0.2vw;
 }
@@ -147,13 +150,19 @@ h4 {
 }
 
 input {
-  color:  gray;
+  color:  rgb(152, 151, 151);
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
+  font-size: 1.3vw;
+  min-width: 20vw;
+  max-width: 20vw;
+  padding: 0.3vw 2vw;
   border-radius: 0.2vw;
   transition: 0.3s;
 }
-
+.imagem input{
+  font-size: 0.8vw;
+}
 input.inputAnim:focus {
   outline: none;
   transform: scale(1.05);
@@ -194,7 +203,9 @@ input.inputAnim:focus {
   h4 {
     font-size: 3vw;
   }
-
+  h3{
+    font-size: 2vw;
+  }
   .dialog {
     justify-content: center;
     min-width: 80vw;
@@ -207,6 +218,8 @@ input.inputAnim:focus {
 
   .inputs input {
     min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
   }
 
   .partedebaixo {
@@ -216,6 +229,8 @@ input.inputAnim:focus {
 
   .partedebaixo input {
     min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
   }
 
   .imagem {
@@ -230,6 +245,9 @@ input.inputAnim:focus {
 
   button.save {
     padding: 0.5vw 2vw;
+    font-size: 3vw;
+  }
+  button.cancel{
     font-size: 3vw;
   }
 }

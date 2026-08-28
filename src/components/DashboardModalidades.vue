@@ -93,12 +93,12 @@ div.content img {
 }
 
 div.content button {
+  font-size: 1.3vw;
   background: transparent;
   color: white;
   border: 1px solid white;
   padding: 0.5vw 1.5vw;
   border-radius: 20px;
-  font-weight: bold;
   cursor: pointer;
 }
 
@@ -152,6 +152,8 @@ th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
     display: none;
   }
   div.content button {
+  font-size: 4vw;
+  padding: 0.5vw 3vw;
   color: black;
   border: 1px solid black;
 }
