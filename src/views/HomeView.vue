@@ -81,6 +81,7 @@ const progressoPorcentagem = computed(() => {
 })
 const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === 'AoVivo'))
 </script>
+
 <template>
   <main>
     <div class="texto-acontece">

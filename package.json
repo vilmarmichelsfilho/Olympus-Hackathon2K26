@@ -13,7 +13,6 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "@iconify-vue/heroicons-solid": "^1.0.3",
     "@iconify-vue/mdi": "^1.0.3",
     "@mdi/font": "^7.4.47",
     "chart.js": "^4.5.1",
