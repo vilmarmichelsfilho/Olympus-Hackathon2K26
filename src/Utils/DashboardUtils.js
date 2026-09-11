@@ -5,17 +5,22 @@ const totalJogosHoje = computed(() => {
   const hoje = new Date().toISOString().split('T')[0]
   return jogos.filter((jogo) => jogo.data === hoje).length
 })
+function separarDataHorario(horario_jogo) {
+  const [data, horario] = horario_jogo.split(' ')
+  return { data, horario }
+}
 const conflitos = computed(() => {
   const encontrados = []
 
   jogos.forEach((jogoA, i) => {
     jogos.forEach((jogoB, j) => {
       if (i < j) {
-        const mesmaData = jogoA.data === jogoB.data
-        const mesmoLocal = jogoA.local === jogoB.local
-        const mesmoHorario = jogoA.horario === jogoB.horario
+        const { data: dataA, horario: horarioA } = separarDataHorario(jogoA.horario_jogo)
+        const { data: dataB, horario: horarioB } = separarDataHorario(jogoB.horario_jogo)
 
-        if (mesmaData && mesmoLocal && mesmoHorario) {
+        const mesmaData = dataA === dataB
+        const mesmoHorario = horarioA === horarioB
+        if (mesmaData && mesmoHorario) {
           encontrados.push({ jogoA, jogoB })
         }
       }
@@ -24,7 +29,6 @@ const conflitos = computed(() => {
 
   return encontrados
 })
-
 const totalConflitos = computed(() => conflitos.value.length)
 
  function jogosPorDia(jogos) {
@@ -41,9 +45,10 @@ const totalConflitos = computed(() => conflitos.value.length)
   }
 
   jogos.forEach((jogo) => {
-    const [ano, mes, dia] = jogo.data.split('-').map(Number)
-    const data = new Date(ano, mes - 1, dia)
-    const nomeDia = dias[data.getDay()]
+    const { data } = separarDataHorario(jogo.horario_jogo)
+    const [ano, mes, dia] = data.split('-').map(Number)
+    const dataObj = new Date(ano, mes - 1, dia)
+    const nomeDia = dias[dataObj.getDay()]
     contagem[nomeDia]++
   })
 

@@ -1,18 +1,53 @@
+
 <script setup>
 import { computed } from 'vue'
 import { jogos } from '@/data/jogos'
+import { modalidades } from '@/data/modalidades'
+import { participa } from '@/data/participa'
+import { times } from '@/data/times'
 
-const proximosJogos = computed(() => {
-  return jogos.filter((jogo) => jogo.status === 'agendado').slice(0, 5)
-})
-
-defineEmits(['editar'])
+function separarDataHorario(horario_jogo) {
+  const [data, horario] = horario_jogo.split(' ')
+  return { data, horario }
+}
 
 function formatarDataBR(dataISO) {
   const [, mes, dia] = dataISO.split('-')
   return `${dia}/${mes}`
 }
+
+function buscarModalidade(cod_modalidade) {
+  return modalidades.find((modalidadee) => modalidadee.cod_modalidade === cod_modalidade)
+}
+
+function buscarNomesDosTimes(cod_jogo) {
+  const participantes = participa.filter((p) => p.cod_jogo === cod_jogo)
+  return participantes
+    .map((p) => times.find((t) => t.cod_time === p.cod_time)?.nome_time)
+    .join(' X ')
+}
+
+const proximosJogos = computed(() => {
+  return jogos
+    .filter((jogo) => jogo.status_jogo === 'Agendado')
+    .slice(0, 5)
+    .map((jogo) => {
+      const { data, horario } = separarDataHorario(jogo.horario_jogo)
+      const modalidade = buscarModalidade(jogo.cod_modalidade)
+      return {
+        ...jogo,
+        dataFormatada: formatarDataBR(data),
+        horario,
+        nomeModalidade: modalidade?.nome_modalidade,
+        local: modalidade?.localdojogo_modalidade,
+        times: buscarNomesDosTimes(jogo.cod_jogo),
+      }
+    })
+})
+
+defineEmits(['editar'])
 </script>
+
 
 <template>
   <div class="tudo">
@@ -32,11 +67,11 @@ function formatarDataBR(dataISO) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="jogo in proximosJogos" :key="jogo.id">
-              <td>{{ formatarDataBR(jogo.data) }}, {{ jogo.horario }}</td>
-              <td>{{ jogo.modalidade }}</td>
-              <td>{{ jogo.time1 }} X {{ jogo.time2 }}</td>
-              <td>{{ jogo.local }}</td>
+           <tr v-for="jogo in proximosJogos" :key="jogo.cod_jogo">
+  <td>{{ jogo.dataFormatada }}/{{ jogo.horario }}</td>
+  <td>{{ jogo.local }}</td>
+  <td>{{ jogo.times }}</td>
+  <td>{{ jogo.nomeModalidade }}</td>
             </tr>
           </tbody>
         </table>
@@ -49,7 +84,7 @@ function formatarDataBR(dataISO) {
 <style scoped>
 .tudo {
   min-width: 0;
-  
+
 }
 
 .proximos-jogos {

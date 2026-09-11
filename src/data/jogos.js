@@ -136,7 +136,7 @@ export const jogos = reactive([
     cod_jogo: 14,
     cod_modalidade: 2,
     cod_arbitro: 3,
-    status_jogo: "Agendado",
+    status_jogo: "AoVivo",
     horario_jogo: "2026-06-24 09:00:00",
     fase_jogo: "Final",
     origem_jogo_a: 12,
