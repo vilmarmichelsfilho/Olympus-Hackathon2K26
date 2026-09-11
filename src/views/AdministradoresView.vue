@@ -73,9 +73,7 @@ function exluirModalidade(id) {
         </EditarModalidade>
     </div>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
-
     <div class="controle">
-
     </div>
 </template>
 
