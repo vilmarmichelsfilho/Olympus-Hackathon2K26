@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
 
 export const jogos = reactive([
-  // Futsal
   {
     cod_jogo: 1,
     cod_modalidade: 1,
@@ -73,7 +72,6 @@ export const jogos = reactive([
     origem_jogo_b: 6
   },
 
-  // Voleibol
   {
     cod_jogo: 8,
     cod_modalidade: 2,
@@ -145,7 +143,6 @@ export const jogos = reactive([
     origem_jogo_b: 13
   },
 
-  // Basquete
   {
     cod_jogo: 15,
     cod_modalidade: 3,
@@ -217,7 +214,6 @@ export const jogos = reactive([
     origem_jogo_b: 20
   },
 
-  // Valorant
   {
     cod_jogo: 22,
     cod_modalidade: 4,
@@ -289,7 +285,6 @@ export const jogos = reactive([
     origem_jogo_b: 27
   },
 
-  // Xadrez
   {
     cod_jogo: 29,
     cod_modalidade: 5,
@@ -361,7 +356,6 @@ export const jogos = reactive([
     origem_jogo_b: 34
   },
 
-  // Brawl Stars
   {
     cod_jogo: 36,
     cod_modalidade: 6,
