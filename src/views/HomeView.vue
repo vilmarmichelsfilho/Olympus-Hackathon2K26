@@ -763,7 +763,7 @@ tbody {
   }
 
   div.tabela-container {
-    width: 100vw;
+    width: 100%;
     height: auto;
     border-radius: 0;
     padding: 0;
@@ -784,7 +784,7 @@ tbody {
 
   th {
     font-size: 2.5vw;
-    padding: 1vw;
+    padding: 1vw 0;
   }
 
   .link-times {

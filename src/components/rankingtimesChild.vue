@@ -8,6 +8,7 @@ const quantidadedejogos = computed(() => { return jogos.length })
 const totalJogosConcluidos = computed(() => {
   return jogos.filter(jogo => jogo.status === 'concluido').length
 })
+const isTimesRoute = window.location.pathname === '/times';
 </script>
 <template>
   <section class="ranking">
@@ -15,8 +16,8 @@ const totalJogosConcluidos = computed(() => {
     <div class="conteiner">
       <div class="conteiner-esquerda">
         <h2>Ranking Dos <span>Times</span></h2>
-        <div class="contentlink">
-          <RouterLink to="/times" class="link-times">Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
+        <div class="contentlink" v-if="!isTimesRoute">
+          <RouterLink to="/times" class="link-times" >Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
           </RouterLink>
         </div>
       </div>
@@ -101,7 +102,7 @@ th {
 
 @media (min-width: 1200px) {
   section.ranking {
-    width: 100vw;
+    width: 100%;
     margin: 0;
     padding: 0;
     background: none;
