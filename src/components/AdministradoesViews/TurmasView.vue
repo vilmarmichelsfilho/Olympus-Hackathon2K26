@@ -30,7 +30,7 @@ function editardd(nome,ano) {
             <div class="turmasContainer">
                 <div>
                     <p>a</p>
-                    <img src="/src/assets/coroa.png" alt="logo">
+                    <img src="/public/images/coroa.png" alt="logo">
                     <button v-on:click.prevent="add=true">Adicionar</button>
                 </div>
                 <ul>

@@ -9,7 +9,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
     <p>Informações sobre as modalidades, descrição,
       nome, tempo e foto</p>
     <div class="conteiner">
-      <div class="content"><img src="/src/assets/coroa.png" alt="coroa">
+      <div class="content"><img src="/public/images/coroa.png" alt="coroa">
         <button @click="$emit('adicionarModalidade')">Adicionar</button>
       </div>
     <div class="tabelaModalidades">

@@ -17,7 +17,7 @@ const add = ref(false)
         <div class="times">
             <div class="cima">
                 <p>a</p>
-                <img src="/src/assets/coroa.png" alt="" style="width: 3vw;">
+                <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
                 <button v-on:click.prevent="add=true">Adicionar</button>
             </div>
             <div class="desc">

@@ -11,7 +11,7 @@ const totalJogosConcluidos = computed(() => {
 </script>
 <template>
   <section class="ranking">
-    <img src="/src/assets/coroa.png" alt="coroa">
+    <img src="/images/coroa.png" alt="coroa">
     <div class="conteiner">
       <div class="conteiner-esquerda">
         <h2>Ranking Dos <span>Times</span></h2>
