@@ -3,7 +3,7 @@ import EditIcon from '@iconify-vue/mdi/edit';
 import DeleteIcon from '@iconify-vue/mdi/delete';
 import { computed } from 'vue';
 defineEmits(['editar-Modalidade', 'excluir-Modalidade'])
-const props = defineProps(['id', 'imagem', 'nome', 'desc', 'tempo'])
+const props = defineProps(['id', 'imagem', 'nome', 'desc', 'tempo', 'local']);
 let limite = 15;
 let descricaoExibida = computed(() => {
   if (props.desc.length > limite) {
@@ -17,10 +17,11 @@ let descricaoExibida = computed(() => {
   <tr>
     <td>{{ nome }}</td>
     <td>{{ descricaoExibida }}</td>
+    <td>{{ local }}</td>
     <td><img :src="imagem" :alt="nome"></td>
-    <td>{{ tempo }}
- <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="1.5em"></EditIcon></button>
- <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="1.5em" style="color: red;"/></button>
+    <td>{{ tempo }}m
+ <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="3em"></EditIcon></button>
+ <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="3em" style="color: red;"/></button>
     </td>
   </tr>
 </template>
@@ -42,11 +43,11 @@ td {
   text-align: left;
 }
 
-td:nth-child(3) {
+td:nth-child(4) {
   text-align: center;
 }
 
-td:nth-child(4) {
+td:nth-child(5) {
   text-align: right;
 }
 
@@ -79,7 +80,7 @@ td button:hover {
   }
   td{
     color: black;
-    font-size: 3.6vw;
+    font-size: 3vw;
     font-weight: bold;
     align-items: center;
   }

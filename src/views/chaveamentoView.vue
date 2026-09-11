@@ -1,53 +1,72 @@
 <script setup>
 import { computed } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
 import { modalidades } from '@/data/modalidades'
-import { useRoute } from 'vue-router'
-import { RouterLink } from 'vue-router'
 import { jogos } from '@/data/jogos'
+import { participa } from '@/data/participa'
+import { times } from '@/data/times'
 import Bracket from 'vue-tournament-bracket'
-
 const route = useRoute()
 const modalidadeId = computed(() => Number(route.params.id))
-
 const modalidadeSelecionada = computed(() => {
-  return modalidades.find((m) => m.id === modalidadeId.value) || null
+  return modalidades.find(m => m.cod_modalidade === modalidadeId.value) || null
 })
-
 const nome = computed(() => {
-  return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome : ''
+  return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome_modalidade : ''
 })
-
 const jogosdamodalidade = computed(() => {
-  return jogos.filter((jogo) => jogo.modalidade == modalidadeSelecionada.value.nome)
+  if (!modalidadeSelecionada.value) {
+    return []
+  }
+  return jogos.filter(jogo => jogo.cod_modalidade === modalidadeSelecionada.value.cod_modalidade)
 })
+function getParticipantesByJogo(codJogo) {
+  return participa.filter(p => p.cod_jogo === codJogo)
+}
+function getTimeId(codJogo, posicao) {
+  const participantes = getParticipantesByJogo(codJogo)
+  return participantes[posicao]?.cod_time ?? null
+}
+function getPontuacao(codJogo, codTime) {
+  const participante = participa.find(p => p.cod_jogo === codJogo && p.cod_time === codTime)
+  return participante?.pontuacao_time ?? null
+}
+function getTimeName(codTime) {
+  const time = times.find(t => t.cod_time === codTime)
+  return time?.nome_time ?? 'A definir'
+}
 const formatarParaBracket = (fase) => {
   return jogosdamodalidade.value
-    .filter((jogo) => jogo.fase === fase)
-    .map((jogo) => ({
-      id: jogo.id,
-      player1: {
-        id: jogo.time1,
-        name: jogo.time1,
-        winner: jogo.pontuacao1 !== null && jogo.pontuacao1 > jogo.pontuacao2,
-        isFirst: true,
-        dataHorario: `${jogo.data} ${jogo.horario}`,
-      },
-      player2: {
-        id: jogo.time2,
-        name: jogo.time2,
-        winner: jogo.pontuacao2 !== null && jogo.pontuacao2 > jogo.pontuacao1,
-        isFirst: false,
-      },
-    }))
+    .filter(jogo => jogo.fase_jogo === fase)
+    .map(jogo => {
+      const time1 = getTimeId(jogo.cod_jogo, 0)
+      const time2 = getTimeId(jogo.cod_jogo, 1)
+      const pontuacao1 = getPontuacao(jogo.cod_jogo, time1)
+      const pontuacao2 = getPontuacao(jogo.cod_jogo, time2)
+      return {
+        id: jogo.cod_jogo,
+        player1: {
+          id: time1,
+          name: getTimeName(time1),
+          winner: pontuacao1 !== null && pontuacao2 !== null && pontuacao1 > pontuacao2,
+          isFirst: true,
+          dataHorario: `${jogo.horario_jogo}`
+        },
+        player2: {
+          id: time2,
+          name: getTimeName(time2),
+          winner: pontuacao2 !== null && pontuacao1 !== null && pontuacao2 > pontuacao1,
+          isFirst: false
+        }
+      }
+    })
 }
-
 const rounds = computed(() => [
   { games: formatarParaBracket('Quartas de Final') },
   { games: formatarParaBracket('Semifinal') },
   { games: formatarParaBracket('Final') },
 ])
 </script>
-
 <template>
   <main>
     <section class="chaveamento">
