@@ -5,7 +5,7 @@ import { jogos } from '@/data/jogos.js';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
-import TableJogos from '@/components/TableJogos.vue';
+import TableJogos from '@/components/TableJogosDesktop.vue';
 const menuAberto = ref(false)
 
 const emit = defineEmits(['loginPop'])
@@ -21,7 +21,7 @@ const jogosVerificados = computed(() =>
   <div class="olympus-screen">
     <header class="barra-mobile">
       <button class="menu-hamburguer" @click="abrirMenu">
-        <MenuAlt4Icon height="3rem" />
+        <MenuAlt4Icon height="3em" />
       </button>
     </header>
 
@@ -55,7 +55,7 @@ const jogosVerificados = computed(() =>
     </header>
 
     <div class="logo-todo">
-      <img src="@/assets/logo.png" alt="Olympos" class="logo" />
+      <img src="@/assets/logo.svg" alt="Olympos" class="logo" />
       <h1 class="nome-site">Olympos</h1>
     </div>
 
@@ -84,7 +84,7 @@ const jogosVerificados = computed(() =>
 .olympus-screen {
   position: relative;
   min-height: 100vh;
-  background-image: url("@/assets/fundo.png");
+  background-image: url("@/assets/normalBackground.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

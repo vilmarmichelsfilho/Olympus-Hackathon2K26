@@ -6,7 +6,7 @@ import desenvolvedoresCard from '@/components/desenvolvedoresCard.vue';
   <main>
     <section class="sobrenos" id="sobrenos">
       <div>
-        <img src="/images/coroa.png" alt="coroa" />
+        <img src="/src/assets/coroa.png" alt="coroa" />
         <h2>SOBRE NÓS</h2>
         <div>
           <p class="maisescuro">
@@ -46,7 +46,7 @@ main {
   justify-content: center;
   width: 100%;
   margin: 15vw 0;
-  
+
 }
 section.sobrenos {
   position: relative;

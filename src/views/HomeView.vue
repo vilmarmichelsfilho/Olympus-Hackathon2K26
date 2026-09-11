@@ -108,7 +108,7 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
     </div>
     <section class="selecao-modalidades">
       <div class="container">
-        <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
+        <div class="conteiner-modalidades"><img src="/src/assets/coroa.png" alt="coroa" /></div>
         <div class="log-in-mobile">
         <RouterLink class="link" to="/login">
       Log-in

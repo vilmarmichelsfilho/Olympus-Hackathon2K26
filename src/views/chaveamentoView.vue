@@ -53,7 +53,7 @@ const rounds = computed(() => [
     <section class="chaveamento">
       <div class="header-chaveamento">
         <div class="coroa">
-          <img src="/public/images/coroa.png" alt="coroa" />
+          <img src="/src/assets/coroa.png" alt="coroa" />
         </div>
         <h3>{{ nome }}<br /> <span>Games</span></h3>
       </div>
