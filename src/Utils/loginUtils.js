@@ -2,8 +2,8 @@ import { administradores } from "@/data/administradores";
 import router from "@/router";
 
 function logar(usuario,senha) {
-    if (usuario == administradores[0].login) {
-        if (senha == administradores[0].senha) {
+    if (usuario == administradores[0].login_adm) {
+        if (senha == administradores[0].senha_adm) {
             localStorage.setItem("logado", JSON.stringify(true));
             router.replace('/administradores')
         } else {

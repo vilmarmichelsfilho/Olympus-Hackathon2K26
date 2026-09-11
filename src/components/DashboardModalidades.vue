@@ -7,7 +7,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
   <section class="dashboard">
     <h3>modalidades</h3>
     <p>Informações sobre as modalidades, descrição,
-      nome, tempo e foto</p>
+      nome, tempo, local e foto</p>
     <div class="conteiner">
       <div class="content"><img src="/public/images/coroa.png" alt="coroa">
         <button @click="$emit('adicionarModalidade')">Adicionar</button>
@@ -18,6 +18,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
           <tr>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Local</th>
             <th>Foto</th>
             <th>Tempo</th>
           </tr>
@@ -25,12 +26,13 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
         <tbody>
           <modalidadesDashboardChild
             v-for="modalidade in modalidades"
-            :key="modalidade.id"
-            :id="modalidade.id"
-            :imagem="modalidade.image"
-            :nome="modalidade.nome"
-            :desc="modalidade.desc"
-            :tempo="modalidade.tempo"
+            :key="modalidade.cod_modalidade"
+            :id="modalidade.cod_modalidade"
+            :local="modalidade.localdojogo_modalidade"
+            :imagem="modalidade.foto_modalidade"
+            :nome="modalidade.nome_modalidade"
+            :desc="modalidade.desc_modalidade"
+            :tempo="modalidade.tempojogemminutos_modalidade"
             @editar-modalidade="$emit('editarModalidade', $event)"
             @excluir-modalidade="$emit('excluirModalidade', $event)"
           />
@@ -125,9 +127,10 @@ th {
   text-align: left;
 }
 th:nth-child(1), td:nth-child(1) { width: 25%; }
-th:nth-child(2), td:nth-child(2) { width: 40%; }
-th:nth-child(3), td:nth-child(3) { width: 15%; text-align: center; }
-th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
+th:nth-child(2), td:nth-child(2) { width: 30%; }
+th:nth-child(3), td:nth-child(3) { width: 20%;  }
+th:nth-child(4), td:nth-child(4) { width: 25%; text-align: center; }
+th:nth-child(5), td:nth-child(5) { width: 20%; text-align: right; }
 @media (max-width: 750px){
   section.dashboard{
     padding: 20px 0;

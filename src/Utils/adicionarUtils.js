@@ -10,14 +10,15 @@ function adicionarTimes(nome, cor, imagem) {
         pontuacao_geral: 0,
     })
 }
-function adicionarModalidade(nome, desc, imagem, tempo) {
-    const maiorId = Math.max(...modalidades.map(item => item.id));
+function adicionarModalidade(nome, desc, imagem, tempo, local) {
+    const maiorId = Math.max(...modalidades.map(item => item.cod_modalidade));
     modalidades.push({
-        id: maiorId+1,
-        image: imagem,
-        nome: nome,
-        desc: desc,
-        tempo: tempo,
+        cod_modalidade: maiorId+1,
+        foto_modalidade: imagem,
+        nome_modalidade: nome,
+        desc_modalidade: desc,
+        tempojogemminutos_modalidade: tempo,
+        localdojogo_modalidade: local
     })
 }
 export{adicionarTimes, adicionarModalidade}

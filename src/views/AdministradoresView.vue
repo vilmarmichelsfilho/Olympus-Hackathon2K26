@@ -38,7 +38,7 @@ function toggleMenu() {
 const time = ref(false);
 const modalidadeAdicionar = ref(false);
 function exluirModalidade(id) {
-    const index = modalidades.findIndex((modalidade) => modalidade.id === id);
+    const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id);
     if (index !== -1) {
         modalidades.splice(index, 1);
     }
@@ -67,8 +67,8 @@ function exluirModalidade(id) {
         <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
         <AdicionarModalidade @fecharAdicionarModalidade="modalidadeAdicionar = false" class="popup"
             :class="{ aberto: modalidadeAdicionar }"></AdicionarModalidade>
-        <EditarModalidade :modalidade="modalidades.find(m => m.id === modalidadeEditarId)"
-            @atualizar="editarModalidade($event.id, $event)" @fechar="modalidadeEditar = false" class="popup"
+        <EditarModalidade :modalidade="modalidades.find(m => m.cod_modalidade === modalidadeEditarId)"
+            @atualizar="editarModalidade($event.cod_modalidade, $event)" @fechar="modalidadeEditar = false" class="popup"
             :class="{ aberto: modalidadeEditar }">
         </EditarModalidade>
     </div>

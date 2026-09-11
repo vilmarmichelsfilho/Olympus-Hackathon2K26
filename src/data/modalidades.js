@@ -16,7 +16,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de voleibol",
     tempojogemminutos_modalidade: 60,
     localdojogo_modalidade: "Quadra A",
-    foto_modalidade: "/images/imagem-modalidades/voleibol.png",
+    foto_modalidade: "/images/imagem-modalidades/volei.png",
     cod_torneio: 1
   },
   {
