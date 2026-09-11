@@ -12,6 +12,7 @@ import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
+import { jogosVerificados } from '@/data/jogosverificados';
 const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0);
 const modalidadeSelecionadaId = ref(null);
@@ -79,7 +80,7 @@ const progressoPorcentagem = computed(() => {
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
-const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === 'AoVivo'))
+
 </script>
 
 <template>
@@ -92,7 +93,7 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
     <div class="acontecendo">
       <TableJogosDesktop
         v-for="jogo in jogosVerificados"
-        :key="jogo.id"
+        :key="jogo.cod_jogo"
         :data="jogo.data"
         :horario="jogo.horario"
         :modalidade="jogo.modalidade"
