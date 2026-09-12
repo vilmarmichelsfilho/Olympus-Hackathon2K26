@@ -1,0 +1,193 @@
+<script setup>
+import { ref } from 'vue';
+import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
+import { adicionarArbitro } from '@/Utils/adicionarUtils';
+const emit = defineEmits(['fecharAdicionarArbitro']);
+const nome = ref('');
+const login = ref('');
+const senha = ref('');
+
+function checarDados() {
+  if (nome.value !== '') {
+    if (login.value !== '') {
+      if(senha.value !== '') {
+        adicionarArbitro(nome.value, login.value, senha.value);
+        emit('fecharAdicionarArbitro');
+      } else {
+        alert('Preencha a senha do árbitro')
+      }
+    } else {
+      alert('Preencha o login do árbitro')
+    }
+  } else {
+    alert('Preencha o nome do árbitro')
+  }
+}
+
+function fechar() {
+  emit('fecharAdicionarArbitro');
+  nome.value = '';
+  login.value = '';
+  senha.value = '';
+}
+</script>
+<template>
+     <div class="overlay">
+    <div class="dialog">
+      <div class="titulos">
+        <h2>Adicionar Árbitro</h2>
+        <h4>Controle dos árbitros</h4>
+      </div>
+      <div class="inputs">
+        <div class="nome">
+          <h3>Nome do arbitro</h3>
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="nome">
+        </div>
+         <div class="login">
+          <h3>Login do Árbitro</h3>
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="login">
+          </div>
+          <div class="senha">
+          <h3>Senha do Árbitro</h3>
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="senha">
+        </div>
+      </div>
+      <div class="botoes">
+        <button style="align-items: center; display: flex; justify-content: center;" class="save"
+          v-on:click.prevent="checarDados()">
+          <ContentSaveOutlineIcon width="1.5vw" />Salvar
+        </button>
+        <button class="cancel" v-on:click="fechar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</template>
+<style scoped>
+.inputs {
+  display: flex;
+  gap: 3vw;
+}
+.botoes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button.cancel {
+  margin: 0.2vw 0;
+  background: none;
+  border: none;
+  font-weight: bolder;
+  font-size: 1.1vw;
+}
+
+button.cancel:hover {
+  text-decoration: underline;
+}
+button.save {
+  background: #6EAC31;
+  border: none;
+  color: white;
+  font-weight: bolder;
+  font-size: 1.1vw;
+  padding: 0.1vw 2vw;
+  border-radius: 0.2vw;
+  transition: 0.3s;
+  margin-bottom: 0.5vw;
+}
+h2 {
+  font-size: 2vw;
+  font-weight: bolder;
+}
+
+h3 {
+  font-size: 1vw;
+  font-weight: bolder;
+  margin-bottom: 0.2vw;
+}
+
+h4 {
+  color: grey;
+  font-size: 1vw;
+  font-weight: bolder;
+}
+
+input {
+  text-align: center;
+  color:  rgb(152, 151, 151);
+  background: #E2E2E2;
+  border: solid #bdbdbd 0.1vw;
+  font-size: 1.3vw;
+  min-width: 20vw;
+  max-width: 20vw;
+  padding: 0.3vw 2vw;
+  border-radius: 0.2vw;
+  transition: 0.3s;
+}
+input.inputAnim:focus {
+  outline: none;
+  transform: scale(1.05);
+  font-weight: bolder;
+  box-shadow: 0 0 10px 1px #DE6D1C;
+  border: solid #DE6D1C 0.1vw;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+  color: black;
+  background: white;
+  border: solid rgb(185, 184, 184) 0.15vw;
+  padding: 4vw 3vw;
+  border-radius: 1vw;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+@media (max-width: 1000px) {
+  h2 {
+    font-size: 5vw;
+  }
+
+  h4 {
+    font-size: 3vw;
+  }
+  h3{
+    font-size: 2vw;
+  }
+  .dialog {
+    justify-content: center;
+    min-width: 80vw;
+  }
+
+  .inputs {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .inputs input {
+    min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
+  }
+  button.save {
+    padding: 0.5vw 2vw;
+    font-size: 3vw;
+  }
+  button.cancel{
+    font-size: 3vw;
+  }
+}
+</style>

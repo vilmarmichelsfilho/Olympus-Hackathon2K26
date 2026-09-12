@@ -1,39 +1,21 @@
 <script setup>
 import EditIcon from '@iconify-vue/mdi/edit';
 import DeleteIcon from '@iconify-vue/mdi/delete';
-import { computed } from 'vue';
-defineEmits(['editar-Modalidade', 'excluir-Modalidade'])
-const props = defineProps(['id', 'imagem', 'nome', 'desc', 'tempo', 'local']);
-let limite = 10;
-let descricaoExibida = computed(() => {
-  if (props.desc.length > limite) {
-    return props.desc.substring(0, limite) + '...';
-  }
-  return props.desc;
-});
-
+defineEmits(['editar-Arbitro', 'excluir-Arbitro'])
+const props = defineProps(['id', 'login', 'nome', 'senha']);
 </script>
 <template>
   <tr>
-    <td>{{ nome }}</td>
-    <td>{{ descricaoExibida }}</td>
-    <td>{{ local }}</td>
-    <td><img :src="imagem" :alt="nome"></td>
-    <td>{{ tempo }}m
- <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon class="edit-icon"/></button>
- <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon class="delete"/></button>
+    <td>{{ props.nome }}</td>
+    <td>{{ props.login }}</td>
+    <td>{{ props.senha }}</td>
+      <td>
+ <button class="edit" @click="$emit('editar-Arbitro', props.id)"><EditIcon class="edit-icon"/></button>
+ <button @click="$emit('excluir-Arbitro', props.id)"><DeleteIcon class="delete"/></button>
     </td>
   </tr>
 </template>
 <style scoped>
-.edit-icon {
-  color: white;
-  height: 4em;
-}
-.delete {
-  color: red;
-  height: 4em;
-}
 tr {
   width: 100%;
   border-bottom: 1px solid #1E293B;
@@ -42,7 +24,14 @@ tr {
 tr:hover {
   background-color: rgba(255, 255, 255, 0.02);
 }
-
+.edit-icon {
+  color: white;
+  height: 4em;
+}
+.delete {
+  color: red;
+  height: 4em;
+}
 td {
   color: white;
   padding: 0.2vw;
@@ -51,12 +40,12 @@ td {
   text-align: left;
 }
 
-td:nth-child(4) {
+td:nth-child(3) {
   text-align: center;
 }
 
-td:nth-child(5) {
-  text-align: right;
+td:nth-child(4) {
+  text-align: center;
 }
 
 td img {
@@ -83,19 +72,12 @@ td button:hover {
   opacity: 0.7;
 }
 @media (max-width: 750px){
-  .edit-icon{
-    height: 1.5em;
-    color: black;
-  }
-  .delete{
-    height: 1em;
-  }
   tr{
     border-bottom: 1px solid #b5b2b2;
   }
   td{
     color: black;
-    font-size: 3vw;
+    font-size: 3.6vw;
     font-weight: bold;
     align-items: center;
   }
@@ -103,7 +85,12 @@ td button:hover {
     width: 10vw;
     height: 10vw;
   }
-
+  .edit-icon{
+    height: 1.8em;
+    color: black;
+  }
+  .delete{
+    height: 1.8em;
+  }
 }
 </style>
-

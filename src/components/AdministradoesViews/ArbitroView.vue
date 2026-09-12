@@ -1,40 +1,36 @@
 <script setup>
-import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
-import { modalidades } from '@/data/modalidades';
-defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
+import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
+import { arbitros } from '@/data/arbitros';
+defineEmits(['adicionarArbitro', 'editarArbitro', 'excluirArbitro']);
 </script>
 <template>
   <section class="dashboard">
-    <h3>modalidades</h3>
-    <p>Informações sobre as modalidades, descrição,
-      nome, tempo, local e foto</p>
+    <h3>Arbitros</h3>
+    <p>Informações sobre os arbitros sendo elas seu nome, login e senha</p>
     <div class="conteiner">
       <div class="content"><img src="/public/images/coroa.png" alt="coroa">
-        <button @click="$emit('adicionarModalidade')">Adicionar</button>
+        <button @click="$emit('adicionarArbitro')">Adicionar</button>
       </div>
-    <div class="tabelaModalidades">
+    <div class="tabelaArbitros">
       <table>
         <thead>
           <tr>
             <th>Nome</th>
-            <th>Descrição</th>
-            <th>Local</th>
-            <th>Foto</th>
-            <th>Tempo</th>
+            <th>Login</th>
+            <th>Senha</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <modalidadesDashboardChild
-            v-for="modalidade in modalidades"
-            :key="modalidade.cod_modalidade"
-            :id="modalidade.cod_modalidade"
-            :local="modalidade.localdojogo_modalidade"
-            :imagem="modalidade.foto_modalidade"
-            :nome="modalidade.nome_modalidade"
-            :desc="modalidade.desc_modalidade"
-            :tempo="modalidade.tempojogemminutos_modalidade"
-            @editar-modalidade="$emit('editarModalidade', $event)"
-            @excluir-modalidade="$emit('excluirModalidade', $event)"
+          <arbitrosDashboardChild
+            v-for="arbitro in arbitros"
+            :key="arbitro.cod_arbitro"
+            :id="arbitro.cod_arbitro"
+            :nome="arbitro.nome_arbitro"
+            :login="arbitro.login_arbitro"
+            :senha="arbitro.senha_arbitro"
+            @editar-arbitro="$emit('editarArbitro', $event)"
+            @excluir-arbitro="$emit('excluirArbitro', $event)"
           />
         </tbody>
       </table>
@@ -44,13 +40,13 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
 </template>
 <style scoped>
 section.dashboard {
-  background-color: transparent;
   margin: 0;
+  background-color: transparent;
   width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 20px;
   box-sizing: border-box;
   font-family: sans-serif;
 }
@@ -59,13 +55,12 @@ section.dashboard h3 {
   color: white;
   text-transform: capitalize;
   font-size: 2.5vw;
-  margin: 0 0 0 5vw;
 }
 
 section.dashboard  p {
   color: #8A99AD;
   font-size: 1.2vw;
-  margin: 0 0 0 7vw;
+  margin-bottom: 1vw;
 }
 
 div.conteiner {
@@ -118,7 +113,7 @@ table {
 }
 
 thead {
-  border-bottom: 1px solid #1E293B;
+  border-bottom: 1px solid #af4423;
 }
 
 th {
@@ -128,21 +123,17 @@ th {
   padding: 1vw 1.5vw;
   text-align: left;
 }
-th:nth-child(1), td:nth-child(1) { width: 25%; }
-th:nth-child(2), td:nth-child(2) { width: 30%; }
-th:nth-child(3), td:nth-child(3) { width: 20%;  }
-th:nth-child(4), td:nth-child(4) { width: 25%; text-align: center; }
-th:nth-child(5), td:nth-child(5) { width: 20%; text-align: center; }
+th:nth-child(1), td:nth-child(1) { width: 40%; }
+th:nth-child(2), td:nth-child(2) { width: 20%; }
+th:nth-child(3), td:nth-child(3) { width: 20%; text-align: center; }
+th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
 @media (max-width: 750px){
-th:nth-child(1), td:nth-child(1) { width: 20%; }
-th:nth-child(2), td:nth-child(2) { width: 40%; }
-th:nth-child(3), td:nth-child(3) { width: 20%;  }
-th:nth-child(4), td:nth-child(4) { width: 25%; text-align: center; }
-th:nth-child(5), td:nth-child(5) { width: 20%; text-align: center; }
   section.dashboard{
     padding: 20px 0;
+    margin: 0;
   }
  section.dashboard h3{
+  margin: 0 0 0 5vw;
     color: black;
     font-weight: bold;
     font-size: 8vw
@@ -152,6 +143,7 @@ th:nth-child(5), td:nth-child(5) { width: 20%; text-align: center; }
   }
   section.dashboard p{
     font-size: 4vw;
+    margin: 0 0 0 7vw;
   }
   div.conteiner{
     width: 100vw;
