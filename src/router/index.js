@@ -5,6 +5,7 @@ import SobreNosView from '@/views/SobreNosView.vue'
 import AdministradoresView from '@/views/AdministradoresView.vue'
 import chaveamentoView from '@/views/chaveamentoView.vue'
 import LoginView from '@/views/LoginView.vue'
+import TorneioView from '@/views/TorneioView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/chaveamento/:id',
       name: 'chaveamento',
       component: chaveamentoView
+    },
+      {
+      path: '/torneio/:id',
+      name: 'torneio',
+      component: TorneioView
     }
   ]
 }
