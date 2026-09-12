@@ -1,5 +1,6 @@
 import { times } from '@/data/times'
 import { modalidades } from '@/data/modalidades'
+import {arbitros} from '@/data/arbitros';
 function adicionarTimes(nome, cor, imagem) {
     const maiorId = Math.max(...times.map(item => item.id));
     times.push({
@@ -21,4 +22,13 @@ function adicionarModalidade(nome, desc, imagem, tempo, local) {
         localdojogo_modalidade: local
     })
 }
-export{adicionarTimes, adicionarModalidade}
+function adicionarArbitro(nome, login, senha){
+ const maiorId = Math.max(...arbitros.map(item => item.cod_arbitro));
+    arbitros.push({
+        cod_arbitro: maiorId+1,
+        nome_arbitro: nome,
+        login_arbitro: login,
+        senha_arbitro: senha
+    })
+}
+export{adicionarTimes, adicionarModalidade, adicionarArbitro}
