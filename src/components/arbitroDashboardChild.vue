@@ -48,13 +48,6 @@ td:nth-child(4) {
   text-align: center;
 }
 
-td img {
-  width: 2.5vw;
-  height: 2.5vw;
-  border-radius: 4px;
-  object-fit: cover;
-}
-
 td button {
   background: none;
   border: none;
@@ -80,10 +73,6 @@ td button:hover {
     font-size: 3.6vw;
     font-weight: bold;
     align-items: center;
-  }
-  td img{
-    width: 10vw;
-    height: 10vw;
   }
   .edit-icon{
     height: 1.8em;

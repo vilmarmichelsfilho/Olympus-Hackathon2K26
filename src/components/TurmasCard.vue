@@ -13,7 +13,7 @@ const edit = ref(false);
 <template>
 <tr>
 
-    <td>Técnico: {{ props.tecnico }}</td>
+    <td>Tec: {{ props.tecnico }}</td>
     <td>Ano: {{ props.ano }}</td>
     <td>Série: {{ props.serie }}</td>
     <td class="botoes">
@@ -31,7 +31,7 @@ td {
     font-family: "Krona One", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 1vw;
+    font-size: 1.4vw;
 }
 tr {
     padding: 1vw 1vw;
@@ -63,5 +63,13 @@ button {
 }
 .excluir:hover {
     background: #ffcac7;
+}
+@media (max-width: 768px) {
+    td {
+        font-size: 2vw;
+    }
+    button {
+        padding: 0.5vw 2vw;
+    }
 }
 </style>

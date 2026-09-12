@@ -104,46 +104,25 @@ th {
   padding: 1vw 0;
   text-align: left;
 }
-th:nth-child(1), td:nth-child(1) { width: 40%; }
-th:nth-child(2), td:nth-child(2) { width: 20%; }
+th:nth-child(1), td:nth-child(1) { width: 25%; }
+th:nth-child(2), td:nth-child(2) { width: 15%; }
 th:nth-child(3), td:nth-child(3) { width: 20%; }
 th:nth-child(4), td:nth-child(4) { width: 20%; }
 @media (max-width: 750px){
-  section.dashboard{
-    padding: 20px 0;
-    margin: 0;
-  }
- section.dashboard h3{
-  margin: 0 0 0 5vw;
-    color: black;
-    font-weight: bold;
-    font-size: 8vw
-  }
-  div.conteiner{
-    border-radius: 0;
-  }
-  section.dashboard p{
+  h2{
     font-size: 4vw;
-    margin: 0 0 0 7vw;
+    margin: 2vw 0 1vw 3vw;
   }
-  div.conteiner{
-    width: 100vw;
-    min-height: 70vw;
-    background: transparent;
+  p{
+    font-size: 3vw;
+    margin: 0 0 4vw 3vw;
   }
-  div.content img{
-    display: none;
-  }
-  div.content button {
-  color: black;
-  border: 1px solid black;
-}
 thead{
   border-bottom: 2px solid #E85002;
 }
 th{
   color: black;
-  font-size: 3.6vw
+  font-size: 2.5vw
 }
 }
 </style>
