@@ -4,7 +4,7 @@ import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 
 const emit = defineEmits(['fechar','adicionar'])
 
-const tecnico = ref('INFO')
+const tecnico = ref('Informática')
 const ano = ref('')
 const serie = ref('')
 </script>
@@ -17,26 +17,26 @@ const serie = ref('')
                 <div class="input">
                     <h3>Técnico</h3>
                     <select name="tecnico" id="tecnico" placeholder="Técnico" v-model="tecnico">
-                        <option value="INFO">INFO</option>
-                        <option value="AGRO">AGRO</option>
-                        <option value="QUIMI">QUIMI</option>
+                        <option value="Informática">INFO</option>
+                        <option value="Agropecuária">AGRO</option>
+                        <option value="Química">QUIMI</option>
                     </select>
                 </div>
                 <div class="sla">
                     <div class="input">
                         <h3>Ano</h3>
                         <select name="ano" id="ano" placeholder="Ano" v-model="ano">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
                         </select>
                     </div>
                     <div class="input">
                         <h3>Serie</h3>
                         <select name="serie" id="serie" placeholder="Serie" v-model="serie">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
                         </select>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ const serie = ref('')
                     <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar',ano+tecnico+serie,ano)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar', tecnico, ano, serie)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>
@@ -71,7 +71,7 @@ button:disabled:hover {
 }
 button {
     border: none;
-    background: none;   
+    background: none;
     display: flex;
     align-items: center;
     transition: 0.3s;
