@@ -3,37 +3,37 @@ import Confirm from './Confirm.vue';
 import EditOutlineIcon from '@iconify-vue/mdi/edit-outline';
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline';
 import { ref } from 'vue';
-const props = defineProps(['nome','id']);
-const emit = defineEmits(['editar'])
+const props = defineProps(['tecnico','ano','serie','id']);
+const emit = defineEmits(['editar', 'excluir']);
 import { excluir } from '@/Utils/turmasUtils';
 
 const edit = ref(false);
 </script>
 
 <template>
-<li>
-    <h3>{{ props.nome }}</h3>
-    <div class="botoes">
+<tr>
+
+    <td>Técnico: {{ props.tecnico }}</td>
+    <td>Ano: {{ props.ano }}</td>
+    <td>Série: {{ props.serie }}</td>
+    <td class="botoes">
         <button class="editar" v-on:click.prevent="emit('editar')"><EditOutlineIcon height="2vw"></EditOutlineIcon>Editar</button>
-        <button class="excluir" v-on:click.prevent="edit=true"><TrashCanOutlineIcon height="2vw"></TrashCanOutlineIcon>Excluir</button>
-    </div>
+        <button class="excluir" v-on:click.prevent="emit('excluir')"><TrashCanOutlineIcon height="2vw"></TrashCanOutlineIcon>Excluir</button>
+    </td>
     <Confirm v-show="edit" @cancelar="edit=false" @excluir="excluir(props.id)"></Confirm>
-</li>
+  </tr>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-h3 {
+td {
     color: black;
     font-family: "Krona One", sans-serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 1vw;
 }
-li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: solid 0.2vw #0000000e;
+tr {
     padding: 1vw 1vw;
 }
 .botoes {
