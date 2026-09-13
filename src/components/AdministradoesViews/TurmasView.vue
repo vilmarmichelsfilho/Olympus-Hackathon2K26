@@ -72,6 +72,7 @@ function editardd(tecnico, ano, serie) {
 
 h2 {
     font-size: 1.5vw;
+    color: white;
 }
 
 p {

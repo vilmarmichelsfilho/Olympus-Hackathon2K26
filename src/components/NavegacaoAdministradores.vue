@@ -41,6 +41,7 @@ function sair() {
                     <li v-on:click="emit('tela','turmas')">Turmas</li>
                     <li v-on:click="emit('tela','arbitros')">Arbitros</li>
                     <li v-on:click="emit('tela','modalidades')">Modalidades</li>
+                    <li v-on:click="emit('tela','torneio')">Torneio</li>
                 </ul>
             </nav>
         </div>

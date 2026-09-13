@@ -17,6 +17,7 @@ import AdicionarArbitro from '@/components/AdicionarArbitro.vue'
 import { editarArbitro } from '@/Utils/editarUtils.js'
 import editarArbitroView from '@/components/EditarArbitroView.vue'
 import { arbitros } from '@/data/arbitros'
+import TorneioView from './TorneioView.vue'
 const telaAtual = ref('dashboard')
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
@@ -101,6 +102,10 @@ function excluirArbitro(id) {
         @excluirArbitro="excluirArbitro($event)"
       ></arbitrosView>
     </div>
+      <div class="torneios" v-show="telaAtual == 'torneio'">
+       <TorneioView> </TorneioView>
+
+      </div>
     <DashboardModalidades
       v-show="telaAtual == 'modalidades'"
       @adicionar-modalidade="modalidadeAdicionar = true"
