@@ -40,7 +40,9 @@ function checarDados() {
     alert('Preencha o nome do árbitro')
   }
 }
-
+function fechar(){
+  emit('fecharEditarArbitro')
+}
 </script>
 <template>
      <div class="overlay">

@@ -34,7 +34,7 @@ function finalizarcadastro() {
 
     <button @click="fecharFluxo">Fechar ×</button>
     <TurmasView v-if="etapaAtual === 'turma'"/>
-     <TimesView v-if="etapaAtual === 'time'"/>
+    <TimesView v-if="etapaAtual === 'time'"/>
     <DashboardModalidades v-if="etapaAtual === 'modalidades'"/>
     <ArbitroView v-if="etapaAtual === 'arbitro'"/>
     <button @click="proximaEtapa" v-if="indiceAtual!==4">Próximo →</button>

@@ -1,7 +1,23 @@
 <script setup>
+import AdicionarArbitro from '../AdicionarArbitro.vue';
+import EditarrArbitro from '../EditarArbitroView.vue';
+import { editarArbitro } from '@/Utils/editarUtils.js'
+import { ref } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
 import { arbitros } from '@/data/arbitros';
-defineEmits(['adicionarArbitro', 'editarArbitro', 'excluirArbitro']);
+function excluirArbitro(id) {
+  const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
+  if (index !== -1) {
+    arbitros.splice(index, 1)
+  }
+}
+const adicionarrArbitro = ref(false)
+const arbitroEditar = ref(false)
+const arbitroEditarId = ref(null)
+function abrirEditarArbitro(id) {
+  arbitroEditarId.value = id
+  arbitroEditar.value = true
+}
 </script>
 <template>
   <section class="dashboard">
@@ -9,7 +25,7 @@ defineEmits(['adicionarArbitro', 'editarArbitro', 'excluirArbitro']);
     <p>Informações sobre os arbitros sendo elas seu nome, login e senha</p>
     <div class="conteiner">
       <div class="content"><img src="/public/images/coroa.png" alt="coroa">
-        <button @click="$emit('adicionarArbitro')">Adicionar</button>
+        <button @click="adicionarrArbitro = true">Adicionar</button>
       </div>
     <div class="tabelaArbitros">
       <table>
@@ -29,16 +45,41 @@ defineEmits(['adicionarArbitro', 'editarArbitro', 'excluirArbitro']);
             :nome="arbitro.nome_arbitro"
             :login="arbitro.login_arbitro"
             :senha="arbitro.senha_arbitro"
-            @editar-arbitro="$emit('editarArbitro', $event)"
-            @excluir-arbitro="$emit('excluirArbitro', $event)"
+            @editar-arbitro="abrirEditarArbitro($event)"
+            @excluir-arbitro="excluirArbitro($event)"
           />
         </tbody>
       </table>
     </div>
     </div>
+    <AdicionarArbitro
+      @fecharAdicionarArbitro="adicionarrArbitro = false"
+      class="popup"
+      :class="{ aberto: adicionarrArbitro }"
+    ></AdicionarArbitro>
+    <editarrArbitro
+      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
+      @atualizar="editarArbitro($event.cod_arbitro, $event)"
+      @fecharEditarArbitro="arbitroEditar = false"
+      class="popup"
+      :class="{ aberto: arbitroEditar }"
+    />
   </section>
+
 </template>
 <style scoped>
+.popup {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.popup.aberto {
+  opacity: 1;
+  visibility: visible;
+}
 section.dashboard {
   margin: 0;
   background-color: transparent;

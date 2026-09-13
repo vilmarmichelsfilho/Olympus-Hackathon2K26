@@ -1,10 +1,6 @@
 <script setup>
 import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue'
 import HamburgerMenuIcon from '@iconify-vue/mdi/hamburger-menu'
-import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
-import EditarModalidade from '@/components/EditarModalidade.vue'
-import { editarModalidade } from '@/Utils/editarUtils.js'
-import { modalidades } from '@/data/modalidades'
 import DashboardModalidades from '@/components/DashboardModalidades.vue'
 import AdicionarTime from '@/components/AdicionarTime.vue'
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue'
@@ -13,24 +9,8 @@ import router from '@/router'
 import { ref } from 'vue'
 import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
-import AdicionarArbitro from '@/components/AdicionarArbitro.vue'
-import { editarArbitro } from '@/Utils/editarUtils.js'
-import editarArbitroView from '@/components/EditarArbitroView.vue'
-import { arbitros } from '@/data/arbitros'
 import TorneioView from './TorneioView.vue'
 const telaAtual = ref('dashboard')
-const modalidadeEditar = ref(false)
-const modalidadeEditarId = ref(null)
-function abrirEditar(id) {
-  modalidadeEditarId.value = id
-  modalidadeEditar.value = true
-}
-const arbitroEditar = ref(false)
-const arbitroEditarId = ref(null)
-function abrirEditarArbitro(id) {
-  arbitroEditarId.value = id
-  arbitroEditar.value = true
-}
 if (localStorage.getItem('logado') != 'true') {
   router.replace('/')
   alert('Você não tem acesso a está página')
@@ -41,25 +21,11 @@ function mudarTela(valor) {
   router.replace(tela)
   telaAtual.value = valor
 }
-const adicionarrArbitro = ref(false)
 const menuAberto = ref(false)
 function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
 const time = ref(false)
-const modalidadeAdicionar = ref(false)
-function exluirModalidade(id) {
-  const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id)
-  if (index !== -1) {
-    modalidades.splice(index, 1)
-  }
-}
-function excluirArbitro(id) {
-  const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
-  if (index !== -1) {
-    arbitros.splice(index, 1)
-  }
-}
 </script>
 
 <template>
@@ -96,50 +62,16 @@ function excluirArbitro(id) {
       <TurmasView></TurmasView>
     </div>
     <div class="arbitros" v-show="telaAtual == 'arbitros'">
-      <arbitrosView
-        @adicionarArbitro="adicionarrArbitro = true"
-        @editarArbitro="abrirEditarArbitro($event)"
-        @excluirArbitro="excluirArbitro($event)"
-      ></arbitrosView>
+      <arbitrosView></arbitrosView>
     </div>
       <div class="torneios" v-show="telaAtual == 'torneio'">
        <TorneioView> </TorneioView>
-
       </div>
     <DashboardModalidades
       v-show="telaAtual == 'modalidades'"
-      @adicionar-modalidade="modalidadeAdicionar = true"
-      @editar-modalidade="abrirEditar($event)"
-      @excluir-modalidade="exluirModalidade($event)"
     >
     </DashboardModalidades>
-
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
-    <AdicionarModalidade
-      @fecharAdicionarModalidade="modalidadeAdicionar = false"
-      class="popup"
-      :class="{ aberto: modalidadeAdicionar }"
-    ></AdicionarModalidade>
-    <EditarModalidade
-      :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-      @atualizar="editarModalidade($event.cod_modalidade, $event)"
-      @fechar="modalidadeEditar = false"
-      class="popup"
-      :class="{ aberto: modalidadeEditar }"
-    >
-    </EditarModalidade>
-    <AdicionarArbitro
-      @fecharAdicionarArbitro="adicionarrArbitro = false"
-      class="popup"
-      :class="{ aberto: adicionarrArbitro }"
-    ></AdicionarArbitro>
-    <editarArbitroView
-      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
-      @atualizar="editarArbitro($event.cod_arbitro, $event)"
-      @fecharEditarArbitro="arbitroEditar = false"
-      class="popup"
-      :class="{ aberto: arbitroEditar }"
-    />
   </div>
   <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   <div class="controle"></div>
