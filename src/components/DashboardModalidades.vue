@@ -1,7 +1,23 @@
 <script setup>
 import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
-defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
+import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
+import EditarModalidade from '@/components/EditarModalidade.vue'
+import { editarModalidade } from '@/Utils/editarUtils.js'
+import { ref } from 'vue';
+const modalidadeEditar = ref(false)
+const modalidadeEditarId = ref(null)
+function abrirEditar(id) {
+  modalidadeEditarId.value = id
+  modalidadeEditar.value = true
+}
+const modalidadeAdicionar = ref(false)
+function exluirModalidade(id) {
+  const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id)
+  if (index !== -1) {
+    modalidades.splice(index, 1)
+  }
+}
 </script>
 <template>
   <section class="dashboard">
@@ -10,7 +26,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
       nome, tempo, local e foto</p>
     <div class="conteiner">
       <div class="content"><img src="/public/images/coroa.png" alt="coroa">
-        <button @click="$emit('adicionarModalidade')">Adicionar</button>
+        <button @click="modalidadeAdicionar = true">Adicionar</button>
       </div>
     <div class="tabelaModalidades">
       <table>
@@ -33,16 +49,41 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
             :nome="modalidade.nome_modalidade"
             :desc="modalidade.desc_modalidade"
             :tempo="modalidade.tempojogemminutos_modalidade"
-            @editar-modalidade="$emit('editarModalidade', $event)"
-            @excluir-modalidade="$emit('excluirModalidade', $event)"
+            @editar-modalidade="abrirEditar($event)"
+            @excluir-modalidade="exluirModalidade($event)"
           />
         </tbody>
       </table>
     </div>
     </div>
+    <AdicionarModalidade
+      @fecharAdicionarModalidade="modalidadeAdicionar = false"
+      class="popup"
+      :class="{ aberto: modalidadeAdicionar }"
+    ></AdicionarModalidade>
+    <EditarModalidade
+      :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
+      @atualizar="editarModalidade($event.cod_modalidade, $event)"
+      @fechar="modalidadeEditar = false"
+      class="popup"
+      :class="{ aberto: modalidadeEditar }"
+    >
+    </EditarModalidade>
   </section>
 </template>
 <style scoped>
+.popup {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.popup.aberto {
+  opacity: 1;
+  visibility: visible;
+}
 section.dashboard {
   background-color: transparent;
   margin: 0;
