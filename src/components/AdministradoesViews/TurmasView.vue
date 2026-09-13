@@ -58,6 +58,7 @@ function editardd(nome,ano) {
 
 h2 {
     font-size: 1.5vw;
+    color: white;
 }
 
 p {
