@@ -42,7 +42,7 @@ defineEmits(['adicionarArbitro', 'editarArbitro', 'excluirArbitro']);
 section.dashboard {
   margin: 0;
   background-color: transparent;
-  width: 80%;
+  max-width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -131,6 +131,7 @@ th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
   section.dashboard{
     padding: 20px 0;
     margin: 0;
+    max-width: 100%;
   }
  section.dashboard h3{
   margin: 0 0 0 5vw;

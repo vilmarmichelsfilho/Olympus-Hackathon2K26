@@ -23,6 +23,10 @@ function etapaAnterior() {
     indiceAtual.value--
   }
 }
+function finalizarcadastro() {
+  indiceAtual.value = 0
+  emit('fechar')
+}
 </script>
 
 <template>
@@ -33,7 +37,8 @@ function etapaAnterior() {
      <TimesView v-if="etapaAtual === 'time'"/>
     <DashboardModalidades v-if="etapaAtual === 'modalidades'"/>
     <ArbitroView v-if="etapaAtual === 'arbitro'"/>
-    <button @click="proximaEtapa">Próximo →</button>
+    <button @click="proximaEtapa" v-if="indiceAtual!==4">Próximo →</button>
+    <button @click="finalizarcadastro" v-if="indiceAtual===4">Finalizar</button>
     <button @click="etapaAnterior" :disabled="indiceAtual === 0">← Voltar</button>
 
   </div>
