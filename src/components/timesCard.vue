@@ -2,10 +2,9 @@
 import EditIcon from '@iconify-vue/mdi/edit';
 import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue';
 import { ref } from 'vue';
-const props = defineProps(['nome', 'turma1', 'turma2', 'turma3', 'vitorias', 'empates', 'derrotas', 'pontuacao','variante','id'])
+const props = defineProps(['nome','cor','pontuacao','id','escudo'])
 
 const add = ref(false)
-
 </script>
 
 <template>
@@ -13,18 +12,16 @@ const add = ref(false)
         <h2>{{ props.nome }}</h2>
         <ul class="turmas">
             <div>
-                <p>{{ props.turma1 }}</p>
-                <p>{{ props.turma2 }}</p>
-                <p>{{ props.turma3 }}</p>
+                <p>{{turmass}}</p>
             </div>
         </ul>
         <div class="pontuacao">
-            <p>{{ vitorias }}/{{ empates }}/{{ derrotas }}</p>
+            <p>?/?/?</p>
         </div>
         <h3>{{ pontuacao }}</h3>
         <button class="edit" v-on:click.prevent="add=true"><EditIcon width="1.5vw"></EditIcon></button>
     </li>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="props.nome" :um1="props.turma1" :dois1="props.turma2" :tres1="props.turma3" :vitorias1="props.vitorias" :empates1="props.empates" :derrotas1="props.derrotas" :tipo="'editar'" :id="props.id"></AdicionarOuEditarTime>
+    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="props.nome" :tipo="'editar'" :id="props.id"></AdicionarOuEditarTime>
 </template>
 
 <style scoped>

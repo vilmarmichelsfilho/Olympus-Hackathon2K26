@@ -13,7 +13,9 @@ function adicionar(tecnico,ano, serie) {
     } else {
         const maiorId = Math.max(...turmas.map(item => item.cod_turma));
         turmas.push({
-            cod_turma: maiorId+1,
+            cod_turma: 1,
+            cod_time: 0,
+            cod_torneio: 1,
             tecnico_turma: tecnico,
             ano_turma: ano,
             numero_turma: serie
