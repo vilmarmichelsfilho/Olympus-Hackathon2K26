@@ -30,7 +30,7 @@ const add = ref(false)
                 </ul>
             </div>
             <ul>
-                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.derrotas" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3" :id="time.id"></timesCard>
+                <timesCard v-for="time in times" :key="time.cod_time" :nome="time.nome_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time" :cor="time.cor_time" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time"></timesCard>
             </ul>
         </div>
     </div>

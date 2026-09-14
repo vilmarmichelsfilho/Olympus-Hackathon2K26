@@ -5,33 +5,29 @@ import { turmas } from '@/data/turmas';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
 
 const emit = defineEmits(['fechar', 'adicionar'])
-const props = defineProps(['nome1','um1','dois1','tres1','vitorias1','empates1','derrotas1','tipo','id'])
+const props = defineProps(['nome1','um1','dois1','tres1','tipo','id','pontuacao_geral'])
 
 const nome = ref(props.nome1)
 const um = ref(props.um1)
 const dois = ref(props.dois1)
 const tres = ref(props.tres1)
-const vitorias = ref(props.vitorias1)
-const empates = ref(props.empates1)
-const derrotas = ref(props.derrotas1)
+const pontuacao_geral = ref(props.pontuacao_geral)
 
 function apagar() {
     nome.value = props.nome1;
     um.value = props.um1;
     dois.value = props.dois1;
     tres.value = props.tres1;
-    vitorias.value = props.vitoria1;
-    empates.value = props.empates1;
-    derrotas.value = props.derrotas1;
+    pontuacao_geral.value = props.pontuacao_geral;
 }
 
 function adicionar() {
     if (props.tipo == 'adicionar') {
-        adicionarTime(nome.value, um.value, dois.value, tres.value, vitorias.value, empates.value, derrotas.value);
+        adicionarTime(nome.value, um.value, dois.value, tres.value, pontuacao_geral.value);
         apagar();
         emit('fechar');
     } else if (props.tipo == 'editar') {
-        editarTime(nome.value, um.value, dois.value, tres.value, vitorias.value, empates.value, derrotas.value, props.id);
+        editarTime(nome.value, um.value, dois.value, tres.value);
         apagar();
         emit('fechar');
     }
@@ -52,46 +48,30 @@ function adicionar() {
                     <div class="input">
                         <h3>Turma 1º</h3>
                         <select name="ano" id="ano" placeholder="Ano" v-model="um">
-                            <option v-for="turma in turmas.filter(item => item.ano == 1)" :key="turma.id">{{ turma.nome }}</option>
+                            <option v-for="turma in turmas.filter(item => item.ano_turma == 1)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
                         </select>
                     </div>
                     <div class="input">
                         <h3>Turma 2º</h3>
                         <select name="serie" id="serie" placeholder="Serie" v-model="dois">
-                            <option v-for="turma in turmas.filter(item => item.ano == 2)" :key="turma.id">{{ turma.nome }}</option>
+                            <option v-for="turma in turmas.filter(item => item.ano_turma == 2)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
                         </select>
                     </div>
                     <div class="input">
                         <h3>Turma 3º</h3>
                         <select name="serie" id="serie" placeholder="Serie" v-model="tres">
-                            <option v-for="turma in turmas.filter(item => item.ano == 3)" :key="turma.id">{{ turma.nome }}</option>
+                            <option v-for="turma in turmas.filter(item => item.ano_turma == 3)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
                         </select>
                     </div>
                 </div>
                 <div class="separa"></div>
                 <div class="sla">
-                    <div class="input">
-                        <h3>Vitórias</h3>
-                        <input type="number" v-model="vitorias">
-                    </div>
-                    <div class="input">
-                        <h3>Empates</h3>
-                        <input type="number" v-model="empates">
-                    </div>
-                    <div class="input">
-                        <h3>Derrotas</h3>
-                        <input type="number" v-model="derrotas">
+                     <div class="input">
+                        <h3>Pontuação Geral</h3>
+                        <input type="number" v-model="pontuacao_geral">
                     </div>
                 </div>
                 <div class="separa"></div>
-                <div class="pre">
-                    <h4>Pré-Vizualização <span>Time</span></h4>
-                    <p>{{ um }} - {{ dois }} - {{ tres }}</p>
-                    <div>
-                        <p>V/E/D  <span>{{ vitorias }}/{{ empates }}/{{ derrotas }}</span></p>
-                        <p>Pontos <span>{{ (vitorias*3+empates) }}</span></p>
-                    </div>
-                </div>
                 <div class="botoes">
                     <button type="submit" class="salvar" v-on:click.prevent="adicionar()"
                         :disabled="nome == '' || um == '' || dois == '' || tres == ''">

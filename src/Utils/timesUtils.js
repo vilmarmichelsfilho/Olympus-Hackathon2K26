@@ -1,4 +1,5 @@
 import { times } from '@/data/times'
+import { turmas } from '@/data/turmas'
 import { computed } from 'vue'
 const timesDoMaiorAoMenor = computed(() => {
   return [...times].sort((a, b) => b.pontuacaogeral_time - a.pontuacaogeral_time)
@@ -8,23 +9,21 @@ function definirposicao(id) {
   return posicao
 }
 
-function adicionarTime(nome, um, dois, tres, vitorias, empates, derrotas) {
+function adicionarTime(nome, um, dois, tres, pontuacao) {
   if (times.some((item) => item.nome === nome)) {
     alert('Já existe um time com este nome!')
   } else {
     const maiorId = Math.max(...times.map((item) => item.id))
+    turmas[turmas.findIndex(item => item.cod_turma === um)].cod_time = maiorId+1
+    turmas[turmas.findIndex(item => item.cod_turma === dois)].cod_time = maiorId+1
+    turmas[turmas.findIndex(item => item.cod_turma === tres)].cod_time = maiorId+1
     times.push({
-      id: maiorId + 1,
-      escudo: 'No image',
-      nome: nome,
-      cor: 'Preto',
-      time1: um,
-      time2: dois,
-      time3: tres,
-      vitorias: vitorias,
-      empates: empates,
-      derrotas: derrotas,
-      pontuacao_geral: vitorias * 3 + empates,
+      cod_time: maiorId + 1,
+      cod_adm: 1,
+      escudo_time: 'No image',
+      nome_time: nome,
+      cor_time: 'Preto',
+      pontuacaogeral_time: pontuacao,
     })
   }
 }

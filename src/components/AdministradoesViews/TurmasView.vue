@@ -27,6 +27,7 @@ function editardd(tecnico, ano, serie) {
         </div>
 
         <div class="sla">
+          <button v-on:click.prevent="add=true">Adicionar Turma</button>
           <div class="tabelaTurmas">
       <table>
         <thead>
