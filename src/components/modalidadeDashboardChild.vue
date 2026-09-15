@@ -70,8 +70,6 @@ td button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5vw;
-  margin-left: 0.75vw;
   display: inline-flex;
   align-items: center;
   justify-content: center;
