@@ -3,6 +3,7 @@ import OrganizadorPoupUp from '@/components/OrganizadorPoupUp.vue';
 import EditarTorneioView from '@/components/EditarTorneioView.vue';
 import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
+import DashboardTorneio from '@/components/DashboardTorneio.vue';
 const mostrarFluxo = ref(false)
 const mostrarEditarTorneio = ref(true)
 const torneioEditarId = ref(1)
@@ -16,6 +17,7 @@ const torneioEditarId = ref(1)
  <div class="botao">
    <button @click="mostrarFluxo = true">Cadastrar Torneio</button>
  </div>
+
  </div>
  <div class="editar-torneio" v-if="mostrarEditarTorneio">
 <EditarTorneioView @fecha="mostrarEditarTorneio = false"
@@ -24,7 +26,9 @@ const torneioEditarId = ref(1)
   <div class="fluxo">
     <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false"></OrganizadorPoupUp>
   </div>
-
+   <div v-show="!mostrarFluxo">
+     <DashboardTorneio/>
+   </div>
 </template>
 
 <style scoped>
@@ -45,5 +49,9 @@ const torneioEditarId = ref(1)
 .topo button {
   border-radius: 8px;
   padding: 0.5vw;
+  background-color: transparent;
+  color: white;
+font-weight: bold;
+  border: 1px solid white;
 }
 </style>
