@@ -28,5 +28,26 @@ export const arbitros = reactive([
     nome_arbitro: "Lucas Martins",
     login_arbitro: "lucas",
     senha_arbitro: "123456"
+  },
+  {
+    cod_arbitro: 5,
+    cod_torneio: 2,
+    nome_arbitro: "Rafael Oliveira",
+    login_arbitro: "rafael",
+    senha_arbitro: "123456"
+  },
+  {
+    cod_arbitro: 6,
+    cod_torneio: 2,
+    nome_arbitro: "Gabriel Souza",
+    login_arbitro: "gabriel",
+    senha_arbitro: "123456"
+  },
+  {
+    cod_arbitro: 7,
+    cod_torneio: 2,
+    nome_arbitro: "Matheus Costa",
+    login_arbitro: "matheus",
+    senha_arbitro: "123456"
   }
 ])

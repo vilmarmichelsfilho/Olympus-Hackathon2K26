@@ -1,5 +1,4 @@
 import { reactive } from 'vue'
-
 export const times = reactive([
   {
     cod_time: 1,
@@ -72,5 +71,78 @@ export const times = reactive([
     pontuacaogeral_time: 5,
     escudo_time: "/images/escudos/amarelo.png",
     nome_time: "Amarelo"
+  },
+
+  {
+    cod_time: 9,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Laranja",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/laranja.png",
+    nome_time: "Laranja"
+  },
+  {
+    cod_time: 10,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Cinza",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/cinza.png",
+    nome_time: "Cinza"
+  },
+  {
+    cod_time: 11,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Dourado",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/dourado.png",
+    nome_time: "Dourado"
+  },
+  {
+    cod_time: 12,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Prata",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/prata.png",
+    nome_time: "Prata"
+  },
+  {
+    cod_time: 13,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Turquesa",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/turquesa.png",
+    nome_time: "Turquesa"
+  },
+  {
+    cod_time: 14,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Magenta",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/magenta.png",
+    nome_time: "Magenta"
+  },
+  {
+    cod_time: 15,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Marrom",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/marrom.png",
+    nome_time: "Marrom"
+  },
+  {
+    cod_time: 16,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Ciano",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/ciano.png",
+    nome_time: "Ciano"
   }
 ])

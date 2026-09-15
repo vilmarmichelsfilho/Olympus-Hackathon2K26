@@ -79,6 +79,7 @@ function abrirMenu() {
 .olympus-screen {
   position: relative;
   min-height: 100vh;
+  max-height: fit-content;
   background-image: url("@/assets/fundo.png");
   background-size: cover;
   background-repeat: no-repeat;
