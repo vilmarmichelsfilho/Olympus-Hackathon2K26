@@ -304,6 +304,7 @@ section.selecao-modalidades .container .log-in-mobile {
 
 .link-desktop {
   display: none;
+  border: none;
 }
 
 .link {
@@ -355,6 +356,7 @@ section.selecao-modalidades ul {
   display: flex;
   flex-wrap: wrap;
   gap: 6vw;
+  padding: 0;
   list-style: none;
   margin: 2vw 4vw;
 }
