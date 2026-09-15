@@ -1,10 +1,13 @@
 <script setup>
 import OrganizadorPoupUp from '@/components/OrganizadorPoupUp.vue';
+import EditarTorneioView from '@/components/EditarTorneioView.vue';
+import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
 import DashboardTorneio from '@/components/DashboardTorneio.vue';
 const mostrarFluxo = ref(false)
+const mostrarEditarTorneio = ref(true)
+const torneioEditarId = ref(1)
 </script>
-
 <template>
   <div class="topo">
     <div class="titulo">
@@ -16,8 +19,12 @@ const mostrarFluxo = ref(false)
  </div>
 
  </div>
+ <div class="editar-torneio" v-if="mostrarEditarTorneio">
+<EditarTorneioView @fecha="mostrarEditarTorneio = false"
+:torneio="torneios.find((t) => t.cod_torneio === torneioEditarId)"></EditarTorneioView>
+ </div>
   <div class="fluxo">
-    <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false">   </OrganizadorPoupUp>
+    <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false"></OrganizadorPoupUp>
   </div>
    <div v-show="!mostrarFluxo">
      <DashboardTorneio/>
