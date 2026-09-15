@@ -5,7 +5,6 @@ import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
 import { timesDoMaiorAoMenor } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
-import { jogos } from '@/data/jogos'
 import { ref, computed } from 'vue'
 import modalidadesCard from '@/components/modalidadesCard.vue'
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
@@ -16,6 +15,7 @@ import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
 import { jogosVerificados } from '@/data/jogosverificados'
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 import { modalidades } from '@/data/modalidades'
+import { jogosDoTorneio } from '@/Utils/cod_torneioUtils'
 const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0)
 const modalidadeSelecionadaId = ref(null)
@@ -62,10 +62,10 @@ function fecharModal() {
   modalidadeSelecionadaId.value = null
 }
 const quantidadedejogos = computed(() => {
-  return jogos.length
+  return jogosDoTorneio.value.length
 })
 const totalJogosConcluidos = computed(() => {
-  return jogos.filter((jogo) => jogo.status === 'concluido').length
+  return jogosDoTorneio.value.filter((jogo) => jogo.status_jogo === 'Finalizado').length
 })
 const currentSlide = ref(0)
 function aoMudarSlide(data) {
