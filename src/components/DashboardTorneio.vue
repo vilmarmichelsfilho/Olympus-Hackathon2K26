@@ -4,15 +4,13 @@ import { torneios } from '@/data/torneios';
 import TorneioCard from './TorneioCard.vue';
 import AdicionarOuEditarTornei from './AdicionarOuEditarTornei.vue';
 import { salvarTorneio } from '@/Utils/adicionarUtils';
-
+const emit = defineEmits(['editar'])
 const add = ref(false)
-
 function aoAdicionarTorneio(dados) {
   salvarTorneio(dados)
   add.value = false
 }
 </script>
-
 <template>
   <div class="container">
     <div class="torneio">
@@ -31,7 +29,7 @@ function aoAdicionarTorneio(dados) {
       <ul>
         <TorneioCard v-for="torneio in torneios" :key="torneio.cod_torneio" :nome="torneio.nome_torneio"
           :dataInicio="torneio.data_inicio_torneio" :dataFim="torneio.data_fim_torneio" :status="torneio.status_torneio"
-          :id="torneio.cod_torneio"></TorneioCard>
+          :id="torneio.cod_torneio" @editar="emit('editar', $event)"></TorneioCard>
       </ul>
       <div class="card-info">
         <div class="topo-info">
@@ -61,6 +59,7 @@ button {
 
 .cima button {
   background: none;
+  color: white;
   padding: 0.3vw 1vw;
   border: solid white 0.15vw;
   font-size: 0.75vw;

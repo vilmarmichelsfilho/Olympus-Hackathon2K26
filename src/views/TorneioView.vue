@@ -5,8 +5,12 @@ import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
 import DashboardTorneio from '@/components/DashboardTorneio.vue';
 const mostrarFluxo = ref(false)
-const mostrarEditarTorneio = ref(true)
-const torneioEditarId = ref(1)
+const mostrarEditarTorneio = ref(false)
+const torneioEditarId = ref(null)
+function editarTorneio(id) {
+  torneioEditarId.value = id;
+  mostrarEditarTorneio.value = true;
+}
 </script>
 <template>
   <div class="topo">
@@ -19,16 +23,16 @@ const torneioEditarId = ref(1)
  </div>
 
  </div>
- <div class="editar-torneio" v-if="mostrarEditarTorneio">
-<EditarTorneioView @fecha="mostrarEditarTorneio = false"
-:torneio="torneios.find((t) => t.cod_torneio === torneioEditarId)"></EditarTorneioView>
- </div>
   <div class="fluxo">
     <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false"></OrganizadorPoupUp>
   </div>
-   <div v-show="!mostrarFluxo">
-     <DashboardTorneio/>
+   <div v-show="!mostrarFluxo && !mostrarEditarTorneio">
+     <DashboardTorneio  @editar="editarTorneio($event)"/>
    </div>
+   <div class="editar-torneio" v-if="mostrarEditarTorneio">
+<EditarTorneioView @fecha="mostrarEditarTorneio = false"
+:torneio="torneios.find((t) => t.cod_torneio == torneioEditarId)"></EditarTorneioView>
+ </div>
 </template>
 
 <style scoped>
