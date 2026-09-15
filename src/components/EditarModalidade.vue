@@ -4,7 +4,7 @@ import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 
 const props = defineProps(['modalidade']);
 const emit = defineEmits(['fechar', 'atualizar']);
-
+const local = ref('');
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
@@ -14,38 +14,47 @@ watch(
   () => props.modalidade,
   (nova) => {
     if (nova) {
-      nome.value = nova.nome ?? '';
-      desc.value = nova.desc ?? '';
-      tempo.value = nova.tempo ?? '';
-      imagem = nova.image ?? null;
+      local.value = nova.localdojogo_modalidade || '';
+      nome.value = nova.nome_modalidade || '';
+      desc.value = nova.desc_modalidade || '';
+      tempo.value = nova.tempojogemminutos_modalidade || '';
+      imagem = nova.foto_modalidade || null;
     }
   },
   { immediate: true }
 );
 
 function checarDados() {
-  if (nome.value !== '') {
-    if (desc.value !== '') {
-      if (imagem !== null) {
-        emit('atualizar', {
-          id: props.modalidade.id,
-          nome: nome.value,
-          desc: desc.value,
-          tempo: Number(tempo.value),
-          image: imagem
-        });
-        emit('fechar');
+  if (local.value !== '') {
+    if (nome.value !== '') {
+      if (desc.value !== '') {
+        if(tempo.value !== '') {
+          if (imagem !== null) {
+            emit('atualizar', {
+              cod_modalidade: props.modalidade.cod_modalidade,
+              nome_modalidade: nome.value,
+              desc_modalidade: desc.value,
+              tempojogemminutos_modalidade: Number(tempo.value),
+              localdojogo_modalidade: local.value,
+              foto_modalidade: imagem,
+            })
+            emit('fechar');
+          } else {
+            alert('Adicione uma imagem à modalidade');
+          }
+        } else {
+          alert('Preencha o tempo da modalidade');
+        }
       } else {
-        alert('Adicione uma imagem à modalidade');
+        alert('Preencha a descrição da modalidade');
       }
     } else {
-      alert('Preencha a descrição da modalidade');
+      alert('Preencha o nome da modalidade');
     }
   } else {
-    alert('Preencha o nome da modalidade');
+    alert('Preencha o local da modalidade');
   }
 }
-
 function fechar() {
   emit('fechar');
 }
@@ -73,15 +82,19 @@ function pegarImagem(event) {
           <h3>Nome da Modalidade</h3>
           <input type="text" placeholder="Digite" class="inputAnim" v-model="nome">
         </div>
+         <div class="local">
+          <h3>Local da Modalidade</h3>
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="local">
+          </div>
+      </div>
         <div class="desc">
           <h3>Descrição da Modalidade</h3>
           <input type="text" placeholder="Digite" class="inputAnim" v-model="desc">
         </div>
-      </div>
       <div class="partedebaixo">
         <div class="tempo">
-          <h3>Tempo da Modalidade(em minutos)</h3>
-          <input type="number" min="0" max="99" oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== 'E'" placeholder="Digite" class="inputAnim" v-model="tempo">
+          <h3>Tempo da Modalidade (em minutos)</h3>
+          <input type="number" min="0" max="99" v-model="tempo" oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== 'E'">
         </div>
         <div class="imagem">
           <h3>Imagem da Modalidade</h3>
@@ -162,6 +175,7 @@ h4 {
 }
 
 input {
+  text-align: center;
   color:  rgb(152, 151, 151);
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
@@ -171,6 +185,11 @@ input {
   padding: 0.3vw 2vw;
   border-radius: 0.2vw;
   transition: 0.3s;
+}
+div.desc{
+  text-align: center;
+  place-items: center;
+
 }
 .imagem input{
   font-size: 0.8vw;
@@ -248,7 +267,11 @@ input.inputAnim:focus {
   .imagem {
     max-width: none;
   }
-
+div.desc input {
+    min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
+  }
   .partedebaixo .imagem input {
     text-align: center;
     font-size: 2.8vw;

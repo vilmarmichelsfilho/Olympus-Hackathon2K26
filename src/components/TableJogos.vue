@@ -1,27 +1,26 @@
 <script setup>
-defineProps(['horario','data','modalidade','time1','time2','pontuacao1','pontuacao2','status','escudo1','escudo2'])
+defineProps(['horario_jogo','modalidade','time1','time2','pontuacao1','pontuacao2','status','escudo1','escudo2'])
 </script>
-
 <template>
 <li class="card-jogo">
-  <div class="ao-vivo">
+  <div class="ao-vivo" v-if="status === 'AoVivo'">
     <p>Ao Vivo</p>
   </div>
 
-  <img :src="escudo1" alt="" class="thumb" />
-
   <div class="conteudo">
     <div class="linha-time">
+      <img :src="escudo1" alt="" class="thumb" />
       <p class="nome">{{ time1 }}</p>
       <p class="placar">{{ pontuacao1 }}</p>
     </div>
     <div class="linha-time">
+      <img :src="escudo2" alt="" class="thumb" />
       <p class="nome">{{ time2 }}</p>
       <p class="placar">{{ pontuacao2 }}</p>
     </div>
 
     <p class="modalidade">{{ modalidade }}</p>
-    <p class="horario">{{ horario }}</p>
+    <p class="horario">{{ horario_jogo }}</p>
   </div>
 </li>
 </template>

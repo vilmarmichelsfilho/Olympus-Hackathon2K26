@@ -1,51 +1,49 @@
+
 <script setup>
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-
-const emit = defineEmits(['fechar','adicionar'])
-
-const tecnico = ref('Informática')
-const ano = ref('')
-const serie = ref('')
+const emit = defineEmits(['fechar', 'adicionar'])
+const nome = ref('');
+const dataInicio = ref('');
+const dataFim = ref('');
+const status = ref('Planejado')
 </script>
 
 <template>
     <div class="display">
         <div class="dialog">
-            <h2>Adicionar/Editar Turma</h2>
+            <h2>Criar torneio</h2>
             <form action="">
                 <div class="input">
-                    <h3>Técnico</h3>
-                    <select name="tecnico" id="tecnico" placeholder="Técnico" v-model="tecnico">
-                        <option value="Informática">INFO</option>
-                        <option value="Agropecuária">AGRO</option>
-                        <option value="Química">QUIMI</option>
-                    </select>
+                    <h3>Nome do Torneio*</h3>
+                    <input type="text" placeholder="Nome do Torneio" v-model="nome">
                 </div>
                 <div class="sla">
                     <div class="input">
-                        <h3>Ano</h3>
-                        <select name="ano" id="ano" placeholder="Ano" v-model="ano">
-                            <option value=1>1</option>
-                            <option value=2>2</option>
-                            <option value=3>3</option>
-                        </select>
+                        <h3>Data Inicio*</h3>
+                        <input type="date" v-model="dataInicio">
                     </div>
                     <div class="input">
-                        <h3>Serie</h3>
-                        <select name="serie" id="serie" placeholder="Serie" v-model="serie">
-                            <option value=1>1</option>
-                            <option value=2>2</option>
-                            <option value=3>3</option>
-                        </select>
+                        <h3>Data Fim*</h3>
+                        <input type="date" v-model="dataFim">
                     </div>
                 </div>
-                <div class="pre">
-                    <h4>Pré-Vizualização <span>Turma</span></h4>
-                    <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
+                <div class="status">
+                    <select v-model="status">
+                        <option value="Planejado">Planejado</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar', tecnico, ano, serie)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button
+                        type="submit"
+                        class="salvar"
+                        v-on:click.prevent="emit('adicionar', { nome, dataInicio, dataFim, status })"
+                        :disabled="nome === '' || dataInicio === '' || dataFim === ''"
+                    >
+                        <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
+                    </button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>

@@ -3,30 +3,34 @@ import { computed } from "vue";
 import { id } from "vuetify/locale";
 
 function excluir(id) {
-    const index = turmas.findIndex(item => item.id === id);
+    const index = turmas.findIndex(item => item.cod_turma === id);
     turmas.splice(index,1);
 }
 
-function adicionar(nome,ano) {
-    if (turmas.some(item => item.nome === nome)) {
-        alert('Está turma já existe!')
+function adicionar(tecnico,ano, serie) {
+    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie)) {
+        alert('Esta turma ja existe!')
     } else {
-        const maiorId = Math.max(...turmas.map(item => item.id));
+        const maiorId = Math.max(...turmas.map(item => item.cod_turma));
         turmas.push({
-            id: maiorId+1,
-            nome: nome,
-            ano: ano,
+            cod_turma: 1,
+            cod_time: 0,
+            cod_torneio: 1,
+            tecnico_turma: tecnico,
+            ano_turma: ano,
+            numero_turma: serie
         })
     }
 }
 
-function editar(id,nome,ano) {
-    if (turmas.some(item => item.nome === nome)) {
-        alert('Está turma já existe!')
+function editar(id,tecnico,ano, serie) {
+    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie)) {
+        alert('Esta turma ja existe!')
     } else {
-        const index = turmas.findIndex(item => item.id === id);
-        turmas[index].nome = nome
-        turmas[index].ano = ano
+        const index = turmas.findIndex(item => item.cod_turma === id);
+        turmas[index].tecnico_turma = tecnico
+        turmas[index].ano_turma = ano
+        turmas[index].numero_turma = serie
     }
 }
 

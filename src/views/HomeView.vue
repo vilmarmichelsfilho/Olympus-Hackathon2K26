@@ -12,11 +12,12 @@ import { modalidades } from '@/data/modalidades';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/carousel.css';
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
+import { jogosVerificados } from '@/data/jogosverificados';
 const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0);
 const modalidadeSelecionadaId = ref(null);
 const modalidadeSelecionada = computed(() => {
-  const resultado = modalidades.find((m) => m.id === modalidadeSelecionadaId.value)
+  const resultado = modalidades.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
   if (resultado) {
     return resultado
   } else {
@@ -26,7 +27,7 @@ const modalidadeSelecionada = computed(() => {
 
 const imagem = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.image
+    return modalidadeSelecionada.value.foto_modalidade
   } else {
     return ''
   }
@@ -34,7 +35,7 @@ const imagem = computed(() => {
 
 const nome = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.nome
+    return modalidadeSelecionada.value.nome_modalidade
   } else {
     return ''
   }
@@ -42,7 +43,7 @@ const nome = computed(() => {
 
 const desc = computed(() => {
   if (modalidadeSelecionada.value) {
-    return modalidadeSelecionada.value.desc
+    return modalidadeSelecionada.value.desc_modalidade
   } else {
     return ''
   }
@@ -79,7 +80,7 @@ const progressoPorcentagem = computed(() => {
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
-const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === 'AoVivo'))
+
 </script>
 
 <template>
@@ -92,7 +93,7 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
     <div class="acontecendo">
       <TableJogosDesktop
         v-for="jogo in jogosVerificados"
-        :key="jogo.id"
+        :key="jogo.cod_jogo"
         :data="jogo.data"
         :horario="jogo.horario"
         :modalidade="jogo.modalidade"
@@ -132,10 +133,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
         <ul class="modalidades-">
           <modalidadesCard
             v-for="modalidade in modalidades"
-            :key="modalidade.id"
-            :imagem="modalidade.image"
-            :nome="modalidade.nome"
-            :id="modalidade.id"
+            :key="modalidade.cod_modalidade"
+            :imagem="modalidade.foto_modalidade"
+            :nome="modalidade.nome_modalidade"
+            :id="modalidade.cod_modalidade"
             @mostrar="mostrarModal"
           >
           </modalidadesCard>
@@ -149,11 +150,11 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
           @slide-start="aoMudarSlide"
           v-model="currentSlide"
         >
-          <Slide v-for="modalidade in modalidades" :key="modalidade.id">
+          <Slide v-for="modalidade in modalidades" :key="modalidade.cod_modalidade">
             <modalidadesCard
-              :nome="modalidade.nome"
-              :imagem="modalidade.image"
-              :id="modalidade.id"
+              :nome="modalidade.nome_modalidade"
+              :imagem="modalidade.foto_modalidade"
+              :id="modalidade.cod_modalidade"
               @mostrar="mostrarModal"
             />
           </Slide>
@@ -211,10 +212,10 @@ const jogosVerificados = computed(() => jogos.filter((jogo) => jogo.status === '
           <tbody>
             <timeCard
               v-for="time in timesDoMaiorAoMenor"
-              :key="time.id"
-              :id="time.id"
-              :pontuacao="time.pontuacao_geral"
-              :cor="time.cor"
+              :key="time.cod_time"
+              :id="time.cod_time"
+              :pontuacao="time.pontuacaogeral_time"
+              :cor="time.cor_time"
             >
             </timeCard>
           </tbody>
@@ -303,6 +304,7 @@ section.selecao-modalidades .container .log-in-mobile {
 
 .link-desktop {
   display: none;
+  border: none;
 }
 
 .link {
@@ -354,6 +356,7 @@ section.selecao-modalidades ul {
   display: flex;
   flex-wrap: wrap;
   gap: 6vw;
+  padding: 0;
   list-style: none;
   margin: 2vw 4vw;
 }
@@ -763,7 +766,7 @@ tbody {
   }
 
   div.tabela-container {
-    width: 100vw;
+    width: 100%;
     height: auto;
     border-radius: 0;
     padding: 0;
@@ -784,7 +787,7 @@ tbody {
 
   th {
     font-size: 2.5vw;
-    padding: 1vw;
+    padding: 1vw 0;
   }
 
   .link-times {

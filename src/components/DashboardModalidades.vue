@@ -1,16 +1,32 @@
 <script setup>
 import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
-defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
+import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
+import EditarModalidade from '@/components/EditarModalidade.vue'
+import { editarModalidade } from '@/Utils/editarUtils.js'
+import { ref } from 'vue';
+const modalidadeEditar = ref(false)
+const modalidadeEditarId = ref(null)
+function abrirEditar(id) {
+  modalidadeEditarId.value = id
+  modalidadeEditar.value = true
+}
+const modalidadeAdicionar = ref(false)
+function exluirModalidade(id) {
+  const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id)
+  if (index !== -1) {
+    modalidades.splice(index, 1)
+  }
+}
 </script>
 <template>
   <section class="dashboard">
     <h3>modalidades</h3>
     <p>Informações sobre as modalidades, descrição,
-      nome, tempo e foto</p>
+      nome, tempo, local e foto</p>
     <div class="conteiner">
       <div class="content"><img src="/public/images/coroa.png" alt="coroa">
-        <button @click="$emit('adicionarModalidade')">Adicionar</button>
+        <button @click="modalidadeAdicionar = true">Adicionar</button>
       </div>
     <div class="tabelaModalidades">
       <table>
@@ -18,6 +34,7 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
           <tr>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Local</th>
             <th>Foto</th>
             <th>Tempo</th>
           </tr>
@@ -25,29 +42,56 @@ defineEmits(['adicionarModalidade', 'editarModalidade', 'excluirModalidade']);
         <tbody>
           <modalidadesDashboardChild
             v-for="modalidade in modalidades"
-            :key="modalidade.id"
-            :id="modalidade.id"
-            :imagem="modalidade.image"
-            :nome="modalidade.nome"
-            :desc="modalidade.desc"
-            :tempo="modalidade.tempo"
-            @editar-modalidade="$emit('editarModalidade', $event)"
-            @excluir-modalidade="$emit('excluirModalidade', $event)"
+            :key="modalidade.cod_modalidade"
+            :id="modalidade.cod_modalidade"
+            :local="modalidade.localdojogo_modalidade"
+            :imagem="modalidade.foto_modalidade"
+            :nome="modalidade.nome_modalidade"
+            :desc="modalidade.desc_modalidade"
+            :tempo="modalidade.tempojogemminutos_modalidade"
+            @editar-modalidade="abrirEditar($event)"
+            @excluir-modalidade="exluirModalidade($event)"
           />
         </tbody>
       </table>
     </div>
     </div>
+    <AdicionarModalidade
+      @fecharAdicionarModalidade="modalidadeAdicionar = false"
+      class="popup"
+      :class="{ aberto: modalidadeAdicionar }"
+    ></AdicionarModalidade>
+    <EditarModalidade
+      :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
+      @atualizar="editarModalidade($event.cod_modalidade, $event)"
+      @fechar="modalidadeEditar = false"
+      class="popup"
+      :class="{ aberto: modalidadeEditar }"
+    >
+    </EditarModalidade>
   </section>
 </template>
 <style scoped>
+.popup {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.popup.aberto {
+  opacity: 1;
+  visibility: visible;
+}
 section.dashboard {
   background-color: transparent;
+  margin: 0;
   width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 0;
   box-sizing: border-box;
   font-family: sans-serif;
 }
@@ -56,17 +100,18 @@ section.dashboard h3 {
   color: white;
   text-transform: capitalize;
   font-size: 2.5vw;
+  margin: 0 0 0 5vw;
 }
 
 section.dashboard  p {
   color: #8A99AD;
   font-size: 1.2vw;
-  margin-bottom: 1vw;
+  margin: 0 0 0 7vw;
 }
 
 div.conteiner {
-  margin: 0 auto;
-  width: 100%;
+  margin: 2vw auto;
+  width: 80%;
   max-width: 1100px;
   padding: 24px;
   border-radius: 12px;
@@ -103,7 +148,7 @@ div.content button {
 }
 
 .tabelaModalidades {
-  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -125,10 +170,16 @@ th {
   text-align: left;
 }
 th:nth-child(1), td:nth-child(1) { width: 25%; }
-th:nth-child(2), td:nth-child(2) { width: 40%; }
-th:nth-child(3), td:nth-child(3) { width: 15%; text-align: center; }
-th:nth-child(4), td:nth-child(4) { width: 20%; text-align: center; }
+th:nth-child(2), td:nth-child(2) { width: 30%; }
+th:nth-child(3), td:nth-child(3) { width: 20%;  }
+th:nth-child(4), td:nth-child(4) { width: 25%; text-align: center; }
+th:nth-child(5), td:nth-child(5) { width: 20%; text-align: center; }
 @media (max-width: 750px){
+th:nth-child(1), td:nth-child(1) { width: 20%; }
+th:nth-child(2), td:nth-child(2) { width: 40%; }
+th:nth-child(3), td:nth-child(3) { width: 20%;  }
+th:nth-child(4), td:nth-child(4) { width: 25%; text-align: center; }
+th:nth-child(5), td:nth-child(5) { width: 20%; text-align: center; }
   section.dashboard{
     padding: 20px 0;
   }
