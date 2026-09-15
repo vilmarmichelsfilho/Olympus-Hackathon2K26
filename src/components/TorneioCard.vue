@@ -45,6 +45,7 @@ function excluir() {
     padding: 0.2vw 0.2vw;
     border-radius: 999px;
     font-size: 1vw;
+    text-align: center;
 }
 
 .status.ativo {
