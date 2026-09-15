@@ -6,12 +6,10 @@ import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
-
 const emit = defineEmits(['loginPop'])
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
 }
-
 </script>
 
 <template>

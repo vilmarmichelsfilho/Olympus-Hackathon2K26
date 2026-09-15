@@ -1,21 +1,23 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
-import CloseIcon from '@iconify-vue/mdi/close';
-import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
-import timeCard from '@/components/timeCard.vue';
-import { jogos } from '@/data/jogos';
-import { ref, computed } from 'vue';
-import modalidadesCard from '@/components/modalidadesCard.vue';
-import ArrowRightIcon from '@iconify-vue/mdi/arrow-right';
-import { modalidades } from '@/data/modalidades';
-import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import 'vue3-carousel/carousel.css';
-import TableJogosDesktop from '@/components/TableJogosDesktop.vue';
-import { jogosVerificados } from '@/data/jogosverificados';
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
+import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
+import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
+import CloseIcon from '@iconify-vue/mdi/close'
+import { timesDoMaiorAoMenor } from '@/Utils/timesUtils'
+import timeCard from '@/components/timeCard.vue'
+import { jogos } from '@/data/jogos'
+import { ref, computed } from 'vue'
+import modalidadesCard from '@/components/modalidadesCard.vue'
+import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
+import { modalidades } from '@/data/modalidades'
+import { Carousel, Slide, Navigation } from 'vue3-carousel'
+import 'vue3-carousel/carousel.css'
+import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
+import { jogosVerificados } from '@/data/jogosverificados'
 const emit = defineEmits(['loginPop'])
-const modalAberto = ref(0);
-const modalidadeSelecionadaId = ref(null);
+const modalAberto = ref(0)
+const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {
   const resultado = modalidades.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
   if (resultado) {
@@ -80,148 +82,151 @@ const progressoPorcentagem = computed(() => {
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
-
 </script>
 
 <template>
   <main>
-    <div class="texto-acontece">
-      <h3>Acontecendo Agora</h3>
-      <p>Jogos por todo o Campus do IFC Araquari</p>
-    </div>
-
-    <div class="acontecendo">
-      <TableJogosDesktop
-        v-for="jogo in jogosVerificados"
-        :key="jogo.cod_jogo"
-        :data="jogo.data"
-        :horario="jogo.horario"
-        :modalidade="jogo.modalidade"
-        :time1="jogo.time1"
-        :time2="jogo.time2"
-        :pontuacao1="jogo.pontuacao1"
-        :pontuacao2="jogo.pontuacao2"
-        :status="jogo.status"
-        :escudo1="jogo.escudo1"
-        :escudo2="jogo.escudo2"
-      >
-      </TableJogosDesktop>
-    </div>
-    <section class="selecao-modalidades">
-      <div class="container">
-        <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
-        <div class="log-in-mobile">
-        <RouterLink class="link" to="/login">
-      Log-in
-            <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-      </RouterLink>
-        </div>
+  <div v-if="cod_torneioAtual == null" class="selecionarTorneio">
+<selecionarTorneio></selecionarTorneio>
+   </div>
+    <div class="apostercodtorneioselecionado" v-if="cod_torneioAtual != null">
+      <div class="texto-acontece">
+        <h3>Acontecendo Agora</h3>
+        <p>Jogos por todo o Campus do IFC Araquari</p>
       </div>
-
-      <h2>Olimpíadas ifc</h2>
-      <p>
-        Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos
-        acontecendo no campus
-      </p>
-      <div class="log-in-desktop">
-        <button class="link-desktop" v-on:click.prevent="emit('loginPop')">
-      Log-in
-            <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-      </button>
-      </div>
-      <div class="modalidades-mobile">
-        <ul class="modalidades-">
-          <modalidadesCard
-            v-for="modalidade in modalidades"
-            :key="modalidade.cod_modalidade"
-            :imagem="modalidade.foto_modalidade"
-            :nome="modalidade.nome_modalidade"
-            :id="modalidade.cod_modalidade"
-            @mostrar="mostrarModal"
-          >
-          </modalidadesCard>
-        </ul>
-      </div>
-      <div class="carrossel-modalidades">
-        <Carousel
-          :items-to-show="3"
-          :wrap-around="true"
-          :snap-align="'center'"
-          @slide-start="aoMudarSlide"
-          v-model="currentSlide"
+      <div class="acontecendo">
+        <TableJogosDesktop
+          v-for="jogo in jogosVerificados"
+          :key="jogo.cod_jogo"
+          :data="jogo.data"
+          :horario="jogo.horario"
+          :modalidade="jogo.modalidade"
+          :time1="jogo.time1"
+          :time2="jogo.time2"
+          :pontuacao1="jogo.pontuacao1"
+          :pontuacao2="jogo.pontuacao2"
+          :status="jogo.status"
+          :escudo1="jogo.escudo1"
+          :escudo2="jogo.escudo2"
         >
-          <Slide v-for="modalidade in modalidades" :key="modalidade.cod_modalidade">
-            <modalidadesCard
-              :nome="modalidade.nome_modalidade"
-              :imagem="modalidade.foto_modalidade"
-              :id="modalidade.cod_modalidade"
-              @mostrar="mostrarModal"
-            />
-          </Slide>
-          <template #addons>
-            <Navigation />
-          </template>
-        </Carousel>
-        <div class="barra-progresso-container">
-          <div
-            class="barra-progresso-preenchimento"
-            :style="{ width: progressoPorcentagem + '%' }"
-          ></div>
-        </div>
+        </TableJogosDesktop>
       </div>
-      <Transition name="modal">
-        <div v-if="modalAberto" class="pop-up-overlay">
-          <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
-            <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
-            <h3 class="pop-up-titulo">{{ nome }}</h3>
-            <p class="descricao">{{ desc }}</p>
-            <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar"
-              >Entrar</RouterLink
-            >
-          </div>
-        </div>
-      </Transition>
-    </section>
-    <section class="rankingtimes">
-      <div class="conteiner">
-        <div class="conteiner-esquerdo">
-          <h3>Ranking Dos <span>Times</span></h3>
-          <div class="contentlink">
-            <RouterLink to="/times" class="link-times"
-              >Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
+      <section class="selecao-modalidades">
+        <div class="container">
+          <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
+          <div class="log-in-mobile">
+            <RouterLink class="link" to="/login">
+              Log-in
+              <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
             </RouterLink>
           </div>
         </div>
-        <div class="jogosrestantes">
-          <p class="numero">
-            <span>{{ totalJogosConcluidos }}</span
-            >/{{ quantidadedejogos }}
-          </p>
-          <p>Jogos Concluídos</p>
+
+        <h2>Olimpíadas ifc</h2>
+        <p>
+          Bem Vindos, ao Olympos um site criado para informar os alunos do IFC, sobre os jogos
+          acontecendo no campus
+        </p>
+        <div class="log-in-desktop">
+          <button class="link-desktop" v-on:click.prevent="emit('loginPop')">
+            Log-in
+            <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
+          </button>
         </div>
-      </div>
-      <div class="tabela-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Pos</th>
-              <th>Time</th>
-              <th>Pontos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <timeCard
-              v-for="time in timesDoMaiorAoMenor"
-              :key="time.cod_time"
-              :id="time.cod_time"
-              :pontuacao="time.pontuacaogeral_time"
-              :cor="time.cor_time"
+        <div class="modalidades-mobile">
+          <ul class="modalidades-">
+            <modalidadesCard
+              v-for="modalidade in modalidades"
+              :key="modalidade.cod_modalidade"
+              :imagem="modalidade.foto_modalidade"
+              :nome="modalidade.nome_modalidade"
+              :id="modalidade.cod_modalidade"
+              @mostrar="mostrarModal"
             >
-            </timeCard>
-          </tbody>
-        </table>
-      </div>
-    </section>
+            </modalidadesCard>
+          </ul>
+        </div>
+        <div class="carrossel-modalidades">
+          <Carousel
+            :items-to-show="3"
+            :wrap-around="true"
+            :snap-align="'center'"
+            @slide-start="aoMudarSlide"
+            v-model="currentSlide"
+          >
+            <Slide v-for="modalidade in modalidades" :key="modalidade.cod_modalidade">
+              <modalidadesCard
+                :nome="modalidade.nome_modalidade"
+                :imagem="modalidade.foto_modalidade"
+                :id="modalidade.cod_modalidade"
+                @mostrar="mostrarModal"
+              />
+            </Slide>
+            <template #addons>
+              <Navigation />
+            </template>
+          </Carousel>
+          <div class="barra-progresso-container">
+            <div
+              class="barra-progresso-preenchimento"
+              :style="{ width: progressoPorcentagem + '%' }"
+            ></div>
+          </div>
+        </div>
+        <Transition name="modal">
+          <div v-if="modalAberto" class="pop-up-overlay">
+            <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
+              <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
+              <h3 class="pop-up-titulo">{{ nome }}</h3>
+              <p class="descricao">{{ desc }}</p>
+              <RouterLink :to="`/chaveamento/${modalidadeSelecionadaId}`" class="btn-entrar"
+                >Entrar</RouterLink
+              >
+            </div>
+          </div>
+        </Transition>
+      </section>
+      <section class="rankingtimes">
+        <div class="conteiner">
+          <div class="conteiner-esquerdo">
+            <h3>Ranking Dos <span>Times</span></h3>
+            <div class="contentlink">
+              <RouterLink to="/times" class="link-times"
+                >Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
+              </RouterLink>
+            </div>
+          </div>
+          <div class="jogosrestantes">
+            <p class="numero">
+              <span>{{ totalJogosConcluidos }}</span
+              >/{{ quantidadedejogos }}
+            </p>
+            <p>Jogos Concluídos</p>
+          </div>
+        </div>
+        <div class="tabela-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Time</th>
+                <th>Pontos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <timeCard
+                v-for="time in timesDoMaiorAoMenor"
+                :key="time.cod_time"
+                :id="time.cod_time"
+                :pontuacao="time.pontuacaogeral_time"
+                :cor="time.cor_time"
+              >
+              </timeCard>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   </main>
 </template>
 <style scoped>
@@ -233,6 +238,10 @@ main {
   background-color: black;
   padding: 0 0 20vw 0;
 }
+.selecionarTorneio{
+  display: flex;
+  justify-content: center;
+}
 section.selecao-modalidades {
   padding: 0 0 10vw 0;
   background-color: #fff;
@@ -242,7 +251,7 @@ section.selecao-modalidades {
 .texto-acontece h3 {
   color: white;
 }
-.texto-acontece p{
+.texto-acontece p {
   color: gray;
 }
 div.carrossel-modalidades {
@@ -255,14 +264,14 @@ div.carrossel-modalidades {
   justify-content: center;
   margin: 0vw 20vw;
 }
-.texto-acontece{
+.texto-acontece {
   text-align: center;
   margin: 0vw 0vw 3vw;
 }
-.texto-acontece h3{
+.texto-acontece h3 {
   font-size: 3vw;
 }
-.texto-acontece p{
+.texto-acontece p {
   font-size: 1.5vw;
 }
 section.selecao-modalidades div.container {
@@ -343,7 +352,7 @@ section.selecao-modalidades p {
   color: #00000040;
   margin: 1vw 5vw;
 }
-section.selecao-modalidades h3{
+section.selecao-modalidades h3 {
   font-family: 'Krona One', sans-serif;
   font-size: 1.5vw;
 }
@@ -542,11 +551,11 @@ tbody {
   border-radius: 6vw;
   padding: 0.5vw 4vw;
 }
-@media(max-width: 1020px) {
-  .texto-acontece{
+@media (max-width: 1020px) {
+  .texto-acontece {
     display: none;
   }
-  .acontecendo{
+  .acontecendo {
     display: none;
   }
 }
