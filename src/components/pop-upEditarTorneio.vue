@@ -26,9 +26,9 @@ function checarDados() {
         emit('atualizar', {
           cod_torneio: props.torneio.cod_torneio,
           nome_torneio: nome.value,
-          data_inicio: dataInicio.value,
-          data_fim: dataFim.value,
-          status: status.value
+          data_inicio_torneio: dataInicio.value,
+          data_fim_torneio: dataFim.value,
+          status_torneio: status.value
         })
         emit('fecharEditarTorneio');
       } else {
@@ -149,7 +149,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1vw;
+  font-size: 1.2vw;
   font-weight: bolder;
   margin-bottom: 0.2vw;
 }
