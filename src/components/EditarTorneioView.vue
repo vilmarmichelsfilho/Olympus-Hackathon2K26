@@ -28,7 +28,7 @@ function Fechar(){
 </div>
 <div class="content-embaixo">
   <h3>Gerenciar Torneio</h3>
-  <button @click="abrirEditarTorneio()">Editar dados gerais</button>
+  <button @click="abrirEditarTorneio()" style="cursor: pointer;">Editar dados gerais</button>
 </div>
 <ul>
   <li>
@@ -165,6 +165,7 @@ ul li {
   flex-direction: column;
   gap: 0.5vw;
   padding: 1vw;
+  cursor: pointer;
 }
 ul li:hover {
   background-color: #263760;

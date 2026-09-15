@@ -12,9 +12,10 @@ function adicionarTimes(nome, cor, imagem) {
         pontuacao_geral: 0,
     })
 }
-function adicionarModalidade(nome, desc, imagem, tempo, local) {
+function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
     const maiorId = Math.max(...modalidades.map(item => item.cod_modalidade));
     modalidades.push({
+        cod_torneio: torneio,
         cod_modalidade: maiorId+1,
         foto_modalidade: imagem,
         nome_modalidade: nome,
