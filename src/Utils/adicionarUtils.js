@@ -1,6 +1,7 @@
 import { times } from '@/data/times'
 import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
+import { torneios } from '@/data/torneios';
 function adicionarTimes(nome, cor, imagem) {
     const maiorId = Math.max(...times.map(item => item.id));
     times.push({
@@ -31,4 +32,18 @@ function adicionarArbitro(nome, login, senha){
         senha_arbitro: senha
     })
 }
-export{adicionarTimes, adicionarModalidade, adicionarArbitro}
+function salvarTorneio(dadosDoFormulario) {
+  const novoCodigo = torneios.length
+    ? Math.max(...torneios.map(t => t.cod_torneio)) + 1
+    : 1
+
+  torneios.push({
+    cod_torneio: novoCodigo,
+    nome_torneio: dadosDoFormulario.nome,
+    data_inicio_torneio: dadosDoFormulario.dataInicio,
+    data_fim_torneio: dadosDoFormulario.dataFim,
+    status_torneio: dadosDoFormulario.status,
+    cod_adm: 1,
+  })
+}
+export{adicionarTimes, adicionarModalidade, adicionarArbitro,salvarTorneio}

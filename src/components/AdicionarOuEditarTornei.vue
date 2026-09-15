@@ -1,13 +1,12 @@
+
 <script setup>
-import { ref,  } from 'vue';
+import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-
-const emit = defineEmits(['fechar','adicionar'])
-
-const nome = ref([]);
-const dataInicio = ref([]);
-const dataFim = ref([]);
-const status = ref([])
+const emit = defineEmits(['fechar', 'adicionar'])
+const nome = ref('');
+const dataInicio = ref('');
+const dataFim = ref('');
+const status = ref('Planejado')
 </script>
 
 <template>
@@ -22,22 +21,29 @@ const status = ref([])
                 <div class="sla">
                     <div class="input">
                         <h3>Data Inicio*</h3>
-                       <input type="date" placeholder="12/08/2026" v-model="dataInicio">
+                        <input type="date" v-model="dataInicio">
                     </div>
                     <div class="input">
                         <h3>Data Fim*</h3>
-                        <input type="date" placeholder="12/09/2030" v-model="dataFim">
+                        <input type="date" v-model="dataFim">
                     </div>
                 </div>
                 <div class="status">
-                <select v-model="status">
-                 <option value="">planejado</option>
-
-
-                </select>
+                    <select v-model="status">
+                        <option value="Planejado">Planejado</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar',ano+tecnico+serie,ano)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button
+                        type="submit"
+                        class="salvar"
+                        v-on:click.prevent="emit('adicionar', { nome, dataInicio, dataFim, status })"
+                        :disabled="nome === '' || dataInicio === '' || dataFim === ''"
+                    >
+                        <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
+                    </button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>
