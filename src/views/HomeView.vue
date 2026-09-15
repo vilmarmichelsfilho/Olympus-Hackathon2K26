@@ -15,11 +15,12 @@ import 'vue3-carousel/carousel.css'
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
 import { jogosVerificados } from '@/data/jogosverificados'
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
+import { modalidades } from '@/data/modalidades'
 const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0)
 const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {
-  const resultado = modalidadesFiltradas.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
+  const resultado = modalidades.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
   if (resultado) {
     return resultado
   } else {
@@ -68,7 +69,7 @@ const totalJogosConcluidos = computed(() => {
 })
 const currentSlide = ref(0)
 function aoMudarSlide(data) {
-  const total = modalidadesFiltradas.length
+  const total = modalidadesFiltradas.value.length
   if (!total) return
   let rawIndex = data.currentSlideIndex
   if (data.slidingToIndex !== undefined) {
@@ -78,7 +79,7 @@ function aoMudarSlide(data) {
   currentSlide.value = indexReal
 }
 const progressoPorcentagem = computed(() => {
-  const total = modalidadesFiltradas.length
+  const total = modalidadesFiltradas.value.length
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
