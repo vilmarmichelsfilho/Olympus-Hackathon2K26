@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
@@ -10,16 +9,17 @@ import { jogos } from '@/data/jogos'
 import { ref, computed } from 'vue'
 import modalidadesCard from '@/components/modalidadesCard.vue'
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
-import { modalidades } from '@/data/modalidades'
+import { modalidadesFiltradas } from '@/Utils/cod_torneioUtils'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/carousel.css'
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
 import { jogosVerificados } from '@/data/jogosverificados'
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 const emit = defineEmits(['loginPop'])
 const modalAberto = ref(0)
 const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {
-  const resultado = modalidades.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
+  const resultado = modalidadesFiltradas.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
   if (resultado) {
     return resultado
   } else {
@@ -68,7 +68,7 @@ const totalJogosConcluidos = computed(() => {
 })
 const currentSlide = ref(0)
 function aoMudarSlide(data) {
-  const total = modalidades.length
+  const total = modalidadesFiltradas.length
   if (!total) return
   let rawIndex = data.currentSlideIndex
   if (data.slidingToIndex !== undefined) {
@@ -78,7 +78,7 @@ function aoMudarSlide(data) {
   currentSlide.value = indexReal
 }
 const progressoPorcentagem = computed(() => {
-  const total = modalidades.length
+  const total = modalidadesFiltradas.length
   if (!total) return 0
   return ((currentSlide.value + 1) / total) * 100
 })
@@ -136,7 +136,7 @@ const progressoPorcentagem = computed(() => {
         <div class="modalidades-mobile">
           <ul class="modalidades-">
             <modalidadesCard
-              v-for="modalidade in modalidades"
+              v-for="modalidade in modalidadesFiltradas"
               :key="modalidade.cod_modalidade"
               :imagem="modalidade.foto_modalidade"
               :nome="modalidade.nome_modalidade"
@@ -154,7 +154,7 @@ const progressoPorcentagem = computed(() => {
             @slide-start="aoMudarSlide"
             v-model="currentSlide"
           >
-            <Slide v-for="modalidade in modalidades" :key="modalidade.cod_modalidade">
+            <Slide v-for="modalidade in modalidadesFiltradas" :key="modalidade.cod_modalidade">
               <modalidadesCard
                 :nome="modalidade.nome_modalidade"
                 :imagem="modalidade.foto_modalidade"
