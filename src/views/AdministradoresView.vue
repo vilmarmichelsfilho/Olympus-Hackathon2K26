@@ -10,7 +10,7 @@ import { ref } from 'vue'
 import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
 import TorneioView from './TorneioView.vue'
-const telaAtual = ref('dashboard')
+const telaAtual = ref('torneio')
 if (localStorage.getItem('logado') != 'true') {
   router.replace('/')
   alert('Você não tem acesso a está página')

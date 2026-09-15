@@ -33,6 +33,7 @@ function sair() {
             </div>
             <nav>
                 <ul>
+                    <li v-on:click="emit('tela','torneio')">Torneio</li>
                     <li v-on:click="emit('tela','dashboard')">Dashboard</li>
                     <li v-on:click="emit('tela','jogos')">Jogos</li>
                     <li v-on:click="emit('tela','times')">Times</li>
@@ -41,7 +42,7 @@ function sair() {
                     <li v-on:click="emit('tela','turmas')">Turmas</li>
                     <li v-on:click="emit('tela','arbitros')">Arbitros</li>
                     <li v-on:click="emit('tela','modalidades')">Modalidades</li>
-                    <li v-on:click="emit('tela','torneio')">Torneio</li>
+
                 </ul>
             </nav>
         </div>

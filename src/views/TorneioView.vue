@@ -1,6 +1,7 @@
 <script setup>
 import OrganizadorPoupUp from '@/components/OrganizadorPoupUp.vue';
 import { ref } from 'vue';
+import DashboardTorneio from '@/components/DashboardTorneio.vue';
 const mostrarFluxo = ref(false)
 </script>
 
@@ -13,11 +14,14 @@ const mostrarFluxo = ref(false)
  <div class="botao">
    <button @click="mostrarFluxo = true">Cadastrar Torneio</button>
  </div>
+
  </div>
   <div class="fluxo">
     <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false">   </OrganizadorPoupUp>
   </div>
-
+   <div v-show="!mostrarFluxo">
+     <DashboardTorneio/>
+   </div>
 </template>
 
 <style scoped>
@@ -38,5 +42,9 @@ const mostrarFluxo = ref(false)
 .topo button {
   border-radius: 8px;
   padding: 0.5vw;
+  background-color: transparent;
+  color: white;
+font-weight: bold;
+  border: 1px solid white;
 }
 </style>
