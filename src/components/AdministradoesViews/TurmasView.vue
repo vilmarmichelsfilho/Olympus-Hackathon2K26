@@ -60,7 +60,15 @@ function editardd(tecnico, ano, serie) {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-
+button {
+  background: transparent;
+  color: black;
+  border: 1px solid black;
+  padding: 0.5vw 1.5vw;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
 .template {
     font-family: "Krona One", sans-serif;
     font-weight: 400;

@@ -32,8 +32,6 @@ const status = ref([])
                 <div class="status">
                 <select v-model="status">
                  <option value="">planejado</option>
-
-
                 </select>
                 </div>
                 <div class="botoes">
