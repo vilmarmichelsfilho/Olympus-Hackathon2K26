@@ -1,52 +1,53 @@
-
 <script setup>
 import { ref } from 'vue';
-import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-const emit = defineEmits(['fechar', 'adicionar'])
-const nome = ref('');
-const dataInicio = ref('');
-const dataFim = ref('');
-const status = ref('Planejado')
+import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
+import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
+import { salvarTorneio } from '@/Utils/adicionarUtils.js';
+import { torneios } from '@/data/torneios.js';
+import TimesPart from './TorneioComponentes/TimesPart.vue';
+import TurmasPart from './TorneioComponentes/TurmasPart.vue';
+import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
+
+const emit = defineEmits(['fechar']);
+
+const torneio = ref(0);
+
+const etapa = ref(20);
+
+function aoAdicionarTorneio(dados) {
+  salvarTorneio(dados);
+  etapa.value=etapa.value+20;
+  torneio.value = Math.max(...torneios.map(item => item.cod_torneio ));
+}
+
 </script>
 
 <template>
     <div class="display">
         <div class="dialog">
-            <h2>Criar torneio</h2>
-            <form action="">
-                <div class="input">
-                    <h3>Nome do Torneio*</h3>
-                    <input type="text" placeholder="Nome do Torneio" v-model="nome">
-                </div>
-                <div class="sla">
-                    <div class="input">
-                        <h3>Data Inicio*</h3>
-                        <input type="date" v-model="dataInicio">
-                    </div>
-                    <div class="input">
-                        <h3>Data Fim*</h3>
-                        <input type="date" v-model="dataFim">
-                    </div>
-                </div>
-                <div class="status">
-                    <select v-model="status">
-                        <option value="Planejado">Planejado</option>
-                        <option value="Ativo">Ativo</option>
-                        <option value="Finalizado">Finalizado</option>
-                    </select>
-                </div>
-                <div class="botoes">
-                    <button
-                        type="submit"
-                        class="salvar"
-                        v-on:click.prevent="emit('adicionar', { nome, dataInicio, dataFim, status })"
-                        :disabled="nome === '' || dataInicio === '' || dataFim === ''"
-                    >
-                        <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
-                    </button>
-                    <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
-                </div>
-            </form>
+            <div class="texto">
+                <h2 v-show="etapa===20">Criar Torneio</h2>
+                <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
+                <h2 v-show="etapa===60">Cadastrar Times</h2>
+                <h2 v-show="etapa===80">Cadastrar Turmas</h2>
+                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>  
+                <p>Etapa {{ etapa/20 }} de 5 · Dados gerais</p>
+            </div>
+            <div class="barra">
+                <div class="progresso" :style="{ width: etapa+'%', transition: 'width 0.5s' }"></div>
+                <ol>
+                    <li :style="{color: etapa === 20 ? '#E85002' : ''}">Dados</li>
+                    <li :style="{color: etapa === 40 ? '#E85002' : ''}">Modalides</li>
+                    <li :style="{color: etapa === 60 ? '#E85002' : ''}">Times</li>
+                    <li :style="{color: etapa === 80 ? '#E85002' : ''}">Turmas</li>
+                    <li :style="{color: etapa === 100 ? '#E85002' : ''}">Árbitros</li>
+                </ol>
+            </div>
+            <TorneioPopUp v-show="etapa===20" @fechar="emit('fechar')" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
+            <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
+            <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
+            <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
+            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20"></ArbitroPart>
         </div>
     </div>
 </template>
@@ -54,99 +55,29 @@ const status = ref('Planejado')
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 
-.botoes {
+.progresso {
+    margin-bottom: 0.4vw;
+    height: 0.5vw;
+    width: 0%;
+    border-radius: 1vw;
+    background: #E85002;
+    transition: width 0.5s ease;
+}
+
+ol {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1vw;
+    justify-content: space-between;
 }
-button:disabled {
-    background: grey;
-}
-button:disabled:hover {
-    transform: scale(1);
-    text-decoration: none;
-}
-button {
-    border: none;
-    background: none;
-    display: flex;
-    align-items: center;
+
+ol li {
+    color: black;
     transition: 0.3s;
     cursor: pointer;
-}
-button:hover {
-    text-decoration: underline;
-    transform: scale(1.1);
-}
-
-.salvar {
-    background: #6EAC31;
-    padding: 0.5vw 2vw;
-    border-radius: 0.7vw;
-    color: white;
-}
-
-h4 {
-    font-size: 1vw;
-}
-
-h4 span {
-    font-size: 0.6vw;
-    color: #DE6D1C;
-}
-
-.pre {
-    display: flex;
-    flex-direction: column;
-}
-
-.pre p {
-    text-align: center;
-}
-
-.sla {
-    display: flex;
-    align-items: center;
-    gap: 1vw;
 }
 
 h2 {
     font-size: 1.5vw;
-    margin-right: 10vw;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 2vw;
-}
-
-.input {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-grow: 1;
-    gap: 0.1vw;
-}
-
-.input select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 100%;
-    background: #E2E2E2;
-    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.75);
-    border: none;
-    border-radius: 0.2vw;
-    padding: 0.3vw 0.5vw;
-    color: #959595;
-    transition: 0.3s;
-}
-
-.input select:focus {
-    outline: none;
-    box-shadow: 0 0 10px 1px #DE6D1C;
+    margin-right: 30vw;
 }
 
 .dialog {

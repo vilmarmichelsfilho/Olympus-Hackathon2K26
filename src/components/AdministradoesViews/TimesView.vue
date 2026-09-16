@@ -33,7 +33,7 @@ const add = ref(false)
             </ul>
         </div>
     </div>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''" :um1="''" :dois1="''" :tres1="''" :vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
+    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''":vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');

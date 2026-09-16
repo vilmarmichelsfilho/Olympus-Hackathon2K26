@@ -1,36 +1,46 @@
 <script setup>
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { turmas } from '@/data/turmas';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
+import { times } from '@/data/times';
 
 const emit = defineEmits(['fechar', 'adicionar'])
-const props = defineProps(['nome1','um1','dois1','tres1','tipo','id','pontuacao_geral'])
+const props = defineProps(['nome1', 'tipo', 'id', 'escudo', 'pontuacao_geral', 'cor', 'torneio'])
 
 const nome = ref(props.nome1)
-const um = ref(props.um1)
-const dois = ref(props.dois1)
-const tres = ref(props.tres1)
+const cor = ref(props.cor)
 const pontuacao_geral = ref(props.pontuacao_geral)
+const escudo = ref(props.escudo)
 
 function apagar() {
     nome.value = props.nome1;
-    um.value = props.um1;
-    dois.value = props.dois1;
-    tres.value = props.tres1;
     pontuacao_geral.value = props.pontuacao_geral;
+    cor.value = props.cor
+    escudo.value = props.escudo
 }
 
 function adicionar() {
     if (props.tipo == 'adicionar') {
-        adicionarTime(nome.value, um.value, dois.value, tres.value, pontuacao_geral.value);
+        adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, props.torneio);
         apagar();
         emit('fechar');
     } else if (props.tipo == 'editar') {
-        editarTime(nome.value, um.value, dois.value, tres.value);
+        editarTime(nome.value, pontuacao_geral.value, cor.value, escudo.value, times.findIndex(item => item.cod_time === props.id));
         apagar();
         emit('fechar');
     }
+}
+
+
+function pegarImagem(event) {
+  const arquivo = event.target.files[0]
+  if (!arquivo) return
+  const reader = new FileReader()
+  reader.onload = () => {
+    const imagemTexto = reader.result
+    escudo.value = imagemTexto;
+  }
+  reader.readAsDataURL(arquivo)
 }
 
 </script>
@@ -46,38 +56,30 @@ function adicionar() {
                 </div>
                 <div class="sla">
                     <div class="input">
-                        <h3>Turma 1º</h3>
-                        <select name="ano" id="ano" placeholder="Ano" v-model="um">
-                            <option v-for="turma in turmas.filter(item => item.ano_turma == 1)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
-                        </select>
+                        <h3>Cor do Time</h3>
+                        <input type="color" v-model="cor" class="cor">
                     </div>
                     <div class="input">
-                        <h3>Turma 2º</h3>
-                        <select name="serie" id="serie" placeholder="Serie" v-model="dois">
-                            <option v-for="turma in turmas.filter(item => item.ano_turma == 2)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
-                        </select>
-                    </div>
-                    <div class="input">
-                        <h3>Turma 3º</h3>
-                        <select name="serie" id="serie" placeholder="Serie" v-model="tres">
-                            <option v-for="turma in turmas.filter(item => item.ano_turma == 3)" :value="turma.cod_turma" :key="turma.cod_turma">{{ turma.ano_turma + turma.tecnico_turma + turma.numero_turma }}</option>
-                        </select>
+                        <h3>Escudo do Time</h3>
+                        <input type="file" accept="image/png, image/jpeg, .jpg" @change="pegarImagem" class="cor">
                     </div>
                 </div>
                 <div class="separa"></div>
                 <div class="sla">
-                     <div class="input">
+                    <div class="input">
                         <h3>Pontuação Geral</h3>
                         <input type="number" v-model="pontuacao_geral">
                     </div>
+
                 </div>
                 <div class="separa"></div>
                 <div class="botoes">
                     <button type="submit" class="salvar" v-on:click.prevent="adicionar()"
-                        :disabled="nome == '' || um == '' || dois == '' || tres == ''">
+                        :disabled="nome == '' || cor == '' || escudo == ''"> 
                         <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
                     </button>
-                    <button type="reset" class="limpar" v-on:click.prevent="emit('fechar'),apagar">Cancelar/Limpar</button>
+                    <button type="reset" class="limpar"
+                        v-on:click.prevent="emit('fechar'), apagar">Cancelar/Limpar</button>
                 </div>
             </form>
         </div>
@@ -86,6 +88,10 @@ function adicionar() {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+
+.cor {
+    padding: 0;
+}
 
 .pre div {
     margin-top: 0.5vw;
@@ -100,6 +106,7 @@ function adicionar() {
     color: rgba(0, 0, 0, 0.405);
     gap: 1vw;
 }
+
 .pre div p span {
     color: black;
     font-weight: bolder;
