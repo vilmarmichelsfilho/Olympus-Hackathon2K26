@@ -125,6 +125,7 @@ button.cancel {
   border: none;
   font-weight: bolder;
   font-size: 1.1vw;
+  cursor: pointer;
 }
 
 button.cancel:hover {
@@ -141,6 +142,7 @@ button.save {
   border-radius: 0.2vw;
   transition: 0.3s;
   margin-bottom: 0.5vw;
+  cursor: pointer;
 }
 button.save:disabled {
     background: grey;

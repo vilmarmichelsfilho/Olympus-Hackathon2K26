@@ -134,6 +134,7 @@ button {
     display: flex;
     align-items: center;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 button:hover {

@@ -26,6 +26,9 @@ let descricaoExibida = computed(() => {
   </tr>
 </template>
 <style scoped>
+button{
+  cursor: pointer;
+}
 .edit-icon {
   color: white;
   height: 4em;

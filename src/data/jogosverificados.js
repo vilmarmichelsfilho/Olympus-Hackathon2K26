@@ -8,7 +8,6 @@ function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
   return { data, horario }
 }
-
 function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
   const modalidade = modalidades.find((m) => m.cod_modalidade === jogo.cod_modalidade)

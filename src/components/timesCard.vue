@@ -29,7 +29,6 @@ const add = ref(false)
 h2 {
     color: #E85002;
 }
-
 li {
     margin: 0 1vw;
     display: grid;
@@ -57,6 +56,7 @@ li {
 button {
     background: none;
     border: none;
+    cursor: pointer;
 }
 
 </style>
