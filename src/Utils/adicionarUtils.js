@@ -2,7 +2,8 @@ import { times } from '@/data/times'
 import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
-function adicionarTimes(nome, cor, imagem) {
+import { codTorneioSelecionadoAdm } from './cod_torneioAdmUtils';
+function adicionarTimes(nome, cor, imagem, cod_torneio) {
     const maiorId = Math.max(...times.map(item => item.id));
     times.push({
         id: maiorId+1,
@@ -10,6 +11,7 @@ function adicionarTimes(nome, cor, imagem) {
         nome: nome,
         cor: cor,
         pontuacao_geral: 0,
+        cod_torneio: cod_torneio,
     })
 }
 function adicionarModalidade(nome, desc, imagem, tempo, local) {
@@ -20,7 +22,8 @@ function adicionarModalidade(nome, desc, imagem, tempo, local) {
         nome_modalidade: nome,
         desc_modalidade: desc,
         tempojogemminutos_modalidade: tempo,
-        localdojogo_modalidade: local
+        localdojogo_modalidade: local,
+        cod_torneio: codTorneioSelecionadoAdm.value,
     })
 }
 function adicionarArbitro(nome, login, senha){
@@ -29,7 +32,8 @@ function adicionarArbitro(nome, login, senha){
         cod_arbitro: maiorId+1,
         nome_arbitro: nome,
         login_arbitro: login,
-        senha_arbitro: senha
+        senha_arbitro: senha,
+        cod_torneio: codTorneioSelecionadoAdm.value,
     })
 }
 function salvarTorneio(dadosDoFormulario) {

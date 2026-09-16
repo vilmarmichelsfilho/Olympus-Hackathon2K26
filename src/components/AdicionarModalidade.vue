@@ -2,20 +2,21 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
 const local = ref('');
 let imagem = ref(null);
-
+const cod_torneio = ref(codTorneioSelecionadoAdm)
 function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value, local.value);
+            adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value, local.value, cod_torneio.value);
             emit('fecharAdicionarModalidade');
             nome.value = '';
             desc.value = '';
