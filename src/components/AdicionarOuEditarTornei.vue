@@ -47,7 +47,7 @@ function aoAdicionarTorneio(dados) {
             <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
             <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
-            <ArbitroPart v-if="etapa==100" :torneio="torneio"></ArbitroPart>
+            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20"></ArbitroPart>
         </div>
     </div>
 </template>

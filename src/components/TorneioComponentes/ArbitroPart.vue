@@ -1,21 +1,46 @@
 <script setup>
 import { arbitros } from '@/data/arbitros.js';
-import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
-import { computed } from 'vue';
+import ArbitroNewCard from '../Cards/ArbitroNewCard.vue';
+import { computed, ref } from 'vue';
+import AdicionarArbitro from '../AdicionarArbitro.vue';
+import editarrArbitro from '../EditarArbitroView.vue';
+import { editarArbitro } from '@/Utils/editarUtils.js';
 
 const props = defineProps(['torneio'])
-const emits = defineEmits(['salvar'])
+const emits = defineEmits(['salvar','voltar'])
 
 const arbitrosTorneio = computed(() => {
     return arbitros.filter(item => item.cod_torneio === props.torneio);
 });
+
+function excluirArbitro(id) {
+  const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
+  if (index !== -1) {
+    arbitros.splice(index, 1)
+  }
+}
+const adicionarrArbitro = ref(false)
+const arbitroEditar = ref(false)
+const arbitroEditarId = ref(null)
+function abrirEditarArbitro(id) {
+  arbitroEditarId.value = id
+  arbitroEditar.value = true
+}
+
+function avancar() {
+    if (arbitrosTorneio.value.length > 0) {
+        emits('salvar')
+    } else {
+        alert('O torneio precisa ter pelo menos 1 arbitro adicionado')
+    }
+}
 </script>
 
 <template>
     <div class="sla">
         <div class="header">
             <h3>Árbitros</h3>
-            <button @click="modalidadeAdicionar = true" class="adicionar">Adicionar</button>
+            <button @click="adicionarrArbitro = true" class="adicionar">Adicionar</button>
         </div>
         <div class="cards">
             <ul>
@@ -25,17 +50,27 @@ const arbitrosTorneio = computed(() => {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.id"
-                    :id="modalidade.cod_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
-                    @excluir-modalidade="exluirModalidade" @editar-modalidade="abrirEditar">
-                </ModalidadesNewCard>
+                <ArbitroNewCard v-for="(arbitro, index) in arbitrosTorneio" :key="arbitro.cod_arbitro"
+                    :id="arbitro.cod_arbitro" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
+                    @excluir-arbitro="excluirArbitro" @editar-arbitro="abrirEditarArbitro"> 
+                </ArbitroNewCard>
             </ul>
         </div>
     </div>
     <div class="nav">
-        <button class="voltar">Voltar</button>
+        <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
         <button class="salvar" v-on:click="avancar">Salvar Alterações</button>
     </div>
+    <AdicionarArbitro
+      @fecharAdicionarArbitro="adicionarrArbitro = false" :torneio="torneio"
+      v-if="adicionarrArbitro"
+    ></AdicionarArbitro>
+    <editarrArbitro
+      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
+      @atualizar="editarArbitro($event.cod_arbitro, $event)"
+      @fecharEditarArbitro="arbitroEditar = false"
+      v-if="arbitroEditar"
+    />
 </template>
 
 <style scoped>

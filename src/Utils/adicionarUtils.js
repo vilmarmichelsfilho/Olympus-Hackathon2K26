@@ -24,9 +24,10 @@ function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
         localdojogo_modalidade: local
     })
 }
-function adicionarArbitro(nome, login, senha){
+function adicionarArbitro(nome, login, senha, torneio){
  const maiorId = Math.max(...arbitros.map(item => item.cod_arbitro));
     arbitros.push({
+        cod_torneio: torneio,
         cod_arbitro: maiorId+1,
         nome_arbitro: nome,
         login_arbitro: login,
