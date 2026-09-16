@@ -1,6 +1,6 @@
 <script setup>
  import OympusControl from '@/components/OympusControl.vue';
- import { jogos } from '@/data/jogos';
+import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils';
 import trophie from '@/assets/trophie.png';
 import { totalJogosHoje } from '@/Utils/DashboardUtils';
 import { totalConflitos } from '@/Utils/DashboardUtils';
@@ -24,7 +24,7 @@ defineEmits(['editar2'])
   <div class="controls">
     <ul>
       <li>
-        <OympusControl titulo="Total de jogos" :valor="jogos.length" :icone="trophie" rota="/administradores" />
+        <OympusControl titulo="Total de jogos" :valor="jogosDoTorneio.length" :icone="trophie" rota="/administradores" />
       </li>
       <li>
         <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />
@@ -45,7 +45,7 @@ defineEmits(['editar2'])
     <div class="controls-mobile">
       <ul>
         <li>
-          <OympusControl titulo="Total de jogos" :valor="jogos.length" :icone="trophie" rota="/administradores" />
+          <OympusControl titulo="Total de jogos" :valor="jogosDoTorneio.length" :icone="trophie" rota="/administradores" />
         </li>
         <li>
           <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />

@@ -2,8 +2,17 @@ import { jogosDoTorneio } from './cod_torneioAdmUtils'
 import { conflitosDoTorneio } from './conflitosUtils'
 import { computed } from 'vue'
 const totalJogosHoje = computed(() => {
-  const hoje = new Date().toISOString().split('T')[0]
-  return jogosDoTorneio.value.filter((jogo) => jogo.data === hoje).length
+  const agora = new Date()
+  const hoje = [
+    agora.getFullYear(),
+    String(agora.getMonth() + 1).padStart(2, '0'),
+    String(agora.getDate()).padStart(2, '0'),
+  ].join('-')
+
+  return jogosDoTorneio.value.filter((jogo) => {
+    const { data } = separarDataHorario(jogo.horario_jogo)
+    return data === hoje
+  }).length
 })
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')

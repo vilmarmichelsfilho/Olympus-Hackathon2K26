@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
 import { times } from '@/data/times';
@@ -14,6 +14,21 @@ const hora = ref('');
 const status = ref('');
 const time1 = ref('');
 const time2 = ref('');
+
+const codTorneioDoJogo = computed(() => {
+  const modalidadeDoJogo = modalidades.find(
+    (modalidade) => modalidade.cod_modalidade === props.jogo?.cod_modalidade
+  )
+  return modalidadeDoJogo?.cod_torneio
+})
+
+const modalidadesDoTorneio = computed(() =>
+  modalidades.filter((modalidade) => modalidade.cod_torneio === codTorneioDoJogo.value)
+)
+
+const timesDoTorneio = computed(() =>
+  times.filter((time) => time.cod_torneio === codTorneioDoJogo.value)
+)
 
 watch(
   () => props.jogo,
@@ -85,7 +100,7 @@ function fechar() {
         <div class="nome">
           <h3>Modalidade</h3>
           <select class="inputAnim" v-model="codModalidade">
-            <option v-for="m in modalidades" :key="m.cod_modalidade" :value="m.cod_modalidade">
+            <option v-for="m in modalidadesDoTorneio" :key="m.cod_modalidade" :value="m.cod_modalidade">
               {{ m.nome_modalidade }}
             </option>
           </select>
@@ -96,7 +111,7 @@ function fechar() {
             <h3>Time 01</h3>
             <select class="inputAnim" v-model="time1">
               <option disabled value="">A definir</option>
-              <option v-for="t in times" :key="t.cod_time" :value="t.cod_time">
+              <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>
             </select>
@@ -105,7 +120,7 @@ function fechar() {
             <h3>Time 02</h3>
             <select class="inputAnim" v-model="time2">
               <option disabled value="">A definir</option>
-              <option v-for="t in times" :key="t.cod_time" :value="t.cod_time">
+              <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>
             </select>

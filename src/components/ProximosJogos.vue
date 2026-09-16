@@ -21,15 +21,22 @@ function buscarModalidade(cod_modalidade) {
 }
 
 function buscarNomesDosTimes(cod_jogo) {
-  const participantes = participa.filter((p) => p.cod_jogo === cod_jogo)
-  return participantes
-    .map((p) => times.find((t) => t.cod_time === p.cod_time)?.nome_time)
+  const participantes = participa
+    .filter((p) => p.cod_jogo === cod_jogo)
+    .sort((a, b) => a.posicao_participante - b.posicao_participante)
+
+  return [0, 1]
+    .map((indice) => {
+      const participante = participantes[indice]
+      return times.find((time) => time.cod_time === participante?.cod_time)?.nome_time ?? 'A definir'
+    })
     .join(' X ')
 }
 
 const proximosJogos = computed(() => {
   return jogosDoTorneio.value
     .filter((jogo) => jogo.status_jogo === 'Agendado')
+    .sort((jogoA, jogoB) => jogoA.horario_jogo.localeCompare(jogoB.horario_jogo))
     .slice(0, 5)
     .map((jogo) => {
       const { data, horario } = separarDataHorario(jogo.horario_jogo)

@@ -3,13 +3,15 @@ import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
 function adicionarTimes(nome, cor, imagem, cod_torneio) {
-    const maiorId = Math.max(...times.map(item => item.id));
+    const maiorId = times.length
+        ? Math.max(...times.map(item => item.cod_time))
+        : 0;
     times.push({
-        id: maiorId+1,
-        escudo: imagem,
-        nome: nome,
-        cor: cor,
-        pontuacao_geral: 0,
+        cod_time: maiorId + 1,
+        escudo_time: imagem,
+        nome_time: nome,
+        cor_time: cor,
+        pontuacaogeral_time: 0,
         cod_torneio: cod_torneio,
     })
 }

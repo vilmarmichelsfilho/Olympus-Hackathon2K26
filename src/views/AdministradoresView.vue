@@ -57,7 +57,7 @@ const time = ref(false)
       <TimesView></TimesView>
     </div>
     <div v-if="telaAtual === 'dashboard'" class="dashboard">
-      <DashboardControlView @editar2="mudarTela('times')" />
+      <DashboardControlView @editar2="mudarTela('jogos')" />
     </div>
     <div class="turmas" v-show="telaAtual == 'turmas'">
       <TurmasView></TurmasView>

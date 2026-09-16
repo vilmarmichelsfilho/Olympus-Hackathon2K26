@@ -52,10 +52,14 @@ function detalharJogo(jogo) {
 }
 
 const jogosDoArbitro = computed(() => {
-  const prioridade = { AoVivo: 0, Agendado: 1, Finalizado: 2 }
+  const prioridade = { AoVivo: 0, Agendado: 1 }
 
   return jogos
-    .filter((jogo) => Number(jogo.cod_arbitro) === Number(sessao?.codigo))
+    .filter(
+      (jogo) =>
+        Number(jogo.cod_arbitro) === Number(sessao?.codigo) &&
+        jogo.status_jogo !== 'Finalizado',
+    )
     .map(detalharJogo)
     .sort((jogoA, jogoB) => {
       const diferencaStatus = prioridade[jogoA.status] - prioridade[jogoB.status]
