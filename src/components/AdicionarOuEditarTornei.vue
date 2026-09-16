@@ -4,6 +4,7 @@ import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
 import { salvarTorneio } from '@/Utils/adicionarUtils.js';
 import { torneios } from '@/data/torneios.js';
+import TimesPart from './TorneioComponentes/TimesPart.vue';
 
 const emit = defineEmits(['fechar']);
 
@@ -16,6 +17,7 @@ function aoAdicionarTorneio(dados) {
   etapa.value=etapa.value+20;
   torneio.value = Math.max(...torneios.map(item => item.cod_torneio ));
 }
+
 </script>
 
 <template>
@@ -40,7 +42,8 @@ function aoAdicionarTorneio(dados) {
                 </ol>
             </div>
             <TorneioPopUp v-show="etapa===20" @fechar="emit('fechar')" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
-            <ModalidadesPart v-show="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20" />
+            <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
+            <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
         </div>
     </div>
 </template>

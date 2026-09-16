@@ -32,7 +32,7 @@ function abrirEditar(id) {
     <div class="sla">
         <div class="header">
             <h3>Modalides</h3>
-            <button @click="modalidadeAdicionar = true">Adicionar</button>
+            <button @click="modalidadeAdicionar = true" class="adicionar">Adicionar</button>
         </div>
         <div class="cards">
             <ul>
@@ -63,6 +63,13 @@ function abrirEditar(id) {
 </template>
 
 <style scoped>
+.adicionar {
+    font-weight: bolder;
+    font-size: 1.2rem;
+    border: black solid 0.2vw;
+    border-radius: 0.7vw;
+    padding: 0.2vw 0.6vw;
+}
 button {
     border: none;
     background: none;
