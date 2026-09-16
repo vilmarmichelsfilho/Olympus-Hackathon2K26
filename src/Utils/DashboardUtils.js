@@ -1,6 +1,6 @@
-
-import { jogosDoTorneio } from './cod_torneioAdmUtils';
-import { computed } from 'vue';
+import { jogosDoTorneio } from './cod_torneioAdmUtils'
+import { conflitosDoTorneio } from './conflitosUtils'
+import { computed } from 'vue'
 const totalJogosHoje = computed(() => {
   const hoje = new Date().toISOString().split('T')[0]
   return jogosDoTorneio.value.filter((jogo) => jogo.data === hoje).length
@@ -9,29 +9,9 @@ function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
   return { data, horario }
 }
-const conflitos = computed(() => {
-  const encontrados = []
+const totalConflitos = computed(() => conflitosDoTorneio.value.length)
 
-  jogosDoTorneio.value.forEach((jogoA, i) => {
-    jogosDoTorneio.value.forEach((jogoB, j) => {
-      if (i < j) {
-        const { data: dataA, horario: horarioA } = separarDataHorario(jogoA.horario_jogo)
-        const { data: dataB, horario: horarioB } = separarDataHorario(jogoB.horario_jogo)
-
-        const mesmaData = dataA === dataB
-        const mesmoHorario = horarioA === horarioB
-        if (mesmaData && mesmoHorario) {
-          encontrados.push({ jogoA, jogoB })
-        }
-      }
-    })
-  })
-
-  return encontrados
-})
-const totalConflitos = computed(() => conflitos.value.length)
-
- function jogosPorDia(jogos) {
+function jogosPorDia(jogos) {
   const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
   const contagem = {
@@ -54,5 +34,4 @@ const totalConflitos = computed(() => conflitos.value.length)
 
   return contagem
 }
-export{totalJogosHoje, totalConflitos, jogosPorDia}
-
+export { totalJogosHoje, totalConflitos, jogosPorDia }

@@ -441,7 +441,7 @@ export const jogos = reactive([
     cod_modalidade: 7,
     cod_arbitro: 5,
     status_jogo: "Agendado",
-    horario_jogo: "2027-06-19 09:00:00",
+    horario_jogo: "2027-06-19 08:00:00",
     fase_jogo: "Quartas de Final",
     origem_jogo_a: null,
     origem_jogo_b: null
@@ -511,7 +511,7 @@ export const jogos = reactive([
     cod_modalidade: 8,
     cod_arbitro: 4,
     status_jogo: "Agendado",
-    horario_jogo: "2027-06-19 09:30:00",
+    horario_jogo: "2027-06-19 08:00:00",
     fase_jogo: "Quartas de Final",
     origem_jogo_a: null,
     origem_jogo_b: null
