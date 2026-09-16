@@ -1,5 +1,4 @@
 <script setup>
-import OrganizadorPoupUp from '@/components/OrganizadorPoupUp.vue';
 import EditarTorneioView from '@/components/EditarTorneioView.vue';
 import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
@@ -20,14 +19,7 @@ function editarTorneio(id) {
  <h1>Torneio Olimpiadas</h1>
  <h3>Gerencie e crie as olimpíadas da sua instituição</h3>
  </div>
- <div class="botao">
-   <button @click="mostrarFluxo = true">Cadastrar Torneio</button>
  </div>
-
- </div>
-  <div class="fluxo">
-    <OrganizadorPoupUp v-if="mostrarFluxo" @fechar="mostrarFluxo = false"></OrganizadorPoupUp>
-  </div>
    <div v-show="!mostrarFluxo && !mostrarEditarTorneio">
      <DashboardTorneio  @editar="editarTorneio($event)"/>
    </div>

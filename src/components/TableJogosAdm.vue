@@ -1,11 +1,10 @@
 <script setup>
 import { computed } from 'vue'
-import { jogos } from '@/data/jogos'
+import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
-import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
 import CalendarIcon from '@iconify-vue/mdi/calendar-outline'
 
 const emit = defineEmits(['editar'])
@@ -42,7 +41,7 @@ function detalharJogo(jogo) {
   }
 }
 
-const jogosDetalhados = computed(() => jogos.map(detalharJogo))
+const jogosDetalhados = computed(() => jogosDoTorneio.value.map(detalharJogo))
 
 function classeStatus(status) {
   if (status === 'Finalizado') return 'status-finalizado'
@@ -50,10 +49,6 @@ function classeStatus(status) {
   return 'status-agendado'
 }
 
-function excluirJogo(cod_jogo) {
-  const indice = jogos.findIndex(j => j.cod_jogo === cod_jogo)
-  if (indice !== -1) jogos.splice(indice, 1)
-}
 </script>
 
 <template>
@@ -81,13 +76,9 @@ function excluirJogo(cod_jogo) {
       </div>
 
       <span class="status-pill" :class="classeStatus(jogo.status)">{{ jogo.status }}</span>
-
       <button class="btn-editar" @click="emit('editar', jogo.cod_jogo)">
         <PencilOutlineIcon width="1vw" />
         Editar
-      </button>
-      <button class="btn-excluir" @click="excluirJogo(jogo.cod_jogo)">
-        <TrashCanOutlineIcon width="1vw" /> Excluir
       </button>
     </div>
   </div>
@@ -169,8 +160,7 @@ function excluirJogo(cod_jogo) {
   color: #E53935;
 }
 
-.btn-editar,
-.btn-excluir {
+.btn-editar {
   display: flex;
   align-items: center;
   gap: 0.3vw;
@@ -184,10 +174,5 @@ function excluirJogo(cod_jogo) {
 .btn-editar {
   border: 0.1vw solid #ccc;
   color: #333;
-}
-
-.btn-excluir {
-  border: 0.1vw solid #E53935;
-  color: #E53935;
 }
 </style>
