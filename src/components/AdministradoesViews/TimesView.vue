@@ -1,12 +1,7 @@
 <script setup>
 import timesCard from '../timesCard.vue';
-import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
-import { ref } from 'vue';
 import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
-const add = ref(false)
-
 </script>
-
 <template>
     <div class="container">
         <div class="texto">
@@ -17,7 +12,6 @@ const add = ref(false)
             <div class="cima">
                 <p>a</p>
                 <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
-                <button v-on:click.prevent="add=true">Adicionar</button>
             </div>
             <div class="desc">
                 <ul>
@@ -33,27 +27,10 @@ const add = ref(false)
             </ul>
         </div>
     </div>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''":vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 
-button {
-    font-size: 1vw;
-}
-
-.cima button {
-    background: none;
-    padding: 0.3vw 1vw;
-    border: solid white 0.15vw;
-    font-size: 0.75vw;
-    border-radius: 3vw;
-    transition: 0.3s;
-}
-.cima button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0.5vw 0.1vw white;
-}
 
 .cima {
     display: flex;

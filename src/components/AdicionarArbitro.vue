@@ -2,17 +2,21 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarArbitro } from '@/Utils/adicionarUtils';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const props = defineProps(['torneio']);
 const emit = defineEmits(['fecharAdicionarArbitro']);
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 const nome = ref('');
 const login = ref('');
 const senha = ref('');
-
 function checarDados() {
   if (nome.value !== '') {
     if (login.value !== '') {
       if(senha.value !== '') {
-        adicionarArbitro(nome.value, login.value, senha.value, props.torneio);
+        adicionarArbitro(nome.value, login.value, senha.value, codTorneio.value);
         emit('fecharAdicionarArbitro');
       } else {
         alert('Preencha a senha do árbitro')

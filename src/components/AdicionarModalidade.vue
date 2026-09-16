@@ -10,14 +10,17 @@ const desc = ref('');
 const tempo = ref('');
 const local = ref('');
 let imagem = ref(null);
-const cod_torneio = ref(codTorneioSelecionadoAdm)
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value, local.value, props.torneio);
+            adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value, local.value, codTorneio.value);
             emit('fecharAdicionarModalidade');
             nome.value = '';
             desc.value = '';

@@ -3,7 +3,6 @@ import EditIcon from '@iconify-vue/mdi/edit';
 import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue';
 import { ref } from 'vue';
 const props = defineProps(['nome','cor','pontuacao','id','escudo'])
-
 const add = ref(false)
 </script>
 

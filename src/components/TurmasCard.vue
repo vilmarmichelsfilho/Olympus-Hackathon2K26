@@ -1,13 +1,5 @@
 <script setup>
-import Confirm from './Confirm.vue';
-import EditOutlineIcon from '@iconify-vue/mdi/edit-outline';
-import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline';
-import { ref } from 'vue';
 const props = defineProps(['tecnico','ano','serie','id']);
-const emit = defineEmits(['editar', 'excluir']);
-import { excluir } from '@/Utils/turmasUtils';
-
-const edit = ref(false);
 </script>
 
 <template>
@@ -16,11 +8,6 @@ const edit = ref(false);
     <td>Tec: {{ props.tecnico }}</td>
     <td>Ano: {{ props.ano }}</td>
     <td>Série: {{ props.serie }}</td>
-    <td class="botoes">
-        <button class="editar" v-on:click.prevent="emit('editar')"><EditOutlineIcon height="2vw"></EditOutlineIcon>Editar</button>
-        <button class="excluir" v-on:click.prevent="emit('excluir')"><TrashCanOutlineIcon height="2vw"></TrashCanOutlineIcon>Excluir</button>
-    </td>
-    <Confirm v-show="edit" @cancelar="edit=false" @excluir="excluir(props.id)"></Confirm>
   </tr>
 </template>
 

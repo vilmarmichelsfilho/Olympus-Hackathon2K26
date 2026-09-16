@@ -7,7 +7,7 @@ function excluir(id) {
 }
 
 function adicionar(tecnico, ano, serie, time, torneio) {
-    if (turmas.some(item => item.nome_turma == ano+tecnico+serie && item.cod_torneio == torneio) ) {
+    if (turmas.some(item => item.nome_turma == ano+tecnico+serie) ) {
             alert('Esta turma ja existe!')
     } else {
         if (turmas.filter(item => item.cod_time == time && item.cod_torneio == torneio).length >= 3) {

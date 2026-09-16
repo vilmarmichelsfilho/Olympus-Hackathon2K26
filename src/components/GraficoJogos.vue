@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import { jogos } from '@/data/jogos'
+import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
 import { jogosPorDia } from '@/Utils/DashboardUtils'
 
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const data = computed(() => {
-  const contagem = jogosPorDia(jogos)
+  const contagem = jogosPorDia(jogosDoTorneio.value)
 
   return {
     labels: Object.keys(contagem),

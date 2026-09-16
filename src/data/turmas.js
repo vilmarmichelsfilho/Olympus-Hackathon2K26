@@ -216,5 +216,221 @@ export const turmas = reactive([
     ano_turma: 2,
     numero_turma: 2,
     nome_turma: "2Química2"
+  },
+    {
+    cod_turma: 25,
+    cod_torneio: 2,
+    cod_time: 9,
+    tecnico_turma: "Informática",
+    ano_turma: 1,
+    numero_turma: 1,
+    nome_turma: "1Informática1"
+  },
+  {
+    cod_turma: 26,
+    cod_torneio: 2,
+    cod_time: 9,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 2,
+    numero_turma: 2,
+    nome_turma: "2Agropecuária2"
+  },
+  {
+    cod_turma: 27,
+    cod_torneio: 2,
+    cod_time: 9,
+    tecnico_turma: "Química",
+    ano_turma: 3,
+    numero_turma: 1,
+    nome_turma: "3Química1"
+  },
+  {
+    cod_turma: 28,
+    cod_torneio: 2,
+    cod_time: 10,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 1,
+    numero_turma: 1,
+    nome_turma: "1Agropecuária1"
+  },
+  {
+    cod_turma: 29,
+    cod_torneio: 2,
+    cod_time: 10,
+    tecnico_turma: "Informática",
+    ano_turma: 2,
+    numero_turma: 3,
+    nome_turma: "2Informática3"
+  },
+  {
+    cod_turma: 30,
+    cod_torneio: 2,
+    cod_time: 10,
+    tecnico_turma: "Química",
+    ano_turma: 3,
+    numero_turma: 2,
+    nome_turma: "3Química2"
+  },
+  {
+    cod_turma: 31,
+    cod_torneio: 2,
+    cod_time: 11,
+    tecnico_turma: "Química",
+    ano_turma: 1,
+    numero_turma: 2,
+    nome_turma: "1Química2"
+  },
+  {
+    cod_turma: 32,
+    cod_torneio: 2,
+    cod_time: 11,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 2,
+    numero_turma: 3,
+    nome_turma: "2Agropecuária3"
+  },
+  {
+    cod_turma: 33,
+    cod_torneio: 2,
+    cod_time: 11,
+    tecnico_turma: "Informática",
+    ano_turma: 3,
+    numero_turma: 1,
+    nome_turma: "3Informática1"
+  },
+  {
+    cod_turma: 34,
+    cod_torneio: 2,
+    cod_time: 12,
+    tecnico_turma: "Informática",
+    ano_turma: 1,
+    numero_turma: 2,
+    nome_turma: "1Informática2"
+  },
+  {
+    cod_turma: 35,
+    cod_torneio: 2,
+    cod_time: 12,
+    tecnico_turma: "Química",
+    ano_turma: 2,
+    numero_turma: 1,
+    nome_turma: "2Química1"
+  },
+  {
+    cod_turma: 36,
+    cod_torneio: 2,
+    cod_time: 12,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 3,
+    numero_turma: 3,
+    nome_turma: "3Agropecuária3"
+  },
+  {
+    cod_turma: 37,
+    cod_torneio: 2,
+    cod_time: 13,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 1,
+    numero_turma: 3,
+    nome_turma: "1Agropecuária3"
+  },
+  {
+    cod_turma: 38,
+    cod_torneio: 2,
+    cod_time: 13,
+    tecnico_turma: "Informática",
+    ano_turma: 2,
+    numero_turma: 1,
+    nome_turma: "2Informática1"
+  },
+  {
+    cod_turma: 39,
+    cod_torneio: 2,
+    cod_time: 13,
+    tecnico_turma: "Química",
+    ano_turma: 3,
+    numero_turma: 2,
+    nome_turma: "3Química2"
+  },
+  {
+    cod_turma: 40,
+    cod_torneio: 2,
+    cod_time: 14,
+    tecnico_turma: "Química",
+    ano_turma: 1,
+    numero_turma: 1,
+    nome_turma: "1Química1"
+  },
+  {
+    cod_turma: 41,
+    cod_torneio: 2,
+    cod_time: 14,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 2,
+    numero_turma: 1,
+    nome_turma: "2Agropecuária1"
+  },
+  {
+    cod_turma: 42,
+    cod_torneio: 2,
+    cod_time: 14,
+    tecnico_turma: "Informática",
+    ano_turma: 3,
+    numero_turma: 3,
+    nome_turma: "3Informática3"
+  },
+  {
+    cod_turma: 43,
+    cod_torneio: 2,
+    cod_time: 15,
+    tecnico_turma: "Informática",
+    ano_turma: 1,
+    numero_turma: 3,
+    nome_turma: "1Informática3"
+  },
+  {
+    cod_turma: 44,
+    cod_torneio: 2,
+    cod_time: 15,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 2,
+    numero_turma: 2,
+    nome_turma: "2Agropecuária2"
+  },
+  {
+    cod_turma: 45,
+    cod_torneio: 2,
+    cod_time: 15,
+    tecnico_turma: "Química",
+    ano_turma: 3,
+    numero_turma: 1,
+    nome_turma: "3Química1"
+  },
+  {
+    cod_turma: 46,
+    cod_torneio: 2,
+    cod_time: 16,
+    tecnico_turma: "Agropecuária",
+    ano_turma: 1,
+    numero_turma: 2,
+    nome_turma: "1Agropecuária2"
+  },
+  {
+    cod_turma: 47,
+    cod_torneio: 2,
+    cod_time: 16,
+    tecnico_turma: "Informática",
+    ano_turma: 2,
+    numero_turma: 2,
+    nome_turma: "2Informática2"
+  },
+  {
+    cod_turma: 48,
+    cod_torneio: 2,
+    cod_time: 16,
+    tecnico_turma: "Química",
+    ano_turma: 3,
+    numero_turma: 3,
+    nome_turma: "3Química3"
   }
 ])
