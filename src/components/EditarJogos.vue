@@ -95,6 +95,7 @@ function fechar() {
           <div class="datainicio">
             <h3>Time 01</h3>
             <select class="inputAnim" v-model="time1">
+              <option disabled value="">A definir</option>
               <option v-for="t in times" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>
@@ -103,6 +104,7 @@ function fechar() {
           <div class="datafim">
             <h3>Time 02</h3>
             <select class="inputAnim" v-model="time2">
+              <option disabled value="">A definir</option>
               <option v-for="t in times" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>
