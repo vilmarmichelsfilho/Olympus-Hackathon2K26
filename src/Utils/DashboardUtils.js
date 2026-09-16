@@ -1,9 +1,9 @@
 
- import { jogos } from '@/data/jogos';
+import { jogosDoTorneio } from './cod_torneioAdmUtils';
 import { computed } from 'vue';
 const totalJogosHoje = computed(() => {
   const hoje = new Date().toISOString().split('T')[0]
-  return jogos.filter((jogo) => jogo.data === hoje).length
+  return jogosDoTorneio.value.filter((jogo) => jogo.data === hoje).length
 })
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
@@ -12,8 +12,8 @@ function separarDataHorario(horario_jogo) {
 const conflitos = computed(() => {
   const encontrados = []
 
-  jogos.forEach((jogoA, i) => {
-    jogos.forEach((jogoB, j) => {
+  jogosDoTorneio.value.forEach((jogoA, i) => {
+    jogosDoTorneio.value.forEach((jogoB, j) => {
       if (i < j) {
         const { data: dataA, horario: horarioA } = separarDataHorario(jogoA.horario_jogo)
         const { data: dataB, horario: horarioB } = separarDataHorario(jogoB.horario_jogo)

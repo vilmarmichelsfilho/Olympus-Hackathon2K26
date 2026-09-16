@@ -2,17 +2,21 @@
 import { adicionarTimes } from '@/Utils/adicionarUtils';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { ref } from 'vue';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
+const props = defineProps(['torneio'])
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 const emit = defineEmits(['fechar']);
-
 const nome = ref('');
 const cor = ref('');
 let imagem = null;
-
 function checarDados() {
     if (nome.value !== '') {
         if (cor.value !== '') {
             if (imagem !== null) {
-                adicionarTimes(nome, cor, imagem);
+                adicionarTimes(nome, cor, imagem, codTorneio.value);
                 emit('fechar');
                 nome.value = '';
                 cor.value = '';

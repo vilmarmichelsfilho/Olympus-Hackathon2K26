@@ -4,12 +4,15 @@ import { times } from '@/data/times';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { computed } from 'vue';
 import { adicionar, editar } from '@/Utils/turmasUtils';
-
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar','adicionar']);
 const props = defineProps(['torneio','tipo']);
-
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 const timesTorneio = computed(() => {
-    return times.filter(item => item.cod_torneio === props.torneio);
+    return times.filter(item => item.cod_torneio === codTorneio.value);
 });
 
 const tecnico = ref('Informática');
@@ -19,7 +22,7 @@ const time = ref();
 
 function add() {
     if (props.tipo === 'adicionar') {
-        adicionar(tecnico.value,ano.value,serie.value,time.value,props.torneio)
+        adicionar(tecnico.value,ano.value,serie.value,time.value,codTorneio.value)
         emit('fechar')
     } else if (props.tipo === 'editar') {
         editar()

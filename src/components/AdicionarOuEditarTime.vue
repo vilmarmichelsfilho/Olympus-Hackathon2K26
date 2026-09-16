@@ -3,10 +3,13 @@ import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
 import { times } from '@/data/times';
-
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar', 'adicionar'])
 const props = defineProps(['nome1', 'tipo', 'id', 'escudo', 'pontuacao_geral', 'cor', 'torneio'])
-
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 const nome = ref(props.nome1)
 const cor = ref(props.cor)
 const pontuacao_geral = ref(props.pontuacao_geral)
@@ -21,7 +24,7 @@ function apagar() {
 
 function adicionar() {
     if (props.tipo == 'adicionar') {
-        adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, props.torneio);
+        adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, codTorneio.value);
         apagar();
         emit('fechar');
     } else if (props.tipo == 'editar') {
@@ -75,7 +78,7 @@ function pegarImagem(event) {
                 <div class="separa"></div>
                 <div class="botoes">
                     <button type="submit" class="salvar" v-on:click.prevent="adicionar()"
-                        :disabled="nome == '' || cor == '' || escudo == ''"> 
+                        :disabled="nome == '' || cor == '' || escudo == ''">
                         <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
                     </button>
                     <button type="reset" class="limpar"

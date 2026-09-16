@@ -1,7 +1,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { jogos } from '@/data/jogos'
+import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
@@ -28,7 +28,7 @@ function buscarNomesDosTimes(cod_jogo) {
 }
 
 const proximosJogos = computed(() => {
-  return jogos
+  return jogosDoTorneio.value
     .filter((jogo) => jogo.status_jogo === 'Agendado')
     .slice(0, 5)
     .map((jogo) => {

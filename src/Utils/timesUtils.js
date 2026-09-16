@@ -1,5 +1,4 @@
 import { times } from '@/data/times'
-import { turmas } from '@/data/turmas'
 import { computed } from 'vue'
 import { cod_torneioAtual } from './cod_torneioUtils'
 const timesFiltradosPorTorneio = computed(() => {
@@ -31,7 +30,6 @@ function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
     times.push({
       cod_time: maiorId+1,
       cod_torneio: torneio,
-      cod_adm: 1,
       cor_time: cor,
       pontuacaogeral_time: pontuacao,
       escudo_time: escudo,
