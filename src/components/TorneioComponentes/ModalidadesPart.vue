@@ -26,6 +26,13 @@ function abrirEditar(id) {
     modalidadeEditarId.value = id
     modalidadeEditar.value = true
 }
+function avancar() {
+    if (modalidadesTorneio.value.length > 0) {
+        emits('salvar')
+    } else {
+        alert('O torneio deve ter pelo menos uma modalidade cadastrada')
+    }
+}
 </script>
 
 <template>
@@ -51,7 +58,7 @@ function abrirEditar(id) {
     </div>
     <div class="nav">
         <button class="voltar">Voltar</button>
-        <button class="salvar" v-on:click="emits('salvar')">Salvar Alterações</button>
+        <button class="salvar" v-on:click="avancar">Salvar Alterações</button>
     </div>
 
     <AdicionarModalidade v-show="modalidadeAdicionar" @fechar-adicionar-modalidade="modalidadeAdicionar = false"

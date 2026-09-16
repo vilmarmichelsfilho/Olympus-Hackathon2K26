@@ -9,6 +9,14 @@ const timesTorneio = computed(() => {
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 const add = ref(false)
 const emits = defineEmits(['salvar','voltar']);
+
+function avancar() {
+    if (timesTorneio.value.length > 1) {
+        emits('salvar')
+    } else {
+        alert('O torneio deve ter pelo menos 2 times cadastrados')
+    }
+}
 </script>
 
 <template>
@@ -32,7 +40,7 @@ const emits = defineEmits(['salvar','voltar']);
     </div>
     <div class="nav">
         <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
-        <button class="salvar" v-on:click.prevent="emits('salvar')">Salvar Alterações</button>
+        <button class="salvar" v-on:click.prevent="avancar">Salvar Alterações</button>
     </div>
     <AdicionarOuEditarTime v-if="add===true" @fechar="add=false" :nome1="''" :cor="''" :pontuacao_geral="0" :tipo="'adicionar'" :torneio="torneio" :escudo="''"></AdicionarOuEditarTime>
 </template>

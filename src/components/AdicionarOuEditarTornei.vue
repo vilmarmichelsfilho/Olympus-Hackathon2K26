@@ -45,7 +45,7 @@ function aoAdicionarTorneio(dados) {
             <TorneioPopUp v-show="etapa===20" @fechar="emit('fechar')" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
             <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
-            <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio"></TurmasPart>
+            <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
         </div>
     </div>
 </template>

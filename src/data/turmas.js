@@ -7,7 +7,8 @@ export const turmas = reactive([
     cod_time: 1,
     tecnico_turma: "Informática",
     ano_turma: 1,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "1Informática1"
   },
   {
     cod_turma: 2,
@@ -15,7 +16,8 @@ export const turmas = reactive([
     cod_time: 2,
     tecnico_turma: "Agropecuária",
     ano_turma: 2,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "2Agropecuária2"
   },
   {
     cod_turma: 3,
@@ -23,7 +25,8 @@ export const turmas = reactive([
     cod_time: 3,
     tecnico_turma: "Química",
     ano_turma: 3,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "3Química1"
   },
   {
     cod_turma: 4,
@@ -31,7 +34,8 @@ export const turmas = reactive([
     cod_time: 4,
     tecnico_turma: "Informática",
     ano_turma: 2,
-    numero_turma: 3
+    numero_turma: 3,
+    nome_turma: "2Informática3"
   },
   {
     cod_turma: 5,
@@ -39,7 +43,8 @@ export const turmas = reactive([
     cod_time: 5,
     tecnico_turma: "Agropecuária",
     ano_turma: 1,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "1Agropecuária1"
   },
   {
     cod_turma: 6,
@@ -47,7 +52,8 @@ export const turmas = reactive([
     cod_time: 6,
     tecnico_turma: "Informática",
     ano_turma: 3,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "3Informática2"
   },
   {
     cod_turma: 7,
@@ -55,7 +61,8 @@ export const turmas = reactive([
     cod_time: 7,
     tecnico_turma: "Química",
     ano_turma: 1,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "1Química2"
   },
   {
     cod_turma: 8,
@@ -63,7 +70,8 @@ export const turmas = reactive([
     cod_time: 8,
     tecnico_turma: "Agropecuária",
     ano_turma: 3,
-    numero_turma: 3
+    numero_turma: 3,
+    nome_turma: "3Agropecuária3"
   },
   {
     cod_turma: 9,
@@ -71,7 +79,8 @@ export const turmas = reactive([
     cod_time: 1,
     tecnico_turma: "Agropecuária",
     ano_turma: 1,
-    numero_turma: 3
+    numero_turma: 3,
+    nome_turma: "1Agropecuária3"
   },
   {
     cod_turma: 10,
@@ -79,7 +88,8 @@ export const turmas = reactive([
     cod_time: 2,
     tecnico_turma: "Informática",
     ano_turma: 3,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "3Informática1"
   },
   {
     cod_turma: 11,
@@ -87,7 +97,8 @@ export const turmas = reactive([
     cod_time: 3,
     tecnico_turma: "Química",
     ano_turma: 2,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "2Química1"
   },
   {
     cod_turma: 12,
@@ -95,7 +106,8 @@ export const turmas = reactive([
     cod_time: 4,
     tecnico_turma: "Agropecuária",
     ano_turma: 2,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "2Agropecuária2"
   },
   {
     cod_turma: 13,
@@ -103,7 +115,8 @@ export const turmas = reactive([
     cod_time: 5,
     tecnico_turma: "Informática",
     ano_turma: 1,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "1Informática2"
   },
   {
     cod_turma: 14,
@@ -111,7 +124,8 @@ export const turmas = reactive([
     cod_time: 6,
     tecnico_turma: "Química",
     ano_turma: 3,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "3Química2"
   },
   {
     cod_turma: 15,
@@ -119,7 +133,8 @@ export const turmas = reactive([
     cod_time: 7,
     tecnico_turma: "Agropecuária",
     ano_turma: 1,
-    numero_turma: 3
+    numero_turma: 3,
+    nome_turma: "1Agropecuária3"
   },
   {
     cod_turma: 16,
@@ -127,7 +142,8 @@ export const turmas = reactive([
     cod_time: 8,
     tecnico_turma: "Informática",
     ano_turma: 2,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "2Informática1"
   },
   {
     cod_turma: 17,
@@ -135,7 +151,8 @@ export const turmas = reactive([
     cod_time: 1,
     tecnico_turma: "Química",
     ano_turma: 2,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "2Química2"
   },
   {
     cod_turma: 18,
@@ -143,7 +160,8 @@ export const turmas = reactive([
     cod_time: 2,
     tecnico_turma: "Agropecuária",
     ano_turma: 3,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "3Agropecuária1"
   },
   {
     cod_turma: 19,
@@ -151,7 +169,8 @@ export const turmas = reactive([
     cod_time: 3,
     tecnico_turma: "Informática",
     ano_turma: 1,
-    numero_turma: 3
+    numero_turma: 3,
+    nome_turma: "1Informática3"
   },
   {
     cod_turma: 20,
@@ -159,7 +178,8 @@ export const turmas = reactive([
     cod_time: 4,
     tecnico_turma: "Química",
     ano_turma: 1,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "1Química1"
   },
   {
     cod_turma: 21,
@@ -167,7 +187,8 @@ export const turmas = reactive([
     cod_time: 5,
     tecnico_turma: "Agropecuária",
     ano_turma: 2,
-    numero_turma: 1
+    numero_turma: 1,
+    nome_turma: "2Agropecuária1"
   },
   {
     cod_turma: 22,
@@ -175,7 +196,8 @@ export const turmas = reactive([
     cod_time: 6,
     tecnico_turma: "Informática",
     ano_turma: 2,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "2Informática2"
   },
   {
     cod_turma: 23,
@@ -183,7 +205,8 @@ export const turmas = reactive([
     cod_time: 7,
     tecnico_turma: "Agropecuária",
     ano_turma: 3,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "3Agropecuária2"
   },
   {
     cod_turma: 24,
@@ -191,6 +214,7 @@ export const turmas = reactive([
     cod_time: 8,
     tecnico_turma: "Química",
     ano_turma: 2,
-    numero_turma: 2
+    numero_turma: 2,
+    nome_turma: "2Química2"
   }
 ])
