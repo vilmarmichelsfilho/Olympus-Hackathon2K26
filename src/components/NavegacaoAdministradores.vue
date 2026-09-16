@@ -4,7 +4,7 @@ import UserIcon from '@iconify-vue/mdi/user';
 import SearchIcon from '@iconify-vue/mdi/search';
 import GearIcon from '@iconify-vue/mdi/gear';
 import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics';
-
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['tela'])
 
 function sair() {
@@ -34,14 +34,14 @@ function sair() {
             <nav>
                 <ul>
                     <li v-on:click="emit('tela','torneio')">Torneio</li>
-                    <li v-on:click="emit('tela','dashboard')">Dashboard</li>
-                    <li v-on:click="emit('tela','jogos')">Jogos</li>
-                    <li v-on:click="emit('tela','times')">Times</li>
-                    <li v-on:click="emit('tela','horarios')">Horários</li>
-                    <li v-on:click="emit('tela','conflitos')">Conflitos</li>
-                    <li v-on:click="emit('tela','turmas')">Turmas</li>
-                    <li v-on:click="emit('tela','arbitros')">Arbitros</li>
-                    <li v-on:click="emit('tela','modalidades')">Modalidades</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','dashboard')">Dashboard</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','jogos')">Jogos</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','times')">Times</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','horarios')">Horários</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','conflitos')">Conflitos</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','turmas')">Turmas</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','arbitros')">Arbitros</li>
+                    <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela','modalidades')">Modalidades</li>
 
                 </ul>
             </nav>

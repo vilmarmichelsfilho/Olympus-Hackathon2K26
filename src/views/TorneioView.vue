@@ -4,11 +4,13 @@ import EditarTorneioView from '@/components/EditarTorneioView.vue';
 import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
 import DashboardTorneio from '@/components/DashboardTorneio.vue';
+import { AlterarCodTorneio } from '@/Utils/cod_torneioAdmUtils';
 const mostrarFluxo = ref(false)
 const mostrarEditarTorneio = ref(false)
 const torneioEditarId = ref(null)
 function editarTorneio(id) {
   torneioEditarId.value = id;
+  AlterarCodTorneio(id)
   mostrarEditarTorneio.value = true;
 }
 </script>

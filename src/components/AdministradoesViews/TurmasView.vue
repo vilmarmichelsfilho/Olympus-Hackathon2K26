@@ -3,8 +3,7 @@ import { ref } from 'vue';
 import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 import TurmasCard from '../TurmasCard.vue';
 import { adicionar, editar, excluir } from '@/Utils/turmasUtils.js';
-import { turmas } from '@/data/turmas';
-
+import { turmasFiltradasAdm } from '@/Utils/cod_torneioAdmUtils.js';
 const add = ref(false);
 const edit = ref(false);
 const id = ref('');
@@ -40,7 +39,7 @@ function editardd(tecnico, ano, serie) {
         </thead>
         <tbody>
           <TurmasCard
-            v-for="turma in turmas"
+            v-for="turma in turmasFiltradasAdm"
             :key="turma.cod_turma"
             :id="turma.cod_turma"
             :tecnico="turma.tecnico_turma"
@@ -57,7 +56,6 @@ function editardd(tecnico, ano, serie) {
     <AdicionarOuEditar @fechar="edit=false" v-show="edit" @adicionar="editardd" class="edit"></AdicionarOuEditar>
     <AdicionarOuEditar @fechar="add=false" v-show="add" @adicionar="adicionardd" class="add"></AdicionarOuEditar>
 </template>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 button {

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import popUpEditarTorneio from './pop-upEditarTorneio.vue';
 import { editarTorneio } from '@/Utils/editarUtils.js';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils.js';
 const emit = defineEmits(['fecha'])
 const props = defineProps(['torneio'])
 const mostrarEditarTorneio = ref(false)
@@ -15,6 +16,7 @@ function atualizarTorneio(novoTorneio) {
 }
 function Fechar(){
   emit('fecha')
+  codTorneioSelecionadoAdm.value = null
 }
 </script>
 <template>

@@ -5,6 +5,7 @@ import { editarArbitro } from '@/Utils/editarUtils.js'
 import { ref } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
 import { arbitros } from '@/data/arbitros';
+import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
 function excluirArbitro(id) {
   const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
   if (index !== -1) {
@@ -39,7 +40,7 @@ function abrirEditarArbitro(id) {
         </thead>
         <tbody>
           <arbitrosDashboardChild
-            v-for="arbitro in arbitros"
+            v-for="arbitro in arbitrosFiltradosAdm"
             :key="arbitro.cod_arbitro"
             :id="arbitro.cod_arbitro"
             :nome="arbitro.nome_arbitro"

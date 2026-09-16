@@ -1,6 +1,7 @@
 <script setup>
 import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
+import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
@@ -41,7 +42,7 @@ function exluirModalidade(id) {
         </thead>
         <tbody>
           <modalidadesDashboardChild
-            v-for="modalidade in modalidades"
+            v-for="modalidade in modalidadesFiltradasAdm"
             :key="modalidade.cod_modalidade"
             :id="modalidade.cod_modalidade"
             :local="modalidade.localdojogo_modalidade"
