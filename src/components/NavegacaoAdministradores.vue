@@ -9,6 +9,7 @@ const emit = defineEmits(['tela'])
 
 function sair() {
     localStorage.setItem('logado', 'false')
+    codTorneioSelecionadoAdm.value = null
 }
 
 </script>

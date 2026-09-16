@@ -36,7 +36,7 @@ const isTimesRoute = window.location.pathname === '/times';
       </thead>
       <tbody>
         <timeCard v-for="time in timesDoMaiorAoMenor" :key="time.cod_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time"
-          :cor="time.cor_time">
+          :nome="time.nome_time">
         </timeCard>
       </tbody>
     </table>

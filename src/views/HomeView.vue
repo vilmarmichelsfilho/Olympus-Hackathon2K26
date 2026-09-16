@@ -220,7 +220,7 @@ const progressoPorcentagem = computed(() => {
                 :key="time.cod_time"
                 :id="time.cod_time"
                 :pontuacao="time.pontuacaogeral_time"
-                :cor="time.cor_time"
+                :nome="time.nome_time"
               >
               </timeCard>
             </tbody>

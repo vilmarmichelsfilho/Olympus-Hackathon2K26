@@ -1,12 +1,7 @@
 <script setup>
 import timesCard from '../timesCard.vue';
-import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
-import { ref } from 'vue';
 import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
-const add = ref(false)
-
 </script>
-
 <template>
     <div class="container">
         <div class="texto">
@@ -17,7 +12,6 @@ const add = ref(false)
             <div class="cima">
                 <p>a</p>
                 <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
-                <button v-on:click.prevent="add=true">Adicionar</button>
             </div>
             <div class="desc">
                 <ul>
@@ -33,7 +27,6 @@ const add = ref(false)
             </ul>
         </div>
     </div>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''":vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');

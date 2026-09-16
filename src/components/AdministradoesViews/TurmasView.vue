@@ -1,23 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 import TurmasCard from '../TurmasCard.vue';
-import { adicionar, editar, excluir } from '@/Utils/turmasUtils.js';
 import { turmasFiltradasAdm } from '@/Utils/cod_torneioAdmUtils.js';
-const add = ref(false);
-const edit = ref(false);
-const id = ref('');
-
-function adicionardd(tecnico,ano, serie) {
-    add.value = false;
-    adicionar(tecnico, ano, serie);
-}
-function editardd(tecnico, ano, serie) {
-    edit.value=false;
-    editar(id.value,tecnico, ano, serie);
-}
 </script>
-
 <template>
     <div class="template">
         <div>
@@ -26,7 +10,6 @@ function editardd(tecnico, ano, serie) {
         </div>
 
         <div class="sla">
-          <button v-on:click.prevent="add=true">Adicionar Turma</button>
           <div class="tabelaTurmas">
       <table>
         <thead>
@@ -34,7 +17,6 @@ function editardd(tecnico, ano, serie) {
             <th>Ano</th>
             <th>Técnico</th>
             <th>Série</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -45,28 +27,15 @@ function editardd(tecnico, ano, serie) {
             :tecnico="turma.tecnico_turma"
             :ano="turma.ano_turma"
             :serie="turma.numero_turma"
-            @editar="edit=true; id=turma.cod_turma"
-            @excluir="excluir(turma.cod_turma)"
           />
         </tbody>
       </table>
     </div>
   </div>
 </div>
-    <AdicionarOuEditar @fechar="edit=false" v-show="edit" @adicionar="editardd" class="edit"></AdicionarOuEditar>
-    <AdicionarOuEditar @fechar="add=false" v-show="add" @adicionar="adicionardd" class="add"></AdicionarOuEditar>
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-button {
-  background: transparent;
-  color: black;
-  border: 1px solid black;
-  padding: 0.5vw 1.5vw;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-}
 .template {
     font-family: "Krona One", sans-serif;
     font-weight: 400;
@@ -89,6 +58,7 @@ p {
 .sla {
     padding: 3vw 0 0 3vw;
     background: white;
+      border-radius: 2vw;
 }
 
 .tabelaTurmas {
@@ -112,14 +82,14 @@ th {
   padding: 1vw 0;
   text-align: left;
 }
-th:nth-child(1), td:nth-child(1) { width: 25%; }
-th:nth-child(2), td:nth-child(2) { width: 15%; }
-th:nth-child(3), td:nth-child(3) { width: 20%; }
-th:nth-child(4), td:nth-child(4) { width: 20%; }
+th:nth-child(1), td:nth-child(1) { width: 33%; }
+th:nth-child(2), td:nth-child(2) { width: 33%; }
+th:nth-child(3), td:nth-child(3) { width: 33%; }
 @media (max-width: 750px){
   h2{
     font-size: 4vw;
     margin: 2vw 0 1vw 3vw;
+    color: black;
   }
   p{
     font-size: 3vw;
