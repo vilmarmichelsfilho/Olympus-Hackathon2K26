@@ -1,11 +1,39 @@
 <script setup>
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 const emit = defineEmits(['fechar', 'adicionar','proximo'])
+const props = defineProps(['dadosIniciais'])
 const nome = ref('');
 const dataInicio = ref('');
 const dataFim = ref('');
 const status = ref('Planejado')
+
+watch(
+    () => props.dadosIniciais,
+    (dados) => {
+        if (!dados) return
+        nome.value = dados.nome
+        dataInicio.value = dados.dataInicio
+        dataFim.value = dados.dataFim
+        status.value = dados.status
+    },
+    { immediate: true },
+)
+
+function salvar() {
+    if (!nome.value.trim() || !dataInicio.value || !dataFim.value) return
+    if (dataFim.value < dataInicio.value) {
+        alert('A data final não pode ser anterior à data inicial.')
+        return
+    }
+
+    emit('adicionar', {
+        nome: nome.value.trim(),
+        dataInicio: dataInicio.value,
+        dataFim: dataFim.value,
+        status: status.value,
+    })
+}
 </script>
 
 <template>
@@ -38,7 +66,7 @@ const status = ref('Planejado')
                         <button
                         type="submit"
                         class="salvar"
-                        v-on:click.prevent="emit('adicionar', { nome, dataInicio, dataFim, status }),emit('proximo')"
+                        v-on:click.prevent="salvar"
                         :disabled="nome === '' || dataInicio === '' || dataFim === ''"
                     >
                         <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações

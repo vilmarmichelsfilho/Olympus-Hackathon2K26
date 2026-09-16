@@ -36,7 +36,11 @@ function rotuloStatus(status) {
       <time :datetime="jogo.dataHoraISO">{{ jogo.dataFormatada }} - {{ jogo.hora }}</time>
     </div>
 
-    <button type="button" @click="$emit('alterarPlacar', jogo.codJogo)">
+    <button
+      v-if="jogo.status === 'AoVivo' && jogo.confrontoDefinido"
+      type="button"
+      @click="$emit('alterarPlacar', jogo.codJogo)"
+    >
       Alterar placar <span aria-hidden="true">››</span>
     </button>
   </li>

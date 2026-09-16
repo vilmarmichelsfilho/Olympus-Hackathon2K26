@@ -56,23 +56,19 @@ function checarDados() {
   if (codModalidade.value !== '') {
     if (data.value !== '') {
       if (hora.value !== '') {
-        if (time1.value !== '' && time2.value !== '') {
-          if (time1.value !== time2.value) {
+          if (!time1.value || !time2.value || time1.value !== time2.value) {
             emit('atualizar', {
               cod_jogo: props.jogo.cod_jogo,
               cod_modalidade: codModalidade.value,
               horario_jogo: `${data.value} ${hora.value}`,
               status_jogo: status.value,
-              time1: time1.value,
-              time2: time2.value
+              time1: time1.value || null,
+              time2: time2.value || null
             })
             emit('fecharEditarJogo');
           } else {
             alert('Os dois times não podem ser o mesmo')
           }
-        } else {
-          alert('Selecione os dois times')
-        }
       } else {
         alert('Preencha o horário do jogo')
       }
@@ -110,7 +106,7 @@ function fechar() {
           <div class="datainicio">
             <h3>Time 01</h3>
             <select class="inputAnim" v-model="time1">
-              <option disabled value="">A definir</option>
+              <option value="">A definir</option>
               <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>
@@ -119,7 +115,7 @@ function fechar() {
           <div class="datafim">
             <h3>Time 02</h3>
             <select class="inputAnim" v-model="time2">
-              <option disabled value="">A definir</option>
+              <option value="">A definir</option>
               <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
                 {{ t.nome_time }}
               </option>

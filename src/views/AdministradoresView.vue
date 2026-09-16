@@ -6,7 +6,8 @@ import AdicionarTime from '@/components/AdicionarTime.vue'
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue'
 import TimesView from '@/components/AdministradoesViews/TimesView.vue'
 import router from '@/router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
 import TorneioView from './TorneioView.vue'
@@ -14,13 +15,27 @@ import JogosView from './JogosView.vue'
 import HorariosView from '@/components/AdministradoesViews/HorariosView.vue'
 import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
 import { obterSessao } from '@/Utils/loginUtils'
-const telaAtual = ref('torneio')
+const route = useRoute()
+const telasValidas = new Set(['torneio', 'dashboard', 'jogos', 'times', 'horarios', 'conflitos', 'turmas', 'arbitros', 'modalidades'])
+function telaDoHash(hash) {
+  const tela = hash.replace('#', '')
+  return telasValidas.has(tela) ? tela : 'torneio'
+}
+const telaAtual = ref(telaDoHash(route.hash))
 if (obterSessao()?.tipo !== 'administrador') router.replace('/login')
+
+watch(
+  () => route.hash,
+  (hash) => {
+    telaAtual.value = telaDoHash(hash)
+  },
+)
 
 function mudarTela(valor) {
   let tela = '/administradores#' + valor
   router.replace(tela)
   telaAtual.value = valor
+  menuAberto.value = false
 }
 const menuAberto = ref(false)
 function toggleMenu() {
@@ -78,7 +93,6 @@ const time = ref(false)
       <JogosView> </JogosView>
     </div>
     <DashboardModalidades v-show="telaAtual == 'modalidades'"> </DashboardModalidades>
-    <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   </div>
   <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   <div class="controle"></div>

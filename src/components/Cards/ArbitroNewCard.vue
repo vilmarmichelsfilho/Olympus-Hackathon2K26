@@ -1,17 +1,17 @@
 <script setup>
 import { arbitros } from '@/data/arbitros';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps(['id','class'])
 const emits = defineEmits(['editar-arbitro', 'excluir-arbitro'])
-const index = arbitros.findIndex(item => item.cod_arbitro === props.id)
+const arbitro = computed(() => arbitros.find(item => item.cod_arbitro === props.id))
 </script>
 
 <template>
-<li :class="props.class">
-<h4>{{ arbitros[index].nome_arbitro }}</h4>
-<h4>{{ arbitros[index].login_arbitro }}</h4>
-<h4 style="opacity: 0.5;">{{ arbitros[index].senha_arbitro }}</h4>
+<li v-if="arbitro" :class="props.class">
+<h4>{{ arbitro.nome_arbitro }}</h4>
+<h4>{{ arbitro.login_arbitro }}</h4>
+<h4 style="opacity: 0.5;">{{ arbitro.senha_arbitro }}</h4>
 <div class="botoes">
     <button v-on:click.prevent="emits('editar-arbitro',props.id)">Editar</button>
     <button v-on:click.prevent="emits('excluir-arbitro',props.id)">Excluir</button>

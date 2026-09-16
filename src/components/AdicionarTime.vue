@@ -13,11 +13,13 @@ function checarDados() {
     if (nome.value !== '') {
         if (cor.value !== '') {
             if (imagem.value !== null) {
-                adicionarTimes(nome.value, cor.value, imagem.value, codTorneio.value);
-                emit('fechar');
-                nome.value = '';
-                cor.value = '';
-                imagem.value = null;
+                const adicionado = adicionarTimes(nome.value, cor.value, imagem.value, codTorneio.value);
+                if (adicionado) {
+                    emit('fechar');
+                    nome.value = '';
+                    cor.value = '';
+                    imagem.value = null;
+                }
             } else {
                 alert('Adicione um escudo/imagem ao time')
             }

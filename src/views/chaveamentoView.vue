@@ -40,8 +40,9 @@ function getTimeId(codJogo, posicao) {
     return null
   }
   const participantes = getParticipantesByJogo(codJogo)
-  if (participantes.length > 0) {
-    return participantes[posicao]?.cod_time ?? null
+  const timeParticipante = participantes[posicao]?.cod_time
+  if (timeParticipante != null) {
+    return timeParticipante
   }
   const origem = posicao === 0 ? jogo.origem_jogo_a : jogo.origem_jogo_b
   if (!origem) {
@@ -100,7 +101,7 @@ const rounds = computed(() => [
     <section class="chaveamento">
       <div class="header-chaveamento">
         <div class="coroa">
-          <img src="/public/images/coroa.png" alt="coroa" />
+          <img src="/images/coroa.png" alt="coroa" />
         </div>
         <h3>
           {{ nome }}<br />

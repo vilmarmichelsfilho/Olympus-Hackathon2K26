@@ -5,15 +5,13 @@ import { ref, computed } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
+import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils';
 
 function exluirModalidade(id) {
-    const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id)
-    if (index !== -1) {
-        modalidades.splice(index, 1)
-    }
+    excluirModalidadeCompleta(id)
 }
 const props = defineProps(['torneio'])
-const emits = defineEmits(['salvar'])
+const emits = defineEmits(['salvar', 'voltar'])
 
 const modalidadesTorneio = computed(() => {
     return modalidades.filter(item => item.cod_torneio === props.torneio);
@@ -49,7 +47,7 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.id"
+                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.cod_modalidade"
                     :id="modalidade.cod_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
                     @excluir-modalidade="exluirModalidade" @editar-modalidade="abrirEditar">
                 </ModalidadesNewCard>
@@ -57,7 +55,7 @@ function avancar() {
         </div>
     </div>
     <div class="nav">
-        <button class="voltar">Voltar</button>
+        <button class="voltar" @click="emits('voltar')">Voltar</button>
         <button class="salvar" v-on:click="avancar">Salvar Alterações</button>
     </div>
 

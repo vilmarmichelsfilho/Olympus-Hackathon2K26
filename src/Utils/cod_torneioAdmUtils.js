@@ -4,9 +4,14 @@ import { jogos } from "@/data/jogos";
 import { arbitros } from "@/data/arbitros";
 import { turmas } from "@/data/turmas";
 import { times } from "@/data/times";
-const codTorneioSelecionadoAdm = ref(null)
+const CHAVE_TORNEIO_ADM = 'torneioSelecionadoAdm'
+const torneioSalvo = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(CHAVE_TORNEIO_ADM) : null
+const codTorneioSelecionadoAdm = ref(torneioSalvo ? Number(torneioSalvo) : null)
 function AlterarCodTorneio(novoCod){
-  codTorneioSelecionadoAdm.value = novoCod
+  codTorneioSelecionadoAdm.value = novoCod == null ? null : Number(novoCod)
+  if (typeof sessionStorage === 'undefined') return
+  if (novoCod == null) sessionStorage.removeItem(CHAVE_TORNEIO_ADM)
+  else sessionStorage.setItem(CHAVE_TORNEIO_ADM, String(novoCod))
 }
 const modalidadesFiltradasAdm = computed(() => {
   return modalidades.filter((m) => m.cod_torneio == codTorneioSelecionadoAdm.value)

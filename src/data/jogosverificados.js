@@ -3,6 +3,7 @@ import { jogos } from '@/data/jogos'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
@@ -34,7 +35,10 @@ function detalharJogo(jogo) {
 
 const jogosVerificados = computed(() =>
   jogos
-    .filter((jogo) => jogo.status_jogo === 'AoVivo')
+    .filter((jogo) => {
+      const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
+    })
     .map(detalharJogo)
 )
 export{jogosVerificados}

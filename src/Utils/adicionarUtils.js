@@ -3,6 +3,15 @@ import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
 function adicionarTimes(nome, cor, imagem, cod_torneio) {
+    const timesDoTorneio = times.filter(item => item.cod_torneio === cod_torneio)
+    if (timesDoTorneio.length >= 8) {
+        alert('O torneio pode ter no máximo 8 times.')
+        return false
+    }
+    if (timesDoTorneio.some(item => item.nome_time.trim().toLowerCase() === nome.trim().toLowerCase())) {
+        alert('Já existe um time com este nome neste torneio!')
+        return false
+    }
     const maiorId = times.length
         ? Math.max(...times.map(item => item.cod_time))
         : 0;
@@ -14,10 +23,11 @@ function adicionarTimes(nome, cor, imagem, cod_torneio) {
         pontuacaogeral_time: 0,
         cod_torneio: cod_torneio,
     })
+    return true
 }
 function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
-    const maiorId = Math.max(...modalidades.map(item => item.cod_modalidade));
-    modalidades.push({
+    const maiorId = modalidades.length ? Math.max(...modalidades.map(item => item.cod_modalidade)) : 0;
+    const novaModalidade = {
         cod_torneio: torneio,
         cod_modalidade: maiorId+1,
         foto_modalidade: imagem,
@@ -25,10 +35,12 @@ function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
         desc_modalidade: desc,
         tempojogemminutos_modalidade: tempo,
         localdojogo_modalidade: local,
-    })
+    }
+    modalidades.push(novaModalidade)
+    return novaModalidade
 }
 function adicionarArbitro(nome, login, senha, torneio){
- const maiorId = Math.max(...arbitros.map(item => item.cod_arbitro));
+ const maiorId = arbitros.length ? Math.max(...arbitros.map(item => item.cod_arbitro)) : 0;
     arbitros.push({
         cod_torneio: torneio,
         cod_arbitro: maiorId+1,
@@ -50,5 +62,6 @@ function salvarTorneio(dadosDoFormulario) {
     status_torneio: dadosDoFormulario.status,
     cod_adm: 1,
   })
+  return novoCodigo
 }
 export{adicionarTimes, adicionarModalidade, adicionarArbitro,salvarTorneio}

@@ -1,47 +1,67 @@
-import { turmas } from "@/data/turmas";
-import { codTorneioSelecionadoAdm } from "./cod_torneioAdmUtils";
+import { turmas } from '@/data/turmas'
+import { codTorneioSelecionadoAdm } from './cod_torneioAdmUtils'
 
 function excluir(id) {
-    const index = turmas.findIndex(item => item.cod_turma === id);
-    turmas.splice(index,1);
+  const index = turmas.findIndex((turma) => turma.cod_turma === id)
+  if (index !== -1) turmas.splice(index, 1)
 }
 
 function adicionar(tecnico, ano, serie, time, torneio) {
-    if (turmas.some(item => item.nome_turma == ano+tecnico+serie) ) {
-            alert('Esta turma ja existe!')
-    } else {
-        if (turmas.filter(item => item.cod_time == time && item.cod_torneio == torneio).length >= 3) {
-            alert('So pode ter 3 turmas associadas 1 um time')
-        } else {
-            if (turmas.some(item => item.ano_turma == ano && item.cod_time == time && item.cod_torneio == torneio)) {
-                alert('Já tem uma turma do mesmo ano cadastrada neste time')
-            } else {
-                const maiorId = turmas.length
-                    ? Math.max(...turmas.map(item => item.cod_turma))
-                    : 0;
-                turmas.push({
-                cod_turma: maiorId + 1,
-                cod_time: time,
-                cod_torneio: torneio,
-                tecnico_turma: tecnico,
-                ano_turma: ano,
-                numero_turma: serie,
-                nome_turma: ano+tecnico+serie
-            })
-            }
-        }
-    }
+  const turmasDoTorneio = turmas.filter((turma) => turma.cod_torneio == torneio)
+  const turmasDoTime = turmasDoTorneio.filter((turma) => turma.cod_time == time)
+
+  if (turmasDoTorneio.length >= 24) {
+    alert('O torneio pode ter no máximo 24 turmas.')
+    return false
+  }
+  if (!time) {
+    alert('Selecione um time.')
+    return false
+  }
+  if (turmasDoTime.length >= 3) {
+    alert('Cada time pode ter no máximo 3 turmas.')
+    return false
+  }
+  if (turmasDoTime.some((turma) => Number(turma.ano_turma) === Number(ano))) {
+    alert('Este time já possui uma turma deste ano.')
+    return false
+  }
+
+  const maiorId = turmas.length ? Math.max(...turmas.map((turma) => turma.cod_turma)) : 0
+  turmas.push({
+    cod_turma: maiorId + 1,
+    cod_time: time,
+    cod_torneio: torneio,
+    tecnico_turma: tecnico,
+    ano_turma: Number(ano),
+    numero_turma: Number(serie),
+    nome_turma: `${ano}${tecnico}${serie}`,
+  })
+  return true
 }
 
-function editar(id,tecnico,ano, serie) {
-    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie && item.cod_torneio == codTorneioSelecionadoAdm)) {
-        alert('Esta turma ja existe!')
-    } else {
-        const index = turmas.findIndex(item => item.cod_turma === id);
-        turmas[index].tecnico_turma = tecnico
-        turmas[index].ano_turma = ano
-        turmas[index].numero_turma = serie
-    }
+function editar(id, tecnico, ano, serie) {
+  const duplicada = turmas.some(
+    (turma) =>
+      turma.cod_turma !== id &&
+      turma.tecnico_turma == tecnico &&
+      turma.ano_turma == ano &&
+      turma.numero_turma == serie &&
+      turma.cod_torneio == codTorneioSelecionadoAdm.value,
+  )
+
+  if (duplicada) {
+    alert('Esta turma já existe!')
+    return false
+  }
+
+  const index = turmas.findIndex((turma) => turma.cod_turma === id)
+  if (index === -1) return false
+
+  turmas[index].tecnico_turma = tecnico
+  turmas[index].ano_turma = Number(ano)
+  turmas[index].numero_turma = Number(serie)
+  return true
 }
 
-export{excluir,adicionar,editar}
+export { excluir, adicionar, editar }

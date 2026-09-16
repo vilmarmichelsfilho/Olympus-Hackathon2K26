@@ -1,7 +1,8 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
-import { torneios } from '@/data/torneios'
+import { excluirTorneioCompleto } from '@/Utils/exclusaoUtils'
+import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
 
@@ -11,8 +12,8 @@ function formatarData(data) {
     return `${dia}/${mes}`
 }
 function excluir() {
-    const indice = torneios.findIndex(t => t.cod_torneio === props.id)
-    if (indice !== -1) torneios.splice(indice, 1)
+    excluirTorneioCompleto(props.id)
+    if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>
 
@@ -20,7 +21,7 @@ function excluir() {
     <li class="linha-torneio">
         <span class="nome">{{ nome }}</span>
         <span class="periodo">{{ formatarData(dataInicio) }} — {{ formatarData(dataFim) }}</span>
-        <span class="status" :class="status === 'Em andamento' ? 'ativo' : 'agendado'">{{ status }}</span>
+        <span class="status" :class="status === 'Ativo' ? 'ativo' : 'agendado'">{{ status }}</span>
         <span class="icones">
             <PencilOutlineIcon width="1.1vw" class="icone-editar" @click="emit('editar', props.id)" />
             <TrashCanOutlineIcon width="1.1vw" class="icone-excluir" @click="excluir" />

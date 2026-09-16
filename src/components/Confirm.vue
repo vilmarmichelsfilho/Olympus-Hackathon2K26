@@ -1,4 +1,5 @@
 <script setup>
+defineOptions({ name: 'ConfirmDialog' })
 const emit = defineEmits(['cancelar','excluir']);
 
 </script>

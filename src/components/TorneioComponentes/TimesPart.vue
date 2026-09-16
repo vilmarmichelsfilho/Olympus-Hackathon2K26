@@ -11,10 +11,10 @@ const add = ref(false)
 const emits = defineEmits(['salvar','voltar']);
 
 function avancar() {
-    if (timesTorneio.value.length > 1) {
+    if (timesTorneio.value.length === 8) {
         emits('salvar')
     } else {
-        alert('O torneio deve ter pelo menos 2 times cadastrados')
+        alert('O torneio deve ter exatamente 8 times cadastrados.')
     }
 }
 </script>
@@ -23,8 +23,9 @@ function avancar() {
     <div class="sla">
         <div class="header">
             <h3>Times</h3>
-            <button @click="add = true" class="adicionar">Adicionar</button>
+            <button @click="add = true" class="adicionar" :disabled="timesTorneio.length >= 8">Adicionar</button>
         </div>
+        <p class="regra">{{ timesTorneio.length }}/8 times cadastrados</p>
         <div class="cards">
             <ul>
                 <li>Times</li>
@@ -60,6 +61,17 @@ button {
     display: flex;
     align-items: center;
     transition: 0.3s;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.regra {
+    margin: 0.4rem 0 0.8rem;
+    color: #666;
+    font-size: 0.8rem;
 }
 
 button {

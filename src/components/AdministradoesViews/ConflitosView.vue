@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ConflitoCard from '@/components/ConflitoCard.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import { conflitosDoTorneio } from '@/Utils/conflitosUtils'
@@ -16,6 +16,11 @@ const conflitosVisiveis = computed(() =>
 function ignorarConflito(chave) {
   conflitosIgnorados.value = new Set([...conflitosIgnorados.value, chave])
 }
+
+watch(codTorneioSelecionadoAdm, () => {
+  conflitosIgnorados.value = new Set()
+  jogoEmEdicao.value = null
+})
 
 function resolverConflito(conflito) {
   jogoEmEdicao.value = conflito.jogos[1]?.jogoOriginal ?? conflito.jogos[0]?.jogoOriginal ?? null
