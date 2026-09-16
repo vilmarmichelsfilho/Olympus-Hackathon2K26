@@ -11,7 +11,7 @@ import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
         <div class="times">
             <div class="cima">
                 <p>a</p>
-                <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
+                <img src="/images/coroa.png" alt="" style="width: 3vw;">
             </div>
             <div class="desc">
                 <ul>

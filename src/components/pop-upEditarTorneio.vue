@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
+import { jogos } from '@/data/jogos';
+import { modalidades } from '@/data/modalidades';
 const emit = defineEmits(['fecharEditarTorneio', 'atualizar']);
 const props = defineProps(['torneio']);
 const nome = ref('');
@@ -23,6 +25,26 @@ function checarDados() {
   if (nome.value !== '') {
     if (dataInicio.value !== '') {
       if (dataFim.value !== '') {
+        if (dataFim.value < dataInicio.value) {
+          alert('A data final não pode ser anterior à data inicial.')
+          return
+        }
+
+        const codigosModalidades = new Set(
+          modalidades
+            .filter((modalidade) => modalidade.cod_torneio === props.torneio.cod_torneio)
+            .map((modalidade) => modalidade.cod_modalidade),
+        )
+        const jogoForaDoPeriodo = jogos.some((jogo) => {
+          if (!codigosModalidades.has(jogo.cod_modalidade)) return false
+          const dataJogo = jogo.horario_jogo.split(' ')[0]
+          return dataJogo < dataInicio.value || dataJogo > dataFim.value
+        })
+        if (jogoForaDoPeriodo) {
+          alert('Existem jogos fora do novo período. Ajuste os jogos antes de reduzir as datas.')
+          return
+        }
+
         emit('atualizar', {
           cod_torneio: props.torneio.cod_torneio,
           nome_torneio: nome.value,
@@ -70,9 +92,9 @@ function fechar() {
         <div class="status">
             <h3>Status</h3>
             <select name="status" id="status" placeholder="Status" v-model="status">
-              <option value="Concluido">CONCLUIDO</option>
-              <option value="Em andamento">EM ANDAMENTO</option>
-              <option value="Agendado">AGENDADO</option>
+              <option value="Planejado">PLANEJADO</option>
+              <option value="Ativo">ATIVO</option>
+              <option value="Finalizado">FINALIZADO</option>
             </select>
           </div>
           </div>

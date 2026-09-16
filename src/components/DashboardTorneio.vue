@@ -16,7 +16,7 @@ function aoAdicionarTorneio(dados) {
     <div class="torneio">
       <div class="cima">
         <p>a</p>
-        <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
+        <img src="/images/coroa.png" alt="" style="width: 3vw;">
         <button v-on:click.prevent="add = true">Adicionar</button>
       </div>
       <div class="topo">

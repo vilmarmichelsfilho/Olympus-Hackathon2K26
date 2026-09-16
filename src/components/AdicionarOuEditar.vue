@@ -7,10 +7,7 @@ import { adicionar, editar } from '@/Utils/turmasUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar','adicionar']);
 const props = defineProps(['torneio','tipo']);
-const codTorneio = ref(codTorneioSelecionadoAdm)
-if (props.torneio != undefined){
-  codTorneio.value = props.torneio
-}
+const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const timesTorneio = computed(() => {
     return times.filter(item => item.cod_torneio === codTorneio.value);
 });
@@ -22,8 +19,8 @@ const time = ref();
 
 function add() {
     if (props.tipo === 'adicionar') {
-        adicionar(tecnico.value,ano.value,serie.value,time.value,codTorneio.value)
-        emit('fechar')
+        const adicionado = adicionar(tecnico.value,ano.value,serie.value,time.value,codTorneio.value)
+        if (adicionado) emit('fechar')
     } else if (props.tipo === 'editar') {
         editar()
     }
@@ -72,7 +69,7 @@ function add() {
                     <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="add" :disabled="tecnico==''||serie==''||ano==''||time==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button type="submit" class="salvar" v-on:click.prevent="add" :disabled="!tecnico || !serie || !ano || !time"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>

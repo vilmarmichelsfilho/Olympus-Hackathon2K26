@@ -4,13 +4,13 @@ import UserIcon from '@iconify-vue/mdi/user'
 import SearchIcon from '@iconify-vue/mdi/search'
 import GearIcon from '@iconify-vue/mdi/gear'
 import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics'
-import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { encerrarSessao } from '@/Utils/loginUtils'
 const emit = defineEmits(['tela'])
 
 function sair() {
   encerrarSessao()
-  codTorneioSelecionadoAdm.value = null
+  AlterarCodTorneio(null)
 }
 </script>
 

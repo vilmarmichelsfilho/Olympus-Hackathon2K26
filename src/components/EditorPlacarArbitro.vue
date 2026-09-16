@@ -90,7 +90,7 @@ function salvar() {
         </div>
       </div>
 
-      <button class="salvar" type="button" @click="salvar">Salvar placar</button>
+      <button class="salvar" type="button" @click="salvar">Finalizar jogo</button>
     </div>
   </section>
 </template>

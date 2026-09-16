@@ -6,11 +6,10 @@ import { ref } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
 import { arbitros } from '@/data/arbitros';
 import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
+import { excluirArbitroSeguro } from '@/Utils/exclusaoUtils';
 function excluirArbitro(id) {
-  const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
-  if (index !== -1) {
-    arbitros.splice(index, 1)
-  }
+  const resultado = excluirArbitroSeguro(id)
+  if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)
 const arbitroEditar = ref(false)
@@ -25,7 +24,7 @@ function abrirEditarArbitro(id) {
     <h3>Arbitros</h3>
     <p>Informações sobre os arbitros sendo elas seu nome, login e senha</p>
     <div class="conteiner">
-      <div class="content"><img src="/public/images/coroa.png" alt="coroa">
+      <div class="content"><img src="/images/coroa.png" alt="coroa">
         <button @click="adicionarrArbitro = true">Adicionar</button>
       </div>
     <div class="tabelaArbitros">

@@ -11,6 +11,7 @@ import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
+import { finalizarJogo } from '@/Utils/partidasUtils'
 
 const router = useRouter()
 const sessao = obterSessao()
@@ -72,7 +73,8 @@ const jogoSelecionado = computed(() =>
 )
 
 function alterarPlacar(codJogo) {
-  jogoSelecionadoId.value = codJogo
+  const jogo = jogosDoArbitro.value.find((item) => item.codJogo === codJogo)
+  if (jogo?.status === 'AoVivo' && jogo.confrontoDefinido) jogoSelecionadoId.value = codJogo
 }
 
 function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
@@ -80,12 +82,13 @@ function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
 
   if (!jogo || Number(jogo.cod_arbitro) !== Number(sessao?.codigo)) return
 
-  const participantesDoJogo = participa
-    .filter((item) => item.cod_jogo === codJogo)
-    .sort((a, b) => a.posicao_participante - b.posicao_participante)
+  if (jogo.status_jogo !== 'AoVivo') return
 
-  if (participantesDoJogo[0]) participantesDoJogo[0].pontuacao_time = pontuacaoA
-  if (participantesDoJogo[1]) participantesDoJogo[1].pontuacao_time = pontuacaoB
+  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+  if (!resultado.sucesso) {
+    alert(resultado.mensagem)
+    return
+  }
 
   jogoSelecionadoId.value = null
 }

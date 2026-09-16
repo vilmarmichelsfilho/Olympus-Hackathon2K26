@@ -14,24 +14,34 @@ import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 const add = ref(false)
 const emits = defineEmits(['salvar','voltar']);
 
-const timesComTurma = computed(() => {
-    // Filtra as turmas do torneio atual e extrai os cod_time
-    const codigosTimesComTurma = turmasTorneio.value.map(turma => turma.cod_time);
-    // Retorna um Set para remover duplicados e otimizar a busca
-    return new Set(codigosTimesComTurma);
-});
-
 function avancar() {
-    // 2. Verifica se TODOS os times do torneio estão dentro do Set de times com turma
-    const todosOsTimesPossuemTurma = timesTorneio.value.every(time => 
-        timesComTurma.value.has(time.cod_time)
-    );
-
-    if (todosOsTimesPossuemTurma) {
-        emits('salvar');
-    } else {
-        alert('Todos os times do torneio precisam ter pelo menos uma turma cadastrada.');
+    if (turmasTorneio.value.length < 23 || turmasTorneio.value.length > 24) {
+        alert('O torneio deve ter entre 23 e 24 turmas.')
+        return
     }
+
+    let timesComDuasTurmas = 0
+    for (const time of timesTorneio.value) {
+        const turmasDoTime = turmasTorneio.value.filter(turma => turma.cod_time === time.cod_time)
+        const anos = new Set(turmasDoTime.map(turma => Number(turma.ano_turma)))
+
+        if (turmasDoTime.length < 2 || turmasDoTime.length > 3 || anos.size !== turmasDoTime.length) {
+            alert(`O time ${time.nome_time} deve ter 2 ou 3 turmas, sem repetir o ano.`)
+            return
+        }
+        if (turmasDoTime.length === 2) timesComDuasTurmas += 1
+        if (turmasDoTime.length === 3 && ![1, 2, 3].every(ano => anos.has(ano))) {
+            alert(`O time ${time.nome_time} deve ter uma turma do 1º, 2º e 3º ano.`)
+            return
+        }
+    }
+
+    if (timesComDuasTurmas > 1) {
+        alert('Somente um time pode ficar com duas turmas.')
+        return
+    }
+
+    emits('salvar')
 }
 </script>
 
@@ -39,8 +49,9 @@ function avancar() {
     <div class="sla">
         <div class="header">
             <h3>Turmas</h3>
-            <button @click="add = true" class="adicionar">Adicionar</button>
+            <button @click="add = true" class="adicionar" :disabled="turmasTorneio.length >= 24">Adicionar</button>
         </div>
+        <p class="regra">{{ turmasTorneio.length }}/24 turmas cadastradas · mínimo 23</p>
         <div class="cards">
             <ul>
                 <li>Time Vinculado</li>
@@ -76,6 +87,17 @@ button {
     display: flex;
     align-items: center;
     transition: 0.3s;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.regra {
+    margin: 0.4rem 0 0.8rem;
+    color: #666;
+    font-size: 0.8rem;
 }
 
 button {

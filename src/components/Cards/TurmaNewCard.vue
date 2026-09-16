@@ -1,14 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue';
-import AdicionarOuEditar from '../AdicionarOuEditar.vue';
+import { computed } from 'vue';
 import { times } from '@/data/times.js';
 import { turmas } from '@/data/turmas.js';
-import { adicionar } from '@/Utils/turmasUtils.js';
 
 const props = defineProps(['id', 'class'])
-const index = times.findIndex(item => item.cod_time === props.id)
-
-const edit = ref(false)
+const time = computed(() => times.find(item => item.cod_time === props.id))
 
 const turmasEmTime = computed(() => {
     return turmas.filter(item => item.cod_time === props.id);
@@ -25,12 +21,12 @@ function deletar() {
 </script>
 
 <template>
-    <li :class="props.class">
+    <li v-if="time" :class="props.class">
         <div class="info">
-            <div class="color" :style="{ background: times[index].cor_time }">
+            <div class="color" :style="{ background: time.cor_time }">
 
             </div>
-            <h4>{{ times[index].nome_time }}</h4>
+            <h4>{{ time.nome_time }}</h4>
         </div>
         <h4>{{turmasEmTime.map(item => item.nome_turma).join(' - ')}}</h4>
         <div class="botoes">

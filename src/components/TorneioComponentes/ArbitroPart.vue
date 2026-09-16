@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 import AdicionarArbitro from '../AdicionarArbitro.vue';
 import editarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js';
+import { excluirArbitroSeguro } from '@/Utils/exclusaoUtils';
 
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar','voltar'])
@@ -14,10 +15,8 @@ const arbitrosTorneio = computed(() => {
 });
 
 function excluirArbitro(id) {
-  const index = arbitros.findIndex((arbitro) => arbitro.cod_arbitro === id)
-  if (index !== -1) {
-    arbitros.splice(index, 1)
-  }
+  const resultado = excluirArbitroSeguro(id)
+  if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)
 const arbitroEditar = ref(false)

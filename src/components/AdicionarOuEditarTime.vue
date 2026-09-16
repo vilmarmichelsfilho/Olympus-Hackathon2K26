@@ -1,15 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
 import { times } from '@/data/times';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar', 'adicionar'])
 const props = defineProps(['nome1', 'tipo', 'id', 'escudo', 'pontuacao_geral', 'cor', 'torneio'])
-const codTorneio = ref(codTorneioSelecionadoAdm)
-if (props.torneio != undefined){
-  codTorneio.value = props.torneio
-}
+const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const nome = ref(props.nome1)
 const cor = ref(props.cor)
 const pontuacao_geral = ref(props.pontuacao_geral)
@@ -24,9 +21,11 @@ function apagar() {
 
 function adicionar() {
     if (props.tipo == 'adicionar') {
-        adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, codTorneio.value);
-        apagar();
-        emit('fechar');
+        const adicionado = adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, codTorneio.value);
+        if (adicionado) {
+            apagar();
+            emit('fechar');
+        }
     } else if (props.tipo == 'editar') {
         editarTime(nome.value, pontuacao_geral.value, cor.value, escudo.value, times.findIndex(item => item.cod_time === props.id));
         apagar();

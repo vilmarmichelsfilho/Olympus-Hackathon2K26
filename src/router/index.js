@@ -53,6 +53,7 @@ const router = createRouter({
       path: '/torneio/:id',
       name: 'torneio',
       component: TorneioView,
+      meta: { perfil: 'administrador' },
     },
     {
       path: '/jogos/',

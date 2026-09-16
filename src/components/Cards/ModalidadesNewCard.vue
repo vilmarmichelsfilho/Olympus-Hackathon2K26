@@ -1,20 +1,20 @@
 <script setup>
 import { modalidades } from '@/data/modalidades';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps(['id','class'])
 const emits = defineEmits(['editar-Modalidade', 'excluir-Modalidade'])
-const index = modalidades.findIndex(item => item.cod_modalidade === props.id)
+const modalidade = computed(() => modalidades.find(item => item.cod_modalidade === props.id))
 </script>
 
 <template>
-<li :class="props.class">
+<li v-if="modalidade" :class="props.class">
 <div class="info">
-    <h4>{{ modalidades[index].nome_modalidade }}</h4>
+    <h4>{{ modalidade.nome_modalidade }}</h4>
     <p>Esporte coletivo</p>
 </div>
-<h4>{{ modalidades[index].localdojogo_modalidade }}</h4>
-<h4>{{ modalidades[index].tempojogemminutos_modalidade }} min</h4>
+<h4>{{ modalidade.localdojogo_modalidade }}</h4>
+<h4>{{ modalidade.tempojogemminutos_modalidade }} min</h4>
 <div class="botoes">
     <button v-on:click.prevent="emits('editar-Modalidade',props.id)">Editar</button>
     <button v-on:click.prevent="emits('excluir-Modalidade',props.id)">Excluir</button>

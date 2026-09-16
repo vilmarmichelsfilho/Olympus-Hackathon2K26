@@ -1,30 +1,67 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
 import { salvarTorneio } from '@/Utils/adicionarUtils.js';
-import { torneios } from '@/data/torneios.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
+import { gerarJogosDoTorneio } from '@/Utils/gerarTorneioUtils.js';
+import { excluirTorneioCompleto } from '@/Utils/exclusaoUtils.js';
+import { torneios } from '@/data/torneios.js';
 
 const emit = defineEmits(['fechar']);
 
 const torneio = ref(0);
 
 const etapa = ref(20);
+const dadosGerais = ref(null)
+const cadastroFinalizado = ref(false)
 
 function aoAdicionarTorneio(dados) {
-  salvarTorneio(dados);
+  dadosGerais.value = dados
+  if (torneio.value) {
+    const registro = torneios.find((item) => item.cod_torneio === torneio.value)
+    if (registro) {
+      registro.nome_torneio = dados.nome
+      registro.data_inicio_torneio = dados.dataInicio
+      registro.data_fim_torneio = dados.dataFim
+      registro.status_torneio = dados.status
+    }
+  } else {
+    torneio.value = salvarTorneio(dados);
+  }
   etapa.value=etapa.value+20;
-  torneio.value = Math.max(...torneios.map(item => item.cod_torneio ));
 }
+
+function cancelarCadastro() {
+  if (torneio.value && !cadastroFinalizado.value) excluirTorneioCompleto(torneio.value)
+  torneio.value = 0
+  emit('fechar')
+}
+
+function finalizarCadastro() {
+  const resultado = gerarJogosDoTorneio(torneio.value)
+  if (!resultado.valido) {
+    alert(resultado.mensagem)
+    return
+  }
+
+  cadastroFinalizado.value = true
+  alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
+  emit('fechar')
+}
+
+onBeforeUnmount(() => {
+  if (torneio.value && !cadastroFinalizado.value) excluirTorneioCompleto(torneio.value)
+})
 
 </script>
 
 <template>
     <div class="display">
         <div class="dialog">
+            <button class="fechar-fluxo" type="button" aria-label="Cancelar cadastro" @click="cancelarCadastro">×</button>
             <div class="texto">
                 <h2 v-show="etapa===20">Criar Torneio</h2>
                 <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
@@ -43,11 +80,11 @@ function aoAdicionarTorneio(dados) {
                     <li :style="{color: etapa === 100 ? '#E85002' : ''}">Árbitros</li>
                 </ol>
             </div>
-            <TorneioPopUp v-show="etapa===20" @fechar="emit('fechar')" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
-            <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
+            <TorneioPopUp v-show="etapa===20" :dados-iniciais="dadosGerais" @fechar="cancelarCadastro" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
+            <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></ModalidadesPart>
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
             <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
-            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20"></ArbitroPart>
+            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20" @salvar="finalizarCadastro"></ArbitroPart>
         </div>
     </div>
 </template>
@@ -81,6 +118,7 @@ h2 {
 }
 
 .dialog {
+    position: relative;
     font-family: "Krona One", sans-serif;
     font-weight: normal;
     font-style: normal;
@@ -92,6 +130,17 @@ h2 {
     border: solid rgb(185, 184, 184) 0.15vw;
     padding: 4vw 3vw;
     border-radius: 1vw;
+}
+
+.fechar-fluxo {
+    position: absolute;
+    top: 1vw;
+    right: 1.2vw;
+    border: 0;
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+    font-size: 2vw;
 }
 
 .display {

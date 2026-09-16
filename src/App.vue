@@ -17,17 +17,17 @@ function login() {
   <div class="image">
     <AppHeader
       class="header"
-      v-if="!['/administradores', '/arbitro', '/login'].includes($route.path)"
+      v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"
       @login-pop="login"
     ></AppHeader>
-    <div class="texto" v-if="!['/administradores', '/arbitro', '/login'].includes($route.path)">
+    <div class="texto" v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)">
       <h2>Olimpíadas ifc</h2>
       <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
     </div>
     <div app-conteiner>
       <RouterView @login-pop="login"></RouterView>
     </div>
-    <FooterApp v-if="!['/administradores', '/arbitro', '/login'].includes($route.path)"></FooterApp>
+    <FooterApp v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"></FooterApp>
   </div>
   <loginView v-show="loginPop == true" @fechar-pop="login"></loginView>
 </template>

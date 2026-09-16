@@ -9,7 +9,7 @@ function modifyCodtorneio(id){
 <template>
   <div class="popup-boxx">
     <div class="conteiner">
-      <img src="/public/images/coroa.png" alt="coroa" />
+      <img src="/images/coroa.png" alt="coroa" />
       <div class="content">
         <h2>TORNEIOS</h2>
         <h3>Escolha um torneio para acesar</h3>

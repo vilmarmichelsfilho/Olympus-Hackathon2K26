@@ -14,7 +14,7 @@ export const torneios = reactive([
     nome_torneio: "Olimpíadas IFC Araquari 2027",
     data_inicio_torneio: "2027-06-19",
     data_fim_torneio: "2027-06-27",
-    status_torneio: "Agendado",
+    status_torneio: "Planejado",
     cod_adm: 1
   }
 ])

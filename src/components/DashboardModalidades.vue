@@ -6,6 +6,7 @@ import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
 import { ref } from 'vue';
+import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils'
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -14,10 +15,7 @@ function abrirEditar(id) {
 }
 const modalidadeAdicionar = ref(false)
 function exluirModalidade(id) {
-  const index = modalidades.findIndex((modalidade) => modalidade.cod_modalidade === id)
-  if (index !== -1) {
-    modalidades.splice(index, 1)
-  }
+  excluirModalidadeCompleta(id)
 }
 </script>
 <template>
@@ -26,7 +24,7 @@ function exluirModalidade(id) {
     <p>Informações sobre as modalidades, descrição,
       nome, tempo, local e foto</p>
     <div class="conteiner">
-      <div class="content"><img src="/public/images/coroa.png" alt="coroa">
+      <div class="content"><img src="/images/coroa.png" alt="coroa">
         <button @click="modalidadeAdicionar = true">Adicionar</button>
       </div>
     <div class="tabelaModalidades">

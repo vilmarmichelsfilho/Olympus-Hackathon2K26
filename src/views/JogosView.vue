@@ -5,6 +5,7 @@ import { participa } from '@/data/participa'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
+import { finalizarJogo } from '@/Utils/partidasUtils'
 
 const jogoEmEdicao = ref(null)
 const jogoComPlacarAberto = ref(null)
@@ -22,12 +23,11 @@ function abrirPlacar(jogo) {
 }
 
 function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const participantesDoJogo = participa
-    .filter((participante) => participante.cod_jogo === codJogo)
-    .sort((a, b) => a.posicao_participante - b.posicao_participante)
-
-  if (participantesDoJogo[0]) participantesDoJogo[0].pontuacao_time = pontuacaoA
-  if (participantesDoJogo[1]) participantesDoJogo[1].pontuacao_time = pontuacaoB
+  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+  if (!resultado.sucesso) {
+    alert(resultado.mensagem)
+    return
+  }
 
   jogoComPlacarAberto.value = null
 }
