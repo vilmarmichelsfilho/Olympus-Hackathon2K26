@@ -11,6 +11,7 @@ import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
 import TorneioView from './TorneioView.vue'
 import JogosView from './JogosView.vue'
+import HorariosView from '@/components/AdministradoesViews/HorariosView.vue'
 const telaAtual = ref('torneio')
 if (localStorage.getItem('logado') != 'true') {
   router.replace('/')
@@ -62,6 +63,9 @@ const time = ref(false)
     <div class="turmas" v-show="telaAtual == 'turmas'">
       <TurmasView></TurmasView>
     </div>
+  <div class="horarios" v-show="telaAtual == 'horarios'">
+    <HorariosView></HorariosView>
+  </div>
     <div class="arbitros" v-show="telaAtual == 'arbitros'">
       <arbitrosView></arbitrosView>
     </div>
