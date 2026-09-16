@@ -1,9 +1,23 @@
 import { times } from '@/data/times'
 import { turmas } from '@/data/turmas'
 import { computed } from 'vue'
-const timesDoMaiorAoMenor = computed(() => {
-  return [...times].sort((a, b) => b.pontuacaogeral_time - a.pontuacaogeral_time)
+import { cod_torneioAtual } from './cod_torneioUtils'
+const timesFiltradosPorTorneio = computed(() => {
+  const torneioId = cod_torneioAtual.value
+  return times.filter((t) => {
+    return t.cod_torneio == torneioId
+  })
 })
+const timesDoMaiorAoMenor = computed(
+  () => {
+    if (timesFiltradosPorTorneio.value.length > 0) {
+      return [...timesFiltradosPorTorneio.value].sort(
+        (a, b) => b.pontuacaogeral_time - a.pontuacaogeral_time,
+      )
+    }
+    return []
+  },
+)
 function definirposicao(id) {
   const posicao = timesDoMaiorAoMenor.value.findIndex((t) => t.cod_time == id) + 1
   return posicao
