@@ -62,4 +62,15 @@ p{
   width: fit-content;
   color: #E85002;
 }
+@media (max-width: 750px){
+  .conteiner{
+    gap: 3vw;
+  }
+  li{
+    margin: 0 0 4vw 0;
+  }
+  p{
+    font-size: 2.8vw;
+  }
+}
 </style>

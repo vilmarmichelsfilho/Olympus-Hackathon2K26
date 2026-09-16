@@ -65,4 +65,17 @@ ul {
   padding: 0;
   margin: 0 2vw;
 }
+@media  (max-width: 750px){
+  h2{
+    font-size: 5vw
+  }
+h3{
+  font-size: 3vw;
+}
+.popup-boxx{
+  width: 90vw;
+  margin: 0 5vw;
+}
+
+}
 </style>
