@@ -6,12 +6,10 @@ import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
-
 const emit = defineEmits(['loginPop'])
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
 }
-
 </script>
 
 <template>
@@ -81,6 +79,7 @@ function abrirMenu() {
 .olympus-screen {
   position: relative;
   min-height: 100vh;
+  max-height: fit-content;
   background-image: url("@/assets/fundo.png");
   background-size: cover;
   background-repeat: no-repeat;
