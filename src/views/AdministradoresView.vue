@@ -12,6 +12,7 @@ import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
 import TorneioView from './TorneioView.vue'
 import JogosView from './JogosView.vue'
 import HorariosView from '@/components/AdministradoesViews/HorariosView.vue'
+import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
 const telaAtual = ref('torneio')
 if (localStorage.getItem('logado') != 'true') {
   router.replace('/')
@@ -63,27 +64,26 @@ const time = ref(false)
     <div class="turmas" v-show="telaAtual == 'turmas'">
       <TurmasView></TurmasView>
     </div>
-  <div class="horarios" v-show="telaAtual == 'horarios'">
-    <HorariosView></HorariosView>
-  </div>
+    <div class="horarios" v-show="telaAtual == 'horarios'">
+      <HorariosView></HorariosView>
+    </div>
+    <div class="conflitos" v-show="telaAtual == 'conflitos'">
+      <ConflitosView />
+    </div>
     <div class="arbitros" v-show="telaAtual == 'arbitros'">
       <arbitrosView></arbitrosView>
     </div>
-      <div class="torneios" v-show="telaAtual == 'torneio'">
-       <TorneioView> </TorneioView>
-      </div>
-      <div class="jogos" v-show="telaAtual == 'jogos'">
-    <JogosView> </JogosView>
-  </div>
-    <DashboardModalidades
-      v-show="telaAtual == 'modalidades'"
-    >
-    </DashboardModalidades>
+    <div class="torneios" v-show="telaAtual == 'torneio'">
+      <TorneioView> </TorneioView>
+    </div>
+    <div class="jogos" v-show="telaAtual == 'jogos'">
+      <JogosView> </JogosView>
+    </div>
+    <DashboardModalidades v-show="telaAtual == 'modalidades'"> </DashboardModalidades>
     <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   </div>
   <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   <div class="controle"></div>
-
 </template>
 
 <style scoped>

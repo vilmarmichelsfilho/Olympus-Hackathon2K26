@@ -133,7 +133,7 @@ const jogosDoDia = computed(() =>
 .cabecalho h2 {
   margin: 2px 0 0;
   color: #a9a9ac;
-  font-size: 2cw;
+  font-size: 2vw;
 }
 
 .painel-horarios {
