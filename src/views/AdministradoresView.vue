@@ -13,11 +13,9 @@ import TorneioView from './TorneioView.vue'
 import JogosView from './JogosView.vue'
 import HorariosView from '@/components/AdministradoesViews/HorariosView.vue'
 import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
+import { obterSessao } from '@/Utils/loginUtils'
 const telaAtual = ref('torneio')
-if (localStorage.getItem('logado') != 'true') {
-  router.replace('/')
-  alert('Você não tem acesso a está página')
-}
+if (obterSessao()?.tipo !== 'administrador') router.replace('/login')
 
 function mudarTela(valor) {
   let tela = '/administradores#' + valor

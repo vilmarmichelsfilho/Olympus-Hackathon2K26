@@ -12,7 +12,7 @@ const toggle = ref(false);
 function trocarVizu() {
     if (toggle.value == false) {
         toggle.value = true;
-        tipoInput.value = 'label'
+        tipoInput.value = 'text'
     } else {
         toggle.value = false;
         tipoInput.value = 'password'

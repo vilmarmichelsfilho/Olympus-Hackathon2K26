@@ -7,7 +7,7 @@ import { times } from '@/data/times'
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import CalendarIcon from '@iconify-vue/mdi/calendar-outline'
 
-const emit = defineEmits(['editar'])
+const emit = defineEmits(['editar', 'placar'])
 
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
@@ -22,7 +22,9 @@ function formatarDataBR(dataISO) {
 function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
   const modalidade = modalidades.find((m) => m.cod_modalidade === jogo.cod_modalidade)
-  const participantes = participa.filter((p) => p.cod_jogo === jogo.cod_jogo)
+  const participantes = participa
+    .filter((p) => p.cod_jogo === jogo.cod_jogo)
+    .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const [pA, pB] = participantes
   const timeA = times.find((t) => t.cod_time === pA?.cod_time)
   const timeB = times.find((t) => t.cod_time === pB?.cod_time)
@@ -30,12 +32,14 @@ function detalharJogo(jogo) {
   return {
     cod_jogo: jogo.cod_jogo,
     dataFormatada: formatarDataBR(data),
-    horario,
-    modalidade: modalidade?.nome_modalidade,
-    local: modalidade?.localdojogo_modalidade,
+    dataHoraISO: `${data}T${horario.slice(0, 5)}`,
+    horario: horario.slice(0, 5),
+    modalidade: modalidade?.nome_modalidade ?? 'Modalidade',
+    local: modalidade?.localdojogo_modalidade ?? 'Local a definir',
     status: jogo.status_jogo,
-    time1: timeA?.nome_time,
-    time2: timeB?.nome_time,
+    temPlacar: pA?.pontuacao_time != null && pB?.pontuacao_time != null,
+    time1: timeA?.nome_time ?? 'A definir',
+    time2: timeB?.nome_time ?? 'A definir',
     pontuacao1: pA?.pontuacao_time,
     pontuacao2: pB?.pontuacao_time,
   }
@@ -49,22 +53,26 @@ function classeStatus(status) {
   return 'status-agendado'
 }
 
+function rotuloStatus(status) {
+  return status === 'AoVivo' ? 'Ao Vivo' : status
+}
 </script>
 
 <template>
   <div class="card-jogos">
-    <img src="@/assets/coroa.png" alt="" class="coroa" />
+    <header class="cabecalho-tabela">
+      <img src="@/assets/coroa.png" alt="" class="coroa" />
+    </header>
 
-    <div class="linha-jogo" v-for="jogo in jogosDetalhados" :key="jogo.cod_jogo">
+    <article class="linha-jogo" v-for="jogo in jogosDetalhados" :key="jogo.cod_jogo">
       <div class="celula-confronto">
         <p class="modalidade">{{ jogo.modalidade }}</p>
-        <p class="confronto">
-          {{ jogo.time1 }} x {{ jogo.time2 }}
-          <span v-if="jogo.pontuacao1 !== null && jogo.pontuacao1 !== undefined">
-            {{ jogo.pontuacao1 }}x{{ jogo.pontuacao2 }}
-          </span>
-          <span v-else>-</span>
-        </p>
+        <div class="linha-confronto">
+          <p class="confronto">{{ jogo.time1 }} x {{ jogo.time2 }}</p>
+          <strong class="placar">{{
+            jogo.temPlacar ? `${jogo.pontuacao1}x${jogo.pontuacao2}` : '–'
+          }}</strong>
+        </div>
         <p class="local">{{ jogo.local }}</p>
       </div>
 
@@ -75,59 +83,109 @@ function classeStatus(status) {
         </p>
       </div>
 
-      <span class="status-pill" :class="classeStatus(jogo.status)">{{ jogo.status }}</span>
-      <button class="btn-editar" @click="emit('editar', jogo.cod_jogo)">
-        <PencilOutlineIcon width="1vw" />
-        Editar
-      </button>
-    </div>
+      <span class="status-pill" :class="classeStatus(jogo.status)">{{
+        rotuloStatus(jogo.status)
+      }}</span>
+
+      <div class="acoes-jogo">
+        <button class="btn-editar" type="button" @click="emit('editar', jogo.cod_jogo)">
+          <PencilOutlineIcon />
+          Editar
+        </button>
+        <button
+          v-if="jogo.status === 'AoVivo'"
+          class="btn-placar"
+          type="button"
+          @click="emit('placar', jogo)"
+        >
+          Pontuação <span aria-hidden="true">››</span>
+        </button>
+      </div>
+    </article>
+
+    <p v-if="!jogosDetalhados.length" class="estado-vazio">Nenhum jogo cadastrado neste torneio.</p>
   </div>
 </template>
 
 <style scoped>
 .card-jogos {
+  overflow: hidden;
   background: white;
-  border-radius: 1vw;
-  padding: 1.5vw 2vw;
+  border-radius: 0.8vw;
 }
 
-.card-jogos img {
-  align-items: center;
-  margin: 0vw 20vw;
+.cabecalho-tabela {
+  display: grid;
+  height: 4.8vw;
+  place-items: center;
+  border-bottom: 0.08vw solid #dedede;
+}
+
+.coroa {
+  width: 2.2vw;
+  height: 1.9vw;
+  object-fit: contain;
 }
 
 .linha-jogo {
+  position: relative;
   display: grid;
-  grid-template-columns: 2.5fr 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: minmax(0, 2.1fr) minmax(10vw, 1.2fr) minmax(7vw, 0.75fr) auto;
   align-items: center;
+  gap: 1.4vw;
+  min-height: 7.1vw;
+  padding: 1.15vw 2.8vw;
+  border-bottom: 0.08vw solid #e6e6e6;
+}
+
+.linha-jogo:last-of-type {
+  border-bottom: 0;
+}
+
+.linha-confronto {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
   gap: 1vw;
-  padding: 1vw 0;
-  border-bottom: 0.05vw solid #eee;
 }
 
 .modalidade {
-  color: #DE6D1C;
-  font-size: 0.75vw;
-  text-transform: uppercase;
-  font-weight: bold;
   margin: 0;
+  color: #de6d1c;
+  font-size: 0.82vw;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .confronto {
-  font-weight: bold;
-  margin: 0.2vw 0;
+  overflow: hidden;
+  margin: 0.1vw 0;
+  color: #17171b;
+  font-size: 1.05vw;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placar {
+  flex: 0 0 auto;
+  color: #17171b;
+  font-size: 1vw;
+  font-weight: 700;
 }
 
 .local {
-  color: #999;
-  font-size: 0.75vw;
   margin: 0;
+  color: #999;
+  font-size: 0.7vw;
 }
 
 .label-data {
-  color: #999;
-  font-size: 0.7vw;
   margin: 0;
+  color: #222;
+  font-size: 0.78vw;
+  font-weight: 650;
 }
 
 .valor-data {
@@ -135,14 +193,23 @@ function classeStatus(status) {
   align-items: center;
   gap: 0.3vw;
   margin: 0;
-  font-size: 0.85vw;
+  color: #999;
+  font-size: 0.78vw;
+}
+
+.valor-data svg {
+  width: 0.9vw;
+  color: #e85002;
 }
 
 .status-pill {
   width: fit-content;
-  padding: 0.2vw 0.8vw;
+  min-width: 6.5vw;
+  padding: 0.25vw 0.8vw;
   border-radius: 999px;
-  font-size: 0.75vw;
+  font-size: 0.72vw;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .status-agendado {
@@ -156,23 +223,157 @@ function classeStatus(status) {
 }
 
 .status-aovivo {
-  background: #FDE8E8;
-  color: #E53935;
+  background: #fde8e8;
+  color: #e53935;
 }
 
-.btn-editar {
+.acoes-jogo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.55vw;
+}
+
+.acoes-jogo button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.3vw;
-  padding: 0.4vw 0.8vw;
+  min-width: 7vw;
+  padding: 0.48vw 0.9vw;
   border-radius: 0.4vw;
-  font-size: 0.8vw;
-  cursor: pointer;
   background: white;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78vw;
+  font-weight: 650;
 }
 
 .btn-editar {
   border: 0.1vw solid #ccc;
   color: #333;
+}
+
+.btn-editar svg {
+  width: 1.05vw;
+  height: 1.05vw;
+}
+
+.btn-placar {
+  border: 0;
+  background: #ff6467 !important;
+  color: #fff;
+}
+
+.estado-vazio {
+  margin: 0;
+  padding: 7vw 2vw;
+  color: #888;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .card-jogos {
+    border-radius: 5vw;
+    box-shadow: 2vw 2vw 3vw rgb(0 0 0 / 12%);
+  }
+
+  .cabecalho-tabela {
+    display: none;
+  }
+
+  .linha-jogo {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'confronto resumo'
+      'acoes acoes';
+    gap: 3vw;
+    min-height: 35vw;
+    padding: 6vw 5vw 3vw;
+    border-bottom-width: 0.3vw;
+  }
+
+  .celula-confronto {
+    grid-area: confronto;
+  }
+
+  .linha-confronto {
+    justify-content: flex-start;
+  }
+
+  .modalidade {
+    font-size: 3.1vw;
+  }
+
+  .confronto {
+    max-width: 48vw;
+    font-size: 4.25vw;
+  }
+
+  .placar {
+    display: none;
+  }
+
+  .local {
+    font-size: 2.8vw;
+  }
+
+  .celula-data {
+    grid-area: resumo;
+    align-self: end;
+    text-align: right;
+  }
+
+  .label-data {
+    display: none;
+  }
+
+  .valor-data {
+    justify-content: flex-end;
+    gap: 1vw;
+    font-size: 2.9vw;
+  }
+
+  .valor-data svg {
+    width: 3.2vw;
+  }
+
+  .status-pill {
+    position: absolute;
+    top: 5.5vw;
+    right: 5vw;
+    min-width: 25vw;
+    padding: 1vw 2vw;
+    font-size: 2.9vw;
+  }
+
+  .acoes-jogo {
+    grid-area: acoes;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .acoes-jogo button {
+    min-width: 25vw;
+    padding: 2vw 3vw;
+    border-radius: 3vw;
+    font-size: 3.2vw;
+  }
+
+  .btn-editar svg {
+    width: 4vw;
+    height: 4vw;
+  }
+
+  .btn-placar {
+    margin-left: auto;
+    border-radius: 3vw 0 0 0 !important;
+  }
+
+  .estado-vazio {
+    padding: 20vw 5vw;
+    font-size: 3.5vw;
+  }
 }
 </style>
