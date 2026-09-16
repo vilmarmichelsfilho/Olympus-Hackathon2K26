@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarArbitro } from '@/Utils/adicionarUtils';
+const props = defineProps(['torneio']);
 const emit = defineEmits(['fecharAdicionarArbitro']);
 const nome = ref('');
 const login = ref('');
@@ -11,7 +12,7 @@ function checarDados() {
   if (nome.value !== '') {
     if (login.value !== '') {
       if(senha.value !== '') {
-        adicionarArbitro(nome.value, login.value, senha.value);
+        adicionarArbitro(nome.value, login.value, senha.value, props.torneio);
         emit('fecharAdicionarArbitro');
       } else {
         alert('Preencha a senha do árbitro')

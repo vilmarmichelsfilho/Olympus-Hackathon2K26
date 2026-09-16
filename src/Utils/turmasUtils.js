@@ -7,19 +7,28 @@ function excluir(id) {
     turmas.splice(index,1);
 }
 
-function adicionar(tecnico,ano, serie) {
-    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie)) {
-        alert('Esta turma ja existe!')
+function adicionar(tecnico, ano, serie, time, torneio) {
+    if (turmas.some(item => item.nome_turma == ano+tecnico+serie && item.cod_torneio == torneio) ) {
+            alert('Esta turma ja existe!')
     } else {
-        const maiorId = Math.max(...turmas.map(item => item.cod_turma));
-        turmas.push({
-            cod_turma: 1,
-            cod_time: 0,
-            cod_torneio: 1,
-            tecnico_turma: tecnico,
-            ano_turma: ano,
-            numero_turma: serie
-        })
+        if (turmas.filter(item => item.cod_time == time && item.cod_torneio == torneio).length >= 3) {
+            alert('So pode ter 3 turmas associadas 1 um time')
+        } else {
+            if (turmas.some(item => item.ano_turma == ano && item.cod_time == time && item.cod_torneio == torneio)) {
+                alert('Já tem uma turma do mesmo ano cadastrada neste time')
+            } else {
+                const maiorId = Math.max(...turmas.map(item => item.cod_turma));
+                turmas.push({
+                cod_turma: maiorId,
+                cod_time: time,
+                cod_torneio: torneio,
+                tecnico_turma: tecnico,
+                ano_turma: ano,
+                numero_turma: serie,
+                nome_turma: ano+tecnico+serie
+            })
+            }
+        }
     }
 }
 

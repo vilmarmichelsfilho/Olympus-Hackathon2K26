@@ -23,35 +23,29 @@ function definirposicao(id) {
   return posicao
 }
 
-function adicionarTime(nome, um, dois, tres, pontuacao) {
+function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
   if (times.some((item) => item.nome === nome)) {
     alert('Já existe um time com este nome!')
   } else {
-    const maiorId = Math.max(...times.map((item) => item.id))
-    turmas[turmas.findIndex((item) => item.cod_turma === um)].cod_time = maiorId + 1
-    turmas[turmas.findIndex((item) => item.cod_turma === dois)].cod_time = maiorId + 1
-    turmas[turmas.findIndex((item) => item.cod_turma === tres)].cod_time = maiorId + 1
+    const maiorId = Math.max(...times.map((item) => item.cod_time))
     times.push({
-      cod_time: maiorId + 1,
+      cod_time: maiorId+1,
+      cod_torneio: torneio,
       cod_adm: 1,
-      escudo_time: 'No image',
-      nome_time: nome,
-      cor_time: 'Preto',
+      cor_time: cor,
       pontuacaogeral_time: pontuacao,
+      escudo_time: escudo,
+      nome_time: nome
     })
   }
 }
 
-function editarTime(nome, um, dois, tres, vitorias, empates, derrotas, id) {
+function editarTime(nome, pontuacao, cor, escudo, id) {
   const index = times.findIndex((item) => item.id === id)
-  times[index].nome = nome
-  times[index].time1 = um
-  times[index].time2 = dois
-  times[index].time3 = tres
-  times[index].vitorias = vitorias
-  times[index].empates = empates
-  times[index].derrotas = derrotas
-  times[index].pontuacao_geral = vitorias * 3 + empates
+  times[id].cor_time = cor;
+  times[id].pontuacaogeral_time = pontuacao;
+  times[id].escudo_time = escudo;
+  times[id].nome_time = nome;
 }
 
 export { timesDoMaiorAoMenor, definirposicao, adicionarTime, editarTime }
