@@ -68,6 +68,7 @@ p{
   }
   li{
     margin: 0 0 4vw 0;
+    border-radius: 1.5vw;
   }
   p{
     font-size: 2.8vw;
