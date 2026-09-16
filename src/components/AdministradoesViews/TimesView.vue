@@ -31,22 +31,6 @@ import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 
-button {
-    font-size: 1vw;
-}
-
-.cima button {
-    background: none;
-    padding: 0.3vw 1vw;
-    border: solid white 0.15vw;
-    font-size: 0.75vw;
-    border-radius: 3vw;
-    transition: 0.3s;
-}
-.cima button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0.5vw 0.1vw white;
-}
 
 .cima {
     display: flex;
