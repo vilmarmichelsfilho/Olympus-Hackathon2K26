@@ -6,6 +6,7 @@ import { salvarTorneio } from '@/Utils/adicionarUtils.js';
 import { torneios } from '@/data/torneios.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
+import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
 
 const emit = defineEmits(['fechar']);
 
@@ -46,6 +47,7 @@ function aoAdicionarTorneio(dados) {
             <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20"></ModalidadesPart>
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
             <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
+            <ArbitroPart v-if="etapa==100" :torneio="torneio"></ArbitroPart>
         </div>
     </div>
 </template>
