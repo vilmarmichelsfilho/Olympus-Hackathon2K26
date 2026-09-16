@@ -56,6 +56,7 @@ function exluirModalidade(id) {
     </div>
     </div>
     <AdicionarModalidade
+      :gerar-jogos="true"
       @fecharAdicionarModalidade="modalidadeAdicionar = false"
       class="popup"
       :class="{ aberto: modalidadeAdicionar }"

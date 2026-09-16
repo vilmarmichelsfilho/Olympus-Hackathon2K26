@@ -27,7 +27,7 @@ function adicionarTimes(nome, cor, imagem, cod_torneio) {
 }
 function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
     const maiorId = modalidades.length ? Math.max(...modalidades.map(item => item.cod_modalidade)) : 0;
-    modalidades.push({
+    const novaModalidade = {
         cod_torneio: torneio,
         cod_modalidade: maiorId+1,
         foto_modalidade: imagem,
@@ -35,7 +35,9 @@ function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
         desc_modalidade: desc,
         tempojogemminutos_modalidade: tempo,
         localdojogo_modalidade: local,
-    })
+    }
+    modalidades.push(novaModalidade)
+    return novaModalidade
 }
 function adicionarArbitro(nome, login, senha, torneio){
  const maiorId = arbitros.length ? Math.max(...arbitros.map(item => item.cod_arbitro)) : 0;

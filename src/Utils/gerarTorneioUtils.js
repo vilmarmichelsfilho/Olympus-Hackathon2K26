@@ -206,4 +206,142 @@ function gerarJogosDoTorneio(codTorneio) {
   }
 }
 
-export { gerarJogosDoTorneio, validarEstruturaTorneio }
+function gerarJogosDaModalidade(codModalidade) {
+  const modalidade = modalidades.find((item) => item.cod_modalidade === codModalidade)
+  if (!modalidade) return { valido: false, mensagem: 'Modalidade não encontrada.' }
+
+  const validacao = validarEstruturaTorneio(modalidade.cod_torneio)
+  if (!validacao.valido) return validacao
+
+  if (jogos.some((jogo) => jogo.cod_modalidade === codModalidade)) {
+    return { valido: false, mensagem: 'Os jogos desta modalidade já foram gerados.' }
+  }
+
+  const inicio = dataLocal(validacao.torneio.data_inicio_torneio)
+  const fim = dataLocal(validacao.torneio.data_fim_torneio)
+  if (Number.isNaN(inicio.getTime()) || Number.isNaN(fim.getTime()) || inicio > fim) {
+    return { valido: false, mensagem: 'O período do torneio é inválido.' }
+  }
+
+  const codigosModalidadesDoTorneio = new Set(
+    validacao.modalidades.map((item) => item.cod_modalidade),
+  )
+  const jogosDoTorneio = jogos.filter((jogo) => codigosModalidadesDoTorneio.has(jogo.cod_modalidade))
+  const duracao = Math.max(Number(modalidade.tempojogemminutos_modalidade) || 60, 15)
+  let proximoCodigo = jogos.length ? Math.max(...jogos.map((jogo) => jogo.cod_jogo)) + 1 : 1
+  let indiceArbitro = 0
+  let dataAtual = new Date(inicio)
+  let minutosAtuais = HORARIO_INICIAL
+  const novosJogos = []
+  const novosParticipantes = []
+
+  function reservarHorario() {
+    while (dataAtual <= fim) {
+      if (minutosAtuais + duracao > HORARIO_LIMITE) {
+        dataAtual.setDate(dataAtual.getDate() + 1)
+        minutosAtuais = HORARIO_INICIAL
+        continue
+      }
+
+      const horario = `${formatarData(dataAtual)} ${formatarHorario(minutosAtuais)}`
+      const localOcupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
+        const modalidadeDoJogo = modalidades.find(
+          (item) => item.cod_modalidade === jogo.cod_modalidade,
+        )
+        return jogo.horario_jogo === horario
+          && modalidadeDoJogo?.localdojogo_modalidade === modalidade.localdojogo_modalidade
+      })
+
+      const arbitro = validacao.arbitros.find((_, deslocamento) => {
+        const candidato = validacao.arbitros[
+          (indiceArbitro + deslocamento) % validacao.arbitros.length
+        ]
+        return ![...jogosDoTorneio, ...novosJogos].some(
+          (jogo) => jogo.horario_jogo === horario && jogo.cod_arbitro === candidato.cod_arbitro,
+        )
+      })
+
+      minutosAtuais += duracao + 15
+      if (localOcupado || !arbitro) continue
+
+      indiceArbitro = (validacao.arbitros.indexOf(arbitro) + 1) % validacao.arbitros.length
+      return { horario, codArbitro: arbitro.cod_arbitro }
+    }
+    return null
+  }
+
+  function criarJogo(fase, origemA = null, origemB = null) {
+    const reserva = reservarHorario()
+    if (!reserva) return null
+
+    const jogo = {
+      cod_jogo: proximoCodigo++,
+      cod_modalidade: modalidade.cod_modalidade,
+      cod_arbitro: reserva.codArbitro,
+      status_jogo: 'Agendado',
+      horario_jogo: reserva.horario,
+      fase_jogo: fase,
+      origem_jogo_a: origemA,
+      origem_jogo_b: origemB,
+    }
+    novosJogos.push(jogo)
+    return jogo
+  }
+
+  const quartas = []
+  for (let indice = 0; indice < 4; indice += 1) {
+    const jogo = criarJogo('Quartas de Final')
+    if (!jogo) {
+      return { valido: false, mensagem: 'O período informado não possui horários para todos os jogos.' }
+    }
+    quartas.push(jogo)
+
+    for (let posicao = 0; posicao < 2; posicao += 1) {
+      novosParticipantes.push({
+        cod_jogo: jogo.cod_jogo,
+        posicao_participante: posicao + 1,
+        cod_time: validacao.times[indice * 2 + posicao].cod_time,
+        forma_de_ingresso: 'Inscrito',
+        resultado_time: null,
+        pontuacao_time: null,
+      })
+    }
+  }
+
+  const semifinais = [
+    criarJogo('Semifinal', quartas[0].cod_jogo, quartas[1].cod_jogo),
+    criarJogo('Semifinal', quartas[2].cod_jogo, quartas[3].cod_jogo),
+  ]
+  if (semifinais.some((jogo) => !jogo)) {
+    return { valido: false, mensagem: 'O período informado não possui horários para todos os jogos.' }
+  }
+
+  const final = criarJogo('Final', semifinais[0].cod_jogo, semifinais[1].cod_jogo)
+  if (!final) {
+    return { valido: false, mensagem: 'O período informado não possui horários para todos os jogos.' }
+  }
+
+  for (const jogo of [...semifinais, final]) {
+    for (let posicao = 1; posicao <= 2; posicao += 1) {
+      novosParticipantes.push({
+        cod_jogo: jogo.cod_jogo,
+        posicao_participante: posicao,
+        cod_time: null,
+        forma_de_ingresso: 'Vencedor',
+        resultado_time: null,
+        pontuacao_time: null,
+      })
+    }
+  }
+
+  jogos.push(...novosJogos)
+  participa.push(...novosParticipantes)
+
+  return {
+    valido: true,
+    quantidadeJogos: novosJogos.length,
+    quantidadeParticipantes: novosParticipantes.length,
+  }
+}
+
+export { gerarJogosDaModalidade, gerarJogosDoTorneio, validarEstruturaTorneio }

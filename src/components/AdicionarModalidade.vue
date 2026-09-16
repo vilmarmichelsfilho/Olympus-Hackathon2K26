@@ -3,8 +3,19 @@ import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
+import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils';
+import { gerarJogosDaModalidade } from '@/Utils/gerarTorneioUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
-const props = defineProps(['torneio']);
+const props = defineProps({
+  torneio: {
+    type: Number,
+    default: undefined,
+  },
+  gerarJogos: {
+    type: Boolean,
+    default: false,
+  },
+});
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
@@ -20,7 +31,24 @@ function checarDados() {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value, local.value, codTorneio.value);
+            const novaModalidade = adicionarModalidade(
+              nome.value,
+              desc.value,
+              imagem.value,
+              Number(tempo.value),
+              local.value,
+              Number(codTorneio.value),
+            );
+
+            if (props.gerarJogos) {
+              const resultado = gerarJogosDaModalidade(novaModalidade.cod_modalidade);
+              if (!resultado.valido) {
+                excluirModalidadeCompleta(novaModalidade.cod_modalidade);
+                alert(resultado.mensagem);
+                return;
+              }
+            }
+
             emit('fecharAdicionarModalidade');
             nome.value = '';
             desc.value = '';
@@ -67,7 +95,7 @@ function pegarImagem(event) {
   <div class="overlay">
     <div class="dialog">
       <div class="titulos">
-        <h2>Editar Modalidade</h2>
+        <h2>Adicionar Modalidade</h2>
         <h4>Controle das modalidades</h4>
       </div>
       <div class="inputs">
