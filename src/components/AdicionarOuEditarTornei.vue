@@ -72,6 +72,7 @@ ol {
 ol li {
     color: black;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 h2 {

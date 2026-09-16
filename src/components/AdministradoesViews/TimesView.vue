@@ -1,9 +1,8 @@
 <script setup>
-import { times } from '@/data/times';
 import timesCard from '../timesCard.vue';
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 import { ref } from 'vue';
-
+import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
 const add = ref(false)
 
 </script>
@@ -30,13 +29,12 @@ const add = ref(false)
                 </ul>
             </div>
             <ul>
-                <timesCard v-for="time in times" :key="time.cod_time" :nome="time.nome_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time" :cor="time.cor_time" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time"></timesCard>
+                <timesCard v-for="time in timesFiltradosAdm" :key="time.cod_time" :nome="time.nome_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time" :cor="time.cor_time" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time"></timesCard>
             </ul>
         </div>
     </div>
     <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''":vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
 </template>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 

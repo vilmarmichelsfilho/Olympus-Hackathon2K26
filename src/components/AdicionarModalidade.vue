@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const props = defineProps(['torneio']);
 const nome = ref('');
@@ -9,7 +10,7 @@ const desc = ref('');
 const tempo = ref('');
 const local = ref('');
 let imagem = ref(null);
-
+const cod_torneio = ref(codTorneioSelecionadoAdm)
 function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
@@ -125,6 +126,7 @@ button.cancel {
   border: none;
   font-weight: bolder;
   font-size: 1.1vw;
+  cursor: pointer;
 }
 
 button.cancel:hover {
@@ -141,6 +143,7 @@ button.save {
   border-radius: 0.2vw;
   transition: 0.3s;
   margin-bottom: 0.5vw;
+  cursor: pointer;
 }
 button.save:disabled {
     background: grey;

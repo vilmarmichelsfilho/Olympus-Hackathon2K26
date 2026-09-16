@@ -50,6 +50,7 @@ button{
   background-color: white;
   padding: 0.25vw 0.3vw;
   border-radius: 100vw;
+  cursor: pointer;
 }
 h4{
   color: white;

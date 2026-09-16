@@ -24,6 +24,9 @@ tr {
 tr:hover {
   background-color: rgba(255, 255, 255, 0.02);
 }
+button{
+  cursor: pointer;
+}
 .edit-icon {
   color: white;
   height: 4em;

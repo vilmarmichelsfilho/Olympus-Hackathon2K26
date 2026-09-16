@@ -49,6 +49,7 @@ button {
     border: none;
     transition: 0.3s;
     border-radius: 0.5vw;
+    cursor: pointer;
 }
 .editar {
     color: black;

@@ -80,6 +80,7 @@ button.cancel {
   border: none;
   font-weight: bolder;
   font-size: 1.1vw;
+  cursor: pointer;
 }
 
 button.cancel:hover {
@@ -87,6 +88,7 @@ button.cancel:hover {
 }
 button.save {
   background: #6EAC31;
+  cursor: pointer;
   border: none;
   color: white;
   font-weight: bolder;

@@ -1,6 +1,5 @@
 import { turmas } from "@/data/turmas";
-import { computed } from "vue";
-import { id } from "vuetify/locale";
+import { codTorneioSelecionadoAdm } from "./cod_torneioAdmUtils";
 
 function excluir(id) {
     const index = turmas.findIndex(item => item.cod_turma === id);
@@ -33,7 +32,7 @@ function adicionar(tecnico, ano, serie, time, torneio) {
 }
 
 function editar(id,tecnico,ano, serie) {
-    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie)) {
+    if (turmas.some(item => item.tecnico_turma == tecnico && item.ano_turma == ano && item.numero_turma == serie && item.cod_torneio == codTorneioSelecionadoAdm)) {
         alert('Esta turma ja existe!')
     } else {
         const index = turmas.findIndex(item => item.cod_turma === id);

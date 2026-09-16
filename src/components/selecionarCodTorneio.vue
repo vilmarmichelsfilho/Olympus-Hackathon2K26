@@ -76,6 +76,5 @@ h3{
   width: 90vw;
   margin: 0 5vw;
 }
-
 }
 </style>
