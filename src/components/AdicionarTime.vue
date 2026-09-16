@@ -1,22 +1,19 @@
 <script setup>
 import { adicionarTimes } from '@/Utils/adicionarUtils';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const props = defineProps(['torneio'])
-const codTorneio = ref(codTorneioSelecionadoAdm)
-if (props.torneio != undefined){
-  codTorneio.value = props.torneio
-}
+const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const emit = defineEmits(['fechar']);
 const nome = ref('');
 const cor = ref('');
-let imagem = null;
+const imagem = ref(null);
 function checarDados() {
     if (nome.value !== '') {
         if (cor.value !== '') {
-            if (imagem !== null) {
-                adicionarTimes(nome, cor, imagem, codTorneio.value);
+            if (imagem.value !== null) {
+                adicionarTimes(nome.value, cor.value, imagem.value, codTorneio.value);
                 emit('fechar');
                 nome.value = '';
                 cor.value = '';
@@ -45,7 +42,7 @@ function pegarImagem(event) {
     const reader = new FileReader()
     reader.onload = () => {
         const imagemTexto = reader.result
-        imagem = imagemTexto;
+        imagem.value = imagemTexto;
     }
     reader.readAsDataURL(arquivo)
 }

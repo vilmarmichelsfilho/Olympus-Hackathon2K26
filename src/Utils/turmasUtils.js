@@ -16,9 +16,11 @@ function adicionar(tecnico, ano, serie, time, torneio) {
             if (turmas.some(item => item.ano_turma == ano && item.cod_time == time && item.cod_torneio == torneio)) {
                 alert('Já tem uma turma do mesmo ano cadastrada neste time')
             } else {
-                const maiorId = Math.max(...turmas.map(item => item.cod_turma));
+                const maiorId = turmas.length
+                    ? Math.max(...turmas.map(item => item.cod_turma))
+                    : 0;
                 turmas.push({
-                cod_turma: maiorId,
+                cod_turma: maiorId + 1,
                 cod_time: time,
                 cod_torneio: torneio,
                 tecnico_turma: tecnico,
