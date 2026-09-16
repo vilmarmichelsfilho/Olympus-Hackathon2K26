@@ -1,12 +1,30 @@
 <script setup>
 import { ref } from 'vue';
+import { times } from '@/data/times';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
+import { computed } from 'vue';
+import { adicionar, editar } from '@/Utils/turmasUtils';
 
-const emit = defineEmits(['fechar','adicionar'])
+const emit = defineEmits(['fechar','adicionar']);
+const props = defineProps(['torneio','tipo']);
 
-const tecnico = ref('Informática')
-const ano = ref('')
-const serie = ref('')
+const timesTorneio = computed(() => {
+    return times.filter(item => item.cod_torneio === props.torneio);
+});
+
+const tecnico = ref('Informática');
+const ano = ref(1);
+const serie = ref(1);
+const time = ref();
+
+function add() {
+    if (props.tipo === 'adicionar') {
+        adicionar(tecnico.value,ano.value,serie.value,time.value,props.torneio)
+        emit('fechar')
+    } else if (props.tipo === 'editar') {
+        editar()
+    }
+}
 </script>
 
 <template>
@@ -39,13 +57,19 @@ const serie = ref('')
                             <option value=3>3</option>
                         </select>
                     </div>
+                    <div class="input">
+                        <h3>Time</h3>
+                        <select name="serie" id="serie" placeholder="Serie" v-model="time">
+                            <option :value="time.cod_time" v-for="time in timesTorneio" :key="time.cod_time">{{ time.nome_time }}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="pre">
                     <h4>Pré-Vizualização <span>Turma</span></h4>
                     <p>{{ ano }}{{ tecnico }}{{ serie }}</p>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="salvar" v-on:click.prevent="emit('adicionar', tecnico, ano, serie)" :disabled="tecnico==''||serie==''||ano==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
+                    <button type="submit" class="salvar" v-on:click.prevent="add" :disabled="tecnico==''||serie==''||ano==''||time==''"><ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações</button>
                     <button type="reset" class="limpar" v-on:click.prevent="emit('fechar')">Cancelar/Limpar</button>
                 </div>
             </form>
