@@ -10,6 +10,7 @@ import { ref } from 'vue'
 import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
 import TorneioView from './TorneioView.vue'
+import JogosView from './JogosView.vue'
 const telaAtual = ref('torneio')
 if (localStorage.getItem('logado') != 'true') {
   router.replace('/')
@@ -67,6 +68,9 @@ const time = ref(false)
       <div class="torneios" v-show="telaAtual == 'torneio'">
        <TorneioView> </TorneioView>
       </div>
+      <div class="jogos" v-show="telaAtual == 'jogos'">
+    <JogosView> </JogosView>
+  </div>
     <DashboardModalidades
       v-show="telaAtual == 'modalidades'"
     >
@@ -75,6 +79,7 @@ const time = ref(false)
   </div>
   <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   <div class="controle"></div>
+
 </template>
 
 <style scoped>
