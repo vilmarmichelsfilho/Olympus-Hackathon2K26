@@ -7,7 +7,7 @@ import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js'
   <section class="dashboard-times">
     <header class="cabecalho-pagina">
       <h2>Times</h2>
-      <p>Informações dos times, turmas, resultados e pontos</p>
+      <p>Informações dos times, turmas e pontos</p>
     </header>
 
     <div class="painel">
@@ -21,7 +21,6 @@ import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js'
             <tr>
               <th>Time</th>
               <th>Turmas</th>
-              <th>V/E/D</th>
               <th>PTS</th>
               <th>Ação</th>
             </tr>
@@ -111,11 +110,10 @@ th {
   text-align: left;
 }
 
-th:nth-child(1) { width: 23%; }
-th:nth-child(2) { width: 35%; }
-th:nth-child(3) { width: 14%; text-align: center; }
-th:nth-child(4) { width: 10%; text-align: center; }
-th:nth-child(5) { width: 18%; text-align: center; }
+th:nth-child(1) { width: 28%; }
+th:nth-child(2) { width: 42%; }
+th:nth-child(3) { width: 12%; text-align: center; }
+th:nth-child(4) { width: 18%; text-align: center; }
 
 .estado-vazio {
   margin: 0;

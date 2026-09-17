@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import EditIcon from '@iconify-vue/mdi/edit'
 import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { turmas } from '@/data/turmas'
 
@@ -17,18 +16,6 @@ const nomesTurmas = computed(() => {
     .map((turma) => turma.nome_turma)
 
   return nomes.length ? nomes.join(', ') : 'Sem turmas vinculadas'
-})
-
-const resultados = computed(() => {
-  const participacoes = participa.filter((item) => item.cod_time === props.id)
-  const contar = (resultado) =>
-    participacoes.filter((item) => item.resultado_time === resultado).length
-
-  return {
-    vitorias: contar('Vitória'),
-    empates: contar('Empate'),
-    derrotas: contar('Derrota'),
-  }
 })
 
 </script>
@@ -47,9 +34,6 @@ const resultados = computed(() => {
       </div>
     </td>
     <td class="turmas-time">{{ nomesTurmas }}</td>
-    <td class="resultado">
-      {{ resultados.vitorias }}/{{ resultados.empates }}/{{ resultados.derrotas }}
-    </td>
     <td class="pontos">{{ time.pontuacaogeral_time }}</td>
     <td class="botoes">
       <button
@@ -105,11 +89,15 @@ td {
   width: 2.3rem;
   height: 2.3rem;
   flex: 0 0 auto;
-  border-radius: 50%;
   object-fit: cover;
 }
 
+.dados-time img {
+  border-radius: 0;
+}
+
 .cor-time {
+  border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
@@ -118,7 +106,6 @@ td {
   line-height: 1.5;
 }
 
-.resultado,
 .pontos,
 .botoes {
   text-align: center;
