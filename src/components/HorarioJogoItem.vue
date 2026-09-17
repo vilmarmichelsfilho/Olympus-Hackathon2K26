@@ -1,16 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 
-const props = defineProps({
-  data: {
-    type: String,
-    required: true,
-  },
-  jogo: {
-    type: Object,
-    required: true,
-  },
-})
+const props = defineProps(['data', 'jogo'])
 
 const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase() === 'aovivo')
 </script>
@@ -39,23 +30,11 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  padding: 1vw 2.9vw 1vw 2.65vw;
+  padding: 1vw 2.9vw;
   border: 0.07vw solid #d7d7d7;
   border-radius: 0.85vw;
   background: #fff;
   box-shadow: 0.55vw 0.55vw 0.35vw rgb(0 0 0 / 16%);
-}
-
-.card-jogo::before {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 0.7vw;
-  background: #79bd4b;
-  content: '';
-}
-
-.card-jogo.ao-vivo::before {
-  background: #df272e;
 }
 
 .dados-jogo,
@@ -117,23 +96,15 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
 @media (max-width: 768px) {
   .card-jogo {
     min-height: 21vw;
-    padding: 2.6vw 2vw 2.6vw 3.6vw;
+    padding: 2.6vw 2vw;
     border: 0;
-    border-bottom: 0.5vw solid #79bd4b;
+    border-bottom: 0.3vw solid #e5e5e5;
     border-radius: 0;
     box-shadow: none;
   }
 
   .card-jogo:last-child {
     border-bottom: 0;
-  }
-
-  .card-jogo::before {
-    width: 2vw;
-  }
-
-  .card-jogo.ao-vivo {
-    border-bottom-color: #df272e;
   }
 
   .linha-modalidade {

@@ -159,7 +159,7 @@ table {
 }
 
 thead {
-  border-bottom: 1px solid #1E293B;
+  border-bottom: 2px solid #E85002;
 }
 
 th {

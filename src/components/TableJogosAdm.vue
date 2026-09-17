@@ -110,7 +110,7 @@ function rotuloStatus(status) {
 <style scoped>
 .card-jogos {
   overflow: hidden;
-  background: white;
+  background: #0b1739;
   border-radius: 0.8vw;
 }
 
@@ -118,7 +118,7 @@ function rotuloStatus(status) {
   display: grid;
   height: 4.8vw;
   place-items: center;
-  border-bottom: 0.08vw solid #dedede;
+  border-bottom: 2px solid #e85002;
 }
 
 .coroa {
@@ -135,7 +135,11 @@ function rotuloStatus(status) {
   gap: 1.4vw;
   min-height: 7.1vw;
   padding: 1.15vw 2.8vw;
-  border-bottom: 0.08vw solid #e6e6e6;
+  border-bottom: 1px solid #1e293b;
+}
+
+.linha-jogo:hover {
+  background: rgb(255 255 255 / 2%);
 }
 
 .linha-jogo:last-of-type {
@@ -161,7 +165,7 @@ function rotuloStatus(status) {
 .confronto {
   overflow: hidden;
   margin: 0.1vw 0;
-  color: #17171b;
+  color: #fff;
   font-size: 1.05vw;
   font-weight: 700;
   text-overflow: ellipsis;
@@ -170,20 +174,20 @@ function rotuloStatus(status) {
 
 .placar {
   flex: 0 0 auto;
-  color: #17171b;
+  color: #fff;
   font-size: 1vw;
   font-weight: 700;
 }
 
 .local {
   margin: 0;
-  color: #999;
+  color: #8a99ad;
   font-size: 0.7vw;
 }
 
 .label-data {
   margin: 0;
-  color: #222;
+  color: #fff;
   font-size: 0.78vw;
   font-weight: 650;
 }
@@ -193,7 +197,7 @@ function rotuloStatus(status) {
   align-items: center;
   gap: 0.3vw;
   margin: 0;
-  color: #999;
+  color: #8a99ad;
   font-size: 0.78vw;
 }
 
@@ -242,7 +246,7 @@ function rotuloStatus(status) {
   min-width: 7vw;
   padding: 0.48vw 0.9vw;
   border-radius: 0.4vw;
-  background: white;
+  background: transparent;
   cursor: pointer;
   font: inherit;
   font-size: 0.78vw;
@@ -250,8 +254,8 @@ function rotuloStatus(status) {
 }
 
 .btn-editar {
-  border: 0.1vw solid #ccc;
-  color: #333;
+  border: 1px solid #aeb9d0;
+  color: #fff;
 }
 
 .btn-editar svg {
@@ -268,12 +272,13 @@ function rotuloStatus(status) {
 .estado-vazio {
   margin: 0;
   padding: 7vw 2vw;
-  color: #888;
+  color: #aeb9d0;
   text-align: center;
 }
 
 @media (max-width: 768px) {
   .card-jogos {
+    background: #fff;
     border-radius: 5vw;
     box-shadow: 2vw 2vw 3vw rgb(0 0 0 / 12%);
   }
@@ -291,6 +296,7 @@ function rotuloStatus(status) {
     min-height: 35vw;
     padding: 6vw 5vw 3vw;
     border-bottom-width: 0.3vw;
+    border-bottom-color: #e6e6e6;
   }
 
   .celula-confronto {
@@ -307,6 +313,7 @@ function rotuloStatus(status) {
 
   .confronto {
     max-width: 48vw;
+    color: #17171b;
     font-size: 4.25vw;
   }
 
@@ -315,6 +322,7 @@ function rotuloStatus(status) {
   }
 
   .local {
+    color: #999;
     font-size: 2.8vw;
   }
 
@@ -331,6 +339,7 @@ function rotuloStatus(status) {
   .valor-data {
     justify-content: flex-end;
     gap: 1vw;
+    color: #999;
     font-size: 2.9vw;
   }
 
@@ -366,12 +375,19 @@ function rotuloStatus(status) {
     height: 4vw;
   }
 
+  .btn-editar {
+    border-color: #ccc;
+    background: #fff;
+    color: #333;
+  }
+
   .btn-placar {
     margin-left: auto;
     border-radius: 3vw 0 0 0 !important;
   }
 
   .estado-vazio {
+    color: #888;
     padding: 20vw 5vw;
     font-size: 3.5vw;
   }

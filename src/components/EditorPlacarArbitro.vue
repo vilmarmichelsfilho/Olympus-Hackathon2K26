@@ -3,12 +3,7 @@ import { ref, watch } from 'vue'
 import MinusIcon from '@iconify-vue/mdi/minus'
 import PlusIcon from '@iconify-vue/mdi/plus'
 
-const props = defineProps({
-  jogo: {
-    type: Object,
-    required: true,
-  },
-})
+const props = defineProps(['jogo'])
 
 const emit = defineEmits(['salvar', 'voltar'])
 const pontuacaoA = ref(0)

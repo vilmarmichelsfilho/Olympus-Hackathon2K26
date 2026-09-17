@@ -14,6 +14,7 @@ function editarTorneio(id) {
 }
 </script>
 <template>
+<section class="torneio-view">
   <div class="topo">
     <div class="titulo">
  <h1>Torneio Olimpiadas</h1>
@@ -27,21 +28,30 @@ function editarTorneio(id) {
 <EditarTorneioView @fecha="mostrarEditarTorneio = false"
 :torneio="torneios.find((t) => t.cod_torneio == torneioEditarId)"></EditarTorneioView>
  </div>
+</section>
 </template>
 
 <style scoped>
+.torneio-view {
+  width: 100%;
+  min-width: 0;
+}
+
 .topo h1 {
-  font-size: 2rem;
-  color:  white;
+  margin: 0;
+  color: white;
+  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
 }
 .topo h3 {
-  color: white;
+  margin: 0.25rem 0 0;
+  color: #aeb9d0;
+  font-size: clamp(0.8rem, 1vw, 1rem);
 }
 .topo {
   display: flex;
   justify-content: space-between;
-  margin: 1vw 4vw;
-  gap: 30vw;
+  margin: 1.5rem clamp(1rem, 4vw, 4rem) 0;
+  gap: 2rem;
   align-items: center;
 }
 .topo button {
@@ -51,5 +61,21 @@ function editarTorneio(id) {
   color: white;
 font-weight: bold;
   border: 1px solid white;
+}
+
+@media (max-width: 768px) {
+  .topo {
+    margin: 5rem 1rem 1rem;
+  }
+
+  .topo h1 {
+    color: #17171a;
+    font-size: 1.8rem;
+  }
+
+  .topo h3 {
+    color: #737780;
+    font-size: 0.85rem;
+  }
 }
 </style>

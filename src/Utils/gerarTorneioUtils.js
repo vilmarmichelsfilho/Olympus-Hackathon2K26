@@ -28,14 +28,21 @@ function formatarHorario(minutos) {
   return `${hora}:${minuto}:00`
 }
 
-function proximoDia(data) {
-  do {
-    data.setDate(data.getDate() + 1)
-  } while (data.getDay() === 0 || data.getDay() === 6)
+function periodoPassaDeUmaSemana(inicio, fim) {
+  const inicioUTC = Date.UTC(inicio.getFullYear(), inicio.getMonth(), inicio.getDate())
+  const fimUTC = Date.UTC(fim.getFullYear(), fim.getMonth(), fim.getDate())
+  const duracaoEmDias = Math.floor((fimUTC - inicioUTC) / 86_400_000) + 1
+  return duracaoEmDias > 7
 }
 
-function pularFimDeSemana(data) {
-  while (data.getDay() === 0 || data.getDay() === 6) {
+function proximoDia(data, permitirFimDeSemana) {
+  do {
+    data.setDate(data.getDate() + 1)
+  } while (!permitirFimDeSemana && (data.getDay() === 0 || data.getDay() === 6))
+}
+
+function ajustarDataInicial(data, permitirFimDeSemana) {
+  while (!permitirFimDeSemana && (data.getDay() === 0 || data.getDay() === 6)) {
     data.setDate(data.getDate() + 1)
   }
 }
@@ -141,7 +148,8 @@ function gerarJogos(codTorneio) {
 
   let proximoCodigo = jogos.length ? Math.max(...jogos.map((jogo) => jogo.cod_jogo)) + 1 : 1
   let dataAtual = new Date(inicio)
-  pularFimDeSemana(dataAtual)
+  const permitirFimDeSemana = periodoPassaDeUmaSemana(inicio, fim)
+  ajustarDataInicial(dataAtual, permitirFimDeSemana)
   let minutosAtuais = horarioInicial
   let indiceArbitro = 0
   const novosJogos = []
@@ -151,7 +159,7 @@ function gerarJogos(codTorneio) {
     const duracaoEmMinutos = Math.max(Number(duracao) || 60, 15)
 
     if (minutosAtuais + duracaoEmMinutos > horarioLimite) {
-      proximoDia(dataAtual)
+      proximoDia(dataAtual, permitirFimDeSemana)
       minutosAtuais = horarioInicial
     }
 
@@ -263,7 +271,8 @@ function gerarJogosModalidade(codModalidade) {
   let proximoCodigo = jogos.length ? Math.max(...jogos.map((jogo) => jogo.cod_jogo)) + 1 : 1
   let indiceArbitro = 0
   let dataAtual = new Date(inicio)
-  pularFimDeSemana(dataAtual)
+  const permitirFimDeSemana = periodoPassaDeUmaSemana(inicio, fim)
+  ajustarDataInicial(dataAtual, permitirFimDeSemana)
   let minutosAtuais = horarioInicial
   const novosJogos = []
   const novosParticipantes = []
@@ -271,7 +280,7 @@ function gerarJogosModalidade(codModalidade) {
   function reservarHorario() {
     while (dataAtual <= fim) {
       if (minutosAtuais + duracao > horarioLimite) {
-        proximoDia(dataAtual)
+        proximoDia(dataAtual, permitirFimDeSemana)
         minutosAtuais = horarioInicial
         continue
       }

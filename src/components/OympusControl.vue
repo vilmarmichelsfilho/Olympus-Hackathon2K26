@@ -1,11 +1,5 @@
 <script setup>
-defineProps({
-  titulo: { type: String, required: true },
-  valor: { type: [String, Number], required: true },
-  icone: { type: String, required: true },
-    rota: { type: String, required: true },
-
-})
+defineProps(['titulo', 'valor', 'icone', 'rota'])
 
 
 </script>
@@ -36,11 +30,14 @@ li {
 }
 
 .tudo {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   background-color: white;
   color: black;
-  border-radius: 5%;
+  border-radius: 8px;
   padding: 0.2rem 1rem 0.2rem 1rem;
-  min-width: 10rem;
+  min-width: 0;
 }
 
 .header {
@@ -92,6 +89,12 @@ li .corpo {
   font-size: 2rem;
   text-decoration: none;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .tudo {
+    border: 1px solid #e5e7eb;
+  }
 }
 
 </style>

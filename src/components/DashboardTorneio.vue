@@ -15,15 +15,16 @@ function aoAdicionarTorneio(dados) {
   <div class="container">
     <div class="torneio">
       <div class="cima">
-        <p>a</p>
-        <img src="/images/coroa.png" alt="" style="width: 3vw;">
+        <span aria-hidden="true"></span>
+        <img src="/images/coroa.png" alt="">
         <button v-on:click.prevent="add = true">Adicionar</button>
       </div>
       <div class="topo">
         <ul>
           <li>Torneio</li>
           <li>Período</li>
-            <li>Status</li>
+          <li>Status</li>
+          <li aria-hidden="true"></li>
         </ul>
       </div>
       <ul>
@@ -54,16 +55,16 @@ function aoAdicionarTorneio(dados) {
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 
 button {
-  font-size: 1vw;
+  font-size: 0.9rem;
 }
 
 .cima button {
   background: none;
   color: white;
-  padding: 0.3vw 1vw;
-  border: solid white 0.15vw;
-  font-size: 0.75vw;
-  border-radius: 3vw;
+  padding: 0.45rem 1rem;
+  border: 1px solid white;
+  font-size: 0.8rem;
+  border-radius: 999px;
   transition: 0.3s;
 }
 
@@ -73,15 +74,19 @@ button {
 }
 
 .cima {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1vw;
-  margin: 1vw 2vw 0 7vw;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
 }
 
-.cima p {
-  opacity: 0;
+.cima img {
+  width: 2.25rem;
+}
+
+.cima button {
+  justify-self: end;
 }
 
 .desc span {
@@ -89,47 +94,52 @@ button {
 }
 
 .topo {
-  border-bottom: solid 0.2vw #E85002;
+  border-bottom: 2px solid #e85002;
 }
 
 .topo ul {
-  font-size: 1.8vw;
-  margin: 0 8vw;
-  padding: 0;
-  list-style: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 0.3fr;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 1.5rem;
+  padding: 0.75rem 0;
+  list-style: none;
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
 }
 
 .torneio {
-  background: #0B1739;
-  border-radius: 1vw;
-  width: 70vw;
+  width: 100%;
+  max-width: 1120px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #0b1739;
 }
 
 .container {
-  margin: 3vw 4vw;
+  width: 100%;
+  padding: 1.5rem clamp(1rem, 3vw, 3rem) 3rem;
   display: flex;
   flex-direction: column;
-  gap: 2vw;
+  align-items: center;
+  gap: 2rem;
   color: white;
   font-weight: 400;
   font-style: normal;
 }
 
 .card-info {
-  background: #0E1D46;
-  border-radius: 1vw;
-  padding: 3vw 5vw;
-  margin: 2vw 6vw;
+  margin: 2rem clamp(1rem, 6vw, 6rem);
+  padding: clamp(1.25rem, 3vw, 3rem) clamp(1rem, 5vw, 5rem);
+  border-radius: 10px;
+  background: #132654;
   color: white;
 }
 
 .topo-info {
   display: flex;
   align-items: flex-start;
-  gap: 1vw;
+  gap: 1rem;
 }
 
 .check-circulo {
@@ -151,9 +161,75 @@ button {
 }
 
 .desc-info {
-  margin: 0.3vw 0 0;
+  margin: 0.3rem 0 0;
   color: #999;
-  font-size: 0.85vw;
-   border-bottom: solid 0.2vw #E85002;
+  font-size: 0.85rem;
+  border-bottom: 2px solid #e85002;
+}
+
+.linha-divisoria {
+  height: 1px;
+  margin: 1.25rem 0;
+  background: rgb(255 255 255 / 12%);
+}
+
+.fluxo-texto {
+  margin: 0;
+  color: #c6cde0;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 0 2rem;
+  }
+
+  .torneio {
+    border-radius: 0;
+    background: #fff;
+    color: #17171a;
+  }
+
+  .cima {
+    grid-template-columns: 1fr auto;
+    padding: 0 1rem 1rem;
+  }
+
+  .cima span,
+  .cima img {
+    display: none;
+  }
+
+  .cima button {
+    grid-column: 2;
+    border-color: #0b1739;
+    color: #0b1739;
+  }
+
+  .topo {
+    display: none;
+  }
+
+  .torneio > ul {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0 1rem;
+  }
+
+  .card-info {
+    margin: 1.25rem 1rem 0;
+    padding: 1.25rem;
+    background: #0b1739;
+    color: #fff;
+  }
+
+  .topo-info img {
+    width: 2rem;
+  }
+
+  .fluxo-texto {
+    line-height: 1.8;
+  }
 }
 </style>

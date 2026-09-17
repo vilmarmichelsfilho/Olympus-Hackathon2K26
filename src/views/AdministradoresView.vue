@@ -100,7 +100,20 @@ const time = ref(false)
 
 <style scoped>
 .dashboard {
+  flex: 1;
+  min-width: 0;
   margin: 1vw 2vw;
+}
+
+.torneios,
+.jogos,
+.times,
+.turmas,
+.horarios,
+.conflitos,
+.arbitros {
+  flex: 1;
+  min-width: 0;
 }
 
 .display {
@@ -162,6 +175,11 @@ const time = ref(false)
 @media (max-width: 750px) {
   .display {
     background-color: white;
+  }
+
+  .dashboard {
+    width: 100%;
+    margin: 0;
   }
 }
 </style>

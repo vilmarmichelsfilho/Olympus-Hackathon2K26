@@ -7,7 +7,7 @@ import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 
 function separarDataHorario(horario_jogo) {
-  const [data, horario] = horario_jogo.split(' ')
+  const [data = '', horario = ''] = horario_jogo.split(' ')
   return { data, horario }
 }
 
@@ -16,8 +16,14 @@ function formatarDataBR(dataISO) {
   return `${dia}/${mes}`
 }
 
-function buscarModalidade(cod_modalidade) {
-  return modalidades.find((modalidadee) => modalidadee.cod_modalidade === cod_modalidade)
+function buscarModalidade(codModalidade) {
+  return modalidades.find((modalidade) => modalidade.cod_modalidade === codModalidade)
+}
+
+function transformarEmData(data, horario) {
+  const [ano, mes, dia] = data.split('-').map(Number)
+  const [hora, minuto] = horario.split(':').map(Number)
+  return new Date(ano, mes - 1, dia, hora, minuto)
 }
 
 function buscarNomesDosTimes(cod_jogo) {
@@ -34,8 +40,14 @@ function buscarNomesDosTimes(cod_jogo) {
 }
 
 const proximosJogos = computed(() => {
+  const agora = new Date()
+
   return jogosDoTorneio.value
-    .filter((jogo) => jogo.status_jogo === 'Agendado')
+    .filter((jogo) => {
+      const { data, horario } = separarDataHorario(jogo.horario_jogo)
+      const dataDoJogo = transformarEmData(data, horario)
+      return jogo.status_jogo === 'Agendado' && dataDoJogo >= agora
+    })
     .sort((jogoA, jogoB) => jogoA.horario_jogo.localeCompare(jogoB.horario_jogo))
     .slice(0, 5)
     .map((jogo) => {
@@ -44,9 +56,9 @@ const proximosJogos = computed(() => {
       return {
         ...jogo,
         dataFormatada: formatarDataBR(data),
-        horario,
-        nomeModalidade: modalidade?.nome_modalidade,
-        local: modalidade?.localdojogo_modalidade,
+        horario: horario.slice(0, 5),
+        nomeModalidade: modalidade?.nome_modalidade ?? 'Modalidade',
+        local: modalidade?.localdojogo_modalidade ?? 'A definir',
         times: buscarNomesDosTimes(jogo.cod_jogo),
       }
     })
@@ -57,13 +69,12 @@ defineEmits(['editar'])
 
 
 <template>
-  <div class="tudo">
-    <div class="proximos-jogos">
+  <section class="proximos-jogos" aria-labelledby="titulo-proximos-jogos">
       <div class="cabecalho">
-        <h2>Próximos jogos</h2>
-        <img src="@/assets/coroa.png" alt="logo-coroa" />
+        <h2 id="titulo-proximos-jogos">Próximos jogos</h2>
+        <img src="@/assets/coroa.png" alt="" />
       </div>
-      <div class="tabela-scroll">
+      <div v-if="proximosJogos.length" class="tabela-scroll">
         <table>
           <thead>
             <tr>
@@ -74,35 +85,30 @@ defineEmits(['editar'])
             </tr>
           </thead>
           <tbody>
-           <tr v-for="jogo in proximosJogos" :key="jogo.cod_jogo">
-  <td>{{ jogo.dataFormatada }}/{{ jogo.horario }}</td>
-  <td>{{ jogo.local }}</td>
-  <td>{{ jogo.times }}</td>
-  <td>{{ jogo.nomeModalidade }}</td>
+            <tr v-for="jogo in proximosJogos" :key="jogo.cod_jogo">
+              <td>{{ jogo.dataFormatada }} às {{ jogo.horario }}</td>
+              <td>{{ jogo.local }}</td>
+              <td>{{ jogo.times }}</td>
+              <td>{{ jogo.nomeModalidade }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button class="editar" v-on:click.prevent="$emit('editar')">Editar ↗</button>
-    </div>
-  </div>
+      <p v-else class="estado-vazio">Não há partidas futuras agendadas neste torneio.</p>
+      <button class="editar" type="button" @click="$emit('editar')">Ver todos os jogos</button>
+  </section>
 </template>
 
 <style scoped>
-.tudo {
-  min-width: 0;
-
-}
-
 .proximos-jogos {
-  min-width: 0;
   width: 100%;
+  min-width: 0;
+  min-height: 25rem;
   box-sizing: border-box;
-  background-color: #0B1739;
- border-radius: 0 0 0 12px;
-  padding: 1rem;
-  border-left: 10px solid #f97316;
-  color: white;
+  padding: 1.4rem;
+  border-radius: 0.75rem;
+  background: #0b1739;
+  color: #fff;
 }
 
 .tabela-scroll {
@@ -115,11 +121,14 @@ defineEmits(['editar'])
   justify-content: space-between;
   align-items: center;
   margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e85002;
 }
 
 .cabecalho h2 {
-  color: white;
+  color: #fff;
   font-size: 1.4rem;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -141,18 +150,19 @@ table {
 
 thead th {
   text-align: left;
-  color: #999;
+  color: #aeb9d0;
   font-size: 0.75rem;
   font-weight: 500;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2a2a3a;
+  border-bottom: 1px solid #1e293b;
   white-space: nowrap;
 }
 
 tbody td {
   padding: 10px 4px;
   font-size: 0.85rem;
-  border-bottom: 1px solid #1e1e2a;
+  border-bottom: 1px solid #1e293b;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -168,29 +178,44 @@ tbody td:nth-child(2) {
   width: 100%;
   margin-top: 20px;
   padding: 12px;
-  border-radius: 999px;
+  border-radius: 4px;
   background: transparent;
-  border: 1px solid #444;
-  color: white;
+  border: 1px solid #aeb9d0;
+  color: #fff;
   cursor: pointer;
   font-size: 0.9rem;
 }
 
 .editar:hover {
-  background: #1e1e2a;
+  background: rgb(255 255 255 / 6%);
 }
 
-@media (max-width: 440px) {
-  .proximos-jogos {
+.estado-vazio {
+  display: grid;
+  min-height: 12rem;
+  place-items: center;
+  margin: 0;
+  color: #aeb9d0;
+  font-size: 0.9rem;
+  text-align: center;
+}
 
+@media (max-width: 768px) {
+  .proximos-jogos {
+    min-height: 0;
+    padding: 12px;
+    border-left: 0;
+    border-radius: 10px;
     background-color: white;
     color: black;
-    padding: 12px;
-    border-radius: 10px solid white;
-    border-left: white;
+  }
+
+  .cabecalho {
+    border-bottom-color: #e85002;
   }
 
   .cabecalho h2 {
+    color: #17171a;
     font-size: 1.1rem;
   }
 
@@ -204,6 +229,7 @@ tbody td:nth-child(2) {
     font-size: 0.75rem;
     padding: 6px 4px;
     border-bottom: 1px solid #f0f0f0;
+    color: #17171a;
     max-width: 100px;
   }
 
@@ -212,6 +238,10 @@ tbody td:nth-child(2) {
     padding: 8px;
     border: 1px solid #ccc;
     color: black;
+  }
+
+  .estado-vazio {
+    color: #777;
   }
 }
 </style>

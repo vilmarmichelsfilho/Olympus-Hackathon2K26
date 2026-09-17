@@ -5,6 +5,7 @@ import LogoutIcon from '@iconify-vue/mdi/logout'
 import UserIcon from '@iconify-vue/mdi/user'
 import ArbitroJogoCard from '@/components/ArbitroJogoCard.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
+import EditarJogos from '@/components/EditarJogos.vue'
 import { arbitros } from '@/data/arbitros'
 import { jogos } from '@/data/jogos'
 import { modalidades } from '@/data/modalidades'
@@ -16,6 +17,7 @@ import { finalizarJogo } from '@/Utils/partidasUtils'
 const router = useRouter()
 const sessao = obterSessao()
 const jogoSelecionadoId = ref(null)
+const jogoEmEdicaoId = ref(null)
 
 const arbitro = computed(() =>
   arbitros.find((item) => Number(item.cod_arbitro) === Number(sessao?.codigo)),
@@ -77,6 +79,31 @@ function alterarPlacar(codJogo) {
   if (jogo?.status === 'AoVivo' && jogo.confrontoDefinido) jogoSelecionadoId.value = codJogo
 }
 
+function editarJogo(codJogo) {
+  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
+  const pertenceAoArbitro = Number(jogo?.cod_arbitro) === Number(sessao?.codigo)
+
+  if (pertenceAoArbitro && jogo.status_jogo === 'Agendado') {
+    jogoEmEdicaoId.value = codJogo
+  }
+}
+
+function atualizarJogoAgendado(dados) {
+  const jogo = jogos.find((item) => item.cod_jogo === dados.cod_jogo)
+  const pertenceAoArbitro = Number(jogo?.cod_arbitro) === Number(sessao?.codigo)
+  const statusPermitido = ['Agendado', 'AoVivo'].includes(dados.status_jogo)
+
+  if (!pertenceAoArbitro || jogo.status_jogo !== 'Agendado' || !statusPermitido) return
+
+  jogo.horario_jogo = dados.horario_jogo
+  jogo.status_jogo = dados.status_jogo
+  jogoEmEdicaoId.value = null
+}
+
+const jogoEmEdicao = computed(() =>
+  jogos.find((jogo) => jogo.cod_jogo === jogoEmEdicaoId.value),
+)
+
 function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
   const jogo = jogos.find((item) => item.cod_jogo === codJogo)
 
@@ -125,6 +152,7 @@ function sair() {
             :key="jogo.codJogo"
             :jogo="jogo"
             @alterar-placar="alterarPlacar"
+            @editar-jogo="editarJogo"
           />
         </ul>
 
@@ -139,6 +167,14 @@ function sair() {
         :jogo="jogoSelecionado"
         @salvar="salvarPlacar"
         @voltar="jogoSelecionadoId = null"
+      />
+
+      <EditarJogos
+        v-if="jogoEmEdicao"
+        :jogo="jogoEmEdicao"
+        modo-arbitro
+        @atualizar="atualizarJogoAgendado"
+        @fechar-editar-jogo="jogoEmEdicaoId = null"
       />
     </div>
   </main>
