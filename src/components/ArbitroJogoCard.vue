@@ -1,12 +1,7 @@
 <script setup>
-defineProps({
-  jogo: {
-    type: Object,
-    required: true,
-  },
-})
+defineProps(['jogo'])
 
-defineEmits(['alterarPlacar'])
+defineEmits(['alterarPlacar', 'editarJogo'])
 
 function classeStatus(status) {
   if (status === 'AoVivo') return 'ao-vivo'
@@ -37,7 +32,17 @@ function rotuloStatus(status) {
     </div>
 
     <button
+      v-if="jogo.status === 'Agendado'"
+      class="editar-jogo"
+      type="button"
+      @click="$emit('editarJogo', jogo.codJogo)"
+    >
+      Editar jogo <span aria-hidden="true">››</span>
+    </button>
+
+    <button
       v-if="jogo.status === 'AoVivo' && jogo.confrontoDefinido"
+      class="alterar-placar"
       type="button"
       @click="$emit('alterarPlacar', jogo.codJogo)"
     >
@@ -131,12 +136,16 @@ function rotuloStatus(status) {
   padding: 0.45vw 0.9vw;
   border: 0;
   border-radius: 0.7vw 0 0 0;
-  background: #ff6467;
+  background: #e85002;
   color: #fff;
   cursor: pointer;
   font: inherit;
   font-size: 0.76vw;
   font-weight: 650;
+}
+
+.jogo-card button.alterar-placar {
+  background: #ff6467;
 }
 
 .jogo-card button span {

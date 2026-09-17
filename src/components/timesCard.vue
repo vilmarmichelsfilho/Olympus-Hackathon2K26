@@ -42,7 +42,8 @@ li {
 
     padding: 0.6vw 0;
 
-    border-bottom: solid 0.15vw black;
+    border-bottom: 1px solid #1E293B;
+    color: white;
 }
 .turmas div {
     gap: 0.5vw;

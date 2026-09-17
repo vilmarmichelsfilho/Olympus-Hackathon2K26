@@ -7,14 +7,14 @@ const timesFiltradosPorTorneio = computed(() => {
   return times.filter((time) => time.cod_torneio == torneioId)
 })
 
-const timesDoMaiorAoMenor = computed(() =>
+const timesOrdenados = computed(() =>
   [...timesFiltradosPorTorneio.value].sort(
     (timeA, timeB) => timeB.pontuacaogeral_time - timeA.pontuacaogeral_time,
   ),
 )
 
 function definirposicao(id) {
-  return timesDoMaiorAoMenor.value.findIndex((time) => time.cod_time == id) + 1
+  return timesOrdenados.value.findIndex((time) => time.cod_time == id) + 1
 }
 
 function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
@@ -55,4 +55,4 @@ function editarTime(nome, pontuacao, cor, escudo, indice) {
   return true
 }
 
-export { timesDoMaiorAoMenor, definirposicao, adicionarTime, editarTime }
+export { timesOrdenados, definirposicao, adicionarTime, editarTime }

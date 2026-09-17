@@ -47,11 +47,20 @@ const options = {
 </script>
 
 <template>
-  <div style="height: 25rem; width: 100%; max-width: 30rem;">
-  <Bar :data="data" :options="options" />
-</div>
+  <div class="grafico-jogos">
+    <Bar :data="data" :options="options" />
+  </div>
 </template>
 
+<style scoped>
+.grafico-jogos {
+  width: 100%;
+  height: 25rem;
+}
 
-
-
+@media (max-width: 768px) {
+  .grafico-jogos {
+    height: 18rem;
+  }
+}
+</style>

@@ -57,8 +57,9 @@ p {
 
 .sla {
     padding: 3vw 0 0 3vw;
-    background: white;
-      border-radius: 2vw;
+    background: #0B1739;
+    color: white;
+    border-radius: 1vw;
 }
 
 .tabelaTurmas {
@@ -77,6 +78,7 @@ thead {
 }
 
 th {
+  color: white;
   font-size: 1.2vw;
   font-weight: 600;
   padding: 1vw 0;
@@ -102,5 +104,11 @@ th{
   color: black;
   font-size: 2.5vw
 }
+  .sla {
+    padding: 3vw 0 0 3vw;
+    border-radius: 2vw;
+    background: white;
+    color: black;
+  }
 }
 </style>

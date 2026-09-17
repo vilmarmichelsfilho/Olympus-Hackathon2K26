@@ -1,16 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 
-const props = defineProps({
-  ativo: {
-    type: Boolean,
-    default: false,
-  },
-  dia: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps(['ativo', 'dia'])
 
 defineEmits(['selecionar'])
 

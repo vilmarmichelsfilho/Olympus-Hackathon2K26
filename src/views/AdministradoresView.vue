@@ -17,17 +17,17 @@ import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
 import { obterSessao } from '@/Utils/loginUtils'
 const route = useRoute()
 const telasValidas = new Set(['torneio', 'dashboard', 'jogos', 'times', 'horarios', 'conflitos', 'turmas', 'arbitros', 'modalidades'])
-function telaDoHash(hash) {
+function pegarTela(hash) {
   const tela = hash.replace('#', '')
   return telasValidas.has(tela) ? tela : 'torneio'
 }
-const telaAtual = ref(telaDoHash(route.hash))
+const telaAtual = ref(pegarTela(route.hash))
 if (obterSessao()?.tipo !== 'administrador') router.replace('/login')
 
 watch(
   () => route.hash,
   (hash) => {
-    telaAtual.value = telaDoHash(hash)
+    telaAtual.value = pegarTela(hash)
   },
 )
 
@@ -100,7 +100,20 @@ const time = ref(false)
 
 <style scoped>
 .dashboard {
+  flex: 1;
+  min-width: 0;
   margin: 1vw 2vw;
+}
+
+.torneios,
+.jogos,
+.times,
+.turmas,
+.horarios,
+.conflitos,
+.arbitros {
+  flex: 1;
+  min-width: 0;
 }
 
 .display {
@@ -162,6 +175,11 @@ const time = ref(false)
 @media (max-width: 750px) {
   .display {
     background-color: white;
+  }
+
+  .dashboard {
+    width: 100%;
+    margin: 0;
   }
 }
 </style>

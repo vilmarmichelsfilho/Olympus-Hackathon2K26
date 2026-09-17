@@ -14,7 +14,7 @@ const props = defineProps(['tecnico','ano','serie','id']);
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
 td {
-    color: black;
+    color: white;
     font-family: "Krona One", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -22,6 +22,7 @@ td {
 }
 tr {
     padding: 1vw 1vw;
+    border-bottom: 1px solid #1E293B;
 }
 .botoes {
     display: flex;
@@ -54,6 +55,7 @@ button {
 }
 @media (max-width: 768px) {
     td {
+        color: black;
         font-size: 2vw;
     }
     button {

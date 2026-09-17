@@ -14,11 +14,11 @@ const torneioSelecionado = computed(() =>
     (torneio) => Number(torneio.cod_torneio) === Number(codTorneioSelecionadoAdm.value),
   ),
 )
-function criarDataUTC(dataISO) {
+function criarData(dataISO) {
   const [ano, mes, dia] = dataISO.split('-').map(Number)
   return new Date(Date.UTC(ano, mes - 1, dia))
 }
-function formatarDataISO(data) {
+function formatarISO(data) {
   const ano = data.getUTCFullYear()
   const mes = String(data.getUTCMonth() + 1).padStart(2, '0')
   const dia = String(data.getUTCDate()).padStart(2, '0')
@@ -27,14 +27,14 @@ function formatarDataISO(data) {
 const diasDoTorneio = computed(() => {
   const torneio = torneioSelecionado.value
   if (!torneio?.data_inicio_torneio || !torneio?.data_fim_torneio) return []
-  const inicio = criarDataUTC(torneio.data_inicio_torneio)
-  const fim = criarDataUTC(torneio.data_fim_torneio)
+  const inicio = criarData(torneio.data_inicio_torneio)
+  const fim = criarData(torneio.data_fim_torneio)
   if (Number.isNaN(inicio.getTime()) || Number.isNaN(fim.getTime()) || fim < inicio) return []
   const quantidadeDeDias = Math.floor((fim.getTime() - inicio.getTime()) / UM_DIA_EM_MS)
   return Array.from({ length: quantidadeDeDias + 1 }, (_, indice) => {
     const data = new Date(inicio)
     data.setUTCDate(inicio.getUTCDate() + indice)
-    return formatarDataISO(data)
+    return formatarISO(data)
   })
 })
 watch(
@@ -46,7 +46,7 @@ watch(
   },
   { immediate: true },
 )
-function detalharJogo(jogo) {
+function pegarDados(jogo) {
   const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
   const participantes = participa
     .filter((item) => item.cod_jogo === jogo.cod_jogo)
@@ -70,21 +70,21 @@ const jogosDoDia = computed(() =>
   jogosDoTorneio.value
     .filter((jogo) => jogo.horario_jogo.split(' ')[0] === dataSelecionada.value)
     .sort((jogoA, jogoB) => jogoA.horario_jogo.localeCompare(jogoB.horario_jogo))
-    .map(detalharJogo),
+    .map(pegarDados),
 )
 </script>
 
 <template>
-  <section class="horarios-view" aria-labelledby="titulo-horarios">
+  <section class="horarios" aria-labelledby="titulo-horarios">
     <header class="cabecalho">
       <h1 id="titulo-horarios">Horários Olimpíadas</h1>
       <h2>Visão diária dos jogos</h2>
     </header>
 
-    <div v-if="torneioSelecionado" class="painel-horarios">
+    <div v-if="torneioSelecionado" class="painel">
       <img class="coroa" src="@/assets/coroa.png" alt="" />
 
-      <nav v-if="diasDoTorneio.length" class="seletor-dias" aria-label="Dias do torneio">
+      <nav v-if="diasDoTorneio.length" class="dias" aria-label="Dias do torneio">
         <DiaTorneioButton
           v-for="dia in diasDoTorneio"
           :key="dia"
@@ -93,7 +93,7 @@ const jogosDoDia = computed(() =>
           @selecionar="dataSelecionada = $event"
         />
       </nav>
-      <ul v-if="jogosDoDia.length" class="lista-jogos">
+      <ul v-if="jogosDoDia.length" class="jogos">
         <HorarioJogoItem
           v-for="jogo in jogosDoDia"
           :key="jogo.codJogo"
@@ -101,18 +101,18 @@ const jogosDoDia = computed(() =>
           :jogo="jogo"
         />
       </ul>
-      <p v-else-if="diasDoTorneio.length" class="estado-vazio">
+      <p v-else-if="diasDoTorneio.length" class="vazio">
         Nenhum jogo agendado para este dia.
       </p>
       <p v-else class="estado-vazio">O período deste torneio não está disponível.</p>
     </div>
-    <div v-else class="painel-horarios sem-torneio">
+    <div v-else class="painel sem-torneio">
       <p>Selecione um torneio para visualizar os horários.</p>
     </div>
   </section>
 </template>
 <style scoped>
-.horarios-view {
+.horarios {
   width: 80vw;
   max-width: 1120px;
   min-height: 100vh;
@@ -136,7 +136,7 @@ const jogosDoDia = computed(() =>
   font-size: 2vw;
 }
 
-.painel-horarios {
+.painel {
   width: 100%;
   min-height: 560px;
   padding: 18px 7% 48px;
@@ -151,7 +151,7 @@ const jogosDoDia = computed(() =>
   margin: 0 auto 20px;
   object-fit: contain;
 }
-.seletor-dias {
+.dias {
   display: grid;
   grid-auto-columns: minmax(150px, 1fr);
   grid-auto-flow: column;
@@ -162,7 +162,7 @@ const jogosDoDia = computed(() =>
   scrollbar-color: #e85002 transparent;
   scrollbar-width: thin;
 }
-.lista-jogos {
+.jogos {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -171,13 +171,13 @@ const jogosDoDia = computed(() =>
   list-style: none;
 }
 
-.estado-vazio,
+.vazio,
 .sem-torneio {
   color: #777;
   text-align: center;
 }
 
-.estado-vazio {
+.vazio {
   margin: 70px 0;
 }
 
@@ -187,7 +187,7 @@ const jogosDoDia = computed(() =>
 }
 
 @media (max-width: 768px) {
-  .horarios-view {
+  .horarios {
     width: 100vw;
     min-height: 100vh;
     padding: 18px 17px 36px;
@@ -208,7 +208,7 @@ const jogosDoDia = computed(() =>
     font-size: 4vw;
   }
 
-  .painel-horarios {
+  .painel {
     min-height: 0;
     padding: 0;
   }
@@ -217,14 +217,14 @@ const jogosDoDia = computed(() =>
     display: none;
   }
 
-  .seletor-dias {
+  .dias {
     grid-auto-columns: minmax(62px, 1fr);
     gap: 7px;
     margin-bottom: 34px;
     padding-bottom: 7px;
   }
 
-  .lista-jogos {
+  .jogos {
     gap: 0;
     overflow: hidden;
     border-radius: 0 15px 15px 0;

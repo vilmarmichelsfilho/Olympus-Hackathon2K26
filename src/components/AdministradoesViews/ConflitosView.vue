@@ -123,7 +123,7 @@ function atualizarJogo(dados) {
   min-height: 40vw;
   overflow: hidden;
   border-radius: 0.7vw;
-  background: #071438;
+  background: #0b1739;
 }
 
 .marca-painel {

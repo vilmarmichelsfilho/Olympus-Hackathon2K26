@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
-import { timesDoMaiorAoMenor } from '@/Utils/timesUtils'
+import { timesOrdenados } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
 import { ref, computed } from 'vue'
 import modalidadesCard from '@/components/modalidadesCard.vue'
@@ -216,7 +216,7 @@ const progressoPorcentagem = computed(() => {
             </thead>
             <tbody>
               <timeCard
-                v-for="time in timesDoMaiorAoMenor"
+                v-for="time in timesOrdenados"
                 :key="time.cod_time"
                 :id="time.cod_time"
                 :pontuacao="time.pontuacaogeral_time"

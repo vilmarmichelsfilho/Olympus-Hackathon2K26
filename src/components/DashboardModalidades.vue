@@ -6,7 +6,7 @@ import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
 import { ref } from 'vue';
-import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils'
+import { apagarModalidade } from '@/Utils/exclusaoUtils'
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -15,7 +15,7 @@ function abrirEditar(id) {
 }
 const modalidadeAdicionar = ref(false)
 function exluirModalidade(id) {
-  excluirModalidadeCompleta(id)
+  apagarModalidade(id)
 }
 </script>
 <template>
@@ -159,7 +159,7 @@ table {
 }
 
 thead {
-  border-bottom: 1px solid #1E293B;
+  border-bottom: 2px solid #E85002;
 }
 
 th {

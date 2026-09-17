@@ -1,10 +1,5 @@
 <script setup>
-defineProps({
-  conflito: {
-    type: Object,
-    required: true,
-  },
-})
+defineProps(['conflito'])
 
 defineEmits(['ignorar', 'resolver'])
 </script>
