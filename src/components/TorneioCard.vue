@@ -1,7 +1,7 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
-import { excluirTorneioCompleto } from '@/Utils/exclusaoUtils'
+import { apagarTorneio } from '@/Utils/exclusaoUtils'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
@@ -12,7 +12,7 @@ function formatarData(data) {
     return `${dia}/${mes}`
 }
 function excluir() {
-    excluirTorneioCompleto(props.id)
+    apagarTorneio(props.id)
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

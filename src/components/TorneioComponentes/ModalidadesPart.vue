@@ -5,10 +5,10 @@ import { ref, computed } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
-import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils';
+import { apagarModalidade } from '@/Utils/exclusaoUtils';
 
 function exluirModalidade(id) {
-    excluirModalidadeCompleta(id)
+    apagarModalidade(id)
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])

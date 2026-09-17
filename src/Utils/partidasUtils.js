@@ -1,13 +1,13 @@
 import { jogos } from '@/data/jogos'
 import { participa } from '@/data/participa'
 
-function participantesOrdenados(codJogo) {
+function pegarParticipantes(codJogo) {
   return participa
     .filter((participante) => participante.cod_jogo === codJogo)
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 }
 
-function propagarVencedor(codJogo, codTimeVencedor) {
+function passarVencedor(codJogo, codTimeVencedor) {
   jogos.forEach((proximoJogo) => {
     let posicao = null
     if (proximoJogo.origem_jogo_a === codJogo) posicao = 1
@@ -28,7 +28,7 @@ function propagarVencedor(codJogo, codTimeVencedor) {
 
 function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const participantes = participantesOrdenados(codJogo)
+  const participantes = pegarParticipantes(codJogo)
 
   if (!jogo || participantes.length < 2) {
     return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
@@ -53,7 +53,7 @@ function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   jogo.status_jogo = 'Finalizado'
 
   const vencedor = placarA > placarB ? participantes[0] : participantes[1]
-  propagarVencedor(codJogo, vencedor.cod_time)
+  passarVencedor(codJogo, vencedor.cod_time)
 
   return { sucesso: true, codTimeVencedor: vencedor.cod_time }
 }

@@ -3,19 +3,10 @@ import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
-import { excluirModalidadeCompleta } from '@/Utils/exclusaoUtils';
-import { gerarJogosDaModalidade } from '@/Utils/gerarTorneioUtils';
+import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
-const props = defineProps({
-  torneio: {
-    type: Number,
-    default: undefined,
-  },
-  gerarJogos: {
-    type: Boolean,
-    default: false,
-  },
-});
+const props = defineProps(['torneio', 'gerarJogos']);
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
@@ -41,9 +32,9 @@ function checarDados() {
             );
 
             if (props.gerarJogos) {
-              const resultado = gerarJogosDaModalidade(novaModalidade.cod_modalidade);
+              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
               if (!resultado.valido) {
-                excluirModalidadeCompleta(novaModalidade.cod_modalidade);
+                apagarModalidade(novaModalidade.cod_modalidade);
                 alert(resultado.mensagem);
                 return;
               }

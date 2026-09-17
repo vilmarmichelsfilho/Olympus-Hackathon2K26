@@ -6,8 +6,8 @@ import { salvarTorneio } from '@/Utils/adicionarUtils.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
-import { gerarJogosDoTorneio } from '@/Utils/gerarTorneioUtils.js';
-import { excluirTorneioCompleto } from '@/Utils/exclusaoUtils.js';
+import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
+import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
 
 const emit = defineEmits(['fechar']);
@@ -15,11 +15,11 @@ const emit = defineEmits(['fechar']);
 const torneio = ref(0);
 
 const etapa = ref(20);
-const dadosGerais = ref(null)
-const cadastroFinalizado = ref(false)
+const dadosTorneio = ref(null)
+const finalizado = ref(false)
 
 function aoAdicionarTorneio(dados) {
-  dadosGerais.value = dados
+  dadosTorneio.value = dados
   if (torneio.value) {
     const registro = torneios.find((item) => item.cod_torneio === torneio.value)
     if (registro) {
@@ -34,26 +34,26 @@ function aoAdicionarTorneio(dados) {
   etapa.value=etapa.value+20;
 }
 
-function cancelarCadastro() {
-  if (torneio.value && !cadastroFinalizado.value) excluirTorneioCompleto(torneio.value)
+function cancelar() {
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
   torneio.value = 0
   emit('fechar')
 }
 
-function finalizarCadastro() {
-  const resultado = gerarJogosDoTorneio(torneio.value)
+function finalizar() {
+  const resultado = gerarJogos(torneio.value)
   if (!resultado.valido) {
     alert(resultado.mensagem)
     return
   }
 
-  cadastroFinalizado.value = true
+  finalizado.value = true
   alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
   emit('fechar')
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !cadastroFinalizado.value) excluirTorneioCompleto(torneio.value)
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
 })
 
 </script>
@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
 <template>
     <div class="display">
         <div class="dialog">
-            <button class="fechar-fluxo" type="button" aria-label="Cancelar cadastro" @click="cancelarCadastro">×</button>
+            <button class="fechar" type="button" aria-label="Cancelar cadastro" @click="cancelar">×</button>
             <div class="texto">
                 <h2 v-show="etapa===20">Criar Torneio</h2>
                 <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
@@ -80,11 +80,11 @@ onBeforeUnmount(() => {
                     <li :style="{color: etapa === 100 ? '#E85002' : ''}">Árbitros</li>
                 </ol>
             </div>
-            <TorneioPopUp v-show="etapa===20" :dados-iniciais="dadosGerais" @fechar="cancelarCadastro" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
+            <TorneioPopUp v-show="etapa===20" :dados-iniciais="dadosTorneio" @fechar="cancelar" @adicionar="aoAdicionarTorneio"></TorneioPopUp>
             <ModalidadesPart v-if="etapa===40" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></ModalidadesPart>
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
             <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
-            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20" @salvar="finalizarCadastro"></ArbitroPart>
+            <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20" @salvar="finalizar"></ArbitroPart>
         </div>
     </div>
 </template>
@@ -132,7 +132,7 @@ h2 {
     border-radius: 1vw;
 }
 
-.fechar-fluxo {
+.fechar {
     position: absolute;
     top: 1vw;
     right: 1.2vw;

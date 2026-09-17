@@ -17,17 +17,17 @@ import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
 import { obterSessao } from '@/Utils/loginUtils'
 const route = useRoute()
 const telasValidas = new Set(['torneio', 'dashboard', 'jogos', 'times', 'horarios', 'conflitos', 'turmas', 'arbitros', 'modalidades'])
-function telaDoHash(hash) {
+function pegarTela(hash) {
   const tela = hash.replace('#', '')
   return telasValidas.has(tela) ? tela : 'torneio'
 }
-const telaAtual = ref(telaDoHash(route.hash))
+const telaAtual = ref(pegarTela(route.hash))
 if (obterSessao()?.tipo !== 'administrador') router.replace('/login')
 
 watch(
   () => route.hash,
   (hash) => {
-    telaAtual.value = telaDoHash(hash)
+    telaAtual.value = pegarTela(hash)
   },
 )
 

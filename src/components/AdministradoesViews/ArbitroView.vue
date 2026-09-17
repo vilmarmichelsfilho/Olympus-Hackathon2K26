@@ -6,9 +6,9 @@ import { ref } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
 import { arbitros } from '@/data/arbitros';
 import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
-import { excluirArbitroSeguro } from '@/Utils/exclusaoUtils';
+import { apagarArbitro } from '@/Utils/exclusaoUtils';
 function excluirArbitro(id) {
-  const resultado = excluirArbitroSeguro(id)
+  const resultado = apagarArbitro(id)
   if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)

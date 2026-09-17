@@ -6,8 +6,9 @@ import { times } from '@/data/times'
 import { torneios } from '@/data/torneios'
 import { turmas } from '@/data/turmas'
 
-const HORARIO_INICIAL = 8 * 60
-const HORARIO_LIMITE = 19 * 60
+const horarioInicial = 8 * 60
+const horarioLimite = 17 * 60
+const intervalo = 15
 
 function dataLocal(dataISO) {
   const [ano, mes, dia] = dataISO.split('-').map(Number)
@@ -27,11 +28,41 @@ function formatarHorario(minutos) {
   return `${hora}:${minuto}:00`
 }
 
+function proximoDia(data) {
+  do {
+    data.setDate(data.getDate() + 1)
+  } while (data.getDay() === 0 || data.getDay() === 6)
+}
+
+function pularFimDeSemana(data) {
+  while (data.getDay() === 0 || data.getDay() === 6) {
+    data.setDate(data.getDate() + 1)
+  }
+}
+
+function transformarEmData(horario) {
+  const [data, hora] = horario.split(' ')
+  const [ano, mes, dia] = data.split('-').map(Number)
+  const [horas, minutos, segundos = 0] = hora.split(':').map(Number)
+  return new Date(ano, mes - 1, dia, horas, minutos, segundos)
+}
+
+function temChoqueHorario(inicioA, duracaoA, inicioB, duracaoB) {
+  const fimA = inicioA.getTime() + duracaoA * 60_000
+  const fimB = inicioB.getTime() + duracaoB * 60_000
+  return inicioA.getTime() < fimB && inicioB.getTime() < fimA
+}
+
+function pegarDuracao(jogo) {
+  const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
+  return Math.max(Number(modalidade?.tempojogemminutos_modalidade) || 60, 15)
+}
+
 function anosDaTurma(turmasDoTime) {
   return new Set(turmasDoTime.map((turma) => Number(turma.ano_turma)))
 }
 
-function validarEstruturaTorneio(codTorneio) {
+function validarTorneio(codTorneio) {
   const torneio = torneios.find((item) => item.cod_torneio === codTorneio)
   const timesDoTorneio = times.filter((item) => item.cod_torneio === codTorneio)
   const turmasDoTorneio = turmas.filter((item) => item.cod_torneio === codTorneio)
@@ -91,8 +122,8 @@ function validarEstruturaTorneio(codTorneio) {
   }
 }
 
-function gerarJogosDoTorneio(codTorneio) {
-  const validacao = validarEstruturaTorneio(codTorneio)
+function gerarJogos(codTorneio) {
+  const validacao = validarTorneio(codTorneio)
   if (!validacao.valido) return validacao
 
   const jogosExistentes = jogos.filter((jogo) =>
@@ -110,7 +141,8 @@ function gerarJogosDoTorneio(codTorneio) {
 
   let proximoCodigo = jogos.length ? Math.max(...jogos.map((jogo) => jogo.cod_jogo)) + 1 : 1
   let dataAtual = new Date(inicio)
-  let minutosAtuais = HORARIO_INICIAL
+  pularFimDeSemana(dataAtual)
+  let minutosAtuais = horarioInicial
   let indiceArbitro = 0
   const novosJogos = []
   const novosParticipantes = []
@@ -118,15 +150,15 @@ function gerarJogosDoTorneio(codTorneio) {
   function reservarHorario(duracao) {
     const duracaoEmMinutos = Math.max(Number(duracao) || 60, 15)
 
-    if (minutosAtuais + duracaoEmMinutos > HORARIO_LIMITE) {
-      dataAtual.setDate(dataAtual.getDate() + 1)
-      minutosAtuais = HORARIO_INICIAL
+    if (minutosAtuais + duracaoEmMinutos > horarioLimite) {
+      proximoDia(dataAtual)
+      minutosAtuais = horarioInicial
     }
 
     if (dataAtual > fim) return null
 
     const horario = `${formatarData(dataAtual)} ${formatarHorario(minutosAtuais)}`
-    minutosAtuais += duracaoEmMinutos + 15
+    minutosAtuais += duracaoEmMinutos + intervalo
     return horario
   }
 
@@ -206,11 +238,11 @@ function gerarJogosDoTorneio(codTorneio) {
   }
 }
 
-function gerarJogosDaModalidade(codModalidade) {
+function gerarJogosModalidade(codModalidade) {
   const modalidade = modalidades.find((item) => item.cod_modalidade === codModalidade)
   if (!modalidade) return { valido: false, mensagem: 'Modalidade não encontrada.' }
 
-  const validacao = validarEstruturaTorneio(modalidade.cod_torneio)
+  const validacao = validarTorneio(modalidade.cod_torneio)
   if (!validacao.valido) return validacao
 
   if (jogos.some((jogo) => jogo.cod_modalidade === codModalidade)) {
@@ -231,39 +263,61 @@ function gerarJogosDaModalidade(codModalidade) {
   let proximoCodigo = jogos.length ? Math.max(...jogos.map((jogo) => jogo.cod_jogo)) + 1 : 1
   let indiceArbitro = 0
   let dataAtual = new Date(inicio)
-  let minutosAtuais = HORARIO_INICIAL
+  pularFimDeSemana(dataAtual)
+  let minutosAtuais = horarioInicial
   const novosJogos = []
   const novosParticipantes = []
 
   function reservarHorario() {
     while (dataAtual <= fim) {
-      if (minutosAtuais + duracao > HORARIO_LIMITE) {
-        dataAtual.setDate(dataAtual.getDate() + 1)
-        minutosAtuais = HORARIO_INICIAL
+      if (minutosAtuais + duracao > horarioLimite) {
+        proximoDia(dataAtual)
+        minutosAtuais = horarioInicial
         continue
       }
 
       const horario = `${formatarData(dataAtual)} ${formatarHorario(minutosAtuais)}`
+      const inicioCandidato = transformarEmData(horario)
       const localOcupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
         const modalidadeDoJogo = modalidades.find(
           (item) => item.cod_modalidade === jogo.cod_modalidade,
         )
-        return jogo.horario_jogo === horario
-          && modalidadeDoJogo?.localdojogo_modalidade === modalidade.localdojogo_modalidade
-      })
-
-      const arbitro = validacao.arbitros.find((_, deslocamento) => {
-        const candidato = validacao.arbitros[
-          (indiceArbitro + deslocamento) % validacao.arbitros.length
-        ]
-        return ![...jogosDoTorneio, ...novosJogos].some(
-          (jogo) => jogo.horario_jogo === horario && jogo.cod_arbitro === candidato.cod_arbitro,
+        if (modalidadeDoJogo?.localdojogo_modalidade !== modalidade.localdojogo_modalidade) {
+          return false
+        }
+        return temChoqueHorario(
+          inicioCandidato,
+          duracao,
+          transformarEmData(jogo.horario_jogo),
+          pegarDuracao(jogo),
         )
       })
 
-      minutosAtuais += duracao + 15
-      if (localOcupado || !arbitro) continue
+      let arbitro = null
+      for (let i = 0; i < validacao.arbitros.length; i += 1) {
+        const candidato = validacao.arbitros[(indiceArbitro + i) % validacao.arbitros.length]
+        const ocupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
+          if (jogo.cod_arbitro !== candidato.cod_arbitro) return false
+          return temChoqueHorario(
+            inicioCandidato,
+            duracao,
+            transformarEmData(jogo.horario_jogo),
+            pegarDuracao(jogo),
+          )
+        })
 
+        if (!ocupado) {
+          arbitro = candidato
+          break
+        }
+      }
+
+      if (localOcupado || !arbitro) {
+        minutosAtuais += intervalo
+        continue
+      }
+
+      minutosAtuais += duracao + intervalo
       indiceArbitro = (validacao.arbitros.indexOf(arbitro) + 1) % validacao.arbitros.length
       return { horario, codArbitro: arbitro.cod_arbitro }
     }
@@ -344,4 +398,4 @@ function gerarJogosDaModalidade(codModalidade) {
   }
 }
 
-export { gerarJogosDaModalidade, gerarJogosDoTorneio, validarEstruturaTorneio }
+export { gerarJogos, gerarJogosModalidade, validarTorneio }

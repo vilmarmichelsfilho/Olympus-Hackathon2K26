@@ -1,5 +1,5 @@
 <script setup>
-import { timesDoMaiorAoMenor } from '@/Utils/timesUtils';
+import { timesOrdenados } from '@/Utils/timesUtils';
 import timeCard from '@/components/timeCard.vue';
 import { jogos } from '@/data/jogos.js';
 import { computed } from 'vue';
@@ -35,7 +35,7 @@ const isTimesRoute = window.location.pathname === '/times';
         </tr>
       </thead>
       <tbody>
-        <timeCard v-for="time in timesDoMaiorAoMenor" :key="time.cod_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time"
+        <timeCard v-for="time in timesOrdenados" :key="time.cod_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time"
           :nome="time.nome_time">
         </timeCard>
       </tbody>
