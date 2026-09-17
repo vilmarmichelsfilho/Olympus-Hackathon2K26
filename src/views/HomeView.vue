@@ -86,7 +86,7 @@ const progressoPorcentagem = computed(() => {
 </script>
 
 <template>
-  <main>
+  <main :class="{ 'selecao-torneio-ativa': cod_torneioAtual == null }">
   <div v-if="cod_torneioAtual == null" class="selecionarTorneio">
 <selecionarTorneio></selecionarTorneio>
    </div>
@@ -238,6 +238,9 @@ const progressoPorcentagem = computed(() => {
 main {
   background-color: black;
   padding: 0 0 20vw 0;
+}
+.selecao-torneio-ativa {
+  padding-top: 48px;
 }
 .selecionarTorneio{
   display: flex;

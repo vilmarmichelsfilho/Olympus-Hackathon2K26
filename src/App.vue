@@ -16,7 +16,12 @@ function login() {
 <template>
   <div class="image">
     <AppHeader
-      class="header"
+      :class="[
+        'header',
+        {
+          'header-com-espaco-mobile': $route.name === 'torneio',
+        },
+      ]"
       v-if="!['/administradores', '/arbitro', '/login'].includes($route.path)"
       @login-pop="login"
     ></AppHeader>
@@ -74,6 +79,14 @@ function login() {
   width: 100%;
 }
 @media (max-width: 1000px) {
+  .header {
+    margin-bottom: 0;
+  }
+
+  .header-com-espaco-mobile {
+    margin-bottom: 24px;
+  }
+
   .texto {
     display: none;
   }
