@@ -14,8 +14,8 @@ defineEmits(['ignorar', 'resolver'])
         <div>
           <h2>Conflito de Local</h2>
           <p>
-            {{ conflito.jogos.length }} jogos agendados em {{ conflito.local }} às
-            {{ conflito.hora }} de {{ conflito.dataFormatada }}
+            {{ conflito.jogos.length }} jogos ocupam {{ conflito.local }} entre
+            {{ conflito.hora }} e {{ conflito.horaFim }} de {{ conflito.dataFormatada }}
           </p>
         </div>
       </header>

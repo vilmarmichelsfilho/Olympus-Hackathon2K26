@@ -7,7 +7,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de futsal",
     tempojogemminutos_modalidade: 40,
     localdojogo_modalidade: "Quadra B",
-    foto_modalidade: "/images/imagem-modalidades/futsal.png",
+    foto_modalidade: "/images/imagem-modalidades/futsal-v2.png",
     cod_torneio: 1
   },
   {
@@ -16,7 +16,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de voleibol",
     tempojogemminutos_modalidade: 60,
     localdojogo_modalidade: "Quadra A",
-    foto_modalidade: "/images/imagem-modalidades/volei.png",
+    foto_modalidade: "/images/imagem-modalidades/volei-v2.png",
     cod_torneio: 1
   },
   {
@@ -25,7 +25,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de basquete",
     tempojogemminutos_modalidade: 50,
     localdojogo_modalidade: "Quadra C",
-    foto_modalidade: "/images/imagem-modalidades/basquete.png",
+    foto_modalidade: "/images/imagem-modalidades/basquete-v2.png",
     cod_torneio: 1
   },
   {
@@ -34,7 +34,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de Valorant",
     tempojogemminutos_modalidade: 60,
     localdojogo_modalidade: "Sala E-Sports",
-    foto_modalidade: "/images/imagem-modalidades/valorant.png",
+    foto_modalidade: "/images/imagem-modalidades/valorant-v2.png",
     cod_torneio: 1
   },
   {
@@ -43,7 +43,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de xadrez",
     tempojogemminutos_modalidade: 30,
     localdojogo_modalidade: "Biblioteca",
-    foto_modalidade: "/images/imagem-modalidades/xadrez.png",
+    foto_modalidade: "/images/imagem-modalidades/xadrez-v2.png",
     cod_torneio: 1
   },
   {
@@ -52,7 +52,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de Brawl Stars",
     tempojogemminutos_modalidade: 30,
     localdojogo_modalidade: "Sala Mobile",
-    foto_modalidade: "/images/imagem-modalidades/brawlstars.png",
+    foto_modalidade: "/images/imagem-modalidades/brawlstars-v2.png",
     cod_torneio: 1
   },
   {
@@ -61,7 +61,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de futebol de campo",
     tempojogemminutos_modalidade: 90,
     localdojogo_modalidade: "Campo",
-    foto_modalidade: "/images/imagem-modalidades/futebol.png",
+    foto_modalidade: "/images/imagem-modalidades/futebol-v2.png",
     cod_torneio: 2
   },
   {
@@ -70,7 +70,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de handebol",
     tempojogemminutos_modalidade: 50,
     localdojogo_modalidade: "Quadra A",
-    foto_modalidade: "/images/imagem-modalidades/handebol.svg",
+    foto_modalidade: "/images/imagem-modalidades/handebol-v2.png",
     cod_torneio: 2
   },
   {
@@ -79,7 +79,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de tênis de mesa",
     tempojogemminutos_modalidade: 30,
     localdojogo_modalidade: "Ginásio",
-    foto_modalidade: "/images/imagem-modalidades/tenis-mesa.svg",
+    foto_modalidade: "/images/imagem-modalidades/tenis-mesa-v2.png",
     cod_torneio: 2
   },
   {
@@ -88,7 +88,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de atletismo",
     tempojogemminutos_modalidade: 45,
     localdojogo_modalidade: "Pista",
-    foto_modalidade: "/images/imagem-modalidades/atletismo.svg",
+    foto_modalidade: "/images/imagem-modalidades/atletismo-v2.png",
     cod_torneio: 2
   },
   {
@@ -97,7 +97,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de EA FC",
     tempojogemminutos_modalidade: 25,
     localdojogo_modalidade: "Sala E-Sports",
-    foto_modalidade: "/images/imagem-modalidades/eafc.png",
+    foto_modalidade: "/images/imagem-modalidades/eafc-v2.png",
     cod_torneio: 2
   },
   {
@@ -106,7 +106,7 @@ export const modalidades = reactive([
     desc_modalidade: "Competição de queimada",
     tempojogemminutos_modalidade: 40,
     localdojogo_modalidade: "Quadra B",
-    foto_modalidade: "/images/imagem-modalidades/queimada.svg",
+    foto_modalidade: "/images/imagem-modalidades/queimada-v2.png",
     cod_torneio: 2
   }
 ])

@@ -3,7 +3,7 @@ import { participa } from '@/data/participa'
 
 function pegarParticipantes(codJogo) {
   return participa
-    .filter((participante) => participante.cod_jogo === codJogo)
+    .filter((participante) => Number(participante.cod_jogo) === Number(codJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 }
 

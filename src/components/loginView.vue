@@ -48,34 +48,22 @@ if (sessao) {
   text-decoration: underline;
 }
 .container {
-  background: url('../assets/loginBackground.png');
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
+    url('../assets/loginBackground.png') center / cover no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 1rem;
   color: white;
   display: grid;
   place-items: center;
   font-family: 'Krona One', sans-serif;
-}
-
-@media (min-width: 1200px) {
-  .container {
-    background: none;
-    background-size: 0;
-  }
-
-  .container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
+  overflow-y: auto;
 }
 
 .loginContainer {
@@ -86,10 +74,17 @@ if (sessao) {
   border-radius: 12px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
   padding: 3rem 0;
-  max-width: 90%;
+  width: min(92vw, 36rem);
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    background: rgba(0, 0, 0, 0.62);
+  }
 }
 
 .head {

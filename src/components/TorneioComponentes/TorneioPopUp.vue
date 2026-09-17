@@ -4,8 +4,8 @@ import { ref, watch } from 'vue';
 const emit = defineEmits(['fechar', 'adicionar','proximo'])
 const props = defineProps(['dadosIniciais'])
 const nome = ref('');
-const dataInicio = ref('');
-const dataFim = ref('');
+const dataInicio = ref('2026-09-21');
+const dataFim = ref('2026-09-25');
 const status = ref('Planejado')
 
 watch(

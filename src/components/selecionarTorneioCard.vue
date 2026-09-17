@@ -18,7 +18,13 @@ function mandarEmit(){
 </div>
     </div>
 <div class="button">
-  <button @click.prevent="mandarEmit()"><KeyboardArrowRightIcon class="icon"/></button>
+  <button
+    type="button"
+    :aria-label="`Selecionar ${props.torneio.nome_torneio}`"
+    @click.prevent="mandarEmit()"
+  >
+    <KeyboardArrowRightIcon class="icon"/>
+  </button>
 </div>
   </li>
 </template>
@@ -48,9 +54,23 @@ p.ano{
 button{
   border: none;
   background-color: white;
-  padding: 0.25vw 0.3vw;
-  border-radius: 100vw;
+  width: clamp(2.25rem, 3vw, 3rem);
+  height: clamp(2.25rem, 3vw, 3rem);
+  padding: 0;
+  border-radius: 50%;
   cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+button:hover{
+  background-color: #fff3ec;
+  transform: scale(1.06);
+}
+button:focus-visible{
+  outline: 0.2rem solid #E85002;
+  outline-offset: 0.2rem;
 }
 h4{
   color: white;
@@ -59,8 +79,8 @@ p{
   color: #afafaf;;
 }
 .icon {
-  height: 5em;
-  width: fit-content;
+  width: 1.75rem;
+  height: 1.75rem;
   color: #E85002;
 }
 @media (max-width: 750px){

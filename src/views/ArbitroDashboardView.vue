@@ -23,10 +23,14 @@ function formatarData(dataISO) {
 function detalharJogo(jogo) {
   const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
   const participantes = participa
-    .filter((item) => item.cod_jogo === jogo.cod_jogo)
+    .filter((item) => Number(item.cod_jogo) === Number(jogo.cod_jogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
-  const timeA = times.find((item) => item.cod_time === participantes[0]?.cod_time)
-  const timeB = times.find((item) => item.cod_time === participantes[1]?.cod_time)
+  const timeA = times.find(
+    (item) => Number(item.cod_time) === Number(participantes[0]?.cod_time),
+  )
+  const timeB = times.find(
+    (item) => Number(item.cod_time) === Number(participantes[1]?.cod_time),
+  )
   const [data, horario = ''] = jogo.horario_jogo.split(' ')
 
   return {

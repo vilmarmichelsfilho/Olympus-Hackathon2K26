@@ -23,25 +23,26 @@ function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
   const modalidade = modalidades.find((m) => m.cod_modalidade === jogo.cod_modalidade)
   const participantes = participa
-    .filter((p) => p.cod_jogo === jogo.cod_jogo)
+    .filter((p) => Number(p.cod_jogo) === Number(jogo.cod_jogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const [pA, pB] = participantes
-  const timeA = times.find((t) => t.cod_time === pA?.cod_time)
-  const timeB = times.find((t) => t.cod_time === pB?.cod_time)
+  const timeA = times.find((t) => Number(t.cod_time) === Number(pA?.cod_time))
+  const timeB = times.find((t) => Number(t.cod_time) === Number(pB?.cod_time))
 
   return {
-    cod_jogo: jogo.cod_jogo,
+    codJogo: jogo.cod_jogo,
+    confrontoDefinido: Boolean(timeA && timeB),
     dataFormatada: formatarDataBR(data),
     dataHoraISO: `${data}T${horario.slice(0, 5)}`,
-    horario: horario.slice(0, 5),
+    hora: horario.slice(0, 5),
     modalidade: modalidade?.nome_modalidade ?? 'Modalidade',
     local: modalidade?.localdojogo_modalidade ?? 'Local a definir',
     status: jogo.status_jogo,
     temPlacar: pA?.pontuacao_time != null && pB?.pontuacao_time != null,
-    time1: timeA?.nome_time ?? 'A definir',
-    time2: timeB?.nome_time ?? 'A definir',
-    pontuacao1: pA?.pontuacao_time,
-    pontuacao2: pB?.pontuacao_time,
+    timeA: timeA?.nome_time ?? 'A definir',
+    timeB: timeB?.nome_time ?? 'A definir',
+    pontuacaoA: pA?.pontuacao_time,
+    pontuacaoB: pB?.pontuacao_time,
   }
 }
 
@@ -64,13 +65,13 @@ function rotuloStatus(status) {
       <img src="@/assets/coroa.png" alt="" class="coroa" />
     </header>
 
-    <article class="linha-jogo" v-for="jogo in jogosDetalhados" :key="jogo.cod_jogo">
+    <article class="linha-jogo" v-for="jogo in jogosDetalhados" :key="jogo.codJogo">
       <div class="celula-confronto">
         <p class="modalidade">{{ jogo.modalidade }}</p>
         <div class="linha-confronto">
-          <p class="confronto">{{ jogo.time1 }} x {{ jogo.time2 }}</p>
+          <p class="confronto">{{ jogo.timeA }} x {{ jogo.timeB }}</p>
           <strong class="placar">{{
-            jogo.temPlacar ? `${jogo.pontuacao1}x${jogo.pontuacao2}` : '–'
+            jogo.temPlacar ? `${jogo.pontuacaoA}x${jogo.pontuacaoB}` : '–'
           }}</strong>
         </div>
         <p class="local">{{ jogo.local }}</p>
@@ -79,7 +80,7 @@ function rotuloStatus(status) {
       <div class="celula-data">
         <p class="label-data">Data e Horário</p>
         <p class="valor-data">
-          <CalendarIcon width="0.9vw" /> {{ jogo.dataFormatada }} - {{ jogo.horario }}
+          <CalendarIcon width="0.9vw" /> {{ jogo.dataFormatada }} - {{ jogo.hora }}
         </p>
       </div>
 
@@ -88,12 +89,12 @@ function rotuloStatus(status) {
       }}</span>
 
       <div class="acoes-jogo">
-        <button class="btn-editar" type="button" @click="emit('editar', jogo.cod_jogo)">
+        <button class="btn-editar" type="button" @click="emit('editar', jogo.codJogo)">
           <PencilOutlineIcon />
           Editar
         </button>
         <button
-          v-if="jogo.status === 'AoVivo'"
+          v-if="jogo.status === 'AoVivo' && jogo.confrontoDefinido"
           class="btn-placar"
           type="button"
           @click="emit('placar', jogo)"

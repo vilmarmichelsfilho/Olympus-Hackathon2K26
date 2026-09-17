@@ -2,7 +2,7 @@
 import { onBeforeUnmount, ref } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
-import { salvarTorneio } from '@/Utils/adicionarUtils.js';
+import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtils.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
@@ -30,6 +30,7 @@ function aoAdicionarTorneio(dados) {
     }
   } else {
     torneio.value = salvarTorneio(dados);
+    adicionarDadosApresentacao(torneio.value)
   }
   etapa.value=etapa.value+20;
 }
