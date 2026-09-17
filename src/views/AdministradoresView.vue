@@ -1,6 +1,7 @@
 <script setup>
 import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue'
 import HamburgerMenuIcon from '@iconify-vue/mdi/hamburger-menu'
+import UserIcon from '@iconify-vue/mdi/user'
 import DashboardModalidades from '@/components/DashboardModalidades.vue'
 import AdicionarTime from '@/components/AdicionarTime.vue'
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue'
@@ -21,6 +22,7 @@ function mudarTela(valor) {
   let tela = '/administradores#' + valor
   router.replace(tela)
   telaAtual.value = valor
+  menuAberto.value = false
 }
 const menuAberto = ref(false)
 function toggleMenu() {
@@ -30,8 +32,34 @@ const time = ref(false)
 </script>
 
 <template>
-  <div class="display">
-    <button class="btn-hamburger" @click="toggleMenu">
+  <div class="display" :class="{ 'display-torneio': telaAtual === 'torneio' }">
+    <header v-if="telaAtual === 'torneio'" class="cabecalho-torneio">
+      <div class="admin-mobile">
+        <UserIcon class="avatar-mobile" aria-hidden="true" />
+        <div>
+          <strong>Admin</strong>
+          <p>Painel de Controle</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="menu-torneio"
+        :aria-expanded="menuAberto"
+        aria-controls="navegacao-admin"
+        :aria-label="menuAberto ? 'Fechar menu' : 'Abrir menu'"
+        @click="toggleMenu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+    <button
+      v-if="telaAtual === 'torneio' && menuAberto"
+      type="button"
+      class="fundo-menu"
+      aria-label="Fechar menu"
+      @click="menuAberto = false"
+    ></button>
+    <button v-if="telaAtual !== 'torneio'" class="btn-hamburger" @click="toggleMenu">
       <HamburgerMenuIcon
         width="10vw"
         style="
@@ -48,6 +76,7 @@ const time = ref(false)
 
     <NavegacaoAdministradores
       @tela="mudarTela"
+      id="navegacao-admin"
       class="nav-lateral"
       :class="{ 'nav-aberto': menuAberto }"
     >
@@ -148,6 +177,125 @@ const time = ref(false)
 @media (max-width: 750px) {
   .display {
     background-color: white;
+  }
+}
+.cabecalho-torneio,
+.fundo-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .display-torneio {
+    flex-direction: column;
+    background: #f8f9fa;
+  }
+  .display-torneio .torneios {
+    width: 100%;
+    min-width: 0;
+  }
+  .cabecalho-torneio {
+    position: relative;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 90px;
+    padding: 20px 17px 18px 32px;
+    border-bottom: 2px solid #e1e2e3;
+    background: #f8f9fa;
+  }
+  .admin-mobile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #080808;
+    line-height: 1.2;
+  }
+  .admin-mobile strong {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .admin-mobile p {
+    color: #b3b3b3;
+    font-size: 16px;
+  }
+  .avatar-mobile {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 50%;
+    background: #bebebe;
+    color: white;
+  }
+  .menu-torneio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 50px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .menu-torneio span {
+    width: 100%;
+    height: 5px;
+    border-radius: 4px;
+    background: #d8d8d8;
+  }
+  .fundo-menu {
+    position: fixed;
+    inset: 90px 0 0;
+    z-index: 98;
+    display: block;
+    border: 0;
+    background: rgb(0 0 0 / 30%);
+  }
+  .display-torneio .nav-lateral {
+    top: 90px;
+    width: min(300px, 85vw);
+    min-width: 0;
+    max-width: none;
+    min-height: 0;
+    height: calc(100dvh - 90px);
+    padding: 24px;
+    gap: 24px;
+    overflow-y: auto;
+    visibility: hidden;
+  }
+  .display-torneio .nav-aberto {
+    visibility: visible;
+  }
+  .display-torneio .nav-lateral :deep(.usuario) {
+    display: none;
+  }
+  .display-torneio .nav-lateral :deep(.pesquisar) {
+    padding: 8px;
+  }
+  .display-torneio .nav-lateral :deep(input) {
+    width: 100%;
+    min-width: 0;
+  }
+  .display-torneio .nav-lateral :deep(svg) {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+  .display-torneio .nav-lateral :deep(.logo) {
+    gap: 8px;
+    font-size: 14px;
+  }
+  .display-torneio .nav-lateral :deep(ul) {
+    padding: 0;
+    gap: 8px;
+  }
+  .display-torneio .nav-lateral :deep(li) {
+    padding: 8px;
+    font-size: 14px;
   }
 }
 </style>
