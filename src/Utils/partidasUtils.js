@@ -26,6 +26,29 @@ function passarVencedor(codJogo, codTimeVencedor) {
   })
 }
 
+function salvarPlacar(codJogo, pontuacaoA, pontuacaoB) {
+  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
+  const participantes = pegarParticipantes(codJogo)
+
+  if (!jogo || participantes.length < 2) {
+    return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
+  }
+  if (participantes.some((participante) => participante.cod_time == null)) {
+    return { sucesso: false, mensagem: 'Os dois times precisam estar definidos.' }
+  }
+
+  const placarA = Number(pontuacaoA)
+  const placarB = Number(pontuacaoB)
+  if (!Number.isFinite(placarA) || !Number.isFinite(placarB) || placarA < 0 || placarB < 0) {
+    return { sucesso: false, mensagem: 'Informe um placar válido.' }
+  }
+
+  participantes[0].pontuacao_time = placarA
+  participantes[1].pontuacao_time = placarB
+
+  return { sucesso: true, placarA, placarB, participantes }
+}
+
 function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   const jogo = jogos.find((item) => item.cod_jogo === codJogo)
   const participantes = pegarParticipantes(codJogo)
@@ -58,4 +81,4 @@ function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   return { sucesso: true, codTimeVencedor: vencedor.cod_time }
 }
 
-export { finalizarJogo }
+export { finalizarJogo, salvarPlacar }

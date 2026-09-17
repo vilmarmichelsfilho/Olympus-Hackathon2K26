@@ -1,7 +1,7 @@
 <script setup>
 defineProps(['jogo'])
 
-defineEmits(['alterarPlacar', 'editarJogo'])
+defineEmits(['alterarPlacar'])
 
 function classeStatus(status) {
   if (status === 'AoVivo') return 'ao-vivo'
@@ -26,27 +26,17 @@ function rotuloStatus(status) {
       <span class="status" :class="classeStatus(jogo.status)">
         {{ rotuloStatus(jogo.status) }}
       </span>
-      <strong v-if="jogo.temPlacar">{{ jogo.pontuacaoA }} x {{ jogo.pontuacaoB }}</strong>
+      <strong v-if="jogo.temPlacar">Placar: {{ jogo.pontuacaoA }} × {{ jogo.pontuacaoB }}</strong>
       <strong v-else>–</strong>
       <time :datetime="jogo.dataHoraISO">{{ jogo.dataFormatada }} - {{ jogo.hora }}</time>
     </div>
 
     <button
-      v-if="jogo.status === 'Agendado'"
-      class="editar-jogo"
-      type="button"
-      @click="$emit('editarJogo', jogo.codJogo)"
-    >
-      Editar jogo <span aria-hidden="true">››</span>
-    </button>
-
-    <button
-      v-if="jogo.status === 'AoVivo' && jogo.confrontoDefinido"
-      class="alterar-placar"
+      v-if="jogo.confrontoDefinido"
       type="button"
       @click="$emit('alterarPlacar', jogo.codJogo)"
     >
-      Alterar placar <span aria-hidden="true">››</span>
+      Editar placar <span aria-hidden="true">››</span>
     </button>
   </li>
 </template>
@@ -136,16 +126,12 @@ function rotuloStatus(status) {
   padding: 0.45vw 0.9vw;
   border: 0;
   border-radius: 0.7vw 0 0 0;
-  background: #e85002;
+  background: #ff6467;
   color: #fff;
   cursor: pointer;
   font: inherit;
   font-size: 0.76vw;
   font-weight: 650;
-}
-
-.jogo-card button.alterar-placar {
-  background: #ff6467;
 }
 
 .jogo-card button span {

@@ -6,7 +6,7 @@ import { times } from '@/data/times';
 import { participa } from '@/data/participa';
 
 const emit = defineEmits(['fecharEditarJogo', 'atualizar']);
-const props = defineProps(['jogo', 'modoArbitro']);
+const props = defineProps(['jogo']);
 
 const codModalidade = ref('');
 const data = ref('');
@@ -56,10 +56,6 @@ function checarDados() {
   if (codModalidade.value !== '') {
     if (data.value !== '') {
       if (hora.value !== '') {
-          if (props.modoArbitro && status.value === 'AoVivo' && (!time1.value || !time2.value)) {
-            alert('Os times precisam estar definidos antes de iniciar o jogo')
-            return
-          }
           if (!time1.value || !time2.value || time1.value !== time2.value) {
             emit('atualizar', {
               cod_jogo: props.jogo.cod_jogo,
@@ -94,10 +90,10 @@ function fechar() {
     <div class="dialog">
       <div class="titulos">
         <h2>Editar jogo</h2>
-        <p>{{ modoArbitro ? 'Ajuste o horário ou inicie a partida' : 'Controle dos jogos' }}</p>
+        <p>Controle dos jogos</p>
  </div>
       <div class="inputs">
-        <div v-if="!modoArbitro" class="nome">
+        <div class="nome">
           <h3>Modalidade</h3>
           <select class="inputAnim" v-model="codModalidade">
             <option v-for="m in modalidadesDoTorneio" :key="m.cod_modalidade" :value="m.cod_modalidade">
@@ -106,7 +102,7 @@ function fechar() {
           </select>
         </div>
 
-        <div v-if="!modoArbitro" class="data">
+        <div class="data">
           <div class="datainicio">
             <h3>Time 01</h3>
             <select class="inputAnim" v-model="time1">
@@ -143,7 +139,7 @@ function fechar() {
           <select v-model="status">
             <option value="Agendado">AGENDADO</option>
             <option value="AoVivo">AO VIVO</option>
-            <option v-if="!modoArbitro" value="Finalizado">FINALIZADO</option>
+            <option value="Finalizado">FINALIZADO</option>
           </select>
         </div>
       </div>
