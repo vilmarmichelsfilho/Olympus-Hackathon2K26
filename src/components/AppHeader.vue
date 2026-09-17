@@ -1,20 +1,14 @@
 <script setup>
+import { jogosVerificados } from '@/data/jogosverificados';
 import { RouterLink } from 'vue-router';
-import { computed } from 'vue';
-import { jogos } from '@/data/jogos.js';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
-import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
-
 const emit = defineEmits(['loginPop'])
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
 }
-const jogosVerificados = computed(() =>
-  jogos.filter(jogo => jogo.status === 'AoVivo')
-)
 </script>
 
 <template>
@@ -38,11 +32,6 @@ const jogosVerificados = computed(() =>
         </RouterLink>
       </div>
 
-      <div class="busca">
-        <input type="text" placeholder="Search in site" class="input-busca" />
-        <SearchIcon class="icone-busca" />
-      </div>
-
       <nav class="nav-links">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/times">Times</RouterLink>
@@ -61,9 +50,9 @@ const jogosVerificados = computed(() =>
 
     <div class="placares">
       <ul>
-        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id"
+        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.cod_jogo"
           :data="jogo.data"
-          :horario="jogo.horario"
+          :horario="jogo.horario_jogo"
           :modalidade="jogo.modalidade"
           :time1="jogo.time1"
           :time2="jogo.time2"
@@ -84,6 +73,7 @@ const jogosVerificados = computed(() =>
 .olympus-screen {
   position: relative;
   min-height: 100vh;
+  max-height: fit-content;
   background-image: url("@/assets/fundo.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -213,35 +203,6 @@ const jogosVerificados = computed(() =>
   .logo-desktop {
     width: 15rem;
     height: auto;
-  }
-
-  .busca {
-    flex: 1;
-    max-width: 30rem;
-    display: flex;
-    align-items: center;
-    border: 1px solid rgba(255, 0, 0, 0.6);
-    border-radius: 0.5rem;
-    padding: 0.4rem 1rem;
-  }
-
-  .input-busca {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .input-busca::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .icone-busca {
-    color: #fff;
-    height: 1.2rem;
-    flex-shrink: 0;
   }
 
   .nav-links {

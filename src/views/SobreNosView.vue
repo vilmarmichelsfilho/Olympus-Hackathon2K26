@@ -46,7 +46,7 @@ main {
   justify-content: center;
   width: 100%;
   margin: 15vw 0;
-  
+
 }
 section.sobrenos {
   position: relative;
@@ -81,6 +81,8 @@ p.maisescuro {
 }
 ul {
   margin: 1vw 2vw;
+  list-style: none;
+  padding: 0;
 }
 @media (min-width: 1200px) {
   section.sobrenos {

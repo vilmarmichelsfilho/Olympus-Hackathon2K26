@@ -3,8 +3,8 @@ import EditIcon from '@iconify-vue/mdi/edit';
 import DeleteIcon from '@iconify-vue/mdi/delete';
 import { computed } from 'vue';
 defineEmits(['editar-Modalidade', 'excluir-Modalidade'])
-const props = defineProps(['id', 'imagem', 'nome', 'desc', 'tempo'])
-let limite = 15;
+const props = defineProps(['id', 'imagem', 'nome', 'desc', 'tempo', 'local']);
+let limite = 10;
 let descricaoExibida = computed(() => {
   if (props.desc.length > limite) {
     return props.desc.substring(0, limite) + '...';
@@ -17,14 +17,26 @@ let descricaoExibida = computed(() => {
   <tr>
     <td>{{ nome }}</td>
     <td>{{ descricaoExibida }}</td>
+    <td>{{ local }}</td>
     <td><img :src="imagem" :alt="nome"></td>
-    <td>{{ tempo }}
- <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon height="1.5em"></EditIcon></button>
- <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon height="1.5em" style="color: red;"/></button>
+    <td>{{ tempo }}m
+ <button class="edit" @click="$emit('editar-Modalidade', id)"><EditIcon class="edit-icon"/></button>
+ <button @click="$emit('excluir-Modalidade', id)"><DeleteIcon class="delete"/></button>
     </td>
   </tr>
 </template>
 <style scoped>
+button{
+  cursor: pointer;
+}
+.edit-icon {
+  color: white;
+  height: 4em;
+}
+.delete {
+  color: red;
+  height: 4em;
+}
 tr {
   width: 100%;
   border-bottom: 1px solid #1E293B;
@@ -42,11 +54,11 @@ td {
   text-align: left;
 }
 
-td:nth-child(3) {
+td:nth-child(4) {
   text-align: center;
 }
 
-td:nth-child(4) {
+td:nth-child(5) {
   text-align: right;
 }
 
@@ -61,8 +73,6 @@ td button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5vw;
-  margin-left: 0.75vw;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -74,12 +84,19 @@ td button:hover {
   opacity: 0.7;
 }
 @media (max-width: 750px){
+  .edit-icon{
+    height: 1.5em;
+    color: black;
+  }
+  .delete{
+    height: 1em;
+  }
   tr{
     border-bottom: 1px solid #b5b2b2;
   }
   td{
     color: black;
-    font-size: 3.6vw;
+    font-size: 3vw;
     font-weight: bold;
     align-items: center;
   }
@@ -87,9 +104,7 @@ td button:hover {
     width: 10vw;
     height: 10vw;
   }
-  .edit{
-    color: black;
-  }
+
 }
 </style>
 

@@ -1,12 +1,12 @@
 <script setup>
 import { definirposicao } from '@/Utils/timesUtils';
- const props = defineProps(['id', 'pontuacao', 'cor'])
+ const props = defineProps(['id', 'pontuacao', 'nome'])
 const posicao = definirposicao(props.id)
 </script>
 <template>
   <tr>
           <td>{{ posicao }}</td>
-          <td>{{ props.cor }}</td>
+          <td>{{ props.nome }}</td>
           <td>{{ props.pontuacao }}</td>
   </tr>
 </template>

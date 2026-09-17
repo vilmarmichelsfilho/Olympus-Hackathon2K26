@@ -1,60 +1,112 @@
-import { reactive } from "vue";
-const modalidades = reactive([
+import { reactive } from 'vue'
+
+export const modalidades = reactive([
   {
-    id: 1,
-    nome: 'Voleibol',
-    image: '/images/imagem-modalidades/volei.png',
-    desc: 'Voleibol é um esporte coletivo em que duas equipes de seis jogadores se enfrentam em uma quadra dividida por uma rede.',
-    tempo: '60m'
+    cod_modalidade: 1,
+    nome_modalidade: "Futsal",
+    desc_modalidade: "Competição de futsal",
+    tempojogemminutos_modalidade: 40,
+    localdojogo_modalidade: "Quadra B",
+    foto_modalidade: "/images/imagem-modalidades/futsal-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 2,
-    nome: 'Futsal',
-    image: '/images/imagem-modalidades/futsal.png',
-    desc: 'Futsal é um esporte coletivo em que duas equipes de 5 jogadores se enfrentam e vence quem marcar o maior número de gols',
-    tempo: '40m'
+    cod_modalidade: 2,
+    nome_modalidade: "Voleibol",
+    desc_modalidade: "Competição de voleibol",
+    tempojogemminutos_modalidade: 60,
+    localdojogo_modalidade: "Quadra A",
+    foto_modalidade: "/images/imagem-modalidades/volei-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 3,
-    nome: 'Valorant',
-    image: '/images/imagem-modalidades/valorant.png',
-    desc: 'Valorant é um jogo de tiro tático em primeira pessoa onde duas equipes de cinco jogadores duelam atacando ou defendendo bombas usando armas de fogo e personagens com habilidades únicas.',
-    tempo: '10m'
+    cod_modalidade: 3,
+    nome_modalidade: "Basquete",
+    desc_modalidade: "Competição de basquete",
+    tempojogemminutos_modalidade: 50,
+    localdojogo_modalidade: "Quadra C",
+    foto_modalidade: "/images/imagem-modalidades/basquete-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 4,
-    nome: 'Basquete',
-    image: '/images/imagem-modalidades/basquete.png',
-    desc:  'Basquete é um esporte coletivo em que duas equipes de 5 jogadores se enfrentam e vence quem fazer o maior número de cestas',
-    tempo: '40m',
+    cod_modalidade: 4,
+    nome_modalidade: "Valorant",
+    desc_modalidade: "Competição de Valorant",
+    tempojogemminutos_modalidade: 60,
+    localdojogo_modalidade: "Sala E-Sports",
+    foto_modalidade: "/images/imagem-modalidades/valorant-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 5,
-    nome: 'Brawl Stars',
-    image: '/images/imagem-modalidades/brawlstars.png',
-    desc: 'Brawl Stars é um jogo mobile de ação em arenas multijogador onde equipes duelam em partidas rápidas usando personagens únicos com poderes especiais em vários modos de jogo competitivos.',
-    tempo: '3m',
+    cod_modalidade: 5,
+    nome_modalidade: "Xadrez",
+    desc_modalidade: "Competição de xadrez",
+    tempojogemminutos_modalidade: 30,
+    localdojogo_modalidade: "Biblioteca",
+    foto_modalidade: "/images/imagem-modalidades/xadrez-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 6,
-    nome: 'Xadrez',
-    image: '/images/imagem-modalidades/xadrez.png',
-    desc: 'Xadrez é um jogo de tabuleiro estratégico e milenar onde dois jogadores movem dezesseis peças com características únicas em turnos, com o objetivo final de encurralar o rei adversário em xeque-mate.',
-    tempo: '30m'
+    cod_modalidade: 6,
+    nome_modalidade: "Brawl Stars",
+    desc_modalidade: "Competição de Brawl Stars",
+    tempojogemminutos_modalidade: 30,
+    localdojogo_modalidade: "Sala Mobile",
+    foto_modalidade: "/images/imagem-modalidades/brawlstars-v2.png",
+    cod_torneio: 1
   },
   {
-    id: 7,
-    nome: 'FIFA',
-    image: '/images/imagem-modalidades/eafc.png',
-    desc: 'EA Sports FC (antigo FIFA) é o principal simulador de futebol virtual do mundo, onde os jogadores controlam times e atletas reais em partidas ultra-realistas e gerenciam seus próprios clubes no modo Ultimate Team.',
-    tempo: '10m'
+    cod_modalidade: 7,
+    nome_modalidade: "Futebol de Campo",
+    desc_modalidade: "Competição de futebol de campo",
+    tempojogemminutos_modalidade: 90,
+    localdojogo_modalidade: "Campo",
+    foto_modalidade: "/images/imagem-modalidades/futebol-v2.png",
+    cod_torneio: 2
   },
   {
-    id: 8,
-    nome: 'Futebol',
-    image: '/images/imagem-modalidades/futebol.png',
-    desc: 'O futebol é o esporte mais popular do mundo, disputado por duas equipes de onze jogadores que usam os pés e a cabeça para conduzir e chutar a bola para dentro do gol adversário.',
-    tempo: '90m'
+    cod_modalidade: 8,
+    nome_modalidade: "Handebol",
+    desc_modalidade: "Competição de handebol",
+    tempojogemminutos_modalidade: 50,
+    localdojogo_modalidade: "Quadra A",
+    foto_modalidade: "/images/imagem-modalidades/handebol-v2.png",
+    cod_torneio: 2
+  },
+  {
+    cod_modalidade: 9,
+    nome_modalidade: "Tênis de Mesa",
+    desc_modalidade: "Competição de tênis de mesa",
+    tempojogemminutos_modalidade: 30,
+    localdojogo_modalidade: "Ginásio",
+    foto_modalidade: "/images/imagem-modalidades/tenis-mesa-v2.png",
+    cod_torneio: 2
+  },
+  {
+    cod_modalidade: 10,
+    nome_modalidade: "Atletismo",
+    desc_modalidade: "Competição de atletismo",
+    tempojogemminutos_modalidade: 45,
+    localdojogo_modalidade: "Pista",
+    foto_modalidade: "/images/imagem-modalidades/atletismo-v2.png",
+    cod_torneio: 2
+  },
+  {
+    cod_modalidade: 11,
+    nome_modalidade: "EA FC",
+    desc_modalidade: "Competição de EA FC",
+    tempojogemminutos_modalidade: 25,
+    localdojogo_modalidade: "Sala E-Sports",
+    foto_modalidade: "/images/imagem-modalidades/eafc-v2.png",
+    cod_torneio: 2
+  },
+  {
+    cod_modalidade: 12,
+    nome_modalidade: "Queimada",
+    desc_modalidade: "Competição de queimada",
+    tempojogemminutos_modalidade: 40,
+    localdojogo_modalidade: "Quadra B",
+    foto_modalidade: "/images/imagem-modalidades/queimada-v2.png",
+    cod_torneio: 2
   }
 ])
-export { modalidades }

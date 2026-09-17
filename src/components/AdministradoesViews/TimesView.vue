@@ -1,107 +1,160 @@
 <script setup>
-import { times } from '@/data/times';
-import timesCard from '../timesCard.vue';
-import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
-import { ref } from 'vue';
-
-const add = ref(false)
-
+import timesCard from '@/components/timesCard.vue'
+import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js'
 </script>
 
 <template>
-    <div class="container">
-        <div class="texto">
-            <h2>Times Olimpiadas</h2>
-            <p>Informações de time, turma, jogos e pontos</p>
-        </div>
-        <div class="times">
-            <div class="cima">
-                <p>a</p>
-                <img src="/public/images/coroa.png" alt="" style="width: 3vw;">
-                <button v-on:click.prevent="add=true">Adicionar</button>
-            </div>
-            <div class="desc">
-                <ul>
-                    <li>Time</li>
-                    <li>Turma</li>
-                    <li>V/E/D</li>
-                    <li>PTS</li>
-                    <li><span>f</span></li>
-                </ul>
-            </div>
-            <ul>
-                <timesCard v-for="time in times" :key="time.id" :nome="time.nome" :vitorias="time.vitorias" :empates="time.empates" :derrotas="time.derrotas" :pontuacao="time.pontuacao_geral" :turma1="time.time1" :turma2="time.time2" :turma3="time.time3" :id="time.id"></timesCard>
-            </ul>
-        </div>
+  <section class="dashboard-times">
+    <header class="cabecalho-pagina">
+      <h2>Times</h2>
+      <p>Informações dos times, turmas e pontos</p>
+    </header>
+
+    <div class="painel">
+      <div class="acoes-painel">
+        <img src="/images/coroa.png" alt="" />
+      </div>
+
+      <div class="tabela-times">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Turmas</th>
+              <th>PTS</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <timesCard
+              v-for="time in timesFiltradosAdm"
+              :key="time.cod_time"
+              :id="time.cod_time"
+            />
+          </tbody>
+        </table>
+
+        <p v-if="!timesFiltradosAdm.length" class="estado-vazio">
+          Nenhum time cadastrado neste torneio.
+        </p>
+      </div>
     </div>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="''" :um1="''" :dois1="''" :tres1="''" :vitorias1="0" :empates1="0" :derrotas1="0" :tipo="'adicionar'"></AdicionarOuEditarTime>
+
+  </section>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-
-button {
-    font-size: 1vw;
+.dashboard-times {
+  width: 100%;
+  min-width: 0;
+  padding: 2vw 3vw;
+  color: white;
+  font-family: sans-serif;
 }
 
-.cima button {
-    background: none;
-    padding: 0.3vw 1vw;
-    border: solid white 0.15vw;
-    font-size: 0.75vw;
-    border-radius: 3vw;
-    transition: 0.3s;
-}
-.cima button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0.5vw 0.1vw white;
+.cabecalho-pagina h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+  font-weight: 700;
 }
 
-.cima {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 1vw;
-    margin: 1vw 2vw 0 2vw;
-}
-.cima p {
-    opacity: 0;
+.cabecalho-pagina p {
+  margin: 0.2rem 0 0;
+  color: #8a99ad;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
 }
 
-.desc span {
-    opacity: 0;
+.painel {
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 2vw;
+  padding: clamp(1rem, 1.6vw, 1.5rem);
+  border-radius: 12px;
+  background: #0b1739;
 }
 
-.desc {
-    border-bottom: solid 0.2vw #E85002;
+.acoes-painel {
+  position: relative;
+  display: flex;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
-.desc ul {
-    font-size: 1.1vw;
-    margin: 0 1vw;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.acoes-painel img {
+  width: clamp(2rem, 2.5vw, 2.75rem);
 }
 
-.times {
-    background: #0B1739;
-    border-radius: 1vw;
-    width: 70vw;
+.tabela-times {
+  width: 100%;
+  overflow-x: auto;
 }
 
-.container {
-    margin: 2vw 3vw;
-    display: flex;
-    flex-direction: column;
-    gap: 2vw;
+table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-    color: white;
+thead {
+  border-bottom: 2px solid #e85002;
+}
 
-    font-family: "Krona One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+th {
+  padding: 0.8rem;
+  color: white;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  font-weight: 600;
+  text-align: left;
+}
+
+th:nth-child(1) { width: 28%; }
+th:nth-child(2) { width: 42%; }
+th:nth-child(3) { width: 12%; text-align: center; }
+th:nth-child(4) { width: 18%; text-align: center; }
+
+.estado-vazio {
+  margin: 0;
+  padding: 3rem 1rem;
+  color: #8a99ad;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .dashboard-times {
+    padding: 5rem 4vw 8vw;
+    color: #17171b;
+  }
+
+  .cabecalho-pagina h2 {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .cabecalho-pagina p {
+    font-size: clamp(0.9rem, 3.7vw, 1rem);
+  }
+
+  .painel {
+    margin-top: 6vw;
+    padding: 3vw;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    background: white;
+  }
+
+  .acoes-painel {
+    display: none;
+  }
+
+  th {
+    color: #17171b;
+    font-size: 0.85rem;
+  }
+
+  .estado-vazio {
+    color: #666;
+  }
 }
 </style>

@@ -1,97 +1,148 @@
-import { reactive } from "vue";
+import { reactive } from 'vue'
+export const times = reactive([
+  {
+    cod_time: 1,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Preto",
+    pontuacaogeral_time: 15,
+    escudo_time: "/images/escudos/preto.svg",
+    nome_time: "Preto"
+  },
+  {
+    cod_time: 2,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Roxo",
+    pontuacaogeral_time: 12,
+    escudo_time: "/images/escudos/roxo.svg",
+    nome_time: "Roxo"
+  },
+  {
+    cod_time: 3,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Rosa",
+    pontuacaogeral_time: 10,
+    escudo_time: "/images/escudos/rosa.svg",
+    nome_time: "Rosa"
+  },
+  {
+    cod_time: 4,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Azul",
+    pontuacaogeral_time: 9,
+    escudo_time: "/images/escudos/azul.svg",
+    nome_time: "Azul"
+  },
+  {
+    cod_time: 5,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Verde",
+    pontuacaogeral_time: 8,
+    escudo_time: "/images/escudos/verde.svg",
+    nome_time: "Verde"
+  },
+  {
+    cod_time: 6,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Vermelho",
+    pontuacaogeral_time: 7,
+    escudo_time: "/images/escudos/vermelho.svg",
+    nome_time: "Vermelho"
+  },
+  {
+    cod_time: 7,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Branco",
+    pontuacaogeral_time: 6,
+    escudo_time: "/images/escudos/branco.svg",
+    nome_time: "Branco"
+  },
+  {
+    cod_time: 8,
+    cod_torneio: 1,
+    cod_adm: 1,
+    cor_time: "Amarelo",
+    pontuacaogeral_time: 5,
+    escudo_time: "/images/escudos/amarelo.svg",
+    nome_time: "Amarelo"
+  },
 
-const times = reactive([
-    {
-        id: 1,
-        escudo: 'No image',
-        nome: 'Falcões',
-        cor: 'Preto',
-        time1: 'Raptors',
-        time2: '2info2',
-        time3: 'Warriors',
-        vitorias: 5,
-        empates: 2,
-        derrotas: 1,
-        pontuacao_geral: 17,
-    },
-    {
-        id: 2,
-        escudo: 'No image',
-        nome: 'Dragões',
-        cor: 'Roxo',
-        time1: 'Dragons',
-        time2: 'Wolves',
-        time3: 'Falcons',
-        vitorias: 3,
-        empates: 1,
-        derrotas: 4,
-        pontuacao_geral: 10,
-    },
-    {
-        id: 3,
-        escudo: 'No image',
-        nome: 'Tigres',
-        cor: 'Rosa',
-        time1: 'Lions',
-        time2: 'Bulls',
-        time3: 'Eagles',
-        vitorias: 7,
-        empates: 0,
-        derrotas: 2,
-        pontuacao_geral: 21,
-    },
-    {
-        id: 4,
-        escudo: 'No image',
-        nome: 'Tubarões',
-        cor: 'Azul',
-        time1: 'Sharks',
-        time2: 'Panthers',
-        time3: 'Hawks',
-        vitorias: 4,
-        empates: 3,
-        derrotas: 2,
-        pontuacao_geral: 15,
-    },
-    {
-        id: 5,
-        escudo: 'No image',
-        nome: 'Gigantes',
-        cor: 'Verde',
-        time1: 'Bears',
-        time2: 'Knights',
-        time3: 'Giants',
-        vitorias: 6,
-        empates: 1,
-        derrotas: 3,
-        pontuacao_geral: 19,
-    },
-    {
-        id: 6,
-        escudo: 'No image',
-        nome: 'Tempestade',
-        cor: 'Vermelho',
-        time1: 'Storm',
-        time2: 'Phoenix',
-        time3: 'Blazers',
-        vitorias: 2,
-        empates: 4,
-        derrotas: 3,
-        pontuacao_geral: 10,
-    },
-    {
-        id: 7,
-        escudo: 'No image',
-        nome: 'Reis',
-        cor: 'Branco',
-        time1: 'Wizards',
-        time2: 'Kings',
-        time3: 'Royals',
-        vitorias: 8,
-        empates: 1,
-        derrotas: 0,
-        pontuacao_geral: 25,
-    },
-]);
-
-export { times };
+  {
+    cod_time: 9,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Laranja",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/laranja.svg",
+    nome_time: "Laranja"
+  },
+  {
+    cod_time: 10,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Cinza",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/cinza.svg",
+    nome_time: "Cinza"
+  },
+  {
+    cod_time: 11,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Dourado",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/dourado.svg",
+    nome_time: "Dourado"
+  },
+  {
+    cod_time: 12,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Prata",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/prata.svg",
+    nome_time: "Prata"
+  },
+  {
+    cod_time: 13,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Turquesa",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/turquesa.svg",
+    nome_time: "Turquesa"
+  },
+  {
+    cod_time: 14,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Magenta",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/magenta.svg",
+    nome_time: "Magenta"
+  },
+  {
+    cod_time: 15,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Marrom",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/marrom.svg",
+    nome_time: "Marrom"
+  },
+  {
+    cod_time: 16,
+    cod_torneio: 2,
+    cod_adm: 1,
+    cor_time: "Ciano",
+    pontuacaogeral_time: 0,
+    escudo_time: "/images/escudos/ciano.svg",
+    nome_time: "Ciano"
+  }
+])

@@ -1,33 +1,26 @@
-
- import { jogos } from '@/data/jogos';
-import { computed } from 'vue';
+import { jogosDoTorneio } from './cod_torneioAdmUtils'
+import { conflitosDoTorneio } from './conflitosUtils'
+import { computed } from 'vue'
 const totalJogosHoje = computed(() => {
-  const hoje = new Date().toISOString().split('T')[0]
-  return jogos.filter((jogo) => jogo.data === hoje).length
+  const agora = new Date()
+  const hoje = [
+    agora.getFullYear(),
+    String(agora.getMonth() + 1).padStart(2, '0'),
+    String(agora.getDate()).padStart(2, '0'),
+  ].join('-')
+
+  return jogosDoTorneio.value.filter((jogo) => {
+    const { data } = separarDataHorario(jogo.horario_jogo)
+    return data === hoje
+  }).length
 })
-const conflitos = computed(() => {
-  const encontrados = []
+function separarDataHorario(horario_jogo) {
+  const [data, horario] = horario_jogo.split(' ')
+  return { data, horario }
+}
+const totalConflitos = computed(() => conflitosDoTorneio.value.length)
 
-  jogos.forEach((jogoA, i) => {
-    jogos.forEach((jogoB, j) => {
-      if (i < j) {
-        const mesmaData = jogoA.data === jogoB.data
-        const mesmoLocal = jogoA.local === jogoB.local
-        const mesmoHorario = jogoA.horario === jogoB.horario
-
-        if (mesmaData && mesmoLocal && mesmoHorario) {
-          encontrados.push({ jogoA, jogoB })
-        }
-      }
-    })
-  })
-
-  return encontrados
-})
-
-const totalConflitos = computed(() => conflitos.value.length)
-
- function jogosPorDia(jogos) {
+function jogosPorDia(jogos) {
   const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
   const contagem = {
@@ -41,13 +34,13 @@ const totalConflitos = computed(() => conflitos.value.length)
   }
 
   jogos.forEach((jogo) => {
-    const [ano, mes, dia] = jogo.data.split('-').map(Number)
-    const data = new Date(ano, mes - 1, dia)
-    const nomeDia = dias[data.getDay()]
+    const { data } = separarDataHorario(jogo.horario_jogo)
+    const [ano, mes, dia] = data.split('-').map(Number)
+    const dataObj = new Date(ano, mes - 1, dia)
+    const nomeDia = dias[dataObj.getDay()]
     contagem[nomeDia]++
   })
 
   return contagem
 }
-export{totalJogosHoje, totalConflitos, jogosPorDia}
-
+export { totalJogosHoje, totalConflitos, jogosPorDia }

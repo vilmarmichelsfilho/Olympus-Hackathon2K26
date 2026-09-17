@@ -1,65 +1,159 @@
 <script setup>
-import EditIcon from '@iconify-vue/mdi/edit';
-import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue';
-import { ref } from 'vue';
-const props = defineProps(['nome', 'turma1', 'turma2', 'turma3', 'vitorias', 'empates', 'derrotas', 'pontuacao','variante','id'])
+import { computed, ref } from 'vue'
+import EditIcon from '@iconify-vue/mdi/edit'
+import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue'
+import { times } from '@/data/times'
+import { turmas } from '@/data/turmas'
 
-const add = ref(false)
+const props = defineProps(['id'])
+const editando = ref(false)
+
+const time = computed(() => times.find((item) => item.cod_time === props.id))
+
+const nomesTurmas = computed(() => {
+  const nomes = turmas
+    .filter((turma) => turma.cod_time === props.id)
+    .map((turma) => turma.nome_turma)
+
+  return nomes.length ? nomes.join(', ') : 'Sem turmas vinculadas'
+})
 
 </script>
 
 <template>
-    <li :class="props.variante">
-        <h2>{{ props.nome }}</h2>
-        <ul class="turmas">
-            <div>
-                <p>{{ props.turma1 }}</p>
-                <p>{{ props.turma2 }}</p>
-                <p>{{ props.turma3 }}</p>
-            </div>
-        </ul>
-        <div class="pontuacao">
-            <p>{{ vitorias }}/{{ empates }}/{{ derrotas }}</p>
-        </div>
-        <h3>{{ pontuacao }}</h3>
-        <button class="edit" v-on:click.prevent="add=true"><EditIcon width="1.5vw"></EditIcon></button>
-    </li>
-    <AdicionarOuEditarTime v-if="add" @fechar="add=false" :nome1="props.nome" :um1="props.turma1" :dois1="props.turma2" :tres1="props.turma3" :vitorias1="props.vitorias" :empates1="props.empates" :derrotas1="props.derrotas" :tipo="'editar'" :id="props.id"></AdicionarOuEditarTime>
+  <tr v-if="time">
+    <td>
+      <div class="dados-time">
+        <img
+          v-if="time.escudo_time"
+          :src="time.escudo_time"
+          :alt="`Escudo do time ${time.nome_time}`"
+        />
+        <span v-else class="cor-time" :style="{ background: time.cor_time }"></span>
+        <strong>{{ time.nome_time }}</strong>
+      </div>
+    </td>
+    <td class="turmas-time">{{ nomesTurmas }}</td>
+    <td class="pontos">{{ time.pontuacaogeral_time }}</td>
+    <td class="botoes">
+      <button
+        type="button"
+        title="Editar time"
+        :aria-label="`Editar ${time.nome_time}`"
+        @click="editando = true"
+      >
+        <EditIcon />
+      </button>
+    </td>
+  </tr>
+
+  <Teleport to="body">
+    <AdicionarOuEditarTime
+      v-if="editando && time"
+      tipo="editar"
+      :id="time.cod_time"
+      :nome1="time.nome_time"
+      :cor="time.cor_time"
+      :escudo="time.escudo_time"
+      :pontuacao_geral="time.pontuacaogeral_time"
+      :torneio="time.cod_torneio"
+      @fechar="editando = false"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-h2 {
-    color: #E85002;
+tr {
+  border-bottom: 1px solid #1e293b;
 }
 
-li {
-    margin: 0 1vw;
-    display: grid;
-    grid-template-columns: 16.5vw 17.5vw 17.5vw 13.5vw 2vw;
-    align-items: center;
-    min-height: 36px;
-
-    font-family: "Krona One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 0.8vw;
-
-    padding: 0.6vw 0;
-
-    border-bottom: solid 0.15vw black;
-}
-.turmas div {
-    gap: 0.5vw;
-    display: flex;
-    padding: none;
-    list-style: none;
-    align-items: center;
+tr:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 
-button {
-    background: none;
-    border: none;
+td {
+  padding: 0.8rem;
+  color: white;
+  font-size: clamp(0.82rem, 0.95vw, 1rem);
+  vertical-align: middle;
 }
 
+.dados-time {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.dados-time img,
+.cor-time {
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: 0 0 auto;
+  object-fit: cover;
+}
+
+.dados-time img {
+  border-radius: 0;
+}
+
+.cor-time {
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.turmas-time {
+  color: #aeb9d0;
+  line-height: 1.5;
+}
+
+.pontos,
+.botoes {
+  text-align: center;
+}
+
+.pontos {
+  font-weight: 700;
+}
+
+.botoes button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin: 0 0.15rem;
+  border: 0;
+  background: transparent;
+  color: white;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.botoes button:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  tr {
+    border-bottom-color: #ddd;
+  }
+
+  tr:hover {
+    background: #fafafa;
+  }
+
+  td {
+    color: #17171b;
+    font-size: 0.85rem;
+  }
+
+  .turmas-time {
+    color: #666;
+  }
+
+  .botoes button {
+    color: #17171b;
+  }
+
+}
 </style>

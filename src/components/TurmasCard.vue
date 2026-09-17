@@ -1,40 +1,28 @@
 <script setup>
-import Confirm from './Confirm.vue';
-import EditOutlineIcon from '@iconify-vue/mdi/edit-outline';
-import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline';
-import { ref } from 'vue';
-const props = defineProps(['nome','id']);
-const emit = defineEmits(['editar'])
-import { excluir } from '@/Utils/turmasUtils';
-
-const edit = ref(false);
+const props = defineProps(['tecnico','ano','serie','id']);
 </script>
 
 <template>
-<li>
-    <h3>{{ props.nome }}</h3>
-    <div class="botoes">
-        <button class="editar" v-on:click.prevent="emit('editar')"><EditOutlineIcon height="2vw"></EditOutlineIcon>Editar</button>
-        <button class="excluir" v-on:click.prevent="edit=true"><TrashCanOutlineIcon height="2vw"></TrashCanOutlineIcon>Excluir</button>
-    </div>
-    <Confirm v-show="edit" @cancelar="edit=false" @excluir="excluir(props.id)"></Confirm>
-</li>
+<tr>
+
+    <td>Tec: {{ props.tecnico }}</td>
+    <td>Ano: {{ props.ano }}</td>
+    <td>Série: {{ props.serie }}</td>
+  </tr>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
-h3 {
-    color: black;
+td {
+    color: white;
     font-family: "Krona One", sans-serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 1.4vw;
 }
-li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: solid 0.2vw #0000000e;
+tr {
     padding: 1vw 1vw;
+    border-bottom: 1px solid #1E293B;
 }
 .botoes {
     display: flex;
@@ -49,6 +37,7 @@ button {
     border: none;
     transition: 0.3s;
     border-radius: 0.5vw;
+    cursor: pointer;
 }
 .editar {
     color: black;
@@ -63,5 +52,14 @@ button {
 }
 .excluir:hover {
     background: #ffcac7;
+}
+@media (max-width: 768px) {
+    td {
+        color: black;
+        font-size: 2vw;
+    }
+    button {
+        padding: 0.5vw 2vw;
+    }
 }
 </style>

@@ -2,39 +2,72 @@
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
+import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
+const props = defineProps(['torneio', 'gerarJogos']);
 const nome = ref('');
 const desc = ref('');
 const tempo = ref('');
+const local = ref('');
 let imagem = ref(null);
-
+const codTorneio = ref(codTorneioSelecionadoAdm)
+if (props.torneio != undefined){
+  codTorneio.value = props.torneio
+}
 function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
-      if (imagem.value !== null) {
-        adicionarModalidade(nome.value, desc.value, imagem.value, tempo.value);
-        emit('fecharAdicionarModalidade');
-        nome.value = '';
-        desc.value = '';
-        imagem.value = null;
-        tempo.value = '';
+      if(tempo.value !== '') {
+        if(local.value !== '') {
+          if (imagem.value !== null) {
+            const novaModalidade = adicionarModalidade(
+              nome.value,
+              desc.value,
+              imagem.value,
+              Number(tempo.value),
+              local.value,
+              Number(codTorneio.value),
+            );
+
+            if (props.gerarJogos) {
+              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
+              if (!resultado.valido) {
+                apagarModalidade(novaModalidade.cod_modalidade);
+                alert(resultado.mensagem);
+                return;
+              }
+            }
+
+            emit('fecharAdicionarModalidade');
+            nome.value = '';
+            desc.value = '';
+            imagem.value = null;
+            tempo.value = '';
+            local.value = '';
+          } else {
+            alert('Adicione uma imagem à modalidade')
+          }
+        } else {
+          alert('Preencha o local da modalidade')
+        }
       } else {
-        alert('Adicione uma imagem à modalidade')
+        alert('Preencha o tempo da modalidade')
       }
     } else {
-      alert('Preencha a descrição da modalidade')
-    }
+        alert('Preencha a descrição da modalidade')
+      }
   } else {
     alert('Preencha o nome da modalidade')
-  }
-}
-
+}}
 function fechar() {
   emit('fecharAdicionarModalidade');
   nome.value = '';
   desc.value = '';
   imagem.value = null;
   tempo.value = '';
+  local.value = '';
 }
 
 function pegarImagem(event) {
@@ -61,15 +94,19 @@ function pegarImagem(event) {
           <h3>Nome da Modalidade</h3>
           <input type="text" placeholder="Digite" class="inputAnim" v-model="nome">
         </div>
+         <div class="local">
+          <h3>Local da Modalidade</h3>
+          <input type="text" placeholder="Digite" class="inputAnim" v-model="local">
+          </div>
+      </div>
         <div class="desc">
           <h3>Descrição da Modalidade</h3>
           <input type="text" placeholder="Digite" class="inputAnim" v-model="desc">
         </div>
-      </div>
       <div class="partedebaixo">
         <div class="tempo">
-          <h3>Tempo da Modalidade</h3>
-          <input type="text" placeholder="Digite" class="inputAnim" v-model="tempo">
+          <h3>Tempo da Modalidade (em minutos)</h3>
+          <input type="number" min="0" max="99" v-model="tempo" oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== 'E'">
         </div>
         <div class="imagem">
           <h3>Imagem da Modalidade</h3>
@@ -78,10 +115,10 @@ function pegarImagem(event) {
       </div>
       <div class="botoes">
         <button style="align-items: center; display: flex; justify-content: center;" class="save"
-          v-on:click.prevent="checarDados()" :disabled="tempo==''||desc==''||nome=='' ||imagem===null">
+          v-on:click.prevent="checarDados()">
           <ContentSaveOutlineIcon width="1.5vw" />Salvar
         </button>
-        <button class="cancel" v-on:click="fechar()" >Cancelar</button>
+        <button class="cancel" v-on:click="fechar()">Cancelar</button>
       </div>
     </div>
   </div>
@@ -106,9 +143,12 @@ function pegarImagem(event) {
 }
 
 button.cancel {
+  margin: 0.2vw 0;
   background: none;
   border: none;
   font-weight: bolder;
+  font-size: 1.1vw;
+  cursor: pointer;
 }
 
 button.cancel:hover {
@@ -125,6 +165,7 @@ button.save {
   border-radius: 0.2vw;
   transition: 0.3s;
   margin-bottom: 0.5vw;
+  cursor: pointer;
 }
 button.save:disabled {
     background: grey;
@@ -136,6 +177,7 @@ h2 {
 }
 
 h3 {
+  font-size: 1vw;
   font-weight: bolder;
   margin-bottom: 0.2vw;
 }
@@ -147,13 +189,25 @@ h4 {
 }
 
 input {
-  color:  gray;
+  text-align: center;
+  color:  rgb(152, 151, 151);
   background: #E2E2E2;
   border: solid #bdbdbd 0.1vw;
+  font-size: 1.3vw;
+  min-width: 20vw;
+  max-width: 20vw;
+  padding: 0.3vw 2vw;
   border-radius: 0.2vw;
   transition: 0.3s;
 }
+div.desc{
+  text-align: center;
+  place-items: center;
 
+}
+.imagem input{
+  font-size: 0.8vw;
+}
 input.inputAnim:focus {
   outline: none;
   transform: scale(1.05);
@@ -194,7 +248,9 @@ input.inputAnim:focus {
   h4 {
     font-size: 3vw;
   }
-
+  h3{
+    font-size: 2vw;
+  }
   .dialog {
     justify-content: center;
     min-width: 80vw;
@@ -207,15 +263,23 @@ input.inputAnim:focus {
 
   .inputs input {
     min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
   }
 
   .partedebaixo {
     flex-direction: column;
     text-align: center;
   }
-
+div.desc input {
+    min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
+  }
   .partedebaixo input {
     min-width: 70vw;
+    font-size: 3.3vw;
+    padding: 1vw 5vw;
   }
 
   .imagem {
@@ -230,6 +294,9 @@ input.inputAnim:focus {
 
   button.save {
     padding: 0.5vw 2vw;
+    font-size: 3vw;
+  }
+  button.cancel{
     font-size: 3vw;
   }
 }

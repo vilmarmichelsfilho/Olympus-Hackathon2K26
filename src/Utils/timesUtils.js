@@ -1,44 +1,58 @@
 import { times } from '@/data/times'
 import { computed } from 'vue'
-const timesDoMaiorAoMenor = computed(() => {
-  return [...times].sort((a, b) => b.pontuacao_geral - a.pontuacao_geral)
+import { cod_torneioAtual } from './cod_torneioUtils'
+
+const timesFiltradosPorTorneio = computed(() => {
+  const torneioId = cod_torneioAtual.value
+  return times.filter((time) => time.cod_torneio == torneioId)
 })
+
+const timesOrdenados = computed(() =>
+  [...timesFiltradosPorTorneio.value].sort(
+    (timeA, timeB) => timeB.pontuacaogeral_time - timeA.pontuacaogeral_time,
+  ),
+)
+
 function definirposicao(id) {
-  const posicao = timesDoMaiorAoMenor.value.findIndex((t) => t.id == id) + 1
-  return posicao
+  return timesOrdenados.value.findIndex((time) => time.cod_time == id) + 1
 }
 
-function adicionarTime(nome, um, dois, tres, vitorias, empates, derrotas) {
-  if (times.some((item) => item.nome === nome)) {
-    alert('Já existe um time com este nome!')
-  } else {
-    const maiorId = Math.max(...times.map((item) => item.id))
-    times.push({
-      id: maiorId + 1,
-      escudo: 'No image',
-      nome: nome,
-      cor: 'Preto',
-      time1: um,
-      time2: dois,
-      time3: tres,
-      vitorias: vitorias,
-      empates: empates,
-      derrotas: derrotas,
-      pontuacao_geral: vitorias * 3 + empates,
-    })
+function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
+  const timesDoTorneio = times.filter((time) => time.cod_torneio === torneio)
+
+  if (timesDoTorneio.length >= 8) {
+    alert('O torneio pode ter no máximo 8 times.')
+    return false
   }
+  if (
+    timesDoTorneio.some(
+      (time) => time.nome_time.trim().toLowerCase() === nome.trim().toLowerCase(),
+    )
+  ) {
+    alert('Já existe um time com este nome neste torneio!')
+    return false
+  }
+
+  const maiorId = times.length ? Math.max(...times.map((time) => time.cod_time)) : 0
+  times.push({
+    cod_time: maiorId + 1,
+    cod_torneio: torneio,
+    cor_time: cor,
+    pontuacaogeral_time: Number(pontuacao) || 0,
+    escudo_time: escudo,
+    nome_time: nome.trim(),
+  })
+  return true
 }
 
-function editarTime(nome, um, dois, tres, vitorias, empates, derrotas, id) {
-  const index = times.findIndex((item) => item.id === id)
-  times[index].nome = nome;
-  times[index].time1 = um;
-  times[index].time2 = dois;
-  times[index].time3 = tres;;
-  times[index].vitorias = vitorias;
-  times[index].empates = empates;
-  times[index].derrotas = derrotas;
-  times[index].pontuacao_geral = vitorias * 3 + empates;
+function editarTime(nome, pontuacao, cor, escudo, indice) {
+  if (!times[indice]) return false
+
+  times[indice].cor_time = cor
+  times[indice].pontuacaogeral_time = Number(pontuacao) || 0
+  times[indice].escudo_time = escudo
+  times[indice].nome_time = nome.trim()
+  return true
 }
 
-export { timesDoMaiorAoMenor, definirposicao, adicionarTime, editarTime }
+export { timesOrdenados, definirposicao, adicionarTime, editarTime }

@@ -1,65 +1,117 @@
 <script setup>
 import { computed } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
 import { modalidades } from '@/data/modalidades'
-import { useRoute } from 'vue-router'
-import { RouterLink } from 'vue-router'
 import { jogos } from '@/data/jogos'
+import { participa } from '@/data/participa'
+import { times } from '@/data/times'
 import Bracket from 'vue-tournament-bracket'
-
 const route = useRoute()
 const modalidadeId = computed(() => Number(route.params.id))
-
 const modalidadeSelecionada = computed(() => {
-  return modalidades.find((m) => m.id === modalidadeId.value) || null
+  return modalidades.find((m) => m.cod_modalidade === modalidadeId.value) || null
 })
-
 const nome = computed(() => {
-  return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome : ''
+  return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome_modalidade : ''
 })
-
+  const local = computed(() => {
+    return modalidadeSelecionada.value ? modalidadeSelecionada.value.localdojogo_modalidade : ''
+  })
 const jogosdamodalidade = computed(() => {
-  return jogos.filter((jogo) => jogo.modalidade == modalidadeSelecionada.value.nome)
+  if (!modalidadeSelecionada.value) {
+    return []
+  }
+  return jogos.filter((jogo) => jogo.cod_modalidade === modalidadeSelecionada.value.cod_modalidade)
 })
+function getParticipantesByJogo(codJogo) {
+  return participa.filter((p) => p.cod_jogo === codJogo)
+}
+function getVencedor(codJogo) {
+  const participantes = getParticipantesByJogo(codJogo)
+  if (participantes.length === 0) {
+    return null
+  }
+  const vencedor = participantes.find((participante) => participante.resultado_time === 'Vitória')
+  return vencedor?.cod_time ?? null
+}
+function getTimeId(codJogo, posicao) {
+  const jogo = jogos.find((j) => j.cod_jogo === codJogo)
+  if (!jogo) {
+    return null
+  }
+  const participantes = getParticipantesByJogo(codJogo)
+  const timeParticipante = participantes[posicao]?.cod_time
+  if (timeParticipante != null) {
+    return timeParticipante
+  }
+  const origem = posicao === 0 ? jogo.origem_jogo_a : jogo.origem_jogo_b
+  if (!origem) {
+    return null
+  }
+  return getVencedor(origem)
+}
+function getPontuacao(codJogo, codTime) {
+  if (codTime === null) {
+    return null
+  }
+  const participante = participa.find((p) => p.cod_jogo === codJogo && p.cod_time === codTime)
+  return participante?.pontuacao_time ?? null
+}
+function getTimeName(codTime) {
+  if (codTime === null) {
+    return 'A definir'
+  }
+  const time = times.find((t) => t.cod_time === codTime)
+  return time?.nome_time ?? 'A definir'
+}
 const formatarParaBracket = (fase) => {
   return jogosdamodalidade.value
-    .filter((jogo) => jogo.fase === fase)
-    .map((jogo) => ({
-      id: jogo.id,
-      player1: {
-        id: jogo.time1,
-        name: jogo.time1,
-        winner: jogo.pontuacao1 !== null && jogo.pontuacao1 > jogo.pontuacao2,
-        isFirst: true,
-        dataHorario: `${jogo.data} ${jogo.horario}`,
-      },
-      player2: {
-        id: jogo.time2,
-        name: jogo.time2,
-        winner: jogo.pontuacao2 !== null && jogo.pontuacao2 > jogo.pontuacao1,
-        isFirst: false,
-      },
-    }))
+    .filter((jogo) => jogo.fase_jogo === fase)
+    .map((jogo) => {
+      const time1 = getTimeId(jogo.cod_jogo, 0)
+      const time2 = getTimeId(jogo.cod_jogo, 1)
+      const pontuacao1 = getPontuacao(jogo.cod_jogo, time1)
+      const pontuacao2 = getPontuacao(jogo.cod_jogo, time2)
+      return {
+        id: jogo.cod_jogo,
+        player1: {
+          id: time1,
+          name: getTimeName(time1),
+          winner: pontuacao1 !== null && pontuacao2 !== null && pontuacao1 > pontuacao2,
+          isFirst: true,
+          dataHorario: jogo.horario_jogo,
+        },
+        player2: {
+          id: time2,
+          name: getTimeName(time2),
+          winner: pontuacao1 !== null && pontuacao2 !== null && pontuacao2 > pontuacao1,
+          isFirst: false,
+        },
+      }
+    })
 }
-
 const rounds = computed(() => [
   { games: formatarParaBracket('Quartas de Final') },
   { games: formatarParaBracket('Semifinal') },
   { games: formatarParaBracket('Final') },
 ])
 </script>
-
 <template>
   <main>
     <section class="chaveamento">
       <div class="header-chaveamento">
         <div class="coroa">
-          <img src="/public/images/coroa.png" alt="coroa" />
+          <img src="/images/coroa.png" alt="coroa" />
         </div>
-        <h3>{{ nome }}<br /> <span>Games</span></h3>
+        <h3>
+          {{ nome }}<br />
+          <span>Games</span>
+        </h3>
+        <h4>Todos esses jogos ocorrem no local: {{ local }}</h4>
       </div>
       <div v-if="jogosdamodalidade.length === 0" class="sem-jogos">
         <p>Não há jogos para esta modalidade ainda.</p>
-       <RouterLink to="/" class="linkparahome">Voltar para a Home</RouterLink>
+        <RouterLink to="/" class="linkparahome">Voltar para a Home</RouterLink>
       </div>
       <div v-else class="scroll-container">
         <bracket :rounds="rounds">
@@ -67,7 +119,10 @@ const rounds = computed(() => [
             <div v-if="player.isFirst" class="match-time">
               {{ player.dataHorario }}
             </div>
-            <span class="team-name" :class="{ 'align-right': player.isFirst, 'align-left': !player.isFirst }">
+            <span
+              class="team-name"
+              :class="{ 'align-right': player.isFirst, 'align-left': !player.isFirst }"
+            >
               {{ player.name }}
             </span>
             <span v-if="!player.isFirst" class="vs">X</span>
@@ -91,11 +146,13 @@ main {
 
 .header-chaveamento {
   display: flex;
+  flex-direction: column;
+  gap: 2vw;
   align-items: center;
   justify-content: center;
   position: relative;
   width: 100%;
-  padding-top: 4vw;
+  padding-top: 1vw;
 }
 
 .coroa {
@@ -125,9 +182,12 @@ h3 {
   text-align: center;
   line-height: 0.8;
 }
-h3 span{
+h3 span {
   font-size: 10vw;
-  color: #E85002;
+  color: #e85002;
+}
+h4{
+  font-size: 4vw;
 }
 .sem-jogos {
   display: flex;
@@ -146,7 +206,7 @@ h3 span{
 }
 
 .sem-jogos .linkparahome {
-  background-color: #E85002;
+  background-color: #e85002;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -252,14 +312,17 @@ h3 span{
 
   .coroa {
     top: -2vw;
-  min-width: 15vw;
-}
+    min-width: 15vw;
+  }
 
   h3 {
     font-size: 7.5vw;
   }
-  h3 span{
+  h3 span {
     font-size: 5vw;
+  }
+  h4{
+    font-size: 2vw
   }
   :deep(.vtb-wrapper) {
     min-width: 700px;
