@@ -50,7 +50,7 @@ function pegarImagem(event) {
 <template>
     <div class="display">
         <div class="dialog">
-            <h2>Adicionar/Editar Turma</h2>
+            <h2>{{ props.tipo === 'adicionar' ? 'Adicionar Time' : 'Editar Time' }}</h2>
             <form action="">
                 <div class="input">
                     <h3>Nome</h3>
@@ -81,7 +81,7 @@ function pegarImagem(event) {
                         <ContentSaveOutlineIcon width="1.5vw"></ContentSaveOutlineIcon>Salvar Alterações
                     </button>
                     <button type="reset" class="limpar"
-                        v-on:click.prevent="emit('fechar'), apagar">Cancelar/Limpar</button>
+                        v-on:click.prevent="emit('fechar'), apagar()">Cancelar/Limpar</button>
                 </div>
             </form>
         </div>
@@ -225,7 +225,8 @@ input {
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.75);
     border: none;
     border-radius: 0.2vw;
-    padding: 0.3vw 0.5vw;
+    padding: 0.55rem 0.7rem;
+    font: inherit;
     color: #959595;
     transition: 0.3s;
 }
@@ -252,6 +253,9 @@ input:focus {
     border: solid rgb(185, 184, 184) 0.15vw;
     padding: 4vw 3vw;
     border-radius: 1vw;
+    width: min(92vw, 700px);
+    max-height: 92vh;
+    overflow-y: auto;
 }
 
 .display {
@@ -265,5 +269,55 @@ input:focus {
     align-items: center;
     justify-content: center;
     z-index: 100;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .dialog {
+        width: 100%;
+        padding: 7vw 5vw;
+        border-radius: 3vw;
+        gap: 5vw;
+    }
+
+    h2 {
+        margin-right: 0;
+        font-size: clamp(1.4rem, 6vw, 2rem);
+    }
+
+    form {
+        gap: 5vw;
+    }
+
+    .sla {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4vw;
+    }
+
+    .input {
+        gap: 1vw;
+    }
+
+    .input h3 {
+        font-size: 0.95rem;
+    }
+
+    input {
+        min-height: 2.75rem;
+        border-radius: 0.4rem;
+        font-size: 1rem;
+    }
+
+    .salvar {
+        justify-content: center;
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .botoes {
+        gap: 0.8rem;
+    }
 }
 </style>

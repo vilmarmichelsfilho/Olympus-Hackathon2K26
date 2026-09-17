@@ -6,7 +6,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Preto",
     pontuacaogeral_time: 15,
-    escudo_time: "/images/escudos/preto.png",
+    escudo_time: "/images/escudos/preto.svg",
     nome_time: "Preto"
   },
   {
@@ -15,7 +15,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Roxo",
     pontuacaogeral_time: 12,
-    escudo_time: "/images/escudos/roxo.png",
+    escudo_time: "/images/escudos/roxo.svg",
     nome_time: "Roxo"
   },
   {
@@ -24,7 +24,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Rosa",
     pontuacaogeral_time: 10,
-    escudo_time: "/images/escudos/rosa.png",
+    escudo_time: "/images/escudos/rosa.svg",
     nome_time: "Rosa"
   },
   {
@@ -33,7 +33,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Azul",
     pontuacaogeral_time: 9,
-    escudo_time: "/images/escudos/azul.png",
+    escudo_time: "/images/escudos/azul.svg",
     nome_time: "Azul"
   },
   {
@@ -42,7 +42,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Verde",
     pontuacaogeral_time: 8,
-    escudo_time: "/images/escudos/verde.png",
+    escudo_time: "/images/escudos/verde.svg",
     nome_time: "Verde"
   },
   {
@@ -51,7 +51,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Vermelho",
     pontuacaogeral_time: 7,
-    escudo_time: "/images/escudos/vermelho.png",
+    escudo_time: "/images/escudos/vermelho.svg",
     nome_time: "Vermelho"
   },
   {
@@ -60,7 +60,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Branco",
     pontuacaogeral_time: 6,
-    escudo_time: "/images/escudos/branco.png",
+    escudo_time: "/images/escudos/branco.svg",
     nome_time: "Branco"
   },
   {
@@ -69,7 +69,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Amarelo",
     pontuacaogeral_time: 5,
-    escudo_time: "/images/escudos/amarelo.png",
+    escudo_time: "/images/escudos/amarelo.svg",
     nome_time: "Amarelo"
   },
 
@@ -79,7 +79,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Laranja",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/laranja.png",
+    escudo_time: "/images/escudos/laranja.svg",
     nome_time: "Laranja"
   },
   {
@@ -88,7 +88,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Cinza",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/cinza.png",
+    escudo_time: "/images/escudos/cinza.svg",
     nome_time: "Cinza"
   },
   {
@@ -97,7 +97,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Dourado",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/dourado.png",
+    escudo_time: "/images/escudos/dourado.svg",
     nome_time: "Dourado"
   },
   {
@@ -106,7 +106,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Prata",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/prata.png",
+    escudo_time: "/images/escudos/prata.svg",
     nome_time: "Prata"
   },
   {
@@ -115,7 +115,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Turquesa",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/turquesa.png",
+    escudo_time: "/images/escudos/turquesa.svg",
     nome_time: "Turquesa"
   },
   {
@@ -124,7 +124,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Magenta",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/magenta.png",
+    escudo_time: "/images/escudos/magenta.svg",
     nome_time: "Magenta"
   },
   {
@@ -133,7 +133,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Marrom",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/marrom.png",
+    escudo_time: "/images/escudos/marrom.svg",
     nome_time: "Marrom"
   },
   {
@@ -142,7 +142,7 @@ export const times = reactive([
     cod_adm: 1,
     cor_time: "Ciano",
     pontuacaogeral_time: 0,
-    escudo_time: "/images/escudos/ciano.png",
+    escudo_time: "/images/escudos/ciano.svg",
     nome_time: "Ciano"
   }
 ])

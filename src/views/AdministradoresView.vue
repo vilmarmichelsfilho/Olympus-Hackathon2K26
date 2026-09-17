@@ -2,7 +2,6 @@
 import NavegacaoAdministradores from '@/components/NavegacaoAdministradores.vue'
 import HamburgerMenuIcon from '@iconify-vue/mdi/hamburger-menu'
 import DashboardModalidades from '@/components/DashboardModalidades.vue'
-import AdicionarTime from '@/components/AdicionarTime.vue'
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue'
 import TimesView from '@/components/AdministradoesViews/TimesView.vue'
 import router from '@/router'
@@ -41,7 +40,6 @@ const menuAberto = ref(false)
 function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
-const time = ref(false)
 </script>
 
 <template>
@@ -87,14 +85,13 @@ const time = ref(false)
       <arbitrosView></arbitrosView>
     </div>
     <div class="torneios" v-show="telaAtual == 'torneio'">
-      <TorneioView> </TorneioView>
+      <TorneioView @tela="mudarTela"> </TorneioView>
     </div>
     <div class="jogos" v-show="telaAtual == 'jogos'">
       <JogosView> </JogosView>
     </div>
     <DashboardModalidades v-show="telaAtual == 'modalidades'"> </DashboardModalidades>
   </div>
-  <AdicionarTime @fechar="time = false" class="popup" :class="{ aberto: time }"></AdicionarTime>
   <div class="controle"></div>
 </template>
 
@@ -123,19 +120,6 @@ const time = ref(false)
   height: auto;
   display: flex;
   min-width: 0;
-}
-
-.popup {
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-}
-
-.popup.aberto {
-  opacity: 1;
-  visibility: visible;
 }
 
 .btn-hamburger {

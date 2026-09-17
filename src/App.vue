@@ -9,33 +9,44 @@ if (localStorage.getItem('primeiraVisita') === null) {
   localStorage.setItem('primeiraVisita', 'true')
 }
 const loginPop = ref(false)
-function login() {
-  loginPop.value = !loginPop.value
+
+function abrirLogin() {
+  loginPop.value = true
+}
+
+function fecharLogin() {
+  loginPop.value = false
 }
 </script>
 <template>
   <div class="image">
-    <AppHeader
-      class="header"
+    <div
+      class="hero"
       v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"
-      @login-pop="login"
-    ></AppHeader>
-    <div class="texto" v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)">
-      <h2>Olimpíadas ifc</h2>
-      <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
+    >
+      <AppHeader class="header" @login-pop="abrirLogin"></AppHeader>
+      <div class="texto">
+        <h2>Olimpíadas ifc</h2>
+        <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
+      </div>
     </div>
-    <div app-conteiner>
-      <RouterView @login-pop="login"></RouterView>
+    <div class="app-conteiner">
+      <RouterView @login-pop="abrirLogin"></RouterView>
     </div>
     <FooterApp v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"></FooterApp>
   </div>
-  <loginView v-show="loginPop == true" @fechar-pop="login"></loginView>
+  <loginView v-if="loginPop" @fechar-pop="fecharLogin"></loginView>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Krona+One&display=swap');
-.header {
-  margin-bottom: 50vw;
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-image: url('@/assets/normalBackground.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .texto {
   position: absolute;
@@ -61,12 +72,8 @@ function login() {
 .image {
   position: relative;
   width: 100%;
-  max-height: 100vh;
-
-  background-image: url('@/assets/normalBackground.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  min-height: 100vh;
+  background: linear-gradient(to left, #151313 0%, #3d0f0f 100%);
 }
 .app-conteiner {
   display: flex;
@@ -74,6 +81,10 @@ function login() {
   width: 100%;
 }
 @media (max-width: 1000px) {
+  .hero {
+    min-height: auto;
+  }
+
   .texto {
     display: none;
   }

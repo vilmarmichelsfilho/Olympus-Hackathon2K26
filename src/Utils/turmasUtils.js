@@ -9,13 +9,23 @@ function excluir(id) {
 function adicionar(tecnico, ano, serie, time, torneio) {
   const turmasDoTorneio = turmas.filter((turma) => turma.cod_torneio == torneio)
   const turmasDoTime = turmasDoTorneio.filter((turma) => turma.cod_time == time)
+  const turmaJaExiste = turmasDoTorneio.some(
+    (turma) =>
+      Number(turma.ano_turma) === Number(ano) &&
+      turma.tecnico_turma.trim().toLowerCase() === String(tecnico).trim().toLowerCase() &&
+      Number(turma.numero_turma) === Number(serie),
+  )
 
-  if (turmasDoTorneio.length >= 24) {
-    alert('O torneio pode ter no máximo 24 turmas.')
-    return false
-  }
   if (!time) {
     alert('Selecione um time.')
+    return false
+  }
+  if (turmaJaExiste) {
+    alert('Já existe uma turma igual esta adicionada')
+    return false
+  }
+  if (turmasDoTorneio.length >= 24) {
+    alert('O torneio pode ter no máximo 24 turmas.')
     return false
   }
   if (turmasDoTime.length >= 3) {

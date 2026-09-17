@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import popUpEditarTorneio from './pop-upEditarTorneio.vue';
 import { editarTorneio } from '@/Utils/editarUtils.js';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils.js';
-const emit = defineEmits(['fecha'])
+const emit = defineEmits(['fecha', 'tela'])
 const props = defineProps(['torneio'])
 const mostrarEditarTorneio = ref(false)
 const anodotorneio = ref(props.torneio.data_inicio_torneio.split('-')[0].replaceAll('20', ''))
@@ -17,6 +17,10 @@ function atualizarTorneio(novoTorneio) {
 function Fechar(){
   emit('fecha')
   codTorneioSelecionadoAdm.value = null
+}
+
+function abrirTela(tela) {
+  emit('tela', tela)
 }
 </script>
 <template>
@@ -33,32 +37,32 @@ function Fechar(){
   <button @click="abrirEditarTorneio()" style="cursor: pointer;">Editar dados gerais</button>
 </div>
 <ul>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('jogos')" @keydown.enter.prevent="abrirTela('jogos')" @keydown.space.prevent="abrirTela('jogos')">
     <p class="letra">J</p>
     <h4>Jogos</h4>
     <p>Partidas e Resultados</p>
   </li>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('times')" @keydown.enter.prevent="abrirTela('times')" @keydown.space.prevent="abrirTela('times')">
     <p class="letra">T</p>
     <h4>Times</h4>
     <p>Equipes participantes</p>
   </li>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('modalidades')" @keydown.enter.prevent="abrirTela('modalidades')" @keydown.space.prevent="abrirTela('modalidades')">
     <p class="letra">M</p>
     <h4>Modalidades</h4>
     <p>Esportes e locais</p>
   </li>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('turmas')" @keydown.enter.prevent="abrirTela('turmas')" @keydown.space.prevent="abrirTela('turmas')">
     <p class="letra">T</p>
     <h4>Turmas</h4>
     <p>Vinculo com os times</p>
   </li>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('arbitros')" @keydown.enter.prevent="abrirTela('arbitros')" @keydown.space.prevent="abrirTela('arbitros')">
     <p class="letra">A</p>
     <h4>Arbitros</h4>
     <p>Responsáveis pela arbitragem</p>
   </li>
-  <li>
+  <li role="button" tabindex="0" @click="abrirTela('horarios')" @keydown.enter.prevent="abrirTela('horarios')" @keydown.space.prevent="abrirTela('horarios')">
     <p class="letra">H</p>
     <h4>Horários</h4>
     <p>Horários dos jogos</p>
@@ -173,6 +177,11 @@ ul li {
 ul li:hover {
   transform: scale(1.05);
   transition: 0.3s;
+}
+
+ul li:focus-visible {
+  outline: 0.2vw solid #e85002;
+  outline-offset: 0.2vw;
 }
 h4{
  color: #FFFFFF;

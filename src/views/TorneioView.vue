@@ -4,6 +4,7 @@ import { torneios } from '@/data/torneios.js';
 import { ref } from 'vue';
 import DashboardTorneio from '@/components/DashboardTorneio.vue';
 import { AlterarCodTorneio } from '@/Utils/cod_torneioAdmUtils';
+const emit = defineEmits(['tela'])
 const mostrarFluxo = ref(false)
 const mostrarEditarTorneio = ref(false)
 const torneioEditarId = ref(null)
@@ -25,7 +26,7 @@ function editarTorneio(id) {
      <DashboardTorneio  @editar="editarTorneio($event)"/>
    </div>
    <div class="editar-torneio" v-if="mostrarEditarTorneio">
-<EditarTorneioView @fecha="mostrarEditarTorneio = false"
+<EditarTorneioView @fecha="mostrarEditarTorneio = false" @tela="emit('tela', $event)"
 :torneio="torneios.find((t) => t.cod_torneio == torneioEditarId)"></EditarTorneioView>
  </div>
 </section>
