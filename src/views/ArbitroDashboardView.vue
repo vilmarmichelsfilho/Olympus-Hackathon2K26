@@ -2,26 +2,18 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import LogoutIcon from '@iconify-vue/mdi/logout'
-import UserIcon from '@iconify-vue/mdi/user'
 import ArbitroJogoCard from '@/components/ArbitroJogoCard.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
-import EditarJogos from '@/components/EditarJogos.vue'
-import { arbitros } from '@/data/arbitros'
 import { jogos } from '@/data/jogos'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
-import { finalizarJogo } from '@/Utils/partidasUtils'
+import { salvarPlacar as salvarPlacarDaPartida } from '@/Utils/partidasUtils'
 
 const router = useRouter()
 const sessao = obterSessao()
 const jogoSelecionadoId = ref(null)
-const jogoEmEdicaoId = ref(null)
-
-const arbitro = computed(() =>
-  arbitros.find((item) => Number(item.cod_arbitro) === Number(sessao?.codigo)),
-)
 
 function formatarData(dataISO) {
   const [, mes, dia] = dataISO.split('-')
@@ -55,14 +47,10 @@ function detalharJogo(jogo) {
 }
 
 const jogosDoArbitro = computed(() => {
-  const prioridade = { AoVivo: 0, Agendado: 1 }
+  const prioridade = { AoVivo: 0, Agendado: 1, Finalizado: 2 }
 
   return jogos
-    .filter(
-      (jogo) =>
-        Number(jogo.cod_arbitro) === Number(sessao?.codigo) &&
-        jogo.status_jogo !== 'Finalizado',
-    )
+    .filter((jogo) => Number(jogo.cod_arbitro) === Number(sessao?.codigo))
     .map(detalharJogo)
     .sort((jogoA, jogoB) => {
       const diferencaStatus = prioridade[jogoA.status] - prioridade[jogoB.status]
@@ -76,42 +64,15 @@ const jogoSelecionado = computed(() =>
 
 function alterarPlacar(codJogo) {
   const jogo = jogosDoArbitro.value.find((item) => item.codJogo === codJogo)
-  if (jogo?.status === 'AoVivo' && jogo.confrontoDefinido) jogoSelecionadoId.value = codJogo
+  if (jogo?.confrontoDefinido) jogoSelecionadoId.value = codJogo
 }
-
-function editarJogo(codJogo) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const pertenceAoArbitro = Number(jogo?.cod_arbitro) === Number(sessao?.codigo)
-
-  if (pertenceAoArbitro && jogo.status_jogo === 'Agendado') {
-    jogoEmEdicaoId.value = codJogo
-  }
-}
-
-function atualizarJogoAgendado(dados) {
-  const jogo = jogos.find((item) => item.cod_jogo === dados.cod_jogo)
-  const pertenceAoArbitro = Number(jogo?.cod_arbitro) === Number(sessao?.codigo)
-  const statusPermitido = ['Agendado', 'AoVivo'].includes(dados.status_jogo)
-
-  if (!pertenceAoArbitro || jogo.status_jogo !== 'Agendado' || !statusPermitido) return
-
-  jogo.horario_jogo = dados.horario_jogo
-  jogo.status_jogo = dados.status_jogo
-  jogoEmEdicaoId.value = null
-}
-
-const jogoEmEdicao = computed(() =>
-  jogos.find((jogo) => jogo.cod_jogo === jogoEmEdicaoId.value),
-)
 
 function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
   const jogo = jogos.find((item) => item.cod_jogo === codJogo)
 
   if (!jogo || Number(jogo.cod_arbitro) !== Number(sessao?.codigo)) return
 
-  if (jogo.status_jogo !== 'AoVivo') return
-
-  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+  const resultado = salvarPlacarDaPartida(codJogo, pontuacaoA, pontuacaoB)
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
@@ -129,13 +90,6 @@ function sair() {
 <template>
   <main class="painel-arbitro">
     <header class="barra-usuario">
-      <div class="usuario">
-        <UserIcon class="avatar" />
-        <div>
-          <strong>{{ arbitro?.nome_arbitro ?? 'Árbitro' }}</strong>
-          <span>Painel do Árbitro</span>
-        </div>
-      </div>
       <button type="button" @click="sair"><LogoutIcon /> Sair</button>
     </header>
 
@@ -143,7 +97,7 @@ function sair() {
       <template v-if="!jogoSelecionado">
         <header class="titulo-pagina">
           <h1>Meus jogos</h1>
-          <p>Próximas partidas que você irá arbitrar</p>
+          <p>Partidas sob sua responsabilidade</p>
         </header>
 
         <ul v-if="jogosDoArbitro.length" class="lista-jogos">
@@ -152,7 +106,6 @@ function sair() {
             :key="jogo.codJogo"
             :jogo="jogo"
             @alterar-placar="alterarPlacar"
-            @editar-jogo="editarJogo"
           />
         </ul>
 
@@ -167,14 +120,6 @@ function sair() {
         :jogo="jogoSelecionado"
         @salvar="salvarPlacar"
         @voltar="jogoSelecionadoId = null"
-      />
-
-      <EditarJogos
-        v-if="jogoEmEdicao"
-        :jogo="jogoEmEdicao"
-        modo-arbitro
-        @atualizar="atualizarJogoAgendado"
-        @fechar-editar-jogo="jogoEmEdicaoId = null"
       />
     </div>
   </main>
@@ -192,41 +137,10 @@ function sair() {
   display: flex;
   min-height: 6vw;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 1vw 5vw;
   border-bottom: 0.08vw solid #ddd;
   background: #fff;
-}
-
-.usuario {
-  display: flex;
-  align-items: center;
-  gap: 0.8vw;
-}
-
-.avatar {
-  width: 3vw;
-  height: 3vw;
-  padding: 0.35vw;
-  border-radius: 50%;
-  background: #c7c7c7;
-  color: #fff;
-}
-
-.usuario div {
-  display: flex;
-  flex-direction: column;
-}
-
-.usuario strong {
-  color: #555;
-  font-size: 1vw;
-  font-weight: 700;
-}
-
-.usuario span {
-  color: #aaa;
-  font-size: 0.8vw;
 }
 
 .barra-usuario button {
@@ -310,28 +224,6 @@ function sair() {
     min-height: 18vw;
     padding: 3vw 6vw;
     border-bottom-width: 0.4vw;
-  }
-
-  .usuario {
-    gap: 3vw;
-  }
-
-  .avatar {
-    width: 10vw;
-    height: 10vw;
-    padding: 1vw;
-  }
-
-  .usuario strong {
-    max-width: 48vw;
-    overflow: hidden;
-    font-size: 4vw;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .usuario span {
-    font-size: 3.2vw;
   }
 
   .barra-usuario button {
