@@ -3,7 +3,6 @@ import { jogosVerificados } from '@/data/jogosverificados';
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
-import SearchIcon from '@iconify-vue/heroicons-solid/search';
 import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
 const emit = defineEmits(['loginPop'])
@@ -31,11 +30,6 @@ function abrirMenu() {
         <RouterLink to="/">
           <img src="@/assets/logodesktop.png" alt="" class="logo-desktop" />
         </RouterLink>
-      </div>
-
-      <div class="busca">
-        <input type="text" placeholder="Search in site" class="input-busca" />
-        <SearchIcon class="icone-busca" />
       </div>
 
       <nav class="nav-links">
@@ -209,35 +203,6 @@ function abrirMenu() {
   .logo-desktop {
     width: 15rem;
     height: auto;
-  }
-
-  .busca {
-    flex: 1;
-    max-width: 30rem;
-    display: flex;
-    align-items: center;
-    border: 1px solid rgba(255, 0, 0, 0.6);
-    border-radius: 0.5rem;
-    padding: 0.4rem 1rem;
-  }
-
-  .input-busca {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .input-busca::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .icone-busca {
-    color: #fff;
-    height: 1.2rem;
-    flex-shrink: 0;
   }
 
   .nav-links {

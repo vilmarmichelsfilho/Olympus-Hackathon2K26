@@ -32,7 +32,7 @@ function rotuloStatus(status) {
     </div>
 
     <button
-      v-if="jogo.confrontoDefinido"
+      v-if="jogo.confrontoDefinido && jogo.status !== 'Finalizado'"
       type="button"
       @click="$emit('alterarPlacar', jogo.codJogo)"
     >

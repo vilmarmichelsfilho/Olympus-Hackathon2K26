@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import UserIcon from '@iconify-vue/mdi/user'
-import SearchIcon from '@iconify-vue/mdi/search'
 import GearIcon from '@iconify-vue/mdi/gear'
 import HomeAnalyticsIcon from '@iconify-vue/mdi/home-analytics'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
@@ -22,10 +21,6 @@ function sair() {
         <h3>Admin</h3>
         <p>Painel de Controle</p>
       </div>
-    </div>
-    <div class="pesquisar">
-      <SearchIcon height="2vw" />
-      <input type="text" placeholder="Procurar por..." />
     </div>
     <div class="navegacao">
       <div class="logo">
@@ -100,25 +95,6 @@ function sair() {
   background: #bebebe;
   padding: 0.2vw;
   border-radius: 100vw;
-}
-.pesquisar {
-  border-radius: 0.3vw;
-  display: flex;
-  align-items: center;
-  background: #e85002;
-  padding: 0.2vw;
-  box-shadow: 0 0 10px 10px #e84f0265;
-}
-.pesquisar input {
-  background: none;
-  border: none;
-  font-weight: bolder;
-}
-.pesquisar input:focus {
-  outline: none;
-}
-.pesquisar input::placeholder {
-  color: white;
 }
 .logo {
   display: flex;

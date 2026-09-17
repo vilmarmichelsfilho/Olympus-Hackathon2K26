@@ -85,7 +85,7 @@ function salvar() {
         </div>
       </div>
 
-      <button class="salvar" type="button" @click="salvar">Salvar placar</button>
+      <button class="salvar" type="button" @click="salvar">Salvar e concluir jogo</button>
     </div>
   </section>
 </template>

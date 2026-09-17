@@ -9,7 +9,7 @@ import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
-import { salvarPlacar as salvarPlacarDaPartida } from '@/Utils/partidasUtils'
+import { finalizarJogo } from '@/Utils/partidasUtils'
 
 const router = useRouter()
 const sessao = obterSessao()
@@ -72,7 +72,7 @@ function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
 
   if (!jogo || Number(jogo.cod_arbitro) !== Number(sessao?.codigo)) return
 
-  const resultado = salvarPlacarDaPartida(codJogo, pontuacaoA, pontuacaoB)
+  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
