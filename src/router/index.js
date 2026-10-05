@@ -7,6 +7,7 @@ import LoginView from '@/views/LoginView.vue'
 import TorneioView from '@/views/TorneioView.vue'
 import TimesViewTabela from '@/views/TimesViewTabela.vue'
 import JogosView from '@/views/JogosView.vue'
+import ProximosJogosView from '@/views/ProximosJogosView.vue'
 import ArbitroDashboardView from '@/views/ArbitroDashboardView.vue'
 import { obterSessao, rotaDaSessao } from '@/Utils/loginUtils'
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/times',
       name: 'times',
       component: TimesViewTabela,
+    },
+    {
+      path: '/proximos-jogos',
+      name: 'proximos-jogos',
+      component: ProximosJogosView,
     },
     {
       path: '/sobrenos',

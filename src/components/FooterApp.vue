@@ -43,7 +43,7 @@ import TwitterIcon from '@iconify-vue/mdi/twitter';
                     <RouterLink to="/">Menu</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/">Jogos</RouterLink>
+                    <RouterLink to="/proximos-jogos">Próximos jogos</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/">Times</RouterLink>

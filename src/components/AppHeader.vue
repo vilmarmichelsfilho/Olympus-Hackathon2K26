@@ -14,15 +14,23 @@ function abrirMenu() {
 <template>
   <div class="olympus-screen">
     <header class="barra-mobile">
-      <button class="menu-hamburguer" @click="abrirMenu">
+      <button
+        class="menu-hamburguer"
+        type="button"
+        aria-label="Abrir ou fechar menu"
+        aria-controls="menu-publico-mobile"
+        :aria-expanded="menuAberto"
+        @click="abrirMenu"
+      >
         <MenuAlt4Icon height="3rem" />
       </button>
     </header>
 
-    <nav class="menu-mobile" v-if="menuAberto">
+    <nav id="menu-publico-mobile" class="menu-mobile" v-if="menuAberto" aria-label="Navegação principal">
     <RouterLink to="/" @click="abrirMenu">Home</RouterLink>
      <RouterLink to="/sobrenos" @click="abrirMenu">Sobre Nós</RouterLink>
       <RouterLink to="/times" @click="abrirMenu">Times</RouterLink>
+      <RouterLink to="/proximos-jogos" @click="abrirMenu">Próximos jogos</RouterLink>
     </nav>
 
     <header class="barra-desktop">
@@ -35,6 +43,7 @@ function abrirMenu() {
       <nav class="nav-links">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
+        <RouterLink to="/proximos-jogos">Próximos jogos</RouterLink>
       </nav>
 
       <button class="btn-login" v-on:click.prevent="emit('loginPop')">
@@ -81,6 +90,11 @@ function abrirMenu() {
   font-family: 'Georgia', serif;
   overflow: hidden;
   background-color: black;
+}
+.nav-links a.router-link-exact-active {
+  text-decoration: underline;
+  text-decoration-color: #e85002;
+  text-underline-offset: 8px;
 }
 
 .menu-hamburguer {

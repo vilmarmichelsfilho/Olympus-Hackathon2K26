@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
 import { timesOrdenados } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
@@ -140,6 +139,7 @@ const progressoPorcentagem = computed(() => {
               v-for="modalidade in modalidadesFiltradas"
               :key="modalidade.cod_modalidade"
               :imagem="modalidade.foto_modalidade"
+              :posicao="modalidade.posicao_foto_modalidade"
               :nome="modalidade.nome_modalidade"
               :id="modalidade.cod_modalidade"
               @mostrar="mostrarModal"
@@ -159,6 +159,7 @@ const progressoPorcentagem = computed(() => {
               <modalidadesCard
                 :nome="modalidade.nome_modalidade"
                 :imagem="modalidade.foto_modalidade"
+                :posicao="modalidade.posicao_foto_modalidade"
                 :id="modalidade.cod_modalidade"
                 @mostrar="mostrarModal"
               />
@@ -176,7 +177,13 @@ const progressoPorcentagem = computed(() => {
         </div>
         <Transition name="modal">
           <div v-if="modalAberto" class="pop-up-overlay">
-            <div class="popup-box" :style="{ backgroundImage: `url(${imagem})` }">
+            <div
+              class="popup-box"
+              :style="{
+                backgroundImage: `url(${imagem})`,
+                backgroundPosition: modalidadeSelecionada?.posicao_foto_modalidade || 'center',
+              }"
+            >
               <CloseIcon height="3em" class="botao-fechar" @click.prevent="fecharModal"></CloseIcon>
               <h3 class="pop-up-titulo">{{ nome }}</h3>
               <p class="descricao">{{ desc }}</p>
@@ -186,6 +193,12 @@ const progressoPorcentagem = computed(() => {
             </div>
           </div>
         </Transition>
+        <a
+          class="creditos-imagens"
+          href="/images/imagem-modalidades/creditos.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Créditos das fotos</a>
       </section>
       <section class="rankingtimes">
         <div class="conteiner">
@@ -237,6 +250,19 @@ main {
 .selecionarTorneio{
   display: flex;
   justify-content: center;
+}
+.creditos-imagens {
+  display: block;
+  width: fit-content;
+  margin: 24px auto 0;
+  padding: 8px;
+  color: #666;
+  font-size: 0.8rem;
+  text-underline-offset: 3px;
+}
+.creditos-imagens:focus-visible {
+  outline: 2px solid #e85002;
+  outline-offset: 3px;
 }
 section.selecao-modalidades {
   padding: 0 0 10vw 0;
