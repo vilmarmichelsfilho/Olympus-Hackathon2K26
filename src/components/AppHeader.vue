@@ -34,7 +34,6 @@ function abrirMenu() {
 
       <nav class="nav-links">
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/times">Times</RouterLink>
         <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
       </nav>
 

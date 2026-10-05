@@ -191,11 +191,6 @@ const progressoPorcentagem = computed(() => {
         <div class="conteiner">
           <div class="conteiner-esquerdo">
             <h3>Ranking Dos <span>Times</span></h3>
-            <div class="contentlink">
-              <RouterLink to="/times" class="link-times"
-                >Times <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
-              </RouterLink>
-            </div>
           </div>
           <div class="jogosrestantes">
             <p class="numero">
@@ -503,6 +498,7 @@ section.rankingtimes {
 
 section.rankingtimes h3 {
   display: none;
+  color: white;
 }
 
 section.rankingtimes div.jogosrestantes {
