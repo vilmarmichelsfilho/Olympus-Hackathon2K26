@@ -74,6 +74,11 @@ export default router
 router.beforeEach((to) => {
   const sessao = obterSessao()
   const perfilNecessario = to.meta.perfil
+  const telaMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+
+  if (to.name === 'times' && telaMobile) {
+    return { name: 'home' }
+  }
 
   if (perfilNecessario && sessao?.tipo !== perfilNecessario) {
     return { name: 'login' }

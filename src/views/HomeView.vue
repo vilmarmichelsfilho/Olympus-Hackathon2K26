@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
+import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
 import { timesOrdenados } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
@@ -204,6 +205,12 @@ const progressoPorcentagem = computed(() => {
         <div class="conteiner">
           <div class="conteiner-esquerdo">
             <h3>Ranking Dos <span>Times</span></h3>
+            <div class="contentlink">
+              <RouterLink to="/times" class="link-times">
+                Times
+                <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
+              </RouterLink>
+            </div>
           </div>
           <div class="jogosrestantes">
             <p class="numero">
@@ -244,7 +251,7 @@ const progressoPorcentagem = computed(() => {
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Krona+One&family=Poller+One&display=swap');
 
 main {
-  background-color: black;
+  background: linear-gradient(to left, #151313 0%, #3d0f0f 100%);
   padding: 0 0 20vw 0;
 }
 .selecionarTorneio{
@@ -574,6 +581,11 @@ tbody {
   border-radius: 6vw;
   padding: 0.5vw 4vw;
 }
+
+div.contentlink {
+  display: none;
+}
+
 @media (max-width: 1020px) {
   .texto-acontece {
     display: none;
@@ -584,7 +596,6 @@ tbody {
 }
 @media (min-width: 1000px) {
   main {
-    background-image: linear-gradient(to left, #151313 0%, #3d0f0f 100%);
     padding: 2vw 0;
   }
 
