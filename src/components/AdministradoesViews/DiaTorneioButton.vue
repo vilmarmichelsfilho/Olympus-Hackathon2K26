@@ -20,10 +20,10 @@ const diaFormatado = computed(() => {
 <style scoped>
 button {
   min-height: 36px;
-  border: 1px solid #ed6b3c;
+  border: 1px solid #aeb9d0;
   border-radius: 4px;
-  background: #fff;
-  color: #17171a;
+  background: transparent;
+  color: #fff;
   cursor: pointer;
   font: inherit;
   font-size: 0.95rem;
@@ -35,6 +35,8 @@ button {
 }
 
 button:hover {
+  border-color: #e85002;
+  background: rgb(255 255 255 / 6%);
   transform: translateY(-1px);
 }
 
@@ -52,7 +54,20 @@ button.ativo {
 @media (max-width: 768px) {
   button {
     min-height: 27px;
+    border-color: #ed6b3c;
+    background: #fff;
+    color: #17171a;
     font-size: 0.8rem;
+  }
+
+  button:hover {
+    background: #fff;
+  }
+
+  button.ativo {
+    border-color: #e85002;
+    background: #e85002;
+    color: #fff;
   }
 }
 </style>
