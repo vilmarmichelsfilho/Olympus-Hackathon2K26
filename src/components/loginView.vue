@@ -18,24 +18,35 @@ if (sessao) {
 </script>
 
 <template>
-  <div class="container">
-    <div class="loginContainer">
-      <div class="head">
-        <h2>Olympus</h2>
-        <p>Sign up</p>
+  <Teleport to="body">
+    <div class="container" @click.self="emit('fecharPop')" @keydown.esc="emit('fecharPop')">
+      <div
+        class="loginContainer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-modal-titulo"
+      >
+        <div class="head">
+          <h2>Olympus</h2>
+          <p>Sign up</p>
+        </div>
+        <div class="input">
+          <h1 id="login-modal-titulo">Log-in</h1>
+          <loginInput :nome="'Login'" :tipo="'text'" v-model="login"></loginInput>
+          <loginInput :nome="'Senha'" :tipo="'password'" v-model="senha"></loginInput>
+        </div>
+        <div class="text">
+          <p>Administradores e árbitros têm acesso ao painel de controle</p>
+          <loginButton :login="login" :senha="senha" @fechar="emit('fecharPop')"
+            >Entrar</loginButton
+          >
+        </div>
+        <button type="button" class="close" aria-label="Fechar login" @click="emit('fecharPop')">
+          Fechar
+        </button>
       </div>
-      <div class="input">
-        <h1>Log-in</h1>
-        <loginInput :nome="'Login'" :tipo="'text'" v-model="login"></loginInput>
-        <loginInput :nome="'Senha'" :tipo="'password'" v-model="senha"></loginInput>
-      </div>
-      <div class="text">
-        <p>Administradores e árbitros têm acesso ao painel de controle</p>
-        <loginButton :login="login" :senha="senha" @fechar="emit('fecharPop')">Entrar</loginButton>
-      </div>
-      <button class="close" v-on:click.prevent="emit('fecharPop')">close</button>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -43,6 +54,10 @@ if (sessao) {
 .close {
   background: none;
   border: none;
+  min-height: 44px;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.75rem;
 }
 .close:hover {
   text-decoration: underline;
@@ -52,9 +67,7 @@ if (sessao) {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
-    url('../assets/loginBackground.png') center / cover no-repeat;
+  background: rgba(0, 0, 0, 0.62);
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
@@ -74,17 +87,16 @@ if (sessao) {
   border-radius: 12px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
   padding: 3rem 0;
-  width: min(92vw, 36rem);
+  width: min(100%, 36rem);
   max-width: 100%;
+  min-width: 0;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-@media (min-width: 1200px) {
-  .container {
-    background: rgba(0, 0, 0, 0.62);
-  }
 }
 
 .head {
@@ -92,7 +104,7 @@ if (sessao) {
   align-items: center;
   justify-content: space-between;
   margin: 0 1rem;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
 }
 
 .text {
@@ -110,12 +122,57 @@ if (sessao) {
   margin: 1rem;
 }
 
+.input h1 {
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+.input :deep(input) {
+  font-size: 0.875rem;
+}
+
+.text :deep(button) {
+  font-size: 0.875rem;
+}
+
 h2 {
   font-family: 'Cinzel', serif;
   font-weight: 900;
   color: #d49258;
   letter-spacing: 2%;
   text-shadow: -0.2rem 0.3rem 0.5rem black;
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .loginContainer {
+    padding: 1.5rem 0;
+  }
+
+  .head {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .input h1 {
+    font-size: 1.25rem;
+  }
+
+  .text {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .text p {
+    width: 100%;
+    font-size: 0.7rem;
+    line-height: 1.6;
+  }
+
+  .text :deep(button) {
+    min-height: 48px;
+    width: 100%;
+  }
 }
 </style>

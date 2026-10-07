@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router';
 import FacebookIcon from '@iconify-vue/mdi/facebook';
 import InstagramIcon from '@iconify-vue/mdi/instagram';
 import TwitterIcon from '@iconify-vue/mdi/twitter';
+const emit = defineEmits(['loginPop'])
 </script>
 
 <template>
@@ -49,7 +50,7 @@ import TwitterIcon from '@iconify-vue/mdi/twitter';
                     <RouterLink to="/times">Times</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/login">Login</RouterLink>
+                    <button type="button" class="login-link" aria-haspopup="dialog" @click="emit('loginPop')">Login</button>
                 </li>
                 <li>
                     <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
@@ -145,12 +146,22 @@ h2 {
     margin: 0 0 0.5rem;
     font-size: clamp(1.2rem, 1.5vw, 1.5rem);
 }
-.navegue a {
+.navegue a,
+.login-link {
     text-decoration: none;
     color: white;
     transition: 0.3s;
 }
-.navegue a:hover {
+.login-link {
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+.navegue a:hover,
+.login-link:hover {
     color: #DE6D1C;
 }
 

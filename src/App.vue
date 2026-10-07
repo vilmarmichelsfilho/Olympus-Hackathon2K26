@@ -33,7 +33,10 @@ function fecharLogin() {
     <div class="app-conteiner">
       <RouterView @login-pop="abrirLogin"></RouterView>
     </div>
-    <FooterApp v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"></FooterApp>
+    <FooterApp
+      v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"
+      @login-pop="abrirLogin"
+    ></FooterApp>
   </div>
   <loginView v-if="loginPop" @fechar-pop="fecharLogin"></loginView>
 </template>

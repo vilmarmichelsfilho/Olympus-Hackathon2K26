@@ -115,10 +115,10 @@ const progressoPorcentagem = computed(() => {
         <div class="container">
           <div class="conteiner-modalidades"><img src="/images/coroa.png" alt="coroa" /></div>
           <div class="log-in-mobile">
-            <RouterLink class="link" to="/login">
+            <button class="link" type="button" aria-haspopup="dialog" @click="emit('loginPop')">
               Log-in
               <ArrowRightIcon height="2.5em" class="flecha-icon"></ArrowRightIcon>
-            </RouterLink>
+            </button>
           </div>
         </div>
 
@@ -332,6 +332,8 @@ section.selecao-modalidades .container .log-in-mobile {
   color: white;
   font-size: clamp(16px, 3.5vw, 20px);
   font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
   line-height: 1;
   white-space: nowrap;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
