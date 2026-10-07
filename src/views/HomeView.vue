@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
 import { timesOrdenados } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
@@ -194,23 +193,11 @@ const progressoPorcentagem = computed(() => {
             </div>
           </div>
         </Transition>
-        <a
-          class="creditos-imagens"
-          href="/images/imagem-modalidades/creditos.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Créditos das fotos</a>
       </section>
-      <section class="rankingtimes">
+      <section class="rankingtimes" aria-labelledby="ranking-titulo">
         <div class="conteiner">
           <div class="conteiner-esquerdo">
-            <h3>Ranking Dos <span>Times</span></h3>
-            <div class="contentlink">
-              <RouterLink to="/times" class="link-times">
-                Times
-                <ArrowTopRightIcon height="2em"></ArrowTopRightIcon>
-              </RouterLink>
-            </div>
+            <h2 id="ranking-titulo" class="ranking-titulo">Ranking dos <span>Times</span></h2>
           </div>
           <div class="jogosrestantes">
             <p class="numero">
@@ -258,19 +245,6 @@ main {
   display: flex;
   justify-content: center;
 }
-.creditos-imagens {
-  display: block;
-  width: fit-content;
-  margin: 24px auto 0;
-  padding: 8px;
-  color: #666;
-  font-size: 0.8rem;
-  text-underline-offset: 3px;
-}
-.creditos-imagens:focus-visible {
-  outline: 2px solid #e85002;
-  outline-offset: 3px;
-}
 section.selecao-modalidades {
   padding: 0 0 10vw 0;
   background-color: #fff;
@@ -307,7 +281,7 @@ section.selecao-modalidades div.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
+  background: linear-gradient(to left, #151313 0%, #3d0f0f 100%);
 }
 
 section.selecao-modalidades div.container > * {
@@ -333,11 +307,9 @@ section.selecao-modalidades .container .log-in-desktop {
 }
 
 section.selecao-modalidades .container .log-in-mobile {
-  width: 40vw;
+  width: clamp(112px, 40vw, 240px);
   margin: 0 3vw 0 0;
-  height: 15vw;
-  background-color: #e85002;
-  border-radius: 30px;
+  height: auto;
 }
 
 .link-desktop {
@@ -346,17 +318,47 @@ section.selecao-modalidades .container .log-in-mobile {
 }
 
 .link {
-  border: none;
-  background: transparent;
+  border: 1px solid transparent;
+  background: #e85002;
   align-items: center;
   display: flex;
-  gap: 1vw;
+  gap: 8px;
   justify-content: space-between;
-  margin: 1vw 3vw;
-  padding: 0 0 0 2.5vw;
+  min-height: clamp(48px, 11vw, 64px);
+  width: 100%;
+  padding: 8px 10px 8px 16px;
+  border-radius: 999px;
   text-decoration: none;
   color: white;
-  font-size: 5vw;
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.link:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.link:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
 }
 
 section .flecha-icon {
@@ -365,6 +367,14 @@ section .flecha-icon {
   border-radius: 100vw;
   color: #e85002;
   padding: 0.5vw;
+}
+
+.link .flecha-icon {
+  width: clamp(28px, 6vw, 36px);
+  height: clamp(28px, 6vw, 36px);
+  margin: 0;
+  padding: 6px;
+  flex-shrink: 0;
 }
 
 section.selecao-modalidades h2 {
@@ -529,7 +539,7 @@ section.rankingtimes {
   margin: 50vh 0 0 0;
 }
 
-section.rankingtimes h3 {
+section.rankingtimes .ranking-titulo {
   display: none;
   color: white;
 }
@@ -569,21 +579,64 @@ tbody {
   padding: 0 0 10vh 0;
 }
 
-.link-times {
-  display: flex;
-  align-items: center;
-  gap: 3vw;
-  text-decoration: none;
-  font-size: 5vw;
-  margin: 0 55vw 4vw 0;
-  color: white;
-  border: 1px solid white;
-  border-radius: 6vw;
-  padding: 0.5vw 4vw;
-}
+@media (max-width: 999px) {
+  section.selecao-modalidades {
+    margin-bottom: 0;
+  }
 
-div.contentlink {
-  display: none;
+  section.rankingtimes {
+    margin-top: 32px;
+  }
+
+  section.rankingtimes > .conteiner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 90vw;
+    margin-bottom: 20px;
+  }
+
+  section.rankingtimes .conteiner-esquerdo {
+    min-width: 0;
+  }
+
+  section.rankingtimes .ranking-titulo {
+    display: block;
+    font-size: clamp(24px, 5.5vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  section.rankingtimes .ranking-titulo span {
+    color: #e85002;
+  }
+
+  section.rankingtimes div.jogosrestantes {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+  }
+
+  .jogosrestantes p {
+    color: #c7baba;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .jogosrestantes p.numero {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .jogosrestantes .numero span {
+    color: #e85002;
+  }
+
 }
 
 @media (max-width: 1020px) {
@@ -608,7 +661,7 @@ div.contentlink {
   }
 
   section.selecao-modalidades div.container {
-    background-color: transparent;
+    background: transparent;
     display: block;
     position: static;
   }
@@ -770,14 +823,14 @@ div.contentlink {
     gap: 2vw;
   }
 
-  section.rankingtimes h3 {
+  section.rankingtimes .ranking-titulo {
     display: block;
     font-size: 6vw;
     margin: 0 0 0 4vw;
     font-weight: 600;
   }
 
-  section.rankingtimes h3 span {
+  section.rankingtimes .ranking-titulo span {
     color: #e85002;
   }
 
@@ -815,11 +868,6 @@ div.contentlink {
     padding: 0;
   }
 
-  div.contentlink {
-    align-items: center;
-    display: flex;
-  }
-
   thead {
     border: none;
   }
@@ -833,12 +881,5 @@ div.contentlink {
     padding: 1vw 0;
   }
 
-  .link-times {
-    font-size: 1.5vw;
-    margin: 0;
-    padding: 0 2vw;
-    margin: 1.5vw 0 0 0;
-    gap: 1vw;
-  }
 }
 </style>

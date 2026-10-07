@@ -99,7 +99,7 @@ button {
 
 .topo ul {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr 0.3fr;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr) minmax(0, 1fr) 200px;
   align-items: center;
   gap: 1rem;
   margin: 0 1.5rem;

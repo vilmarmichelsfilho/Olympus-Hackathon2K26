@@ -1,18 +1,18 @@
 <script setup>
-import { arbitros } from '@/data/arbitros.js';
-import ArbitroNewCard from '../Cards/ArbitroNewCard.vue';
-import { computed, ref } from 'vue';
-import AdicionarArbitro from '../AdicionarArbitro.vue';
-import editarrArbitro from '../EditarArbitroView.vue';
-import { editarArbitro } from '@/Utils/editarUtils.js';
-import { apagarArbitro } from '@/Utils/exclusaoUtils';
+import { arbitros } from '@/data/arbitros.js'
+import ArbitroNewCard from '../Cards/ArbitroNewCard.vue'
+import { computed, ref } from 'vue'
+import AdicionarArbitro from '../AdicionarArbitro.vue'
+import editarrArbitro from '../EditarArbitroView.vue'
+import { editarArbitro } from '@/Utils/editarUtils.js'
+import { apagarArbitro } from '@/Utils/exclusaoUtils'
 
 const props = defineProps(['torneio'])
-const emits = defineEmits(['salvar','voltar'])
+const emits = defineEmits(['salvar', 'voltar'])
 
 const arbitrosTorneio = computed(() => {
-    return arbitros.filter(item => item.cod_torneio === props.torneio);
-});
+  return arbitros.filter((item) => item.cod_torneio === props.torneio)
+})
 
 function excluirArbitro(id) {
   const resultado = apagarArbitro(id)
@@ -27,113 +27,187 @@ function abrirEditarArbitro(id) {
 }
 
 function avancar() {
-    if (arbitrosTorneio.value.length > 0) {
-        emits('salvar')
-    } else {
-        alert('O torneio precisa ter pelo menos 1 arbitro adicionado')
-    }
+  if (arbitrosTorneio.value.length > 0) {
+    emits('salvar')
+  } else {
+    alert('O torneio precisa ter pelo menos 1 arbitro adicionado')
+  }
 }
 </script>
 
 <template>
-    <div class="sla">
-        <div class="header">
-            <h3>Árbitros</h3>
-            <button @click="adicionarrArbitro = true" class="adicionar">Adicionar</button>
-        </div>
-        <div class="cards">
-            <ul>
-                <li>Nome</li>
-                <li>Login</li>
-                <li>Senha</li>
-                <li>Ações</li>
-            </ul>
-            <ul class="cardss">
-                <ArbitroNewCard v-for="(arbitro, index) in arbitrosTorneio" :key="arbitro.cod_arbitro"
-                    :id="arbitro.cod_arbitro" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
-                    @excluir-arbitro="excluirArbitro" @editar-arbitro="abrirEditarArbitro"> 
-                </ArbitroNewCard>
-            </ul>
-        </div>
+  <div class="sla torneio-etapa cadastro-arbitros">
+    <div class="header">
+      <h3>Árbitros</h3>
+      <button @click="adicionarrArbitro = true" class="adicionar">Adicionar</button>
     </div>
-    <div class="nav">
-        <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
-        <button class="salvar" v-on:click="avancar">Salvar Alterações</button>
+    <div class="cards">
+      <ul class="cabecalho-lista cadastro-arbitro">
+        <li>Nome</li>
+        <li>Login</li>
+        <li>Senha</li>
+        <li>Ações</li>
+      </ul>
+      <ul class="cardss">
+        <ArbitroNewCard
+          v-for="(arbitro, index) in arbitrosTorneio"
+          :key="arbitro.cod_arbitro"
+          :id="arbitro.cod_arbitro"
+          :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
+          @excluir-arbitro="excluirArbitro"
+          @editar-arbitro="abrirEditarArbitro"
+        >
+        </ArbitroNewCard>
+      </ul>
     </div>
-    <AdicionarArbitro
-      @fecharAdicionarArbitro="adicionarrArbitro = false" :torneio="torneio"
-      v-if="adicionarrArbitro"
-    ></AdicionarArbitro>
-    <editarrArbitro
-      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
-      @atualizar="editarArbitro($event.cod_arbitro, $event)"
-      @fecharEditarArbitro="arbitroEditar = false"
-      v-if="arbitroEditar"
-    />
+  </div>
+  <div class="nav">
+    <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
+    <button class="salvar" v-on:click="avancar">Salvar Alterações</button>
+  </div>
+  <AdicionarArbitro
+    @fecharAdicionarArbitro="adicionarrArbitro = false"
+    :torneio="torneio"
+    v-if="adicionarrArbitro"
+  ></AdicionarArbitro>
+  <editarrArbitro
+    :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
+    @atualizar="editarArbitro($event.cod_arbitro, $event)"
+    @fecharEditarArbitro="arbitroEditar = false"
+    v-if="arbitroEditar"
+  />
 </template>
 
 <style scoped>
 .adicionar {
-    font-weight: bolder;
-    font-size: 1.2rem;
-    border: black solid 0.2vw;
-    border-radius: 0.7vw;
-    padding: 0.2vw 0.6vw;
+  font-weight: bolder;
+  font-size: 1.2rem;
+  border: black solid 0.2vw;
+  border-radius: 0.7vw;
+  padding: 0.2vw 0.6vw;
 }
 button {
-    border: none;
-    background: none;
-    display: flex;
-    align-items: center;
-    transition: 0.3s;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
 }
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 .salvar {
-    background: #6EAC31;
-    padding: 0.5vw 2vw;
-    border-radius: 0.7vw;
-    color: white;
+  background: #6eac31;
+  padding: 0.5vw 2vw;
+  border-radius: 0.7vw;
+  color: white;
 }
 .nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 3rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
 }
 .voltar {
-    font-size: 1rem;
-    font-weight: bolder;
-    border: black solid 0.2vw;
-    padding: 0 3vw;
-    border-radius: 0.5vw;
+  font-size: 1rem;
+  font-weight: bolder;
+  border: black solid 0.2vw;
+  padding: 0 3vw;
+  border-radius: 0.5vw;
 }
 .header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .sla {
-    background: #F8F8FA;
-    padding: 1vw;
-    border-radius: 0.5vw;
+  background: #f8f8fa;
+  padding: 1vw;
+  border-radius: 0.5vw;
 }
 
 .cardss {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .cards {
-    max-height: 27rem;
-    overflow: auto;
+  max-height: 27rem;
+  overflow: auto;
 }
 
 ul {
-    overflow: hidden;
-    background: #F8F8FA;
+  overflow: hidden;
+  background: #f8f8fa;
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .cadastro-arbitros {
+    min-width: 0;
+    padding: 12px;
+    border-radius: 12px;
+    font-family:
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+  }
+
+  .cadastro-arbitros .header {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .cadastro-arbitros .header h3 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .cadastro-arbitros .adicionar {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #222;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .cadastro-arbitros .cabecalho-lista {
+    display: none;
+  }
+
+  .cadastro-arbitros .cards {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .cadastro-arbitros .cardss {
     display: flex;
-    list-style: none;
-    justify-content: space-between;
-    padding: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav button {
+    flex: 1 1 140px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
 }
 </style>
