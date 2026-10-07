@@ -7,6 +7,7 @@ import TableJogos from '@/components/TableJogos.vue';
 const menuAberto = ref(false)
 const emit = defineEmits(['loginPop'])
 const route = useRoute()
+defineProps({ compacto: Boolean })
 
 function abrirMenu() {
   menuAberto.value = !menuAberto.value
@@ -25,7 +26,7 @@ watch(() => route.fullPath, fecharMenu)
 </script>
 
 <template>
-  <div class="olympus-screen">
+  <div class="olympus-screen" :class="{ 'cabecalho-compacto': compacto }">
     <header class="barra-mobile">
       <RouterLink class="logo-mobile-link" to="/" aria-label="Página inicial" @click="fecharMenu">
         <img src="@/assets/logodesktop.png" alt="Olympos" class="logo-mobile" />
@@ -48,6 +49,7 @@ watch(() => route.fullPath, fecharMenu)
           <RouterLink to="/" @click="fecharMenu">Home</RouterLink>
           <RouterLink to="/sobrenos" @click="fecharMenu">Sobre Nós</RouterLink>
           <RouterLink to="/proximos-jogos" @click="fecharMenu">Próximos jogos</RouterLink>
+          <RouterLink to="/noticias" @click="fecharMenu">Notícias</RouterLink>
           <button type="button" class="login-mobile" @click="abrirLogin">Entrar</button>
         </nav>
       </div>
@@ -64,6 +66,7 @@ watch(() => route.fullPath, fecharMenu)
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
         <RouterLink to="/proximos-jogos">Próximos jogos</RouterLink>
+        <RouterLink to="/noticias">Notícias</RouterLink>
       </nav>
 
       <button class="btn-login" v-on:click.prevent="emit('loginPop')">
@@ -71,12 +74,12 @@ watch(() => route.fullPath, fecharMenu)
       </button>
     </header>
 
-    <div class="logo-todo">
+    <div v-if="!compacto" class="logo-todo">
       <img src="@/assets/logo.png" alt="Olympos" class="logo" />
       <h1 class="nome-site">Olympos</h1>
     </div>
 
-    <div class="placares">
+    <div v-if="!compacto" class="placares">
       <ul>
         <TableJogos v-for="jogo in jogosVerificados" :key="jogo.cod_jogo"
           :data="jogo.data"
@@ -110,6 +113,15 @@ watch(() => route.fullPath, fecharMenu)
   font-family: 'Georgia', serif;
   overflow: hidden;
   background-color: black;
+}
+.cabecalho-compacto {
+  min-height: auto;
+  background-image: none;
+  background-color: #151313;
+}
+.cabecalho-compacto .nav-links a:focus-visible {
+  outline: 2px solid #ff8c50;
+  outline-offset: 6px;
 }
 .nav-links a.router-link-exact-active {
   text-decoration: underline;
@@ -315,6 +327,17 @@ watch(() => route.fullPath, fecharMenu)
     background-color: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 
+  }
+  .cabecalho-compacto .barra-desktop {
+    background: #151313;
+    flex-wrap: wrap;
+  }
+  .cabecalho-compacto .nav-links a {
+    color: white;
+  }
+  .cabecalho-compacto .nav-links {
+    flex-wrap: wrap;
+    flex-shrink: 1;
   }
   .logotipo {
     display: flex;

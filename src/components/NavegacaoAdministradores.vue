@@ -30,6 +30,7 @@ function sair() {
       <nav>
         <ul>
           <li v-on:click="emit('tela', 'torneio')">Torneio</li>
+          <li><button class="noticias-nav" type="button" @click="emit('tela', 'noticias')">Notícias</button></li>
           <li v-if="codTorneioSelecionadoAdm !== null" v-on:click="emit('tela', 'dashboard')">
             Dashboard
           </li>
@@ -126,6 +127,20 @@ function sair() {
   color: white;
   font-size: 0.9vw;
   background: linear-gradient(90deg, #e85002 1%, rgba(0, 0, 0, 0) 1%);
+}
+.noticias-nav {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px;
+  text-align: left;
+}
+.noticias-nav:focus-visible {
+  outline: 2px solid #f47535;
+  outline-offset: 4px;
 }
 .separa {
   height: 0.1vw;

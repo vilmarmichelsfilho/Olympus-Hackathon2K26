@@ -34,6 +34,16 @@ const router = createRouter({
       component: SobreNosView,
     },
     {
+      path: '/noticias',
+      name: 'noticias',
+      component: () => import('@/views/NoticiasView.vue'),
+    },
+    {
+      path: '/noticias/:id',
+      name: 'noticia-detalhe',
+      component: () => import('@/views/NoticiaDetalheView.vue'),
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginView,

@@ -46,8 +46,8 @@ const emit = defineEmits(['loginPop'])
                 <li>
                     <RouterLink to="/proximos-jogos">Próximos jogos</RouterLink>
                 </li>
-                <li class="item-times">
-                    <RouterLink to="/times">Times</RouterLink>
+                <li>
+                    <RouterLink to="/noticias">Notícias</RouterLink>
                 </li>
                 <li>
                     <button type="button" class="login-link" aria-haspopup="dialog" @click="emit('loginPop')">Login</button>
