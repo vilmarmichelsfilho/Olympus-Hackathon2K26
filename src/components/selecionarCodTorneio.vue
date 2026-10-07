@@ -1,8 +1,8 @@
 <script setup>
 import selecionarTorneioCard from './selecionarTorneioCard.vue'
 import { torneios } from '@/data/torneios'
-import { modificarCodTorneio } from '@/Utils/cod_torneioUtils.js';
-function modifyCodtorneio(id){
+import { modificarCodTorneio } from '@/Utils/cod_torneioUtils.js'
+function modifyCodtorneio(id) {
   modificarCodTorneio(id)
 }
 </script>
@@ -12,7 +12,7 @@ function modifyCodtorneio(id){
       <img src="/images/coroa.png" alt="coroa" />
       <div class="content">
         <h2>TORNEIOS</h2>
-        <h3>Escolha um torneio para acesar</h3>
+        <h3>Escolha um torneio para acessar</h3>
       </div>
     </div>
     <ul>
@@ -39,12 +39,12 @@ function modifyCodtorneio(id){
   align-items: flex-start;
   overflow: hidden;
 }
-.conteiner{
+.conteiner {
   display: flex;
   align-items: center;
   margin: 0 0 0 2vw;
 }
-.content{
+.content {
   margin: 0 0 0 2vw;
 }
 h2 {
@@ -65,16 +65,74 @@ ul {
   padding: 0;
   margin: 0 2vw;
 }
-@media  (max-width: 750px){
-  h2{
-    font-size: 5vw
+@media (max-width: 1000px) {
+  .popup-boxx {
+    width: min(100% - 32px, 560px);
+    height: auto;
+    margin: 24px 0;
+    padding: 24px 20px;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    overflow: visible;
+    gap: 24px;
   }
-h3{
-  font-size: 3vw;
+
+  .conteiner {
+    width: 100%;
+    gap: 14px;
+    margin: 0;
+  }
+
+  .conteiner img {
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    object-fit: contain;
+    background: #fff2e9;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .content {
+    min-width: 0;
+    margin: 0;
+  }
+
+  h2 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    list-style: none;
+  }
 }
-.popup-boxx{
-  width: 90vw;
-  margin: 0 5vw;
-}
+
+@media (max-width: 360px) {
+  .popup-boxx {
+    padding: 20px 16px;
+  }
+
+  .conteiner {
+    gap: 10px;
+  }
+
+  .conteiner img {
+    width: 48px;
+    height: 48px;
+  }
 }
 </style>

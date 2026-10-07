@@ -1,9 +1,11 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import loginView from './components/loginView.vue'
 import AppHeader from './components/AppHeader.vue'
 import FooterApp from './components/FooterApp.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+const route = useRoute()
+const paginaNoticias = computed(() => ['noticias', 'noticia-detalhe'].includes(route.name))
 if (localStorage.getItem('primeiraVisita') === null) {
   localStorage.setItem('logado', 'false')
   localStorage.setItem('primeiraVisita', 'true')
@@ -22,10 +24,11 @@ function fecharLogin() {
   <div class="image">
     <div
       class="hero"
+      :class="{ 'hero-noticias': paginaNoticias }"
       v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"
     >
-      <AppHeader class="header" @login-pop="abrirLogin"></AppHeader>
-      <div class="texto">
+      <AppHeader class="header" :compacto="paginaNoticias" @login-pop="abrirLogin"></AppHeader>
+      <div v-if="!paginaNoticias" class="texto">
         <h2>Olimpíadas ifc</h2>
         <h3>Unindo talentos, inspirando <span>conquistas</span>.</h3>
       </div>
@@ -33,7 +36,10 @@ function fecharLogin() {
     <div class="app-conteiner">
       <RouterView @login-pop="abrirLogin"></RouterView>
     </div>
-    <FooterApp v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"></FooterApp>
+    <FooterApp
+      v-if="!['administradores', 'arbitro', 'login', 'jogos', 'torneio'].includes($route.name)"
+      @login-pop="abrirLogin"
+    ></FooterApp>
   </div>
   <loginView v-if="loginPop" @fechar-pop="fecharLogin"></loginView>
 </template>
@@ -53,6 +59,10 @@ function fecharLogin() {
   top: 17vw;
   left: 56vw;
   color: black;
+}
+.hero-noticias {
+  min-height: auto;
+  background: transparent;
 }
 .texto h2 {
   font-family: 'Anton SC', sans-serif;

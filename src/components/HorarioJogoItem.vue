@@ -31,10 +31,9 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
   justify-content: space-between;
   overflow: hidden;
   padding: 1vw 2.9vw;
-  border: 0.07vw solid #d7d7d7;
+  border: 0.07vw solid #1e293b;
   border-radius: 0.85vw;
-  background: #fff;
-  box-shadow: 0.55vw 0.55vw 0.35vw rgb(0 0 0 / 16%);
+  background: rgb(255 255 255 / 3%);
 }
 
 .dados-jogo,
@@ -50,7 +49,7 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
 }
 
 .modalidade {
-  color: #68ad3e;
+  color: #e85002;
   font-size: 1.2vw;
   font-weight: 700;
 }
@@ -72,7 +71,7 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
 
 .confronto {
   overflow: hidden;
-  color: #121216;
+  color: #fff;
   font-size: 1.55vw;
   font-weight: 650;
   line-height: 1.35;
@@ -81,14 +80,14 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
 }
 
 .local {
-  color: #aaa;
+  color: #8a99ad;
   font-size: 1vw;
 }
 
 .horario {
   flex: 0 0 auto;
   margin-left: 1.4vw;
-  color: #adadaf;
+  color: #aeb9d0;
   font-size: 2.1vw;
   font-weight: 600;
 }
@@ -100,6 +99,7 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
     border: 0;
     border-bottom: 0.3vw solid #e5e5e5;
     border-radius: 0;
+    background: #fff;
     box-shadow: none;
   }
 
@@ -112,7 +112,12 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
   }
 
   .modalidade {
+    color: #68ad3e;
     font-size: 3.6vw;
+  }
+
+  .ao-vivo .modalidade {
+    color: #df272e;
   }
 
   .status {
@@ -122,10 +127,12 @@ const aoVivo = computed(() => props.jogo.status?.replaceAll(' ', '').toLowerCase
 
   .confronto {
     max-width: 45vw;
+    color: #121216;
     font-size: 4.5vw;
   }
 
   .local {
+    color: #aaa;
     font-size: 2.75vw;
   }
 

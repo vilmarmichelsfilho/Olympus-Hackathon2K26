@@ -7,6 +7,7 @@ import LoginView from '@/views/LoginView.vue'
 import TorneioView from '@/views/TorneioView.vue'
 import TimesViewTabela from '@/views/TimesViewTabela.vue'
 import JogosView from '@/views/JogosView.vue'
+import ProximosJogosView from '@/views/ProximosJogosView.vue'
 import ArbitroDashboardView from '@/views/ArbitroDashboardView.vue'
 import { obterSessao, rotaDaSessao } from '@/Utils/loginUtils'
 const router = createRouter({
@@ -23,9 +24,24 @@ const router = createRouter({
       component: TimesViewTabela,
     },
     {
+      path: '/proximos-jogos',
+      name: 'proximos-jogos',
+      component: ProximosJogosView,
+    },
+    {
       path: '/sobrenos',
       name: 'sobrenos',
       component: SobreNosView,
+    },
+    {
+      path: '/noticias',
+      name: 'noticias',
+      component: () => import('@/views/NoticiasView.vue'),
+    },
+    {
+      path: '/noticias/:id',
+      name: 'noticia-detalhe',
+      component: () => import('@/views/NoticiaDetalheView.vue'),
     },
     {
       path: '/login',
@@ -68,6 +84,11 @@ export default router
 router.beforeEach((to) => {
   const sessao = obterSessao()
   const perfilNecessario = to.meta.perfil
+  const telaMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+
+  if (to.name === 'times' && telaMobile) {
+    return { name: 'home' }
+  }
 
   if (perfilNecessario && sessao?.tipo !== perfilNecessario) {
     return { name: 'login' }

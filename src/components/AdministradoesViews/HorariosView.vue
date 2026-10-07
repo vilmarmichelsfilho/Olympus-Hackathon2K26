@@ -140,8 +140,8 @@ const jogosDoDia = computed(() =>
   width: 100%;
   min-height: 560px;
   padding: 18px 7% 48px;
-  border-radius: 3px;
-  background: #fff;
+  border-radius: 12px;
+  background: #0b1739;
 }
 
 .coroa {
@@ -173,7 +173,7 @@ const jogosDoDia = computed(() =>
 
 .vazio,
 .sem-torneio {
-  color: #777;
+  color: #aeb9d0;
   text-align: center;
 }
 
@@ -211,10 +211,17 @@ const jogosDoDia = computed(() =>
   .painel {
     min-height: 0;
     padding: 0;
+    border-radius: 0;
+    background: #fff;
   }
 
   .coroa {
     display: none;
+  }
+
+  .vazio,
+  .sem-torneio {
+    color: #777;
   }
 
   .dias {

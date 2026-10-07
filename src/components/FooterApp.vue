@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router';
 import FacebookIcon from '@iconify-vue/mdi/facebook';
 import InstagramIcon from '@iconify-vue/mdi/instagram';
 import TwitterIcon from '@iconify-vue/mdi/twitter';
+const emit = defineEmits(['loginPop'])
 </script>
 
 <template>
@@ -20,14 +21,14 @@ import TwitterIcon from '@iconify-vue/mdi/twitter';
                 <h2>Nos Siga</h2>
                 <span>-</span>
                 <ul>
-                    <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                            <FacebookIcon width="2.5vw"></FacebookIcon>
+                    <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <FacebookIcon class="icone-rede"></FacebookIcon>
                         </a></li>
-                    <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                            <InstagramIcon width="2.5vw"></InstagramIcon>
+                    <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <InstagramIcon class="icone-rede"></InstagramIcon>
                         </a></li>
-                    <li><a href="https://www.x.com" target="_blank" rel="noopener noreferrer">
-                            <TwitterIcon width="2.5vw"></TwitterIcon>
+                    <li><a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="X">
+                            <TwitterIcon class="icone-rede"></TwitterIcon>
                         </a></li>
                 </ul>
             </div>
@@ -43,13 +44,13 @@ import TwitterIcon from '@iconify-vue/mdi/twitter';
                     <RouterLink to="/">Menu</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/">Jogos</RouterLink>
+                    <RouterLink to="/proximos-jogos">Próximos jogos</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/">Times</RouterLink>
+                    <RouterLink to="/noticias">Notícias</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/login">Login</RouterLink>
+                    <button type="button" class="login-link" aria-haspopup="dialog" @click="emit('loginPop')">Login</button>
                 </li>
                 <li>
                     <RouterLink to="/sobrenos">Sobre Nós</RouterLink>
@@ -64,11 +65,21 @@ import TwitterIcon from '@iconify-vue/mdi/twitter';
 
 footer {
     background: #151313;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1vw 5vw;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 5vw, 5rem);
+    padding: 2.5rem clamp(1.5rem, 5vw, 5rem);
     color: white;
+}
+
+.contatos,
+.navegue {
+    min-width: 0;
+}
+
+.navegue {
+    justify-self: end;
 }
 
 .meio {
@@ -76,7 +87,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    gap: 1rem;
 }
 
 .redesSociais {
@@ -90,8 +101,8 @@ footer {
 .redesSociais span {
     font-weight: bolder;
     font-family: "BBH Hegarty", sans-serif;
-    font-size: 1.2vw;
-    margin: 0 0.8vw;
+    font-size: 1.2rem;
+    margin: 0 0.8rem;
 }
 .redesSociais a {
     color: white;
@@ -104,35 +115,99 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5vw;
+    gap: 0.5rem;
+    margin: 0;
+}
+.icone-rede {
+    width: 1.75rem;
+    height: 1.75rem;
 }
 .rights p {
     font-family: "Cinzel", serif;
     font-style: normal;
     text-align: center;
     font-weight: bolder;
+    margin: 0;
 }
 ul {
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 ul li {
     font-family: "Afacad", sans-serif;
-    font-size: 1vw;
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    line-height: 1.7;
 }
 h2 {
     font-family: "BBH Hegarty", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin-bottom: 0.4vw;
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
 }
-.navegue a {
+.navegue a,
+.login-link {
     text-decoration: none;
     color: white;
     transition: 0.3s;
 }
-.navegue a:hover {
+.login-link {
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+.navegue a:hover,
+.login-link:hover {
     color: #DE6D1C;
-    font-size: 1.1vw;
+}
+
+@media (max-width: 1023px) {
+    .item-times {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 2rem;
+        padding: 2.5rem 1.25rem;
+        text-align: center;
+    }
+
+    .contatos,
+    .meio,
+    .navegue {
+        width: 100%;
+        justify-self: center;
+    }
+
+    .meio {
+        order: 3;
+    }
+
+    .redesSociais {
+        flex-wrap: wrap;
+    }
+
+    .redesSociais span {
+        display: none;
+    }
+
+    .redesSociais ul {
+        flex-basis: 100%;
+        margin-top: 0.75rem;
+    }
+
+    .icone-rede {
+        width: 2rem;
+        height: 2rem;
+    }
+
 }
 </style>

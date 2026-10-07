@@ -5,7 +5,7 @@ import DashboardModalidades from '@/components/DashboardModalidades.vue'
 import TurmasView from '@/components/AdministradoesViews/TurmasView.vue'
 import TimesView from '@/components/AdministradoesViews/TimesView.vue'
 import router from '@/router'
-import { ref, watch } from 'vue'
+import { defineAsyncComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import DashboardControlView from './DashboardControlView.vue'
 import arbitrosView from '@/components/AdministradoesViews/ArbitroView.vue'
@@ -14,8 +14,9 @@ import JogosView from './JogosView.vue'
 import HorariosView from '@/components/AdministradoesViews/HorariosView.vue'
 import ConflitosView from '@/components/AdministradoesViews/ConflitosView.vue'
 import { obterSessao } from '@/Utils/loginUtils'
+const NoticiasAdminView = defineAsyncComponent(() => import('@/components/AdministradoesViews/NoticiasAdminView.vue'))
 const route = useRoute()
-const telasValidas = new Set(['torneio', 'dashboard', 'jogos', 'times', 'horarios', 'conflitos', 'turmas', 'arbitros', 'modalidades'])
+const telasValidas = new Set(['torneio', 'dashboard', 'jogos', 'times', 'horarios', 'conflitos', 'turmas', 'arbitros', 'modalidades', 'noticias'])
 function pegarTela(hash) {
   const tela = hash.replace('#', '')
   return telasValidas.has(tela) ? tela : 'torneio'
@@ -91,6 +92,7 @@ function toggleMenu() {
       <JogosView> </JogosView>
     </div>
     <DashboardModalidades v-show="telaAtual == 'modalidades'"> </DashboardModalidades>
+    <NoticiasAdminView v-if="telaAtual === 'noticias'" />
   </div>
   <div class="controle"></div>
 </template>
