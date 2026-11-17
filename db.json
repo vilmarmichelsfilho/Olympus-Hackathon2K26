@@ -1,0 +1,3039 @@
+{
+  "administradores": [
+    {
+      "cod_adm": 1,
+      "nome_adm": "Administrador Principal",
+      "login_adm": "admin",
+      "senha_adm": "123456"
+    },
+    {
+      "cod_adm": 2,
+      "nome_adm": "Administrador Auxiliar",
+      "login_adm": "admin2",
+      "senha_adm": "123456"
+    }
+  ],
+  "arbitros": [
+    {
+      "cod_arbitro": 1,
+      "cod_torneio": 1,
+      "nome_arbitro": "Carlos Eduardo",
+      "login_arbitro": "carlos",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 2,
+      "cod_torneio": 1,
+      "nome_arbitro": "Marcos Silva",
+      "login_arbitro": "marcos",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 3,
+      "cod_torneio": 1,
+      "nome_arbitro": "João Pedro",
+      "login_arbitro": "joao",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 4,
+      "cod_torneio": 2,
+      "nome_arbitro": "Lucas Martins",
+      "login_arbitro": "lucas",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 5,
+      "cod_torneio": 2,
+      "nome_arbitro": "Rafael Oliveira",
+      "login_arbitro": "rafael",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 6,
+      "cod_torneio": 2,
+      "nome_arbitro": "Gabriel Souza",
+      "login_arbitro": "gabriel",
+      "senha_arbitro": "123456"
+    },
+    {
+      "cod_arbitro": 7,
+      "cod_torneio": 2,
+      "nome_arbitro": "Matheus Costa",
+      "login_arbitro": "matheus",
+      "senha_arbitro": "123456"
+    }
+  ],
+  "jogos": [
+    {
+      "cod_jogo": 1,
+      "cod_modalidade": 1,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 2,
+      "cod_modalidade": 1,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 09:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 3,
+      "cod_modalidade": 1,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 4,
+      "cod_modalidade": 1,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 5,
+      "cod_modalidade": 1,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 08:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 1,
+      "origem_jogo_b": 2
+    },
+    {
+      "cod_jogo": 6,
+      "cod_modalidade": 1,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 09:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 3,
+      "origem_jogo_b": 4
+    },
+    {
+      "cod_jogo": 7,
+      "cod_modalidade": 1,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-24 10:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 5,
+      "origem_jogo_b": 6
+    },
+    {
+      "cod_jogo": 8,
+      "cod_modalidade": 2,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 9,
+      "cod_modalidade": 2,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 09:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 10,
+      "cod_modalidade": 2,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 11,
+      "cod_modalidade": 2,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 12,
+      "cod_modalidade": 2,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 08:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 8,
+      "origem_jogo_b": 9
+    },
+    {
+      "cod_jogo": 13,
+      "cod_modalidade": 2,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 09:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 10,
+      "origem_jogo_b": 11
+    },
+    {
+      "cod_jogo": 14,
+      "cod_modalidade": 2,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-24 09:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 12,
+      "origem_jogo_b": 13
+    },
+    {
+      "cod_jogo": 15,
+      "cod_modalidade": 3,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 13:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 16,
+      "cod_modalidade": 3,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 14:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 17,
+      "cod_modalidade": 3,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 15:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 18,
+      "cod_modalidade": 3,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-20 16:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 19,
+      "cod_modalidade": 3,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 13:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 15,
+      "origem_jogo_b": 16
+    },
+    {
+      "cod_jogo": 20,
+      "cod_modalidade": 3,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-22 14:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 17,
+      "origem_jogo_b": 18
+    },
+    {
+      "cod_jogo": 21,
+      "cod_modalidade": 3,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-24 14:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 19,
+      "origem_jogo_b": 20
+    },
+    {
+      "cod_jogo": 22,
+      "cod_modalidade": 4,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 23,
+      "cod_modalidade": 4,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 09:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 24,
+      "cod_modalidade": 4,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 25,
+      "cod_modalidade": 4,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 12:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 26,
+      "cod_modalidade": 4,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 08:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 22,
+      "origem_jogo_b": 23
+    },
+    {
+      "cod_jogo": 27,
+      "cod_modalidade": 4,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 09:30:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 24,
+      "origem_jogo_b": 25
+    },
+    {
+      "cod_jogo": 28,
+      "cod_modalidade": 4,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-25 10:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 26,
+      "origem_jogo_b": 27
+    },
+    {
+      "cod_jogo": 29,
+      "cod_modalidade": 5,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 30,
+      "cod_modalidade": 5,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 09:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 31,
+      "cod_modalidade": 5,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 32,
+      "cod_modalidade": 5,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 33,
+      "cod_modalidade": 5,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 08:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 29,
+      "origem_jogo_b": 30
+    },
+    {
+      "cod_jogo": 34,
+      "cod_modalidade": 5,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 09:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 31,
+      "origem_jogo_b": 32
+    },
+    {
+      "cod_jogo": 35,
+      "cod_modalidade": 5,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-25 09:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 33,
+      "origem_jogo_b": 34
+    },
+    {
+      "cod_jogo": 36,
+      "cod_modalidade": 6,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 13:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 37,
+      "cod_modalidade": 6,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 14:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 38,
+      "cod_modalidade": 6,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 15:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 39,
+      "cod_modalidade": 6,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-21 16:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 40,
+      "cod_modalidade": 6,
+      "cod_arbitro": 3,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 13:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 36,
+      "origem_jogo_b": 37
+    },
+    {
+      "cod_jogo": 41,
+      "cod_modalidade": 6,
+      "cod_arbitro": 1,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-23 14:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 38,
+      "origem_jogo_b": 39
+    },
+    {
+      "cod_jogo": 42,
+      "cod_modalidade": 6,
+      "cod_arbitro": 2,
+      "status_jogo": "Finalizado",
+      "horario_jogo": "2026-06-25 15:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 40,
+      "origem_jogo_b": 41
+    },
+    {
+      "cod_jogo": 43,
+      "cod_modalidade": 7,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 44,
+      "cod_modalidade": 7,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 45,
+      "cod_modalidade": 7,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 46,
+      "cod_modalidade": 7,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 47,
+      "cod_modalidade": 7,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-20 14:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 43,
+      "origem_jogo_b": 44
+    },
+    {
+      "cod_jogo": 48,
+      "cod_modalidade": 7,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-20 15:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 45,
+      "origem_jogo_b": 46
+    },
+    {
+      "cod_jogo": 49,
+      "cod_modalidade": 7,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-21 16:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 47,
+      "origem_jogo_b": 48
+    },
+    {
+      "cod_jogo": 50,
+      "cod_modalidade": 8,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 51,
+      "cod_modalidade": 8,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 52,
+      "cod_modalidade": 8,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 53,
+      "cod_modalidade": 8,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-19 12:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 54,
+      "cod_modalidade": 8,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-20 14:30:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 50,
+      "origem_jogo_b": 51
+    },
+    {
+      "cod_jogo": 55,
+      "cod_modalidade": 8,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-20 16:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 52,
+      "origem_jogo_b": 53
+    },
+    {
+      "cod_jogo": 56,
+      "cod_modalidade": 8,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-21 17:30:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 54,
+      "origem_jogo_b": 55
+    },
+    {
+      "cod_jogo": 57,
+      "cod_modalidade": 9,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 58,
+      "cod_modalidade": 9,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 09:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 59,
+      "cod_modalidade": 9,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 60,
+      "cod_modalidade": 9,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 12:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 61,
+      "cod_modalidade": 9,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-23 14:30:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 57,
+      "origem_jogo_b": 58
+    },
+    {
+      "cod_jogo": 62,
+      "cod_modalidade": 9,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-23 16:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 59,
+      "origem_jogo_b": 60
+    },
+    {
+      "cod_jogo": 63,
+      "cod_modalidade": 9,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-24 17:30:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 61,
+      "origem_jogo_b": 62
+    },
+    {
+      "cod_jogo": 64,
+      "cod_modalidade": 10,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 65,
+      "cod_modalidade": 10,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 09:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 66,
+      "cod_modalidade": 10,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 67,
+      "cod_modalidade": 10,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-22 12:30:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 68,
+      "cod_modalidade": 10,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-23 14:30:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 64,
+      "origem_jogo_b": 65
+    },
+    {
+      "cod_jogo": 69,
+      "cod_modalidade": 10,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-23 16:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 66,
+      "origem_jogo_b": 67
+    },
+    {
+      "cod_jogo": 70,
+      "cod_modalidade": 10,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-24 17:30:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 68,
+      "origem_jogo_b": 69
+    },
+    {
+      "cod_jogo": 71,
+      "cod_modalidade": 11,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 72,
+      "cod_modalidade": 11,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 09:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 73,
+      "cod_modalidade": 11,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 74,
+      "cod_modalidade": 11,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 75,
+      "cod_modalidade": 11,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-26 14:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 71,
+      "origem_jogo_b": 72
+    },
+    {
+      "cod_jogo": 76,
+      "cod_modalidade": 11,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-26 15:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 73,
+      "origem_jogo_b": 74
+    },
+    {
+      "cod_jogo": 77,
+      "cod_modalidade": 11,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-27 16:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 75,
+      "origem_jogo_b": 76
+    },
+    {
+      "cod_jogo": 78,
+      "cod_modalidade": 12,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 08:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 79,
+      "cod_modalidade": 12,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 09:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 80,
+      "cod_modalidade": 12,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 10:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 81,
+      "cod_modalidade": 12,
+      "cod_arbitro": 6,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-25 11:00:00",
+      "fase_jogo": "Quartas de Final",
+      "origem_jogo_a": null,
+      "origem_jogo_b": null
+    },
+    {
+      "cod_jogo": 82,
+      "cod_modalidade": 12,
+      "cod_arbitro": 7,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-26 14:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 78,
+      "origem_jogo_b": 79
+    },
+    {
+      "cod_jogo": 83,
+      "cod_modalidade": 12,
+      "cod_arbitro": 4,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-26 15:00:00",
+      "fase_jogo": "Semifinal",
+      "origem_jogo_a": 80,
+      "origem_jogo_b": 81
+    },
+    {
+      "cod_jogo": 84,
+      "cod_modalidade": 12,
+      "cod_arbitro": 5,
+      "status_jogo": "Agendado",
+      "horario_jogo": "2027-06-27 17:00:00",
+      "fase_jogo": "Final",
+      "origem_jogo_a": 82,
+      "origem_jogo_b": 83
+    }
+  ],
+  "modalides": [
+    {
+      "cod_modalidade": 1,
+      "nome_modalidade": "Futsal",
+      "desc_modalidade": "Competição de futsal",
+      "tempojogemminutos_modalidade": 40,
+      "localdojogo_modalidade": "Quadra B",
+      "foto_modalidade": "/images/imagem-modalidades/futsal-foto.jpg",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 2,
+      "nome_modalidade": "Voleibol",
+      "desc_modalidade": "Competição de voleibol",
+      "tempojogemminutos_modalidade": 60,
+      "localdojogo_modalidade": "Quadra A",
+      "foto_modalidade": "/images/imagem-modalidades/volei-foto.jpg",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 3,
+      "nome_modalidade": "Basquete",
+      "desc_modalidade": "Competição de basquete",
+      "tempojogemminutos_modalidade": 50,
+      "localdojogo_modalidade": "Quadra C",
+      "foto_modalidade": "/images/imagem-modalidades/basquete-foto.jpg",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 4,
+      "nome_modalidade": "Valorant",
+      "desc_modalidade": "Competição de Valorant",
+      "tempojogemminutos_modalidade": 60,
+      "localdojogo_modalidade": "Sala E-Sports",
+      "foto_modalidade": "/images/imagem-modalidades/valorant-foto.jpg",
+      "posicao_foto_modalidade": "100% center",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 5,
+      "nome_modalidade": "Xadrez",
+      "desc_modalidade": "Competição de xadrez",
+      "tempojogemminutos_modalidade": 30,
+      "localdojogo_modalidade": "Biblioteca",
+      "foto_modalidade": "/images/imagem-modalidades/xadrez-foto.jpg",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 6,
+      "nome_modalidade": "Brawl Stars",
+      "desc_modalidade": "Competição de Brawl Stars",
+      "tempojogemminutos_modalidade": 30,
+      "localdojogo_modalidade": "Sala Mobile",
+      "foto_modalidade": "/images/imagem-modalidades/brawlstars-foto.jpg",
+      "cod_torneio": 1
+    },
+    {
+      "cod_modalidade": 7,
+      "nome_modalidade": "Futebol de Campo",
+      "desc_modalidade": "Competição de futebol de campo",
+      "tempojogemminutos_modalidade": 90,
+      "localdojogo_modalidade": "Campo",
+      "foto_modalidade": "/images/imagem-modalidades/futebol-foto.jpg",
+      "cod_torneio": 2
+    },
+    {
+      "cod_modalidade": 8,
+      "nome_modalidade": "Handebol",
+      "desc_modalidade": "Competição de handebol",
+      "tempojogemminutos_modalidade": 50,
+      "localdojogo_modalidade": "Quadra A",
+      "foto_modalidade": "/images/imagem-modalidades/handebol-foto.jpg",
+      "cod_torneio": 2
+    },
+    {
+      "cod_modalidade": 9,
+      "nome_modalidade": "Tênis de Mesa",
+      "desc_modalidade": "Competição de tênis de mesa",
+      "tempojogemminutos_modalidade": 30,
+      "localdojogo_modalidade": "Ginásio",
+      "foto_modalidade": "/images/imagem-modalidades/tenis-mesa-foto.jpg",
+      "posicao_foto_modalidade": "80% center",
+      "cod_torneio": 2
+    },
+    {
+      "cod_modalidade": 10,
+      "nome_modalidade": "Atletismo",
+      "desc_modalidade": "Competição de atletismo",
+      "tempojogemminutos_modalidade": 45,
+      "localdojogo_modalidade": "Pista",
+      "foto_modalidade": "/images/imagem-modalidades/atletismo-foto.jpg",
+      "cod_torneio": 2
+    },
+    {
+      "cod_modalidade": 11,
+      "nome_modalidade": "EA FC",
+      "desc_modalidade": "Competição de EA FC",
+      "tempojogemminutos_modalidade": 25,
+      "localdojogo_modalidade": "Sala E-Sports",
+      "foto_modalidade": "/images/imagem-modalidades/eafc-foto.jpg",
+      "cod_torneio": 2
+    },
+    {
+      "cod_modalidade": 12,
+      "nome_modalidade": "Queimada",
+      "desc_modalidade": "Competição de queimada",
+      "tempojogemminutos_modalidade": 40,
+      "localdojogo_modalidade": "Quadra B",
+      "foto_modalidade": "/images/imagem-modalidades/queimada-foto.jpg",
+      "cod_torneio": 2
+    }
+  ],
+  "noticias": [
+    {
+      "id": 1,
+      "titulo": "Abertura das Olimpíadas reúne as equipes do campus",
+      "resumo": "Uma cerimônia simbólica marca o início da edição demonstrativa de 2026.",
+      "conteudo": "Na programação fictícia desta demonstração, as equipes se reuniram para a abertura das Olimpíadas IFC Araquari 2026. A atividade apresentou as modalidades e destacou a participação dos estudantes.\n\nA organização reforçou o respeito entre os participantes e o cuidado com os espaços do campus. Os jogos coletivos, individuais e eletrônicos fazem parte da programação apresentada neste exemplo.\n\nEsta notícia é um dado demonstrativo e não corresponde a um comunicado oficial.",
+      "imagem": null,
+      "imagemAlt": "",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-06-20T09:00:00-03:00",
+      "cod_torneio": 1,
+      "demonstrativa": true
+    },
+    {
+      "id": 2,
+      "titulo": "Futsal movimenta a primeira rodada das Olimpíadas",
+      "resumo": "Partidas fictícias destacam o trabalho em equipe e o apoio das torcidas.",
+      "conteudo": "A primeira rodada de futsal da edição demonstrativa de 2026 trouxe confrontos entre equipes do campus. Neste cenário fictício, a Quadra B recebeu estudantes e torcedores ao longo da programação.\n\nOs jogos valorizaram a cooperação entre os participantes e a atuação dos responsáveis pela arbitragem. Os resultados oficiais de um torneio real devem ser consultados na área de jogos e classificação.\n\nA fotografia é ilustrativa. O relato foi criado exclusivamente para demonstrar o sistema de notícias.",
+      "imagem": "/images/imagem-modalidades/futsal-foto.jpg",
+      "imagemAlt": "Fotografia ilustrativa da modalidade futsal",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-06-21T17:30:00-03:00",
+      "cod_torneio": 1,
+      "demonstrativa": true
+    },
+    {
+      "id": 3,
+      "titulo": "Voleibol ganha destaque na programação da semana",
+      "resumo": "A cobertura demonstrativa apresenta a participação das equipes na Quadra A.",
+      "conteudo": "Na cobertura fictícia das Olimpíadas de 2026, as partidas de voleibol reuniram equipes e torcidas na Quadra A. A programação foi organizada para permitir a participação das turmas em diferentes modalidades.\n\nA comunicação entre os jogadores e o respeito às decisões da arbitragem foram os temas escolhidos para este exemplo editorial. Nenhum placar desta notícia deve ser interpretado como um resultado oficial.\n\nA imagem é ilustrativa e este conteúdo faz parte dos dados demonstrativos do projeto.",
+      "imagem": "/images/imagem-modalidades/volei-foto.jpg",
+      "imagemAlt": "Fotografia ilustrativa da modalidade voleibol",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-06-24T16:00:00-03:00",
+      "cod_torneio": 1,
+      "demonstrativa": true
+    },
+    {
+      "id": 4,
+      "titulo": "Encerramento celebra a participação dos estudantes",
+      "resumo": "A edição fictícia de 2026 termina com uma homenagem às equipes e à organização.",
+      "conteudo": "O encerramento da edição demonstrativa de 2026 reuniu participantes para celebrar a colaboração durante o torneio. Neste relato fictício, estudantes, árbitros e responsáveis pela organização receberam agradecimentos pela participação.\n\nA proposta das Olimpíadas é incentivar a convivência e a prática de atividades esportivas. A classificação do sistema permanece independente deste conteúdo editorial de exemplo.\n\nEsta notícia não representa uma cerimônia real nem uma divulgação oficial de vencedores.",
+      "imagem": null,
+      "imagemAlt": "",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-06-27T18:00:00-03:00",
+      "cod_torneio": 1,
+      "demonstrativa": true
+    },
+    {
+      "id": 5,
+      "titulo": "Planejamento da edição de 2027 começa com as turmas",
+      "resumo": "Uma notícia fictícia apresenta as primeiras atividades de preparação do próximo torneio.",
+      "conteudo": "A edição de 2027 aparece como planejada na base demonstrativa do projeto. Neste exemplo de notícia, a organização iniciou conversas com representantes das turmas para preparar a próxima programação.\n\nAs datas cadastradas para o torneio vão de 19 a 27 de junho de 2027. O comunicado fictício orienta os participantes a acompanhar futuras informações sobre equipes, modalidades e horários.\n\nEste conteúdo serve para testar notícias vinculadas a outro torneio e não confirma inscrições ou atividades oficiais.",
+      "imagem": null,
+      "imagemAlt": "",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-10-05T10:00:00-03:00",
+      "cod_torneio": 2,
+      "demonstrativa": true
+    },
+    {
+      "id": 6,
+      "titulo": "Atletismo integra a preparação para as Olimpíadas de 2027",
+      "resumo": "O exemplo editorial apresenta a modalidade prevista na base do próximo torneio.",
+      "conteudo": "O atletismo está vinculado ao torneio de 2027 nos dados demonstrativos do Olympus. Esta notícia fictícia apresenta a modalidade como parte da preparação da próxima edição.\n\nNeste exemplo, a organização pretende divulgar orientações sobre participação e uso da pista em comunicados posteriores. A notícia não define regras, inscrições ou horários de provas reais.\n\nA fotografia é ilustrativa. Todas as informações editoriais deste registro foram criadas para demonstração.",
+      "imagem": "/images/imagem-modalidades/atletismo-foto.jpg",
+      "imagemAlt": "Fotografia ilustrativa da modalidade atletismo",
+      "autor": "Redação demonstrativa Olympus",
+      "data_publicacao": "2026-10-06T14:00:00-03:00",
+      "cod_torneio": 2,
+      "demonstrativa": true
+    }
+  ],
+  "participa": [
+    {
+      "cod_jogo": 1,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 1,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 2,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 2,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 3,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 4
+    },
+    {
+      "cod_jogo": 3,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 4,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 4,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 5,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 5,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 6,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 6,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 7,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 7,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 8,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 8,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 9,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 9,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 10,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 10,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 11,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 11,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 12,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 12,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 13,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 13,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 14,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 14,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 15,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 70
+    },
+    {
+      "cod_jogo": 15,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 62
+    },
+    {
+      "cod_jogo": 16,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 65
+    },
+    {
+      "cod_jogo": 16,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 58
+    },
+    {
+      "cod_jogo": 17,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 61
+    },
+    {
+      "cod_jogo": 17,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 55
+    },
+    {
+      "cod_jogo": 18,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 68
+    },
+    {
+      "cod_jogo": 18,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 60
+    },
+    {
+      "cod_jogo": 19,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 75
+    },
+    {
+      "cod_jogo": 19,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 70
+    },
+    {
+      "cod_jogo": 20,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 72
+    },
+    {
+      "cod_jogo": 20,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 68
+    },
+    {
+      "cod_jogo": 21,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 80
+    },
+    {
+      "cod_jogo": 21,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 75
+    },
+    {
+      "cod_jogo": 22,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 13
+    },
+    {
+      "cod_jogo": 22,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 7
+    },
+    {
+      "cod_jogo": 23,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 13
+    },
+    {
+      "cod_jogo": 23,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 9
+    },
+    {
+      "cod_jogo": 24,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 13
+    },
+    {
+      "cod_jogo": 24,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 5
+    },
+    {
+      "cod_jogo": 25,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 13
+    },
+    {
+      "cod_jogo": 25,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 11
+    },
+    {
+      "cod_jogo": 26,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 14
+    },
+    {
+      "cod_jogo": 26,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 10
+    },
+    {
+      "cod_jogo": 27,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 12
+    },
+    {
+      "cod_jogo": 27,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 8
+    },
+    {
+      "cod_jogo": 28,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 15
+    },
+    {
+      "cod_jogo": 28,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 11
+    },
+    {
+      "cod_jogo": 29,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 29,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 30,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 30,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 31,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 31,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 32,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 32,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 33,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 33,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 34,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 34,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 35,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 35,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 36,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 36,
+      "posicao_participante": 2,
+      "cod_time": 2,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 37,
+      "posicao_participante": 1,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 37,
+      "posicao_participante": 2,
+      "cod_time": 4,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 38,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 38,
+      "posicao_participante": 2,
+      "cod_time": 6,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 0
+    },
+    {
+      "cod_jogo": 39,
+      "posicao_participante": 1,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 39,
+      "posicao_participante": 2,
+      "cod_time": 8,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 40,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 40,
+      "posicao_participante": 2,
+      "cod_time": 3,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 41,
+      "posicao_participante": 1,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 41,
+      "posicao_participante": 2,
+      "cod_time": 7,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 1
+    },
+    {
+      "cod_jogo": 42,
+      "posicao_participante": 1,
+      "cod_time": 1,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Vitória",
+      "pontuacao_time": 3
+    },
+    {
+      "cod_jogo": 42,
+      "posicao_participante": 2,
+      "cod_time": 5,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": "Derrota",
+      "pontuacao_time": 2
+    },
+    {
+      "cod_jogo": 43,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 43,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 44,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 44,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 45,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 45,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 46,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 46,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 47,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 47,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 48,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 48,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 49,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 49,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 50,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 50,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 51,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 51,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 52,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 52,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 53,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 53,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 54,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 54,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 55,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 55,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 56,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 56,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 57,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 57,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 58,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 58,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 59,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 59,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 60,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 60,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 61,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 61,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 62,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 62,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 63,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 63,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 64,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 64,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 65,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 65,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 66,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 66,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 67,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 67,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 68,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 68,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 69,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 69,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 70,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 70,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 71,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 71,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 72,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 72,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 73,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 73,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 74,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 74,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 75,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 75,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 76,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 76,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 77,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 77,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 78,
+      "posicao_participante": 1,
+      "cod_time": 9,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 78,
+      "posicao_participante": 2,
+      "cod_time": 10,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 79,
+      "posicao_participante": 1,
+      "cod_time": 11,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 79,
+      "posicao_participante": 2,
+      "cod_time": 12,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 80,
+      "posicao_participante": 1,
+      "cod_time": 13,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 80,
+      "posicao_participante": 2,
+      "cod_time": 14,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 81,
+      "posicao_participante": 1,
+      "cod_time": 15,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 81,
+      "posicao_participante": 2,
+      "cod_time": 16,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 82,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 82,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 83,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 83,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 84,
+      "posicao_participante": 1,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    },
+    {
+      "cod_jogo": 84,
+      "posicao_participante": 2,
+      "cod_time": null,
+      "forma_de_ingresso": "Vencedor",
+      "resultado_time": null,
+      "pontuacao_time": null
+    }
+  ],
+  "times": [
+    {
+      "cod_time": 1,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Preto",
+      "pontuacaogeral_time": 15,
+      "escudo_time": "/images/escudos/preto.svg",
+      "nome_time": "Preto"
+    },
+    {
+      "cod_time": 2,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Roxo",
+      "pontuacaogeral_time": 12,
+      "escudo_time": "/images/escudos/roxo.svg",
+      "nome_time": "Roxo"
+    },
+    {
+      "cod_time": 3,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Rosa",
+      "pontuacaogeral_time": 10,
+      "escudo_time": "/images/escudos/rosa.svg",
+      "nome_time": "Rosa"
+    },
+    {
+      "cod_time": 4,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Azul",
+      "pontuacaogeral_time": 9,
+      "escudo_time": "/images/escudos/azul.svg",
+      "nome_time": "Azul"
+    },
+    {
+      "cod_time": 5,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Verde",
+      "pontuacaogeral_time": 8,
+      "escudo_time": "/images/escudos/verde.svg",
+      "nome_time": "Verde"
+    },
+    {
+      "cod_time": 6,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Vermelho",
+      "pontuacaogeral_time": 7,
+      "escudo_time": "/images/escudos/vermelho.svg",
+      "nome_time": "Vermelho"
+    },
+    {
+      "cod_time": 7,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Branco",
+      "pontuacaogeral_time": 6,
+      "escudo_time": "/images/escudos/branco.svg",
+      "nome_time": "Branco"
+    },
+    {
+      "cod_time": 8,
+      "cod_torneio": 1,
+      "cod_adm": 1,
+      "cor_time": "Amarelo",
+      "pontuacaogeral_time": 5,
+      "escudo_time": "/images/escudos/amarelo.svg",
+      "nome_time": "Amarelo"
+    },
+    {
+      "cod_time": 9,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Laranja",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/laranja.svg",
+      "nome_time": "Laranja"
+    },
+    {
+      "cod_time": 10,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Cinza",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/cinza.svg",
+      "nome_time": "Cinza"
+    },
+    {
+      "cod_time": 11,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Dourado",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/dourado.svg",
+      "nome_time": "Dourado"
+    },
+    {
+      "cod_time": 12,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Prata",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/prata.svg",
+      "nome_time": "Prata"
+    },
+    {
+      "cod_time": 13,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Turquesa",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/turquesa.svg",
+      "nome_time": "Turquesa"
+    },
+    {
+      "cod_time": 14,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Magenta",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/magenta.svg",
+      "nome_time": "Magenta"
+    },
+    {
+      "cod_time": 15,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Marrom",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/marrom.svg",
+      "nome_time": "Marrom"
+    },
+    {
+      "cod_time": 16,
+      "cod_torneio": 2,
+      "cod_adm": 1,
+      "cor_time": "Ciano",
+      "pontuacaogeral_time": 0,
+      "escudo_time": "/images/escudos/ciano.svg",
+      "nome_time": "Ciano"
+    }
+  ],
+  "torneios": [
+    {
+      "cod_torneio": 1,
+      "nome_torneio": "Olimpíadas IFC Araquari 2026",
+      "data_inicio_torneio": "2026-06-20",
+      "data_fim_torneio": "2026-06-27",
+      "status_torneio": "Finalizado",
+      "cod_adm": 1
+    },
+    {
+      "cod_torneio": 2,
+      "nome_torneio": "Olimpíadas IFC Araquari 2027",
+      "data_inicio_torneio": "2027-06-19",
+      "data_fim_torneio": "2027-06-27",
+      "status_torneio": "Planejado",
+      "cod_adm": 1
+    }
+  ],
+  "turmas": [
+    {
+      "cod_turma": 1,
+      "cod_torneio": 1,
+      "cod_time": 1,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Informática1"
+    },
+    {
+      "cod_turma": 2,
+      "cod_torneio": 1,
+      "cod_time": 2,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Agropecuária2"
+    },
+    {
+      "cod_turma": 3,
+      "cod_torneio": 1,
+      "cod_time": 3,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Química1"
+    },
+    {
+      "cod_turma": 4,
+      "cod_torneio": 1,
+      "cod_time": 4,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 3,
+      "nome_turma": "2Informática3"
+    },
+    {
+      "cod_turma": 5,
+      "cod_torneio": 1,
+      "cod_time": 5,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Agropecuária1"
+    },
+    {
+      "cod_turma": 6,
+      "cod_torneio": 1,
+      "cod_time": 6,
+      "tecnico_turma": "Informática",
+      "ano_turma": 3,
+      "numero_turma": 2,
+      "nome_turma": "3Informática2"
+    },
+    {
+      "cod_turma": 7,
+      "cod_torneio": 1,
+      "cod_time": 7,
+      "tecnico_turma": "Química",
+      "ano_turma": 1,
+      "numero_turma": 2,
+      "nome_turma": "1Química2"
+    },
+    {
+      "cod_turma": 8,
+      "cod_torneio": 1,
+      "cod_time": 8,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 3,
+      "numero_turma": 3,
+      "nome_turma": "3Agropecuária3"
+    },
+    {
+      "cod_turma": 9,
+      "cod_torneio": 1,
+      "cod_time": 1,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 3,
+      "nome_turma": "1Agropecuária3"
+    },
+    {
+      "cod_turma": 10,
+      "cod_torneio": 1,
+      "cod_time": 2,
+      "tecnico_turma": "Informática",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Informática1"
+    },
+    {
+      "cod_turma": 11,
+      "cod_torneio": 1,
+      "cod_time": 3,
+      "tecnico_turma": "Química",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Química1"
+    },
+    {
+      "cod_turma": 12,
+      "cod_torneio": 1,
+      "cod_time": 4,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Agropecuária2"
+    },
+    {
+      "cod_turma": 13,
+      "cod_torneio": 1,
+      "cod_time": 5,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 2,
+      "nome_turma": "1Informática2"
+    },
+    {
+      "cod_turma": 14,
+      "cod_torneio": 1,
+      "cod_time": 6,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 2,
+      "nome_turma": "3Química2"
+    },
+    {
+      "cod_turma": 15,
+      "cod_torneio": 1,
+      "cod_time": 7,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 3,
+      "nome_turma": "1Agropecuária3"
+    },
+    {
+      "cod_turma": 16,
+      "cod_torneio": 1,
+      "cod_time": 8,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Informática1"
+    },
+    {
+      "cod_turma": 17,
+      "cod_torneio": 1,
+      "cod_time": 1,
+      "tecnico_turma": "Química",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Química2"
+    },
+    {
+      "cod_turma": 18,
+      "cod_torneio": 1,
+      "cod_time": 2,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Agropecuária1"
+    },
+    {
+      "cod_turma": 19,
+      "cod_torneio": 1,
+      "cod_time": 3,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 3,
+      "nome_turma": "1Informática3"
+    },
+    {
+      "cod_turma": 20,
+      "cod_torneio": 1,
+      "cod_time": 4,
+      "tecnico_turma": "Química",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Química1"
+    },
+    {
+      "cod_turma": 21,
+      "cod_torneio": 1,
+      "cod_time": 5,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Agropecuária1"
+    },
+    {
+      "cod_turma": 22,
+      "cod_torneio": 1,
+      "cod_time": 6,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Informática2"
+    },
+    {
+      "cod_turma": 23,
+      "cod_torneio": 1,
+      "cod_time": 7,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 3,
+      "numero_turma": 2,
+      "nome_turma": "3Agropecuária2"
+    },
+    {
+      "cod_turma": 24,
+      "cod_torneio": 1,
+      "cod_time": 8,
+      "tecnico_turma": "Química",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Química2"
+    },
+    {
+      "cod_turma": 25,
+      "cod_torneio": 2,
+      "cod_time": 9,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Informática1"
+    },
+    {
+      "cod_turma": 26,
+      "cod_torneio": 2,
+      "cod_time": 9,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Agropecuária2"
+    },
+    {
+      "cod_turma": 27,
+      "cod_torneio": 2,
+      "cod_time": 9,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Química1"
+    },
+    {
+      "cod_turma": 28,
+      "cod_torneio": 2,
+      "cod_time": 10,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Agropecuária1"
+    },
+    {
+      "cod_turma": 29,
+      "cod_torneio": 2,
+      "cod_time": 10,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 3,
+      "nome_turma": "2Informática3"
+    },
+    {
+      "cod_turma": 30,
+      "cod_torneio": 2,
+      "cod_time": 10,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 2,
+      "nome_turma": "3Química2"
+    },
+    {
+      "cod_turma": 31,
+      "cod_torneio": 2,
+      "cod_time": 11,
+      "tecnico_turma": "Química",
+      "ano_turma": 1,
+      "numero_turma": 2,
+      "nome_turma": "1Química2"
+    },
+    {
+      "cod_turma": 32,
+      "cod_torneio": 2,
+      "cod_time": 11,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 3,
+      "nome_turma": "2Agropecuária3"
+    },
+    {
+      "cod_turma": 33,
+      "cod_torneio": 2,
+      "cod_time": 11,
+      "tecnico_turma": "Informática",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Informática1"
+    },
+    {
+      "cod_turma": 34,
+      "cod_torneio": 2,
+      "cod_time": 12,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 2,
+      "nome_turma": "1Informática2"
+    },
+    {
+      "cod_turma": 35,
+      "cod_torneio": 2,
+      "cod_time": 12,
+      "tecnico_turma": "Química",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Química1"
+    },
+    {
+      "cod_turma": 36,
+      "cod_torneio": 2,
+      "cod_time": 12,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 3,
+      "numero_turma": 3,
+      "nome_turma": "3Agropecuária3"
+    },
+    {
+      "cod_turma": 37,
+      "cod_torneio": 2,
+      "cod_time": 13,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 3,
+      "nome_turma": "1Agropecuária3"
+    },
+    {
+      "cod_turma": 38,
+      "cod_torneio": 2,
+      "cod_time": 13,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Informática1"
+    },
+    {
+      "cod_turma": 39,
+      "cod_torneio": 2,
+      "cod_time": 13,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 2,
+      "nome_turma": "3Química2"
+    },
+    {
+      "cod_turma": 40,
+      "cod_torneio": 2,
+      "cod_time": 14,
+      "tecnico_turma": "Química",
+      "ano_turma": 1,
+      "numero_turma": 1,
+      "nome_turma": "1Química1"
+    },
+    {
+      "cod_turma": 41,
+      "cod_torneio": 2,
+      "cod_time": 14,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 1,
+      "nome_turma": "2Agropecuária1"
+    },
+    {
+      "cod_turma": 42,
+      "cod_torneio": 2,
+      "cod_time": 14,
+      "tecnico_turma": "Informática",
+      "ano_turma": 3,
+      "numero_turma": 3,
+      "nome_turma": "3Informática3"
+    },
+    {
+      "cod_turma": 43,
+      "cod_torneio": 2,
+      "cod_time": 15,
+      "tecnico_turma": "Informática",
+      "ano_turma": 1,
+      "numero_turma": 3,
+      "nome_turma": "1Informática3"
+    },
+    {
+      "cod_turma": 44,
+      "cod_torneio": 2,
+      "cod_time": 15,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Agropecuária2"
+    },
+    {
+      "cod_turma": 45,
+      "cod_torneio": 2,
+      "cod_time": 15,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 1,
+      "nome_turma": "3Química1"
+    },
+    {
+      "cod_turma": 46,
+      "cod_torneio": 2,
+      "cod_time": 16,
+      "tecnico_turma": "Agropecuária",
+      "ano_turma": 1,
+      "numero_turma": 2,
+      "nome_turma": "1Agropecuária2"
+    },
+    {
+      "cod_turma": 47,
+      "cod_torneio": 2,
+      "cod_time": 16,
+      "tecnico_turma": "Informática",
+      "ano_turma": 2,
+      "numero_turma": 2,
+      "nome_turma": "2Informática2"
+    },
+    {
+      "cod_turma": 48,
+      "cod_torneio": 2,
+      "cod_time": 16,
+      "tecnico_turma": "Química",
+      "ano_turma": 3,
+      "numero_turma": 3,
+      "nome_turma": "3Química3"
+    }
+  ]
+}
