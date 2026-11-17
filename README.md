@@ -90,3 +90,24 @@ As seis notícias iniciais são fictícias e sinalizadas como demonstrativas. O 
 ## Deploy Surge
 
 [Link](https://olympus-hackathon2k26.surge.sh)
+
+## JSON Server local
+
+Execute `npm install` e `npm run server` para iniciar a API em
+http://localhost:3000. Use `npm run dev:full` para iniciar Vite e API juntos.
+As rotas incluem /torneios, /jogos, /modalidades, /participa e /noticias.
+Os registros usam apenas id como identificador primario, sem duplicar o
+codigo da propria entidade (por exemplo, jogos tem apenas id).
+Os IDs sao textos estaveis para URLs como /jogos/1.
+As referencias id_* e origem_jogo_* usam o mesmo tipo dos IDs de destino.
+Em participa, os IDs sao sequenciais ("1", "2", "3"), sem hifen;
+id_jogo e posicao_participante identificam o jogo e a posicao.
+As colecoes em memoria do frontend conservam seus codigos numericos.
+
+`npm run db:sync` recria db.json a partir de src/data, com as mesmas datas de
+jogos, torneios e noticias. O comando substitui alteracoes feitas diretamente
+na API e valida que os jogos estejam dentro do periodo do torneio.
+Os horarios dos jogos usam UTC-3 na agenda publica e no painel administrativo.
+
+O frontend continua usando colecoes em memoria. Iniciar a API nao ativa
+persistencia automatica dos cadastros feitos nas telas.

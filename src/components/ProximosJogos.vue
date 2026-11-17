@@ -6,63 +6,21 @@ import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 
-function separarDataHorario(horario_jogo) {
-  const [data = '', horario = ''] = horario_jogo.split(' ')
-  return { data, horario }
-}
+import { obterProximosJogos } from '@/Utils/agendaUtils'
 
-function formatarDataBR(dataISO) {
-  const [, mes, dia] = dataISO.split('-')
-  return `${dia}/${mes}`
-}
-
-function buscarModalidade(codModalidade) {
-  return modalidades.find((modalidade) => modalidade.cod_modalidade === codModalidade)
-}
-
-function transformarEmData(data, horario) {
-  const [ano, mes, dia] = data.split('-').map(Number)
-  const [hora, minuto] = horario.split(':').map(Number)
-  return new Date(ano, mes - 1, dia, hora, minuto)
-}
-
-function buscarNomesDosTimes(cod_jogo) {
-  const participantes = participa
-    .filter((p) => p.cod_jogo === cod_jogo)
-    .sort((a, b) => a.posicao_participante - b.posicao_participante)
-
-  return [0, 1]
-    .map((indice) => {
-      const participante = participantes[indice]
-      return times.find((time) => time.cod_time === participante?.cod_time)?.nome_time ?? 'A definir'
-    })
-    .join(' X ')
-}
-
-const proximosJogos = computed(() => {
-  const agora = new Date()
-
-  return jogosDoTorneio.value
-    .filter((jogo) => {
-      const { data, horario } = separarDataHorario(jogo.horario_jogo)
-      const dataDoJogo = transformarEmData(data, horario)
-      return jogo.status_jogo === 'Agendado' && dataDoJogo >= agora
-    })
-    .sort((jogoA, jogoB) => jogoA.horario_jogo.localeCompare(jogoB.horario_jogo))
+const proximosJogos = computed(() =>
+  obterProximosJogos(jogosDoTorneio.value, modalidades, participa, times)
     .slice(0, 5)
     .map((jogo) => {
-      const { data, horario } = separarDataHorario(jogo.horario_jogo)
-      const modalidade = buscarModalidade(jogo.cod_modalidade)
+      const [, mes, dia] = jogo.data.split('-')
       return {
         ...jogo,
-        dataFormatada: formatarDataBR(data),
-        horario: horario.slice(0, 5),
-        nomeModalidade: modalidade?.nome_modalidade ?? 'Modalidade',
-        local: modalidade?.localdojogo_modalidade ?? 'A definir',
-        times: buscarNomesDosTimes(jogo.cod_jogo),
+        dataFormatada: dia + '/' + mes,
+        nomeModalidade: jogo.modalidade,
+        times: jogo.participantes.map((time) => time.nome_time).join(' X '),
       }
-    })
-})
+    }),
+)
 
 defineEmits(['editar'])
 </script>

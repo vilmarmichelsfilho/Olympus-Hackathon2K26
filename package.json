@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "json-server db.json --port 3000",
+    "dev:full": "run-p dev server",
+    "db:sync": "node scripts/sync-db.js",
     "build": "vite build",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/*.test.js",
     "preview": "vite preview",
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
