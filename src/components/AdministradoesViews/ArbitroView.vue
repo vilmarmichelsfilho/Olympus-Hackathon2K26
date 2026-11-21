@@ -4,11 +4,12 @@ import EditarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js'
 import { ref } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
-import { arbitros } from '@/data/arbitros';
 import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
 import { apagarArbitro } from '@/Utils/exclusaoUtils';
+import { jogos } from '@/data/jogos';
+import { arbitros } from '@/data/arbitros';
 function excluirArbitro(id) {
-  const resultado = apagarArbitro(id)
+  const resultado = apagarArbitro(id, { jogos, arbitros })
   if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)

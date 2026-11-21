@@ -1,10 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { modalidades } from '@/data/modalidades';
+import { participa } from '@/data/participa';
 import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
+import { torneios } from '@/data/torneios';
+import { times } from '@/data/times';
+import { turmas } from '@/data/turmas';
+import { arbitros } from '@/data/arbitros';
+const jogos = ref([]);
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const props = defineProps(['torneio', 'gerarJogos']);
 const nome = ref('');
@@ -32,9 +46,17 @@ function checarDados() {
             );
 
             if (props.gerarJogos) {
-              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
+              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade, {
+                jogos: jogos.value,
+                participa,
+                modalidades,
+                torneios,
+                times,
+                turmas,
+                arbitros,
+              });
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade);
+                apagarModalidade(novaModalidade.cod_modalidade, { jogos: jogos.value, participa, modalidades });
                 alert(resultado.mensagem);
                 return;
               }

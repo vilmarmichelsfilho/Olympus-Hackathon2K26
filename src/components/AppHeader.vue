@@ -1,9 +1,28 @@
 <script setup>
-import { jogosVerificados } from '@/data/jogosverificados';
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { modalidades } from '@/data/modalidades';
+import { participa } from '@/data/participa';
+import { times } from '@/data/times';
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
+import { detalharJogo } from '@/Utils/jogosVerificadosUtils';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import TableJogos from '@/components/TableJogos.vue';
+const jogos = ref([])
+async function carregarDados() {
+  const resposta = await fetch('http://localhost:3000/jogos')
+  jogos.value = await resposta.json()
+  console.log(jogos.value)
+}
+onMounted(carregarDados)
+const jogosVerificados = computed(() =>
+  jogos.value
+    .filter((jogo) => {
+      const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
+    })
+    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
+)
 const menuAberto = ref(false)
 const emit = defineEmits(['loginPop'])
 function abrirMenu() {

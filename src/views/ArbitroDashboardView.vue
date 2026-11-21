@@ -1,29 +1,39 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import LogoutIcon from '@iconify-vue/mdi/logout'
 import ArbitroJogoCard from '@/components/ArbitroJogoCard.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
-import { jogos } from '@/data/jogos'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
 import { finalizarJogo } from '@/Utils/partidasUtils'
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  if (!respostaJogos.ok) throw new Error('Erro ao carregar jogos')
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
+
 
 const router = useRouter()
 const sessao = obterSessao()
 const jogoSelecionadoId = ref(null)
-
 function formatarData(dataISO) {
   const [, mes, dia] = dataISO.split('-')
   return `${dia}/${mes}`
 }
 
-function detalharJogo(jogo) {
-  const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
+function detalharJogo(jogo, modalidades, participa, times) {
+  const modalidade = modalidades.find(
+    (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+  )
   const participantes = participa
-    .filter((item) => Number(item.cod_jogo) === Number(jogo.cod_jogo))
+    .filter((item) => Number(item.cod_jogo) === Number(jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const timeA = times.find(
     (item) => Number(item.cod_time) === Number(participantes[0]?.cod_time),
@@ -34,7 +44,7 @@ function detalharJogo(jogo) {
   const [data, horario = ''] = jogo.horario_jogo.split(' ')
 
   return {
-    codJogo: jogo.cod_jogo,
+    id: jogo.id,
     confrontoDefinido: Boolean(timeA && timeB),
     dataFormatada: formatarData(data),
     dataHoraISO: `${data}T${horario.slice(0, 5)}`,
@@ -53,9 +63,9 @@ function detalharJogo(jogo) {
 const jogosDoArbitro = computed(() => {
   const prioridade = { AoVivo: 0, Agendado: 1, Finalizado: 2 }
 
-  return jogos
-    .filter((jogo) => Number(jogo.cod_arbitro) === Number(sessao?.codigo))
-    .map(detalharJogo)
+  return jogos.value
+    .filter((jogo) => Number(jogo.id_arbitro) == Number(sessao?.codigo))
+    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
     .sort((jogoA, jogoB) => {
       const diferencaStatus = prioridade[jogoA.status] - prioridade[jogoB.status]
       return diferencaStatus || jogoA.dataHoraISO.localeCompare(jogoB.dataHoraISO)
@@ -63,20 +73,25 @@ const jogosDoArbitro = computed(() => {
 })
 
 const jogoSelecionado = computed(() =>
-  jogosDoArbitro.value.find((jogo) => jogo.codJogo === jogoSelecionadoId.value),
+  jogosDoArbitro.value.find((jogo) => jogo.id == jogoSelecionadoId.value),
 )
 
-function alterarPlacar(codJogo) {
-  const jogo = jogosDoArbitro.value.find((item) => item.codJogo === codJogo)
-  if (jogo?.confrontoDefinido) jogoSelecionadoId.value = codJogo
+function alterarPlacar(id) {
+  const jogo = jogosDoArbitro.value.find((item) => item.id === id)
+  if (jogo?.confrontoDefinido) jogoSelecionadoId.value = id
 }
 
-function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
+function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
+  const jogo = jogos.value.find((item) => Number(item.id) === Number(id))
+  if (!jogo || Number(jogo.id_arbitro) !== Number(sessao?.codigo)) return
 
-  if (!jogo || Number(jogo.cod_arbitro) !== Number(sessao?.codigo)) return
-
-  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+  const resultado = finalizarJogo(
+    jogos.value,
+    participa,
+    id,
+    pontuacaoA,
+    pontuacaoB,
+  )
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
@@ -107,7 +122,7 @@ function sair() {
         <ul v-if="jogosDoArbitro.length" class="lista-jogos">
           <ArbitroJogoCard
             v-for="jogo in jogosDoArbitro"
-            :key="jogo.codJogo"
+            :key="jogo.id"
             :jogo="jogo"
             @alterar-placar="alterarPlacar"
           />

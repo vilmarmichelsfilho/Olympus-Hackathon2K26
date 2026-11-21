@@ -6,9 +6,11 @@ import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { jogos } from '@/data/jogos';
+import { participa } from '@/data/participa';
 
 function exluirModalidade(id) {
-    apagarModalidade(id)
+    apagarModalidade(id, { jogos, participa, modalidades })
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])

@@ -1,12 +1,29 @@
 <script setup>
 import { timesOrdenados } from '@/Utils/timesUtils';
+import { modalidades } from '@/data/modalidades';
 import timeCard from '@/components/timeCard.vue';
-import { jogos } from '@/data/jogos.js';
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
-const quantidadedejogos = computed(() => { return jogos.length })
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
+const jogosDoTorneio = computed(() => {
+  return jogos.value.filter(jogo => {
+    const modalidade = modalidades.find(
+      modalidade => modalidade.cod_modalidade == jogo.id_modalidade
+    )
+    return modalidade?.cod_torneio == cod_torneioAtual.value
+  })
+})
+const quantidadedejogos = computed(() => { return jogosDoTorneio.value.length })
 const totalJogosConcluidos = computed(() => {
-  return jogos.filter(jogo => jogo.status === 'concluido').length
+  return jogos.value.filter(jogo => jogo.status === 'concluido').length
 })
 const isTimesRoute = window.location.pathname === '/times';
 </script>

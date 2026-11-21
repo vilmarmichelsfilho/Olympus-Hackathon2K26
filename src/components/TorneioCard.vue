@@ -2,6 +2,13 @@
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
+import { jogos } from '@/data/jogos'
+import { participa } from '@/data/participa'
+import { modalidades } from '@/data/modalidades'
+import { turmas } from '@/data/turmas'
+import { times } from '@/data/times'
+import { arbitros } from '@/data/arbitros'
+import { torneios } from '@/data/torneios'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
@@ -12,7 +19,7 @@ function formatarData(data) {
     return `${dia}/${mes}`
 }
 function excluir() {
-    apagarTorneio(props.id)
+  apagarTorneio(props.id, { jogos, participa, modalidades, turmas, times, arbitros, torneios })
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

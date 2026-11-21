@@ -1,13 +1,23 @@
 <script setup>
-import { computed } from 'vue'
-import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
+import { computed, onMounted, ref } from 'vue'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
+import { codTorneioSelecionadoAdm } from '../Utils/cod_torneioAdmUtils'
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import CalendarIcon from '@iconify-vue/mdi/calendar-outline'
-
 const emit = defineEmits(['editar', 'placar'])
+const jogos = ref([])
+async function carregarDados() {
+  const resposta = await fetch('http://localhost:3000/jogos')
+  jogos.value = await resposta.json()
+  console.log(jogos.value)
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
+  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+}))
 
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
@@ -21,16 +31,16 @@ function formatarDataBR(dataISO) {
 
 function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
-  const modalidade = modalidades.find((m) => m.cod_modalidade === jogo.cod_modalidade)
+  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
   const participantes = participa
-    .filter((p) => Number(p.cod_jogo) === Number(jogo.cod_jogo))
+    .filter((p) => Number(p.cod_jogo) === Number(jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const [pA, pB] = participantes
   const timeA = times.find((t) => Number(t.cod_time) === Number(pA?.cod_time))
   const timeB = times.find((t) => Number(t.cod_time) === Number(pB?.cod_time))
 
   return {
-    codJogo: jogo.cod_jogo,
+    codJogo: jogo.id,
     confrontoDefinido: Boolean(timeA && timeB),
     dataFormatada: formatarDataBR(data),
     dataHoraISO: `${data}T${horario.slice(0, 5)}`,

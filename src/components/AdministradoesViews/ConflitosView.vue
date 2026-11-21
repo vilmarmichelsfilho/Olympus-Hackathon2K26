@@ -1,22 +1,35 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import ConflitoCard from '@/components/ConflitoCard.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
-import { conflitosDoTorneio } from '@/Utils/conflitosUtils'
 import { participa } from '@/data/participa'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { modalidades } from '@/data/modalidades'
+import { adquirirConflitos } from '@/Utils/conflitosUtils'
+const jogos = ref([])
+async function carregarDados() {
+  const resposta = await fetch('http://localhost:3000/jogos')
+  jogos.value = await resposta.json()
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
+  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+}))
+const conflitos = computed(() => adquirirConflitos(jogosDoTorneio.value))
+
 
 const conflitosIgnorados = ref(new Set())
 const jogoEmEdicao = ref(null)
 
-const conflitosVisiveis = computed(() =>
-  conflitosDoTorneio.value.filter((conflito) => !conflitosIgnorados.value.has(conflito.chave)),
-)
-
 function ignorarConflito(chave) {
   conflitosIgnorados.value = new Set([...conflitosIgnorados.value, chave])
 }
-
+const conflitosVisiveis = computed(() =>
+  conflitos.value.filter(
+    (conflito) => !conflitosIgnorados.value.has(conflito.chave),
+  ),
+)
 watch(codTorneioSelecionadoAdm, () => {
   conflitosIgnorados.value = new Set()
   jogoEmEdicao.value = null

@@ -1,22 +1,46 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import selecionarTorneio from '@/components/selecionarCodTorneio.vue'
-import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right'
 import CloseIcon from '@iconify-vue/mdi/close'
 import { timesOrdenados } from '@/Utils/timesUtils'
 import timeCard from '@/components/timeCard.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import modalidadesCard from '@/components/modalidadesCard.vue'
 import ArrowRightIcon from '@iconify-vue/mdi/arrow-right'
 import { modalidadesFiltradas } from '@/Utils/cod_torneioUtils'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/carousel.css'
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
-import { jogosVerificados } from '@/data/jogosverificados'
+import { detalharJogo } from '@/Utils/jogosVerificadosUtils'
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 import { modalidades } from '@/data/modalidades'
-import { jogosDoTorneio } from '@/Utils/cod_torneioUtils'
+import { participa } from '@/data/participa'
+import { times } from '@/data/times'
 const emit = defineEmits(['loginPop'])
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
+const jogosVerificados = computed(() =>
+  jogos.value
+    .filter((jogo) => {
+      const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
+    })
+    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
+)
+const jogosDoTorneio = computed(() => {
+  return jogos.value.filter(jogo => {
+    const modalidade = modalidades.find(
+      modalidade => modalidade.cod_modalidade == jogo.id_modalidade
+    )
+    return modalidade?.cod_torneio == cod_torneioAtual.value
+  })
+})
 const modalAberto = ref(0)
 const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {

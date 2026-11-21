@@ -7,6 +7,8 @@ import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
 import { ref } from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
+import { jogos } from '@/data/jogos'
+import { participa } from '@/data/participa'
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -15,7 +17,7 @@ function abrirEditar(id) {
 }
 const modalidadeAdicionar = ref(false)
 function exluirModalidade(id) {
-  apagarModalidade(id)
+  apagarModalidade(id, { jogos, participa, modalidades })
 }
 </script>
 <template>

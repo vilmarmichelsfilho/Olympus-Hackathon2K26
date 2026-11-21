@@ -4,7 +4,6 @@ import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
 import { times } from '@/data/times';
 import { participa } from '@/data/participa';
-
 const emit = defineEmits(['fecharEditarJogo', 'atualizar']);
 const props = defineProps(['jogo']);
 
@@ -17,7 +16,7 @@ const time2 = ref('');
 
 const codTorneioDoJogo = computed(() => {
   const modalidadeDoJogo = modalidades.find(
-    (modalidade) => modalidade.cod_modalidade === props.jogo?.cod_modalidade
+    (modalidade) => modalidade.cod_modalidade == props.jogo?.id_modalidade
   )
   return modalidadeDoJogo?.cod_torneio
 })
@@ -34,7 +33,7 @@ watch(
   () => props.jogo,
   (novo) => {
     if (novo) {
-      codModalidade.value = novo.cod_modalidade || '';
+      codModalidade.value = novo.id_modalidade || '';
       status.value = novo.status_jogo || '';
 
       const [d, h] = (novo.horario_jogo || ' ').split(' ');
@@ -42,7 +41,7 @@ watch(
       hora.value = h;
 
       const participantes = participa
-        .filter(p => p.cod_jogo === novo.cod_jogo)
+        .filter(p => p.cod_jogo == novo.id)
         .sort((a, b) => a.posicao_participante - b.posicao_participante);
 
       time1.value = participantes[0]?.cod_time || '';
@@ -58,8 +57,8 @@ function checarDados() {
       if (hora.value !== '') {
           if (!time1.value || !time2.value || time1.value !== time2.value) {
             emit('atualizar', {
-              cod_jogo: props.jogo.cod_jogo,
-              cod_modalidade: codModalidade.value,
+              id: props.jogo.id,
+              id_modalidade: codModalidade.value,
               horario_jogo: `${data.value} ${hora.value}`,
               status_jogo: status.value,
               time1: time1.value || null,

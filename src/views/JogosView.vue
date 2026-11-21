@@ -1,17 +1,23 @@
 <script setup>
-import { ref } from 'vue'
-import { jogos } from '@/data/jogos'
+import { ref, onMounted } from 'vue'
 import { participa } from '@/data/participa'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
-
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 const jogoEmEdicao = ref(null)
 const jogoComPlacarAberto = ref(null)
 
 function abrirEdicao(codJogo) {
-  jogoEmEdicao.value = jogos.find((j) => j.cod_jogo === codJogo)
+  jogoEmEdicao.value = jogos.value.find((j) => j.id == codJogo)
 }
 
 function fecharEdicao() {
@@ -23,7 +29,7 @@ function abrirPlacar(jogo) {
 }
 
 function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+  const resultado = finalizarJogo(jogos.value, participa, codJogo, pontuacaoA, pontuacaoB)
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
@@ -33,15 +39,16 @@ function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
 }
 
 function atualizarJogo(dados) {
-  const indice = jogos.findIndex((j) => j.cod_jogo === dados.cod_jogo)
+  const idJogo = dados.id 
+  const indice = jogos.value.findIndex((j) => j.id == idJogo)
   if (indice !== -1) {
-    jogos[indice].cod_modalidade = dados.cod_modalidade
-    jogos[indice].horario_jogo = dados.horario_jogo
-    jogos[indice].status_jogo = dados.status_jogo
+    jogos.value[indice].id_modalidade = dados.id_modalidade
+    jogos.value[indice].horario_jogo = dados.horario_jogo
+    jogos.value[indice].status_jogo = dados.status_jogo
   }
 
   const participantes = participa
-    .filter((p) => p.cod_jogo === dados.cod_jogo)
+    .filter((p) => p.cod_jogo == idJogo)
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   if (participantes[0]) participantes[0].cod_time = dados.time1

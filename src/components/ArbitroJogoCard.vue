@@ -1,6 +1,5 @@
 <script setup>
 defineProps(['jogo'])
-
 defineEmits(['alterarPlacar'])
 
 function classeStatus(status) {
@@ -34,7 +33,7 @@ function rotuloStatus(status) {
     <button
       v-if="jogo.confrontoDefinido && jogo.status !== 'Finalizado'"
       type="button"
-      @click="$emit('alterarPlacar', jogo.codJogo)"
+      @click="$emit('alterarPlacar', jogo.id)"
     >
       Editar placar <span aria-hidden="true">››</span>
     </button>

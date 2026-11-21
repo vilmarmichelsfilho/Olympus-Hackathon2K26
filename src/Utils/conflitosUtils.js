@@ -1,8 +1,6 @@
-import { computed } from 'vue'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
-import { jogosDoTorneio } from './cod_torneioAdmUtils'
 
 function normalizarLocal(local) {
   return local.trim().toLocaleLowerCase('pt-BR')
@@ -32,10 +30,11 @@ function formatarHorario(minutos) {
   const minuto = String(minutos % 60).padStart(2, '0')
   return `${hora}:${minuto}`
 }
-
-const conflitosDoTorneio = computed(() => {
-  const jogosDetalhados = jogosDoTorneio.value.map((jogo) => {
-    const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
+function adquirirConflitos(jogosDoTorneio){
+  const jogosDetalhados = jogosDoTorneio.map((jogo) => {
+    const modalidade = modalidades.find(
+      (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+    )
     const local = modalidade?.localdojogo_modalidade?.trim()
     const [data, horario = ''] = jogo.horario_jogo.split(' ')
     const hora = horario.slice(0, 5)
@@ -45,8 +44,8 @@ const conflitosDoTorneio = computed(() => {
     if (!local || !data || !hora || Number.isNaN(inicio)) return null
 
     return {
-      codJogo: jogo.cod_jogo,
-      confronto: obterConfronto(jogo.cod_jogo),
+      codJogo: jogo.id,
+      confronto: obterConfronto(jogo.id),
       modalidade: modalidade?.nome_modalidade ?? 'Modalidade',
       local,
       localNormalizado: normalizarLocal(local),
@@ -106,5 +105,5 @@ const conflitosDoTorneio = computed(() => {
   return conflitos.sort((grupoA, grupoB) =>
     `${grupoA.data} ${grupoA.hora}`.localeCompare(`${grupoB.data} ${grupoB.hora}`),
   )
-})
-export { conflitosDoTorneio }
+}
+export { adquirirConflitos }

@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, onMounted } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
 import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtils.js';
@@ -9,7 +9,19 @@ import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
 import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
 import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
-
+import { modalidades } from '@/data/modalidades.js';
+import { participa } from '@/data/participa.js';
+import { times } from '@/data/times.js';
+import { turmas } from '@/data/turmas.js';
+import { arbitros } from '@/data/arbitros.js';
+const jogos = ref([]);
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fechar']);
 
 const torneio = ref(0);
@@ -36,13 +48,21 @@ function aoAdicionarTorneio(dados) {
 }
 
 function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa, modalidades, turmas, times, arbitros, torneios })
   torneio.value = 0
   emit('fechar')
 }
 
 function finalizar() {
-  const resultado = gerarJogos(torneio.value)
+  const resultado = gerarJogos(torneio.value, {
+    torneios,
+    jogos: jogos.value,
+    modalidades,
+    participa,
+    times,
+    turmas,
+    arbitros,
+  })
   if (!resultado.valido) {
     alert(resultado.mensagem)
     return
@@ -54,7 +74,7 @@ function finalizar() {
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa, modalidades, turmas, times, arbitros, torneios })
 })
 
 </script>
@@ -68,7 +88,7 @@ onBeforeUnmount(() => {
                 <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
                 <h2 v-show="etapa===60">Cadastrar Times</h2>
                 <h2 v-show="etapa===80">Cadastrar Turmas</h2>
-                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>  
+                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>
                 <p>Etapa {{ etapa/20 }} de 5 · Dados gerais</p>
             </div>
             <div class="barra">
