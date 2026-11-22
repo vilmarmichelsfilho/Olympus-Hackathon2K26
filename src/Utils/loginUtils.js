@@ -45,7 +45,7 @@ function logar(usuario, senha) {
 
   const sessao = administrador
     ? {
-        codigo: administrador.cod_adm,
+        codigo: administrador.id,
         nome: administrador.nome_adm,
         tipo: 'administrador',
       }
