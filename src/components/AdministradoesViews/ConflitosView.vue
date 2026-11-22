@@ -2,21 +2,23 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import ConflitoCard from '@/components/ConflitoCard.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
-import { participa } from '@/data/participa'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
+import { times } from '@/data/times'
 import { adquirirConflitos } from '@/Utils/conflitosUtils'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
   const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
   return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
 }))
-const conflitos = computed(() => adquirirConflitos(jogosDoTorneio.value))
+const conflitos = computed(() => adquirirConflitos(jogosDoTorneio.value, modalidades, participa.value, times))
 
 
 const conflitosIgnorados = ref(new Set())
@@ -69,12 +71,12 @@ async function atualizarJogo(dados) {
     status_jogo: dados.status_jogo,
   })
 
-  const participantesDoJogo = participa
-    .filter((participante) => Number(participante.cod_jogo) === Number(dados.id))
+  const participantesDoJogo = participa.value
+    .filter((participante) => Number(participante.id_jogo) === Number(dados.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
-  if (participantesDoJogo[0]) participantesDoJogo[0].cod_time = dados.time1
-  if (participantesDoJogo[1]) participantesDoJogo[1].cod_time = dados.time2
+  if (participantesDoJogo[0]) participantesDoJogo[0].id_time = dados.time1
+  if (participantesDoJogo[1]) participantesDoJogo[1].id_time = dados.time2
 
   fecharEdicao()
 }

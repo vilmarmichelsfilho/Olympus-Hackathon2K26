@@ -12,14 +12,14 @@ function detalharJogo(jogo,modalidades,participa,times) {
     (m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade),
   )
   const participantes = listaParticipa.filter(
-    (p) => Number(p.cod_jogo ?? p.id_jogo) === Number(jogo.id),
+    (p) => Number(p.id_jogo) === Number(jogo.id),
   )
   const [participante1, participante2] = participantes
   const timeA = listaTimes.find(
-    (t) => Number(t.cod_time) === Number(participante1?.cod_time ?? participante1?.id_time),
+    (t) => Number(t.cod_time) === Number(participante1?.id_time),
   )
   const timeB = listaTimes.find(
-    (t) => Number(t.cod_time) === Number(participante2?.cod_time ?? participante2?.id_time),
+    (t) => Number(t.cod_time) === Number(participante2?.id_time),
   )
 
   return {

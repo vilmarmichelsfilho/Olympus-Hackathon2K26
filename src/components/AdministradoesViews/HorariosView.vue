@@ -2,16 +2,17 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { torneios } from '@/data/torneios'
 import DiaTorneioButton from './DiaTorneioButton.vue'
 import HorarioJogoItem from '../HorarioJogoItem.vue'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const UM_DIA_EM_MS = 24 * 60 * 60 * 1000
 const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
@@ -58,11 +59,11 @@ watch(
 )
 function pegarDados(jogo) {
   const modalidade = modalidades.find((item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade))
-  const participantes = participa
-    .filter((item) => Number(item.cod_jogo) === Number(jogo.id))
+  const participantes = participa.value
+    .filter((item) => Number(item.id_jogo) === Number(jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const nomesDosTimes = participantes.map((participante) => {
-    const time = times.find((item) => item.cod_time === participante.cod_time)
+    const time = times.find((item) => item.cod_time === participante.id_time)
     return time?.nome_time ?? 'A definir'
   })
   const [, horario = ''] = jogo.horario_jogo.split(' ')

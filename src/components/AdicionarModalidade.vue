@@ -5,16 +5,17 @@ import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
 import { modalidades } from '@/data/modalidades';
-import { participa } from '@/data/participa';
 import { gerarJogosModalidade, salvarJogosGerados } from '@/Utils/gerarTorneioUtils';
 import { torneios } from '@/data/torneios';
 import { times } from '@/data/times';
 import { turmas } from '@/data/turmas';
 import { arbitros } from '@/data/arbitros';
 import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
 const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 const emit = defineEmits(['fecharAdicionarModalidade']);
@@ -46,7 +47,7 @@ async function checarDados() {
             if (props.gerarJogos) {
               const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade, {
                 jogos: jogos.value,
-                participa,
+                participa: participa.value,
                 modalidades,
                 torneios,
                 times,
@@ -54,7 +55,7 @@ async function checarDados() {
                 arbitros,
               });
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade, { participa, modalidades });
+                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
                 alert(resultado.mensagem);
                 return;
               }
@@ -62,7 +63,7 @@ async function checarDados() {
               try {
                 await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
               } catch (erro) {
-                apagarModalidade(novaModalidade.cod_modalidade, { participa, modalidades });
+                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
                 alert(`Não foi possível salvar os jogos: ${erro.message}`)
                 return
               }

@@ -14,13 +14,14 @@ import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
 import { detalharJogo } from '@/Utils/jogosVerificadosUtils'
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const emit = defineEmits(['loginPop'])
 const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 const jogosVerificados = computed(() =>
@@ -29,7 +30,7 @@ const jogosVerificados = computed(() =>
       const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
       return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
     })
-    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
+    .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
 )
 const jogosDoTorneio = computed(() => {
   return jogos.value.filter(jogo => {

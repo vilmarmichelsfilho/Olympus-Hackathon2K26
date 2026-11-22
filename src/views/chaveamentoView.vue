@@ -2,14 +2,15 @@
 import { computed, onMounted } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import Bracket from 'vue-tournament-bracket'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const route = useRoute()
 const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 
@@ -31,7 +32,7 @@ const jogosdamodalidade = computed(() => {
   return jogos.value.filter((jogo) => jogo.id_modalidade == modalidadeSelecionada.value.cod_modalidade)
 })
 function getParticipantesByJogo(codJogo) {
-  return participa.filter((p) => p.cod_jogo == codJogo)
+  return participa.value.filter((p) => p.id_jogo == codJogo)
 }
 function getVencedor(codJogo) {
   const participantes = getParticipantesByJogo(codJogo)
@@ -39,7 +40,7 @@ function getVencedor(codJogo) {
     return null
   }
   const vencedor = participantes.find((participante) => participante.resultado_time == 'Vitória')
-  return vencedor?.cod_time ?? null
+  return vencedor?.id_time ?? null
 }
 function getTimeId(codJogo, posicao) {
   const jogo = jogos.value.find((j) => j.id == codJogo)
@@ -47,7 +48,7 @@ function getTimeId(codJogo, posicao) {
     return null
   }
   const participantes = getParticipantesByJogo(codJogo)
-  const timeParticipante = participantes[posicao]?.cod_time
+  const timeParticipante = participantes[posicao]?.id_time
   if (timeParticipante != null) {
     return timeParticipante
   }
@@ -61,7 +62,7 @@ function getPontuacao(codJogo, codTime) {
   if (codTime == null) {
     return null
   }
-  const participante = participa.find((p) => p.cod_jogo == codJogo && p.cod_time == codTime)
+    const participante = participa.value.find((p) => p.id_jogo == codJogo && p.id_time == codTime)
   return participante?.pontuacao_time ?? null
 }
 function getTimeName(codTime) {

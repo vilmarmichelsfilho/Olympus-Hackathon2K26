@@ -47,7 +47,7 @@ function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
 }
 
 async function atualizarJogo(dados) {
-  const idJogo = dados.id 
+  const idJogo = dados.id
   const indice = jogos.value.findIndex((j) => j.id == idJogo)
   if (indice === -1) return
 
@@ -73,12 +73,12 @@ async function atualizarJogo(dados) {
     status_jogo: dados.status_jogo,
   })
 
-  const participantes = participa
-    .filter((p) => p.cod_jogo == idJogo)
+  const participantes = participa.value
+    .filter((p) => p.id_jogo == idJogo)
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
-  if (participantes[0]) participantes[0].cod_time = dados.time1
-  if (participantes[1]) participantes[1].cod_time = dados.time2
+  if (participantes[0]) participantes[0].id_time = dados.time1
+  if (participantes[1]) participantes[1].id_time = dados.time2
 
   await tabelaJogos.value?.carregarDados()
   fecharEdicao()

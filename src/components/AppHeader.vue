@@ -3,15 +3,16 @@ import { RouterLink } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 import { useJogos } from '@/composables/useJogos';
 import { modalidades } from '@/data/modalidades';
-import { participa } from '@/data/participa';
 import { times } from '@/data/times';
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
 import { detalharJogo } from '@/Utils/jogosVerificadosUtils';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import TableJogos from '@/components/TableJogos.vue';
+import { useParticipa } from '@/composables/useParticipa';
 const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados)
 const jogosVerificados = computed(() =>
@@ -20,7 +21,7 @@ const jogosVerificados = computed(() =>
       const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
       return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
     })
-    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
+    .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
 )
 const menuAberto = ref(false)
 const emit = defineEmits(['loginPop'])

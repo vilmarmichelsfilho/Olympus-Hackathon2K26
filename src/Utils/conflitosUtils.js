@@ -1,16 +1,12 @@
-import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
-import { times } from '@/data/times'
-
 function normalizarLocal(local) {
   return local.trim().toLocaleLowerCase('pt-BR')
 }
-function obterConfronto(codJogo) {
+function obterConfronto(idJogo, participa, times) {
   const nomes = participa
-    .filter((participante) => participante.cod_jogo === codJogo)
+    .filter((participante) => Number(participante.id_jogo) === Number(idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
     .map((participante) => {
-      const time = times.find((item) => item.cod_time === participante.cod_time)
+      const time = times.find((item) => Number(item.cod_time) === Number(participante.id_time))
       return time?.nome_time ?? 'A definir'
     })
   return `${nomes[0] ?? 'A definir'} x ${nomes[1] ?? 'A definir'}`
@@ -30,7 +26,7 @@ function formatarHorario(minutos) {
   const minuto = String(minutos % 60).padStart(2, '0')
   return `${hora}:${minuto}`
 }
-function adquirirConflitos(jogosDoTorneio){
+function adquirirConflitos(jogosDoTorneio, modalidades, participa, times){
   const jogosDetalhados = jogosDoTorneio.map((jogo) => {
     const modalidade = modalidades.find(
       (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
@@ -45,7 +41,7 @@ function adquirirConflitos(jogosDoTorneio){
 
     return {
       codJogo: jogo.id,
-      confronto: obterConfronto(jogo.id),
+      confronto: obterConfronto(jogo.id, participa, times),
       modalidade: modalidade?.nome_modalidade ?? 'Modalidade',
       local,
       localNormalizado: normalizarLocal(local),

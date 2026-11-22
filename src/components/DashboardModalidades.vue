@@ -7,12 +7,13 @@ import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
 import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
-import { participa } from '@/data/participa'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 const API_URL = 'http://localhost:3000';
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 const modalidadeEditar = ref(false)
@@ -40,7 +41,7 @@ async function exluirModalidade(id) {
   }
 
   apagarModalidade(id, {
-    participa,
+    participa: participa.value,
     modalidades,
     codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
   })

@@ -14,8 +14,8 @@ async function carregarParticipa() {
     .then((dados) => {
       participa.value = dados.map((item) => ({
         ...item,
-        cod_jogo: Number(item.id_jogo),
-        cod_time: item.id_time == null ? null : Number(item.id_time),
+        id_jogo: Number(item.id_jogo),
+        id_time: item.id_time == null ? null : Number(item.id_time),
       }))
       return participa.value
     })

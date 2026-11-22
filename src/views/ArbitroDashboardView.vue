@@ -32,13 +32,13 @@ function detalharJogo(jogo, modalidades, participa, times) {
     (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
   )
   const participantes = participa
-    .filter((item) => Number(item.cod_jogo) === Number(jogo.id))
+    .filter((item) => Number(item.id_jogo) === Number(jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const timeA = times.find(
-    (item) => Number(item.cod_time) === Number(participantes[0]?.cod_time),
+    (item) => Number(item.cod_time) === Number(participantes[0]?.id_time),
   )
   const timeB = times.find(
-    (item) => Number(item.cod_time) === Number(participantes[1]?.cod_time),
+    (item) => Number(item.cod_time) === Number(participantes[1]?.id_time),
   )
   const [data, horario = ''] = jogo.horario_jogo.split(' ')
 

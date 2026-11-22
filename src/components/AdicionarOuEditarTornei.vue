@@ -10,14 +10,15 @@ import { gerarJogos, salvarJogosGerados } from '@/Utils/gerarTorneioUtils.js';
 import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
 import { modalidades } from '@/data/modalidades.js';
-import { participa } from '@/data/participa.js';
 import { times } from '@/data/times.js';
 import { turmas } from '@/data/turmas.js';
 import { arbitros } from '@/data/arbitros.js';
 import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
 const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 const emit = defineEmits(['fechar']);
@@ -46,7 +47,7 @@ function aoAdicionarTorneio(dados) {
 }
 
 function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa, modalidades, turmas, times, arbitros, torneios })
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa: participa.value, modalidades, turmas, times, arbitros, torneios })
   torneio.value = 0
   emit('fechar')
 }
@@ -56,7 +57,7 @@ async function finalizar() {
     torneios,
     jogos: jogos.value,
     modalidades,
-    participa,
+    participa: participa.value,
     times,
     turmas,
     arbitros,
@@ -77,7 +78,7 @@ async function finalizar() {
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa, modalidades, turmas, times, arbitros, torneios })
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa: participa.value, modalidades, turmas, times, arbitros, torneios })
 })
 
 </script>

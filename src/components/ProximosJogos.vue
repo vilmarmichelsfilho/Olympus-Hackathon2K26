@@ -3,12 +3,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
@@ -37,14 +38,14 @@ function transformarEmData(data, horario) {
 }
 
 function buscarNomesDosTimes(idJogo) {
-  const participantes = participa
-    .filter((p) => Number(p.cod_jogo) === Number(idJogo))
+  const participantes = participa.value
+    .filter((p) => Number(p.id_jogo) === Number(idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   return [0, 1]
     .map((indice) => {
       const participante = participantes[indice]
-      return times.find((time) => time.cod_time === participante?.cod_time)?.nome_time ?? 'A definir'
+      return times.find((time) => time.cod_time === participante?.id_time)?.nome_time ?? 'A definir'
     })
     .join(' X ')
 }

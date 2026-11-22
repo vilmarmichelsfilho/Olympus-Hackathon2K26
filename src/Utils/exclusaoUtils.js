@@ -7,7 +7,7 @@ function apagarModalidade(codModalidade, { participa, modalidades, codigosJogos 
   const jogosRelacionados = new Set(codigosJogos.map(Number))
   tirarDaLista(
     participa,
-    (participante) => jogosRelacionados.has(Number(participante.cod_jogo)),
+    (participante) => jogosRelacionados.has(Number(participante.id_jogo)),
   )
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_modalidade === codModalidade)
 }
@@ -20,7 +20,7 @@ function apagarTorneio(codTorneio, { participa, codigosJogos = [], modalidades, 
   )
   const jogosRelacionados = new Set(codigosJogos.map(Number))
 
-  tirarDaLista(participa, (participante) => jogosRelacionados.has(Number(participante.cod_jogo)))
+  tirarDaLista(participa, (participante) => jogosRelacionados.has(Number(participante.id_jogo)))
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_torneio === codTorneio)
   tirarDaLista(turmas, (turma) => turma.cod_torneio === codTorneio)
   tirarDaLista(times, (time) => time.cod_torneio === codTorneio)
