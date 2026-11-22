@@ -68,7 +68,7 @@ function abrirMenu() {
 
     <div class="placares">
       <ul>
-        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.cod_jogo"
+        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id"
           :data="jogo.data"
           :horario="jogo.horario_jogo"
           :modalidade="jogo.modalidade"

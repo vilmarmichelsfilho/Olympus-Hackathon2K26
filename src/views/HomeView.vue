@@ -122,7 +122,7 @@ const progressoPorcentagem = computed(() => {
       <div class="acontecendo">
         <TableJogosDesktop
           v-for="jogo in jogosVerificados"
-          :key="jogo.cod_jogo"
+          :key="jogo.id"
           :data="jogo.data"
           :horario="jogo.horario"
           :modalidade="jogo.modalidade"

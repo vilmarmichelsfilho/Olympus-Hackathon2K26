@@ -41,7 +41,7 @@ function checarDados() {
             .map((modalidade) => modalidade.cod_modalidade),
         )
         const jogoForaDoPeriodo = jogos.value.some((jogo) => {
-          if (!codigosModalidades.has(jogo.cod_modalidade)) return false
+          if (!codigosModalidades.has(Number(jogo.id_modalidade))) return false
           const dataJogo = jogo.horario_jogo.split(' ')[0]
           return dataJogo < dataInicio.value || dataJogo > dataFim.value
         })

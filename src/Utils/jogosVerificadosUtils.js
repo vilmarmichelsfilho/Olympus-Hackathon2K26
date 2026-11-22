@@ -6,13 +6,13 @@ function separarDataHorario(horario_jogo) {
 function detalharJogo(jogo,modalidades,participa,times) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
   const modalidade = modalidades.value.find((m) => m.cod_modalidade === jogo.id_modalidade)
-  const participantes = participa.value.filter((p) => p.cod_jogo === jogo.id_jogo)
+  const participantes = participa.value.filter((p) => p.cod_jogo === jogo.id)
   const [participante1, participante2] = participantes
   const timeA = times.value.find((t) => t.cod_time === participante1?.cod_time)
   const timeB = times.value.find((t) => t.cod_time === participante2?.cod_time)
 
   return {
-    cod_jogo: jogo.id,
+    id: jogo.id,
     data,
     horario,
     modalidade: modalidade?.nome_modalidade,

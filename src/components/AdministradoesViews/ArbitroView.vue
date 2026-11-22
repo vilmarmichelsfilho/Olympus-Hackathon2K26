@@ -16,7 +16,7 @@ async function carregarDados() {
 }
 onMounted(carregarDados);
 function excluirArbitro(id) {
-  const resultado = apagarArbitro(id, { jogos, arbitros })
+  const resultado = apagarArbitro(id, { jogos: jogos.value, arbitros })
   if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)

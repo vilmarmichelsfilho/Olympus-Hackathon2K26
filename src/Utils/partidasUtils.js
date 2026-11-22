@@ -13,7 +13,7 @@ function passarVencedor(jogos, participa, codJogo, codTimeVencedor) {
 
     const participante = participa.find(
       (item) =>
-        Number(item.cod_jogo) === Number(proximoJogo.id ?? proximoJogo.cod_jogo) && item.posicao_participante === posicao,
+        Number(item.cod_jogo) === Number(proximoJogo.id) && item.posicao_participante === posicao,
     )
     if (!participante) return
 
@@ -24,7 +24,7 @@ function passarVencedor(jogos, participa, codJogo, codTimeVencedor) {
 }
 
 function salvarPlacar(jogos, participa, codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => Number(item.id ?? item.cod_jogo) === Number(codJogo))
+  const jogo = jogos.find((item) => Number(item.id) === Number(codJogo))
   const participantes = pegarParticipantes(participa, codJogo)
 
   if (!jogo || participantes.length < 2) {
@@ -47,7 +47,7 @@ function salvarPlacar(jogos, participa, codJogo, pontuacaoA, pontuacaoB) {
 }
 
 function finalizarJogo(jogos, participa, codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => Number(item.id ?? item.cod_jogo) === Number(codJogo))
+  const jogo = jogos.find((item) => Number(item.id) === Number(codJogo))
   const participantes = pegarParticipantes(participa, codJogo)
 
   if (!jogo || participantes.length < 2) {

@@ -29,7 +29,7 @@ function apagarTorneio(codTorneio, { participa, codigosJogos = [], modalidades, 
 }
 
 function apagarArbitro(codArbitro, { jogos, arbitros }) {
-  if (jogos.some((jogo) => jogo.cod_arbitro === codArbitro)) {
+  if (jogos.some((jogo) => Number(jogo.id_arbitro) === Number(codArbitro))) {
     return {
       sucesso: false,
       mensagem: 'Este árbitro possui jogos atribuídos. Troque o árbitro dos jogos antes de excluir.',

@@ -95,7 +95,7 @@ defineEmits(['editar'])
             </tr>
           </thead>
           <tbody>
-            <tr v-for="jogo in proximosJogos" :key="jogo.cod_jogo">
+            <tr v-for="jogo in proximosJogos" :key="jogo.id">
               <td>{{ jogo.dataFormatada }} às {{ jogo.horario }}</td>
               <td>{{ jogo.local }}</td>
               <td>{{ jogo.times }}</td>
