@@ -1,12 +1,17 @@
 <script setup>
 import { arbitros } from '@/data/arbitros.js';
 import ArbitroNewCard from '../Cards/ArbitroNewCard.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted} from 'vue';
 import AdicionarArbitro from '../AdicionarArbitro.vue';
 import editarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js';
 import { apagarArbitro } from '@/Utils/exclusaoUtils';
-
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar','voltar'])
 
@@ -15,7 +20,7 @@ const arbitrosTorneio = computed(() => {
 });
 
 function excluirArbitro(id) {
-  const resultado = apagarArbitro(id)
+  const resultado = apagarArbitro(id, { jogos, arbitros })
   if (!resultado.sucesso) alert(resultado.mensagem)
 }
 const adicionarrArbitro = ref(false)
@@ -51,7 +56,7 @@ function avancar() {
             <ul class="cardss">
                 <ArbitroNewCard v-for="(arbitro, index) in arbitrosTorneio" :key="arbitro.cod_arbitro"
                     :id="arbitro.cod_arbitro" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
-                    @excluir-arbitro="excluirArbitro" @editar-arbitro="abrirEditarArbitro"> 
+                    @excluir-arbitro="excluirArbitro" @editar-arbitro="abrirEditarArbitro">
                 </ArbitroNewCard>
             </ul>
         </div>

@@ -1,14 +1,42 @@
 <script setup>
 import { modalidades } from '@/data/modalidades';
 import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { participa } from '@/data/participa';
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
+async function exluirModalidade(id) {
+    const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+    if (!confirmarExclusao) return
 
-function exluirModalidade(id) {
-    apagarModalidade(id)
+    const jogosDaModalidade = jogos.value.filter(
+        (jogo) => Number(jogo.id_modalidade) === Number(id),
+    )
+
+    for (const jogo of jogosDaModalidade) {
+        const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+        if (!resposta.ok) {
+            alert('Não foi possível excluir os jogos da modalidade.')
+            return
+        }
+        removerJogoLocal(jogo.id)
+    }
+
+    apagarModalidade(id, {
+        participa,
+        modalidades,
+        codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+    })
+    await carregarDados()
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])

@@ -1,9 +1,20 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted} from 'vue'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
 import { jogosPorDia } from '@/Utils/DashboardUtils'
+import { modalidades } from '@/data/modalidades'
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useJogos } from '@/composables/useJogos'
+const { jogos, carregarJogos } = useJogos()
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
+  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+}))
 
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)

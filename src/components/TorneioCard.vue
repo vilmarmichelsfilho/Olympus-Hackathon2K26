@@ -1,18 +1,63 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
+import { onMounted } from 'vue'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
+import { participa } from '@/data/participa'
+import { modalidades } from '@/data/modalidades'
+import { turmas } from '@/data/turmas'
+import { times } from '@/data/times'
+import { arbitros } from '@/data/arbitros'
+import { torneios } from '@/data/torneios'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useJogos } from '@/composables/useJogos'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
+
 
 
 function formatarData(data) {
     const [, mes, dia] = data.split('-')
     return `${dia}/${mes}`
 }
-function excluir() {
-    apagarTorneio(props.id)
+async function excluir() {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir este torneio?')
+  if (!confirmarExclusao) return
+
+  const modalidadesDoTorneio = new Set(
+    modalidades
+      .filter((modalidade) => modalidade.cod_torneio === props.id)
+      .map((modalidade) => modalidade.cod_modalidade),
+  )
+  const jogosDoTorneio = jogos.value.filter((jogo) =>
+    modalidadesDoTorneio.has(Number(jogo.id_modalidade)),
+  )
+
+  for (const jogo of jogosDoTorneio) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos do torneio.')
+      return
+    }
+    removerJogoLocal(jogo.id)
+  }
+
+  apagarTorneio(props.id, {
+    participa,
+    codigosJogos: jogosDoTorneio.map((jogo) => jogo.id),
+    modalidades,
+    turmas,
+    times,
+    arbitros,
+    torneios,
+  })
+  await carregarDados()
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

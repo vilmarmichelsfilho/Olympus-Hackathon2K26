@@ -5,8 +5,16 @@ import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
+import { participa } from '@/data/participa'
+import { useJogos } from '@/composables/useJogos'
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -14,8 +22,29 @@ function abrirEditar(id) {
   modalidadeEditar.value = true
 }
 const modalidadeAdicionar = ref(false)
-function exluirModalidade(id) {
-  apagarModalidade(id)
+async function exluirModalidade(id) {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+  if (!confirmarExclusao) return
+
+  const jogosDaModalidade = jogos.value.filter(
+    (jogo) => Number(jogo.id_modalidade) === Number(id),
+  )
+
+  for (const jogo of jogosDaModalidade) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos da modalidade.')
+      return
+    }
+    removerJogoLocal(jogo.id)
+  }
+
+  apagarModalidade(id, {
+    participa,
+    modalidades,
+    codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+  })
+  await carregarDados()
 }
 </script>
 <template>

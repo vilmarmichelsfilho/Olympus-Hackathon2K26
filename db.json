@@ -67,9 +67,9 @@
   "jogos": [
     {
       "id": "1",
-      "id_modalidade": "1",
-      "id_arbitro": "1",
-      "status_jogo": "Finalizado",
+      "id_modalidade": 1,
+      "id_arbitro": 1,
+      "status_jogo": "AoVivo",
       "horario_jogo": "2026-06-20 08:00:00",
       "fase_jogo": "Quartas de Final",
       "origem_jogo_a": null,
@@ -77,8 +77,8 @@
     },
     {
       "id": "2",
-      "id_modalidade": "1",
-      "id_arbitro": "1",
+      "id_modalidade": 1,
+      "id_arbitro": 1,
       "status_jogo": "Finalizado",
       "horario_jogo": "2026-06-20 09:00:00",
       "fase_jogo": "Quartas de Final",
@@ -3129,5 +3129,6 @@
       "numero_turma": 3,
       "nome_turma": "3Química3"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

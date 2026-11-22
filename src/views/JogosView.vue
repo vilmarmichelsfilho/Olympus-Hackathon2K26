@@ -1,17 +1,24 @@
 <script setup>
-import { ref } from 'vue'
-import { jogos } from '@/data/jogos'
-import { participa } from '@/data/participa'
+import { ref, onMounted } from 'vue'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
-
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+const API_URL = 'http://localhost:3000';
+const tabelaJogos = ref(null)
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const jogoEmEdicao = ref(null)
 const jogoComPlacarAberto = ref(null)
 
 function abrirEdicao(codJogo) {
-  jogoEmEdicao.value = jogos.find((j) => j.cod_jogo === codJogo)
+  jogoEmEdicao.value = jogos.value.find((j) => j.id == codJogo)
 }
 
 function fecharEdicao() {
@@ -22,8 +29,15 @@ function abrirPlacar(jogo) {
   jogoComPlacarAberto.value = jogo
 }
 
-function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
+  const idJogo = id ?? codJogo
+  const resultado = finalizarJogo(
+    jogos.value,
+    participa.value,
+    idJogo,
+    pontuacaoA,
+    pontuacaoB,
+  )
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
@@ -32,21 +46,41 @@ function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
   jogoComPlacarAberto.value = null
 }
 
-function atualizarJogo(dados) {
-  const indice = jogos.findIndex((j) => j.cod_jogo === dados.cod_jogo)
-  if (indice !== -1) {
-    jogos[indice].cod_modalidade = dados.cod_modalidade
-    jogos[indice].horario_jogo = dados.horario_jogo
-    jogos[indice].status_jogo = dados.status_jogo
+async function atualizarJogo(dados) {
+  const idJogo = dados.id 
+  const indice = jogos.value.findIndex((j) => j.id == idJogo)
+  if (indice === -1) return
+
+  const resposta = await fetch(`${API_URL}/jogos/${idJogo}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_modalidade: Number(dados.id_modalidade),
+      horario_jogo: dados.horario_jogo,
+      status_jogo: dados.status_jogo,
+    }),
+  })
+
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o jogo.')
+    return
   }
 
+  atualizarJogoLocal({
+    id: idJogo,
+    id_modalidade: Number(dados.id_modalidade),
+    horario_jogo: dados.horario_jogo,
+    status_jogo: dados.status_jogo,
+  })
+
   const participantes = participa
-    .filter((p) => p.cod_jogo === dados.cod_jogo)
+    .filter((p) => p.cod_jogo == idJogo)
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   if (participantes[0]) participantes[0].cod_time = dados.time1
   if (participantes[1]) participantes[1].cod_time = dados.time2
 
+  await tabelaJogos.value?.carregarDados()
   fecharEdicao()
 }
 </script>
@@ -60,7 +94,11 @@ function atualizarJogo(dados) {
       </header>
 
       <div class="table-jogos">
-        <TableJogosAdm @editar="abrirEdicao" @placar="abrirPlacar" />
+        <TableJogosAdm
+          ref="tabelaJogos"
+          @editar="abrirEdicao"
+          @placar="abrirPlacar"
+        />
       </div>
     </template>
 

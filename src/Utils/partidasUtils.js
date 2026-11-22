@@ -1,22 +1,19 @@
-import { jogos } from '@/data/jogos'
-import { participa } from '@/data/participa'
-
-function pegarParticipantes(codJogo) {
+function pegarParticipantes(participa, codJogo) {
   return participa
     .filter((participante) => Number(participante.cod_jogo) === Number(codJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 }
 
-function passarVencedor(codJogo, codTimeVencedor) {
+function passarVencedor(jogos, participa, codJogo, codTimeVencedor) {
   jogos.forEach((proximoJogo) => {
     let posicao = null
-    if (proximoJogo.origem_jogo_a === codJogo) posicao = 1
-    if (proximoJogo.origem_jogo_b === codJogo) posicao = 2
+    if (Number(proximoJogo.origem_jogo_a) === Number(codJogo)) posicao = 1
+    if (Number(proximoJogo.origem_jogo_b) === Number(codJogo)) posicao = 2
     if (posicao === null) return
 
     const participante = participa.find(
       (item) =>
-        item.cod_jogo === proximoJogo.cod_jogo && item.posicao_participante === posicao,
+        Number(item.cod_jogo) === Number(proximoJogo.id) && item.posicao_participante === posicao,
     )
     if (!participante) return
 
@@ -26,9 +23,9 @@ function passarVencedor(codJogo, codTimeVencedor) {
   })
 }
 
-function salvarPlacar(codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const participantes = pegarParticipantes(codJogo)
+function salvarPlacar(jogos, participa, codJogo, pontuacaoA, pontuacaoB) {
+  const jogo = jogos.find((item) => Number(item.id) === Number(codJogo))
+  const participantes = pegarParticipantes(participa, codJogo)
 
   if (!jogo || participantes.length < 2) {
     return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
@@ -49,9 +46,9 @@ function salvarPlacar(codJogo, pontuacaoA, pontuacaoB) {
   return { sucesso: true, placarA, placarB, participantes }
 }
 
-function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const participantes = pegarParticipantes(codJogo)
+function finalizarJogo(jogos, participa, codJogo, pontuacaoA, pontuacaoB) {
+  const jogo = jogos.find((item) => Number(item.id) === Number(codJogo))
+  const participantes = pegarParticipantes(participa, codJogo)
 
   if (!jogo || participantes.length < 2) {
     return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
@@ -76,9 +73,9 @@ function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   jogo.status_jogo = 'Finalizado'
 
   const vencedor = placarA > placarB ? participantes[0] : participantes[1]
-  passarVencedor(codJogo, vencedor.cod_time)
+  passarVencedor(jogos, participa, codJogo, vencedor.cod_time)
 
   return { sucesso: true, codTimeVencedor: vencedor.cod_time }
 }
 
-export { finalizarJogo, salvarPlacar }
+export { pegarParticipantes, passarVencedor, finalizarJogo, salvarPlacar }
