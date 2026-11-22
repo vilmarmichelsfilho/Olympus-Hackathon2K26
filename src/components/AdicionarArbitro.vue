@@ -1,32 +1,28 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { adicionarArbitro } from '@/Utils/adicionarUtils';
+import { useArbitros } from '@/composables/useArbitros'
+const { adicionarArbitro } = useArbitros()
+const salvando = ref(false)
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const props = defineProps(['torneio']);
 const emit = defineEmits(['fecharAdicionarArbitro']);
-const codTorneio = ref(codTorneioSelecionadoAdm)
-if (props.torneio != undefined){
-  codTorneio.value = props.torneio
-}
+const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const nome = ref('');
 const login = ref('');
 const senha = ref('');
-function checarDados() {
-  if (nome.value !== '') {
-    if (login.value !== '') {
-      if(senha.value !== '') {
-        adicionarArbitro(nome.value, login.value, senha.value, codTorneio.value);
-        emit('fecharAdicionarArbitro');
-      } else {
-        alert('Preencha a senha do árbitro')
-      }
-    } else {
-      alert('Preencha o login do árbitro')
-    }
-  } else {
-    alert('Preencha o nome do árbitro')
+async function checarDados() {
+  if (salvando.value) return
+  if (!nome.value.trim() || !login.value.trim() || !senha.value) {
+    alert('Preencha nome, login e senha.')
+    return
   }
+  salvando.value = true
+  try {
+    await adicionarArbitro({ id_torneio: codTorneio.value, nome_arbitro: nome.value.trim(), login_arbitro: login.value.trim(), senha_arbitro: senha.value })
+    fechar()
+  } catch (erro) { alert(erro.message) }
+  finally { salvando.value = false }
 }
 
 function fechar() {
@@ -58,7 +54,7 @@ function fechar() {
         </div>
       </div>
       <div class="botoes">
-        <button style="align-items: center; display: flex; justify-content: center;" class="save"
+        <button style="align-items: center; display: flex; justify-content: center;" class="save" :disabled="salvando"
           v-on:click.prevent="checarDados()">
           <ContentSaveOutlineIcon width="1.5vw" />Salvar
         </button>

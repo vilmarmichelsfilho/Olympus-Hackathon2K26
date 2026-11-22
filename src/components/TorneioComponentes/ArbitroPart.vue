@@ -1,27 +1,40 @@
 <script setup>
-import { arbitros } from '@/data/arbitros.js';
+import { useArbitros } from '@/composables/useArbitros'
+const { arbitros, carregarArbitros, atualizarArbitro, excluirArbitro: removerArbitro } = useArbitros()
 import ArbitroNewCard from '../Cards/ArbitroNewCard.vue';
 import { computed, ref, onMounted} from 'vue';
 import AdicionarArbitro from '../AdicionarArbitro.vue';
 import editarrArbitro from '../EditarArbitroView.vue';
-import { editarArbitro } from '@/Utils/editarUtils.js';
-import { apagarArbitro } from '@/Utils/exclusaoUtils';
+
+
 import { useJogos } from '@/composables/useJogos';
 const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  await carregarJogos()
+  await Promise.all([carregarJogos(), carregarArbitros()])
 }
-onMounted(carregarDados);
+onMounted(() => carregarDados().catch(erro => alert(erro.message)));
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar','voltar'])
 
 const arbitrosTorneio = computed(() => {
-    return arbitros.filter(item => item.cod_torneio === props.torneio);
+    return arbitros.value.filter(item => item.cod_torneio === props.torneio);
 });
 
-function excluirArbitro(id) {
-  const resultado = apagarArbitro(id, { jogos, arbitros })
-  if (!resultado.sucesso) alert(resultado.mensagem)
+async function excluirArbitro(id) {
+  try {
+    await carregarJogos()
+    if (jogos.value.some(jogo => String(jogo.id_arbitro) === String(id))) {
+      alert('Troque o ?rbitro dos jogos antes de excluir.')
+      return
+    }
+    await removerArbitro(id)
+  } catch (erro) { alert(erro.message) }
+}
+async function salvarEdicao(dados) {
+  try {
+    await atualizarArbitro(dados.id, dados)
+    arbitroEditar.value = false
+  } catch (erro) { alert(erro.message) }
 }
 const adicionarrArbitro = ref(false)
 const arbitroEditar = ref(false)
@@ -71,7 +84,7 @@ function avancar() {
     ></AdicionarArbitro>
     <editarrArbitro
       :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
-      @atualizar="editarArbitro($event.cod_arbitro, $event)"
+      @atualizar="salvarEdicao($event)"
       @fecharEditarArbitro="arbitroEditar = false"
       v-if="arbitroEditar"
     />

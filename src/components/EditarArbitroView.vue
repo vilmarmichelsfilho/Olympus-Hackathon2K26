@@ -24,12 +24,12 @@ function checarDados() {
     if (login.value !== '') {
       if(senha.value !== '') {
         emit('atualizar', {
-          cod_arbitro: props.arbitro.cod_arbitro,
+          id: props.arbitro.id,
           nome_arbitro: nome.value,
           login_arbitro: login.value,
           senha_arbitro: senha.value
         })
-        emit('fecharEditarArbitro');
+
       } else {
         alert('Preencha a senha do árbitro')
       }
