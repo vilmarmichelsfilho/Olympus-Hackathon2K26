@@ -1,14 +1,14 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted} from 'vue'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import { jogosPorDia } from '@/Utils/DashboardUtils'
 import { modalidades } from '@/data/modalidades'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
-const jogos = ref([])
+import { useJogos } from '@/composables/useJogos'
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {

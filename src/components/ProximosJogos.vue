@@ -5,10 +5,10 @@ import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
-const jogos = ref([])
+import { useJogos } from '@/composables/useJogos'
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {

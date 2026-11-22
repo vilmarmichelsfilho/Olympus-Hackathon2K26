@@ -7,11 +7,11 @@ import { times } from '@/data/times'
 import { torneios } from '@/data/torneios'
 import DiaTorneioButton from './DiaTorneioButton.vue'
 import HorarioJogoItem from '../HorarioJogoItem.vue'
+import { useJogos } from '@/composables/useJogos'
 const UM_DIA_EM_MS = 24 * 60 * 60 * 1000
-const jogos = ref([])
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {

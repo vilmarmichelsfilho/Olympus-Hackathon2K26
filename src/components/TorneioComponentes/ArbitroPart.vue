@@ -6,12 +6,10 @@ import AdicionarArbitro from '../AdicionarArbitro.vue';
 import editarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js';
 import { apagarArbitro } from '@/Utils/exclusaoUtils';
-const jogos = ref([])
-const API_URL = 'http://localhost:3000';
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await carregarJogos()
 }
 onMounted(carregarDados);
 const props = defineProps(['torneio'])

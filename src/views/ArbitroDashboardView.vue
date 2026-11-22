@@ -5,17 +5,16 @@ import LogoutIcon from '@iconify-vue/mdi/logout'
 import ArbitroJogoCard from '@/components/ArbitroJogoCard.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
 import { finalizarJogo } from '@/Utils/partidasUtils'
-const jogos = ref([])
-const API_URL = 'http://localhost:3000';
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+const API_URL = 'http://localhost:3000'
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  if (!respostaJogos.ok) throw new Error('Erro ao carregar jogos')
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 
@@ -65,7 +64,7 @@ const jogosDoArbitro = computed(() => {
 
   return jogos.value
     .filter((jogo) => Number(jogo.id_arbitro) == Number(sessao?.codigo))
-    .map((jogo) => detalharJogo(jogo, modalidades, participa, times))
+    .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
     .sort((jogoA, jogoB) => {
       const diferencaStatus = prioridade[jogoA.status] - prioridade[jogoB.status]
       return diferencaStatus || jogoA.dataHoraISO.localeCompare(jogoB.dataHoraISO)
@@ -87,7 +86,7 @@ async function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
 
   const resultado = finalizarJogo(
     jogos.value,
-    participa,
+    participa.value,
     id,
     pontuacaoA,
     pontuacaoB,
@@ -110,7 +109,7 @@ async function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
     return
   }
 
-  jogo.status_jogo = 'Finalizado'
+  atualizarJogoLocal({ id, status_jogo: 'Finalizado' })
 
   jogoSelecionadoId.value = null
 }

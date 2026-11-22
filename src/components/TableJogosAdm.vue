@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
+import { useJogos } from '@/composables/useJogos'
 import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
@@ -7,13 +8,9 @@ import { codTorneioSelecionadoAdm } from '../Utils/cod_torneioAdmUtils'
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import CalendarIcon from '@iconify-vue/mdi/calendar-outline'
 const emit = defineEmits(['editar', 'placar'])
-const jogos = ref([])
-async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
-  console.log(jogos.value)
-}
-onMounted(carregarDados)
+const { jogos, carregarJogos } = useJogos()
+carregarJogos()
+defineExpose({ carregarDados: carregarJogos })
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
   const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
   return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)

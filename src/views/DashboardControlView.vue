@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import OympusControl from '@/components/OympusControl.vue';
 import trophie from '@/assets/trophie.png';
 import { adquirirJogosDoTorneio, calcularTotalConflitos, calcularTotalJogosHoje } from '@/Utils/DashboardUtils';
@@ -9,13 +9,11 @@ import calendar from '@/assets/calendar.png';
 import home from '@/assets/home.png';
 import GraficoJogos from '@/components/GraficoJogos.vue';
 import ProximosJogos from '@/components/ProximosJogos.vue'
+import { useJogos } from '@/composables/useJogos'
 
-const jogos = ref([])
-const API_URL = 'http://localhost:3000';
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await carregarJogos()
 }
 onMounted(carregarDados);
 

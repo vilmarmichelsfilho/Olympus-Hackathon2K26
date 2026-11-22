@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useJogos } from '@/composables/useJogos';
 import { modalidades } from '@/data/modalidades';
 import { participa } from '@/data/participa';
 import { times } from '@/data/times';
@@ -8,11 +9,9 @@ import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
 import { detalharJogo } from '@/Utils/jogosVerificadosUtils';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import TableJogos from '@/components/TableJogos.vue';
-const jogos = ref([])
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
-  console.log(jogos.value)
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const jogosVerificados = computed(() =>

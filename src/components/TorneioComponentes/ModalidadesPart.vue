@@ -7,12 +7,11 @@ import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
 import { participa } from '@/data/participa';
-const jogos = ref([])
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
 const API_URL = 'http://localhost:3000';
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await carregarJogos()
 }
 onMounted(carregarDados);
 async function exluirModalidade(id) {
@@ -29,6 +28,7 @@ async function exluirModalidade(id) {
             alert('Não foi possível excluir os jogos da modalidade.')
             return
         }
+        removerJogoLocal(jogo.id)
     }
 
     apagarModalidade(id, {

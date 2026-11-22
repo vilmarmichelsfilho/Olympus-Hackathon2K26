@@ -2,15 +2,13 @@
 import { timesOrdenados } from '@/Utils/timesUtils';
 import { modalidades } from '@/data/modalidades';
 import timeCard from '@/components/timeCard.vue';
-import { computed, ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
 import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
-const jogos = ref([])
-const API_URL = 'http://localhost:3000';
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await carregarJogos()
 }
 onMounted(carregarDados);
 const jogosDoTorneio = computed(() => {

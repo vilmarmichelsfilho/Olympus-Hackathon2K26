@@ -6,10 +6,10 @@ import { participa } from '@/data/participa'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
 import { adquirirConflitos } from '@/Utils/conflitosUtils'
-const jogos = ref([])
+import { useJogos } from '@/composables/useJogos'
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
@@ -62,9 +62,12 @@ async function atualizarJogo(dados) {
     return
   }
 
-  jogo.id_modalidade = Number(dados.id_modalidade)
-  jogo.horario_jogo = dados.horario_jogo
-  jogo.status_jogo = dados.status_jogo
+  atualizarJogoLocal({
+    id: dados.id,
+    id_modalidade: Number(dados.id_modalidade),
+    horario_jogo: dados.horario_jogo,
+    status_jogo: dados.status_jogo,
+  })
 
   const participantesDoJogo = participa
     .filter((participante) => Number(participante.cod_jogo) === Number(dados.id))

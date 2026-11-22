@@ -2,10 +2,10 @@
 import { ref, watch, onMounted} from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
-const jogos = ref([])
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
-  const resposta = await fetch('http://localhost:3000/jogos')
-  jogos.value = await resposta.json()
+  await carregarJogos()
 }
 onMounted(carregarDados)
 const emit = defineEmits(['fecharEditarTorneio', 'atualizar']);

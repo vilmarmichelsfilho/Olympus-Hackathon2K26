@@ -1,16 +1,17 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { participa } from '@/data/participa'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
-const jogos = ref([])
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
 const API_URL = 'http://localhost:3000';
+const tabelaJogos = ref(null)
 async function carregarDados() {
-  const respostaJogos = await fetch(`${API_URL}/jogos`);
-  jogos.value = await respostaJogos.json();
-  console.log(jogos.value)
+  await Promise.all([carregarJogos(), carregarParticipa()])
 }
 onMounted(carregarDados);
 const jogoEmEdicao = ref(null)
@@ -28,8 +29,15 @@ function abrirPlacar(jogo) {
   jogoComPlacarAberto.value = jogo
 }
 
-function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const resultado = finalizarJogo(jogos.value, participa, codJogo, pontuacaoA, pontuacaoB)
+function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
+  const idJogo = id ?? codJogo
+  const resultado = finalizarJogo(
+    jogos.value,
+    participa.value,
+    idJogo,
+    pontuacaoA,
+    pontuacaoB,
+  )
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
@@ -58,9 +66,12 @@ async function atualizarJogo(dados) {
     return
   }
 
-  jogos.value[indice].id_modalidade = Number(dados.id_modalidade)
-  jogos.value[indice].horario_jogo = dados.horario_jogo
-  jogos.value[indice].status_jogo = dados.status_jogo
+  atualizarJogoLocal({
+    id: idJogo,
+    id_modalidade: Number(dados.id_modalidade),
+    horario_jogo: dados.horario_jogo,
+    status_jogo: dados.status_jogo,
+  })
 
   const participantes = participa
     .filter((p) => p.cod_jogo == idJogo)
@@ -69,6 +80,7 @@ async function atualizarJogo(dados) {
   if (participantes[0]) participantes[0].cod_time = dados.time1
   if (participantes[1]) participantes[1].cod_time = dados.time2
 
+  await tabelaJogos.value?.carregarDados()
   fecharEdicao()
 }
 </script>
@@ -82,7 +94,11 @@ async function atualizarJogo(dados) {
       </header>
 
       <div class="table-jogos">
-        <TableJogosAdm @editar="abrirEdicao" @placar="abrirPlacar" />
+        <TableJogosAdm
+          ref="tabelaJogos"
+          @editar="abrirEdicao"
+          @placar="abrirPlacar"
+        />
       </div>
     </template>
 
