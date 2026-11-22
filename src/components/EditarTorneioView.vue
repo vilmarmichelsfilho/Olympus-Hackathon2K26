@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import popUpEditarTorneio from './pop-upEditarTorneio.vue';
-import { editarTorneio } from '@/Utils/editarUtils.js';
+import { editarTorneio } from '@/data/torneios.js';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils.js';
 const emit = defineEmits(['fecha', 'tela'])
 const props = defineProps(['torneio'])
@@ -10,9 +10,13 @@ const anodotorneio = ref(props.torneio.data_inicio_torneio.split('-')[0].replace
 function abrirEditarTorneio() {
   mostrarEditarTorneio.value = true
 }
-function atualizarTorneio(novoTorneio) {
-  editarTorneio(props.torneio.cod_torneio, novoTorneio);
-  mostrarEditarTorneio.value = false;
+async function atualizarTorneio(novoTorneio) {
+  try {
+    await editarTorneio(props.torneio.cod_torneio, novoTorneio)
+    mostrarEditarTorneio.value = false
+  } catch (erro) {
+    alert(erro.message)
+  }
 }
 function Fechar(){
   emit('fecha')

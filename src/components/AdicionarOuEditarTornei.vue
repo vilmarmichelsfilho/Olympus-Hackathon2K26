@@ -2,13 +2,12 @@
 import { onBeforeUnmount, ref } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
-import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtils.js';
+import { adicionarDadosApresentacao } from '@/Utils/adicionarUtils.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
 import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
-import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
-import { torneios } from '@/data/torneios.js';
+import { apagarTorneio, editarTorneio, salvarTorneio } from '@/data/torneios.js';
 
 const emit = defineEmits(['fechar']);
 
@@ -18,25 +17,23 @@ const etapa = ref(20);
 const dadosTorneio = ref(null)
 const finalizado = ref(false)
 
-function aoAdicionarTorneio(dados) {
+async function aoAdicionarTorneio(dados) {
   dadosTorneio.value = dados
-  if (torneio.value) {
-    const registro = torneios.find((item) => item.cod_torneio === torneio.value)
-    if (registro) {
-      registro.nome_torneio = dados.nome
-      registro.data_inicio_torneio = dados.dataInicio
-      registro.data_fim_torneio = dados.dataFim
-      registro.status_torneio = dados.status
+  try {
+    if (torneio.value) {
+      await editarTorneio(torneio.value, dados)
+    } else {
+      torneio.value = await salvarTorneio(dados)
+      adicionarDadosApresentacao(torneio.value)
     }
-  } else {
-    torneio.value = salvarTorneio(dados);
-    adicionarDadosApresentacao(torneio.value)
+    etapa.value = etapa.value + 20
+  } catch (erro) {
+    alert(erro.message)
   }
-  etapa.value=etapa.value+20;
 }
 
-function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+async function cancelar() {
+  if (torneio.value && !finalizado.value) await apagarTorneio(torneio.value)
   torneio.value = 0
   emit('fechar')
 }

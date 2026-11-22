@@ -1,14 +1,17 @@
 <script setup>
 import { ref } from 'vue';
-import { torneios } from '@/data/torneios';
+import { salvarTorneio, torneios } from '@/data/torneios';
 import TorneioCard from './TorneioCard.vue';
 import AdicionarOuEditarTornei from './AdicionarOuEditarTornei.vue';
-import { salvarTorneio } from '@/Utils/adicionarUtils';
 const emit = defineEmits(['editar'])
 const add = ref(false)
-function aoAdicionarTorneio(dados) {
-  salvarTorneio(dados)
-  add.value = false
+async function aoAdicionarTorneio(dados) {
+  try {
+    await salvarTorneio(dados)
+    add.value = false
+  } catch (erro) {
+    alert(erro.message)
+  }
 }
 </script>
 <template>
