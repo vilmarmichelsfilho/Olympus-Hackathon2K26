@@ -5,10 +5,17 @@ import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
-import { jogos } from '@/data/jogos'
 import { participa } from '@/data/participa'
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {

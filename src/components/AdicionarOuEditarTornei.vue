@@ -6,7 +6,7 @@ import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtil
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
-import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
+import { gerarJogos, salvarJogosGerados } from '@/Utils/gerarTorneioUtils.js';
 import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
 import { modalidades } from '@/data/modalidades.js';
@@ -53,7 +53,7 @@ function cancelar() {
   emit('fechar')
 }
 
-function finalizar() {
+async function finalizar() {
   const resultado = gerarJogos(torneio.value, {
     torneios,
     jogos: jogos.value,
@@ -68,9 +68,14 @@ function finalizar() {
     return
   }
 
-  finalizado.value = true
-  alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
-  emit('fechar')
+  try {
+    await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+    finalizado.value = true
+    alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
+    emit('fechar')
+  } catch (erro) {
+    alert(`Não foi possível salvar os jogos: ${erro.message}`)
+  }
 }
 
 onBeforeUnmount(() => {

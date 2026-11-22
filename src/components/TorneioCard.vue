@@ -1,8 +1,8 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
+import { ref, onMounted } from 'vue'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
-import { jogos } from '@/data/jogos'
 import { participa } from '@/data/participa'
 import { modalidades } from '@/data/modalidades'
 import { turmas } from '@/data/turmas'
@@ -12,6 +12,15 @@ import { torneios } from '@/data/torneios'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
+
 
 
 function formatarData(data) {

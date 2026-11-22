@@ -1,13 +1,19 @@
 <script setup>
 import { arbitros } from '@/data/arbitros.js';
 import ArbitroNewCard from '../Cards/ArbitroNewCard.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted} from 'vue';
 import AdicionarArbitro from '../AdicionarArbitro.vue';
 import editarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js';
 import { apagarArbitro } from '@/Utils/exclusaoUtils';
-import { jogos } from '@/data/jogos';
-
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar','voltar'])
 

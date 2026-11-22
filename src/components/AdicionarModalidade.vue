@@ -6,7 +6,7 @@ import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
 import { modalidades } from '@/data/modalidades';
 import { participa } from '@/data/participa';
-import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
+import { gerarJogosModalidade, salvarJogosGerados } from '@/Utils/gerarTorneioUtils';
 import { torneios } from '@/data/torneios';
 import { times } from '@/data/times';
 import { turmas } from '@/data/turmas';
@@ -30,7 +30,7 @@ const codTorneio = ref(codTorneioSelecionadoAdm)
 if (props.torneio != undefined){
   codTorneio.value = props.torneio
 }
-function checarDados() {
+async function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
@@ -59,6 +59,14 @@ function checarDados() {
                 apagarModalidade(novaModalidade.cod_modalidade, { jogos: jogos.value, participa, modalidades });
                 alert(resultado.mensagem);
                 return;
+              }
+
+              try {
+                await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+              } catch (erro) {
+                apagarModalidade(novaModalidade.cod_modalidade, { jogos: jogos.value, participa, modalidades });
+                alert(`Não foi possível salvar os jogos: ${erro.message}`)
+                return
               }
             }
 

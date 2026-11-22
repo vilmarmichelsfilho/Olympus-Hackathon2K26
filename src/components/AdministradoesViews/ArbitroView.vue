@@ -2,12 +2,19 @@
 import AdicionarArbitro from '../AdicionarArbitro.vue';
 import EditarrArbitro from '../EditarArbitroView.vue';
 import { editarArbitro } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
 import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
 import { apagarArbitro } from '@/Utils/exclusaoUtils';
-import { jogos } from '@/data/jogos';
 import { arbitros } from '@/data/arbitros';
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 function excluirArbitro(id) {
   const resultado = apagarArbitro(id, { jogos, arbitros })
   if (!resultado.sucesso) alert(resultado.mensagem)

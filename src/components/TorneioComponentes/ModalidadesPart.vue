@@ -1,14 +1,20 @@
 <script setup>
 import { modalidades } from '@/data/modalidades';
 import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
-import { jogos } from '@/data/jogos';
 import { participa } from '@/data/participa';
-
+const jogos = ref([])
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  const respostaJogos = await fetch(`${API_URL}/jogos`);
+  jogos.value = await respostaJogos.json();
+  console.log(jogos.value)
+}
+onMounted(carregarDados);
 function exluirModalidade(id) {
     apagarModalidade(id, { jogos, participa, modalidades })
 }
