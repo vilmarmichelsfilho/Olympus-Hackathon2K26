@@ -3,29 +3,24 @@ function tirarDaLista(lista, condicao) {
     if (condicao(lista[indice])) lista.splice(indice, 1)
   }
 }
-function apagarModalidade(codModalidade, { jogos, participa, modalidades }) {
-  const codigosJogos = new Set(
-    jogos.filter((jogo) => jogo.cod_modalidade === codModalidade).map((jogo) => jogo.cod_jogo),
+function apagarModalidade(codModalidade, { participa, modalidades, codigosJogos = [] }) {
+  const jogosRelacionados = new Set(codigosJogos.map(Number))
+  tirarDaLista(
+    participa,
+    (participante) => jogosRelacionados.has(Number(participante.cod_jogo)),
   )
-  tirarDaLista(participa, (participante) => codigosJogos.has(participante.cod_jogo))
-  tirarDaLista(jogos, (jogo) => jogo.cod_modalidade === codModalidade)
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_modalidade === codModalidade)
 }
 
-function apagarTorneio(codTorneio, { jogos, participa, modalidades, turmas, times, arbitros, torneios }) {
+function apagarTorneio(codTorneio, { participa, codigosJogos = [], modalidades, turmas, times, arbitros, torneios }) {
   const codigosModalidades = new Set(
     modalidades
       .filter((modalidade) => modalidade.cod_torneio === codTorneio)
       .map((modalidade) => modalidade.cod_modalidade),
   )
-  const codigosJogos = new Set(
-    jogos
-      .filter((jogo) => codigosModalidades.has(jogo.cod_modalidade))
-      .map((jogo) => jogo.cod_jogo),
-  )
+  const jogosRelacionados = new Set(codigosJogos.map(Number))
 
-  tirarDaLista(participa, (participante) => codigosJogos.has(participante.cod_jogo))
-  tirarDaLista(jogos, (jogo) => codigosModalidades.has(jogo.cod_modalidade))
+  tirarDaLista(participa, (participante) => jogosRelacionados.has(Number(participante.cod_jogo)))
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_torneio === codTorneio)
   tirarDaLista(turmas, (turma) => turma.cod_torneio === codTorneio)
   tirarDaLista(times, (time) => time.cod_torneio === codTorneio)

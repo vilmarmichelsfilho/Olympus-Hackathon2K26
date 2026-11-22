@@ -27,8 +27,37 @@ function formatarData(data) {
     const [, mes, dia] = data.split('-')
     return `${dia}/${mes}`
 }
-function excluir() {
-  apagarTorneio(props.id, { jogos, participa, modalidades, turmas, times, arbitros, torneios })
+async function excluir() {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir este torneio?')
+  if (!confirmarExclusao) return
+
+  const modalidadesDoTorneio = new Set(
+    modalidades
+      .filter((modalidade) => modalidade.cod_torneio === props.id)
+      .map((modalidade) => modalidade.cod_modalidade),
+  )
+  const jogosDoTorneio = jogos.value.filter((jogo) =>
+    modalidadesDoTorneio.has(Number(jogo.id_modalidade)),
+  )
+
+  for (const jogo of jogosDoTorneio) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos do torneio.')
+      return
+    }
+  }
+
+  apagarTorneio(props.id, {
+    participa,
+    codigosJogos: jogosDoTorneio.map((jogo) => jogo.id),
+    modalidades,
+    turmas,
+    times,
+    arbitros,
+    torneios,
+  })
+  await carregarDados()
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

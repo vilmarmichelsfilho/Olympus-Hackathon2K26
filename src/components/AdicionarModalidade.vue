@@ -56,7 +56,7 @@ async function checarDados() {
                 arbitros,
               });
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade, { jogos: jogos.value, participa, modalidades });
+                apagarModalidade(novaModalidade.cod_modalidade, { participa, modalidades });
                 alert(resultado.mensagem);
                 return;
               }
@@ -64,7 +64,7 @@ async function checarDados() {
               try {
                 await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
               } catch (erro) {
-                apagarModalidade(novaModalidade.cod_modalidade, { jogos: jogos.value, participa, modalidades });
+                apagarModalidade(novaModalidade.cod_modalidade, { participa, modalidades });
                 alert(`Não foi possível salvar os jogos: ${erro.message}`)
                 return
               }

@@ -15,8 +15,28 @@ async function carregarDados() {
   console.log(jogos.value)
 }
 onMounted(carregarDados);
-function exluirModalidade(id) {
-    apagarModalidade(id, { jogos, participa, modalidades })
+async function exluirModalidade(id) {
+    const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+    if (!confirmarExclusao) return
+
+    const jogosDaModalidade = jogos.value.filter(
+        (jogo) => Number(jogo.id_modalidade) === Number(id),
+    )
+
+    for (const jogo of jogosDaModalidade) {
+        const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+        if (!resposta.ok) {
+            alert('Não foi possível excluir os jogos da modalidade.')
+            return
+        }
+    }
+
+    apagarModalidade(id, {
+        participa,
+        modalidades,
+        codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+    })
+    await carregarDados()
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])
