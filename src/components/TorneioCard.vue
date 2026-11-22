@@ -1,18 +1,76 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
+import { onMounted } from 'vue'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
+import { modalidades } from '@/data/modalidades'
+import { turmas } from '@/data/turmas'
+import { times } from '@/data/times'
+import { arbitros } from '@/data/arbitros'
+import { torneios } from '@/data/torneios'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
+
 
 
 function formatarData(data) {
     const [, mes, dia] = data.split('-')
     return `${dia}/${mes}`
 }
-function excluir() {
-    apagarTorneio(props.id)
+async function excluir() {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir este torneio?')
+  if (!confirmarExclusao) return
+
+  const modalidadesDoTorneio = new Set(
+    modalidades
+      .filter((modalidade) => modalidade.cod_torneio === props.id)
+      .map((modalidade) => modalidade.cod_modalidade),
+  )
+  const jogosDoTorneio = jogos.value.filter((jogo) =>
+    modalidadesDoTorneio.has(Number(jogo.id_modalidade)),
+  )
+  const idsJogos = new Set(jogosDoTorneio.map((jogo) => Number(jogo.id)))
+  const participantesDoTorneio = participa.value.filter((participante) =>
+    idsJogos.has(Number(participante.id_jogo)),
+  )
+
+  for (const jogo of jogosDoTorneio) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos do torneio.')
+      return
+    }
+    removerJogoLocal(jogo.id)
+  }
+
+  try {
+    await excluirParticipantes(participantesDoTorneio)
+  } catch (erro) {
+    alert(erro.message)
+    await carregarDados()
+    return
+  }
+
+  apagarTorneio(props.id, {
+    participa: participa.value,
+    codigosJogos: jogosDoTorneio.map((jogo) => jogo.id),
+    modalidades,
+    turmas,
+    times,
+    arbitros,
+    torneios,
+  })
+  await carregarDados()
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

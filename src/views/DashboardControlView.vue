@@ -1,19 +1,30 @@
 <script setup>
+import { computed, onMounted } from 'vue';
 import OympusControl from '@/components/OympusControl.vue';
-import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils';
 import trophie from '@/assets/trophie.png';
-import { totalJogosHoje } from '@/Utils/DashboardUtils';
-import { totalConflitos } from '@/Utils/DashboardUtils';
+import { adquirirJogosDoTorneio, calcularTotalConflitos, calcularTotalJogosHoje } from '@/Utils/DashboardUtils';
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import conflito from '@/assets/conflito.png';
 import calendar from '@/assets/calendar.png';
 import home from '@/assets/home.png';
 import GraficoJogos from '@/components/GraficoJogos.vue';
 import ProximosJogos from '@/components/ProximosJogos.vue'
+import { useJogos } from '@/composables/useJogos'
 
+const { jogos, carregarJogos } = useJogos()
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
+
+const jogosDoTorneio = computed(() =>
+  adquirirJogosDoTorneio(jogos.value, codTorneioSelecionadoAdm.value),
+)
+const totalJogos = computed(() => jogosDoTorneio.value.length)
+const totalJogosHoje = computed(() => calcularTotalJogosHoje(jogosDoTorneio.value))
+const totalConflitos = computed(() => calcularTotalConflitos(jogosDoTorneio.value))
 defineEmits(['editar2'])
-
 </script>
-
 <template>
 <div class="tudo">
   <div class="titulo">
@@ -24,7 +35,7 @@ defineEmits(['editar2'])
   <div class="controls">
     <ul>
       <li>
-        <OympusControl titulo="Total de jogos" :valor="jogosDoTorneio.length" :icone="trophie" rota="/administradores" />
+        <OympusControl titulo="Total de jogos" :valor="totalJogos" :icone="trophie" rota="/administradores" />
       </li>
       <li>
         <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />
@@ -45,7 +56,7 @@ defineEmits(['editar2'])
     <div class="controls-mobile">
       <ul>
         <li>
-          <OympusControl titulo="Total de jogos" :valor="jogosDoTorneio.length" :icone="trophie" rota="/administradores" />
+          <OympusControl titulo="Total de jogos" :valor="totalJogos" :icone="trophie" rota="/administradores" />
         </li>
         <li>
           <OympusControl titulo="Jogos Hoje" :valor="totalJogosHoje" :icone="calendar" rota="/administradores" />

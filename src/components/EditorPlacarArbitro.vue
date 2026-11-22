@@ -25,7 +25,7 @@ function alterarPontuacao(time, diferenca) {
 
 function salvar() {
   emit('salvar', {
-    codJogo: props.jogo.codJogo,
+    id: props.jogo.id ?? props.jogo.codJogo,
     pontuacaoA: pontuacaoA.value,
     pontuacaoB: pontuacaoB.value,
   })

@@ -2,10 +2,10 @@
 import KeyboardArrowRightIcon from '@iconify-vue/mdi/keyboard-arrow-right';
 import { ref } from 'vue';
 const props = defineProps(['torneio'])
-const emit = defineEmits(['mandarCodtorneio'])
+const emit = defineEmits(['mandar-codtorneio'])
 const anodotorneio = ref(props.torneio.data_inicio_torneio.split('-')[0].replaceAll('20', ''))
 function mandarEmit(){
-  emit('mandarCodtorneio', props.torneio.cod_torneio)
+  emit('mandar-codtorneio', Number(props.torneio.cod_torneio))
 }
 </script>
 <template>

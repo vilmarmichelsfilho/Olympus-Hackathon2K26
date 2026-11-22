@@ -1,15 +1,26 @@
 <script setup>
-import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, onMounted } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
 import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtils.js';
 import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
-import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
+import { gerarJogos, salvarJogosGerados } from '@/Utils/gerarTorneioUtils.js';
 import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
-
+import { modalidades } from '@/data/modalidades.js';
+import { times } from '@/data/times.js';
+import { turmas } from '@/data/turmas.js';
+import { arbitros } from '@/data/arbitros.js';
+import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
+const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fechar']);
 
 const torneio = ref(0);
@@ -36,25 +47,38 @@ function aoAdicionarTorneio(dados) {
 }
 
 function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa: participa.value, modalidades, turmas, times, arbitros, torneios })
   torneio.value = 0
   emit('fechar')
 }
 
-function finalizar() {
-  const resultado = gerarJogos(torneio.value)
+async function finalizar() {
+  const resultado = gerarJogos(torneio.value, {
+    torneios,
+    jogos: jogos.value,
+    modalidades,
+    participa: participa.value,
+    times,
+    turmas,
+    arbitros,
+  })
   if (!resultado.valido) {
     alert(resultado.mensagem)
     return
   }
 
-  finalizado.value = true
-  alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
-  emit('fechar')
+  try {
+    await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+    finalizado.value = true
+    alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
+    emit('fechar')
+  } catch (erro) {
+    alert(`Não foi possível salvar os jogos: ${erro.message}`)
+  }
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa: participa.value, modalidades, turmas, times, arbitros, torneios })
 })
 
 </script>
@@ -68,7 +92,7 @@ onBeforeUnmount(() => {
                 <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
                 <h2 v-show="etapa===60">Cadastrar Times</h2>
                 <h2 v-show="etapa===80">Cadastrar Turmas</h2>
-                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>  
+                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>
                 <p>Etapa {{ etapa/20 }} de 5 · Dados gerais</p>
             </div>
             <div class="barra">
