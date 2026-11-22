@@ -11,7 +11,7 @@ import { finalizarJogo } from '@/Utils/partidasUtils'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
-const { participa, carregarParticipa } = useParticipa()
+const { participa, carregarParticipa, atualizarParticipantes } = useParticipa()
 const API_URL = 'http://localhost:3000'
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
@@ -109,7 +109,14 @@ async function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
     return
   }
 
-  atualizarJogoLocal({ id, status_jogo: 'Finalizado' })
+  try {
+    await atualizarParticipantes(resultado.participantesAtualizados)
+    atualizarJogoLocal({ id, status_jogo: 'Finalizado' })
+  } catch (erro) {
+    await Promise.all([carregarJogos({ forcar: true }), carregarParticipa()])
+    alert(erro.message)
+    return
+  }
 
   jogoSelecionadoId.value = null
 }

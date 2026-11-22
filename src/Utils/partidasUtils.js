@@ -5,6 +5,7 @@ function pegarParticipantes(participa, idJogo) {
 }
 
 function passarVencedor(jogos, participa, idJogo, idTimeVencedor) {
+  const participantesAtualizados = []
   jogos.forEach((proximoJogo) => {
     let posicao = null
     if (Number(proximoJogo.origem_jogo_a) === Number(idJogo)) posicao = 1
@@ -20,7 +21,9 @@ function passarVencedor(jogos, participa, idJogo, idTimeVencedor) {
     participante.id_time = idTimeVencedor
     participante.pontuacao_time = null
     participante.resultado_time = null
+    participantesAtualizados.push(participante)
   })
+  return participantesAtualizados
 }
 
 function salvarPlacar(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
@@ -73,9 +76,13 @@ function finalizarJogo(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
   jogo.status_jogo = 'Finalizado'
 
   const vencedor = placarA > placarB ? participantes[0] : participantes[1]
-  passarVencedor(jogos, participa, idJogo, vencedor.id_time)
+  const participantesDoProximoJogo = passarVencedor(jogos, participa, idJogo, vencedor.id_time)
 
-  return { sucesso: true, idTimeVencedor: vencedor.id_time }
+  return {
+    sucesso: true,
+    idTimeVencedor: vencedor.id_time,
+    participantesAtualizados: [...participantes, ...participantesDoProximoJogo],
+  }
 }
 
 export { pegarParticipantes, passarVencedor, finalizarJogo, salvarPlacar }

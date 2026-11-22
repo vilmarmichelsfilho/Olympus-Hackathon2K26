@@ -9,7 +9,7 @@ import { adquirirConflitos } from '@/Utils/conflitosUtils'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
-const { participa, carregarParticipa } = useParticipa()
+const { participa, carregarParticipa, atualizarParticipante } = useParticipa()
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
 }
@@ -75,8 +75,22 @@ async function atualizarJogo(dados) {
     .filter((participante) => Number(participante.id_jogo) === Number(dados.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
-  if (participantesDoJogo[0]) participantesDoJogo[0].id_time = dados.time1
-  if (participantesDoJogo[1]) participantesDoJogo[1].id_time = dados.time2
+  try {
+    if (participantesDoJogo[0]) {
+      await atualizarParticipante(participantesDoJogo[0].id, {
+        id_time: dados.time1 == null || dados.time1 === '' ? null : Number(dados.time1),
+      })
+    }
+    if (participantesDoJogo[1]) {
+      await atualizarParticipante(participantesDoJogo[1].id, {
+        id_time: dados.time2 == null || dados.time2 === '' ? null : Number(dados.time2),
+      })
+    }
+  } catch (erro) {
+    await carregarParticipa()
+    alert(erro.message)
+    return
+  }
 
   fecharEdicao()
 }

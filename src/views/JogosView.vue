@@ -7,7 +7,7 @@ import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
-const { participa, carregarParticipa } = useParticipa()
+const { participa, carregarParticipa, atualizarParticipante, atualizarParticipantes } = useParticipa()
 const API_URL = 'http://localhost:3000';
 const tabelaJogos = ref(null)
 async function carregarDados() {
@@ -29,7 +29,7 @@ function abrirPlacar(jogo) {
   jogoComPlacarAberto.value = jogo
 }
 
-function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
+async function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
   const idJogo = id ?? codJogo
   const resultado = finalizarJogo(
     jogos.value,
@@ -43,7 +43,22 @@ function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
     return
   }
 
-  jogoComPlacarAberto.value = null
+  try {
+    const resposta = await fetch(`${API_URL}/jogos/${idJogo}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status_jogo: 'Finalizado' }),
+    })
+
+    if (!resposta.ok) throw new Error('Não foi possível atualizar o status do jogo.')
+
+    await atualizarParticipantes(resultado.participantesAtualizados)
+    atualizarJogoLocal({ id: idJogo, status_jogo: 'Finalizado' })
+    jogoComPlacarAberto.value = null
+  } catch (erro) {
+    await Promise.all([carregarJogos({ forcar: true }), carregarParticipa()])
+    alert(erro.message)
+  }
 }
 
 async function atualizarJogo(dados) {
@@ -66,19 +81,33 @@ async function atualizarJogo(dados) {
     return
   }
 
+  const participantes = participa.value
+    .filter((p) => p.id_jogo == idJogo)
+    .sort((a, b) => a.posicao_participante - b.posicao_participante)
+
+  try {
+    if (participantes[0]) {
+      await atualizarParticipante(participantes[0].id, {
+        id_time: dados.time1 == null || dados.time1 === '' ? null : Number(dados.time1),
+      })
+    }
+    if (participantes[1]) {
+      await atualizarParticipante(participantes[1].id, {
+        id_time: dados.time2 == null || dados.time2 === '' ? null : Number(dados.time2),
+      })
+    }
+  } catch (erro) {
+    await Promise.all([carregarJogos({ forcar: true }), carregarParticipa()])
+    alert(erro.message)
+    return
+  }
+
   atualizarJogoLocal({
     id: idJogo,
     id_modalidade: Number(dados.id_modalidade),
     horario_jogo: dados.horario_jogo,
     status_jogo: dados.status_jogo,
   })
-
-  const participantes = participa.value
-    .filter((p) => p.id_jogo == idJogo)
-    .sort((a, b) => a.posicao_participante - b.posicao_participante)
-
-  if (participantes[0]) participantes[0].id_time = dados.time1
-  if (participantes[1]) participantes[1].id_time = dados.time2
 
   await tabelaJogos.value?.carregarDados()
   fecharEdicao()
