@@ -79,6 +79,25 @@ async function atualizarParticipantes(participantes) {
   }
 }
 
+async function excluirParticipante(id) {
+  const resposta = await fetch(`${API_URL}/participa/${id}`, {
+    method: 'DELETE',
+  })
+
+  if (!resposta.ok) {
+    throw new Error(`Não foi possível excluir o participante ${id}.`)
+  }
+
+  removerParticipanteLocal(id)
+}
+
+async function excluirParticipantes(participantes) {
+  for (const participante of participantes) {
+    if (participante?.id == null) throw new Error('Participante sem ID da API.')
+    await excluirParticipante(participante.id)
+  }
+}
+
 function removerParticipanteLocal(id) {
   participa.value = participa.value.filter(
     (participante) => Number(participante.id) !== Number(id),
@@ -92,6 +111,8 @@ export function useParticipa() {
     carregarParticipa,
     atualizarParticipante,
     atualizarParticipantes,
+    excluirParticipante,
+    excluirParticipantes,
     removerParticipanteLocal,
   }
 }

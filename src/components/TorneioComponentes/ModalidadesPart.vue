@@ -9,7 +9,7 @@ import { apagarModalidade } from '@/Utils/exclusaoUtils';
 import { useJogos } from '@/composables/useJogos';
 import { useParticipa } from '@/composables/useParticipa';
 const { jogos, carregarJogos, removerJogoLocal } = useJogos()
-const { participa, carregarParticipa } = useParticipa()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
 const API_URL = 'http://localhost:3000';
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
@@ -22,6 +22,10 @@ async function exluirModalidade(id) {
     const jogosDaModalidade = jogos.value.filter(
         (jogo) => Number(jogo.id_modalidade) === Number(id),
     )
+    const idsJogos = new Set(jogosDaModalidade.map((jogo) => Number(jogo.id)))
+    const participantesDaModalidade = participa.value.filter((participante) =>
+        idsJogos.has(Number(participante.id_jogo)),
+    )
 
     for (const jogo of jogosDaModalidade) {
         const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
@@ -30,6 +34,14 @@ async function exluirModalidade(id) {
             return
         }
         removerJogoLocal(jogo.id)
+    }
+
+    try {
+        await excluirParticipantes(participantesDaModalidade)
+    } catch (erro) {
+        alert(erro.message)
+        await carregarDados()
+        return
     }
 
     apagarModalidade(id, {

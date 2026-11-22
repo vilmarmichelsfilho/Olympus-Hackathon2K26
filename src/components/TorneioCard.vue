@@ -14,7 +14,7 @@ import { useParticipa } from '@/composables/useParticipa'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
 const { jogos, carregarJogos, removerJogoLocal } = useJogos()
-const { participa, carregarParticipa } = useParticipa()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
 const API_URL = 'http://localhost:3000';
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
@@ -39,6 +39,10 @@ async function excluir() {
   const jogosDoTorneio = jogos.value.filter((jogo) =>
     modalidadesDoTorneio.has(Number(jogo.id_modalidade)),
   )
+  const idsJogos = new Set(jogosDoTorneio.map((jogo) => Number(jogo.id)))
+  const participantesDoTorneio = participa.value.filter((participante) =>
+    idsJogos.has(Number(participante.id_jogo)),
+  )
 
   for (const jogo of jogosDoTorneio) {
     const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
@@ -47,6 +51,14 @@ async function excluir() {
       return
     }
     removerJogoLocal(jogo.id)
+  }
+
+  try {
+    await excluirParticipantes(participantesDoTorneio)
+  } catch (erro) {
+    alert(erro.message)
+    await carregarDados()
+    return
   }
 
   apagarTorneio(props.id, {
