@@ -38,14 +38,29 @@ function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
   jogoComPlacarAberto.value = null
 }
 
-function atualizarJogo(dados) {
+async function atualizarJogo(dados) {
   const idJogo = dados.id 
   const indice = jogos.value.findIndex((j) => j.id == idJogo)
-  if (indice !== -1) {
-    jogos.value[indice].id_modalidade = dados.id_modalidade
-    jogos.value[indice].horario_jogo = dados.horario_jogo
-    jogos.value[indice].status_jogo = dados.status_jogo
+  if (indice === -1) return
+
+  const resposta = await fetch(`${API_URL}/jogos/${idJogo}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_modalidade: Number(dados.id_modalidade),
+      horario_jogo: dados.horario_jogo,
+      status_jogo: dados.status_jogo,
+    }),
+  })
+
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o jogo.')
+    return
   }
+
+  jogos.value[indice].id_modalidade = Number(dados.id_modalidade)
+  jogos.value[indice].horario_jogo = dados.horario_jogo
+  jogos.value[indice].status_jogo = dados.status_jogo
 
   const participantes = participa
     .filter((p) => p.cod_jogo == idJogo)

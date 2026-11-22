@@ -81,7 +81,7 @@ function alterarPlacar(id) {
   if (jogo?.confrontoDefinido) jogoSelecionadoId.value = id
 }
 
-function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
+async function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
   const jogo = jogos.value.find((item) => Number(item.id) === Number(id))
   if (!jogo || Number(jogo.id_arbitro) !== Number(sessao?.codigo)) return
 
@@ -96,6 +96,21 @@ function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
     alert(resultado.mensagem)
     return
   }
+
+  const resposta = await fetch(`${API_URL}/jogos/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      status_jogo: 'Finalizado',
+    }),
+  })
+
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o status do jogo na API.')
+    return
+  }
+
+  jogo.status_jogo = 'Finalizado'
 
   jogoSelecionadoId.value = null
 }

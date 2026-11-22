@@ -43,16 +43,31 @@ function fecharEdicao() {
   jogoEmEdicao.value = null
 }
 
-function atualizarJogo(dados) {
+async function atualizarJogo(dados) {
   const jogo = jogoEmEdicao.value
-  if (!jogo || jogo.cod_jogo !== dados.cod_jogo) return
+  if (!jogo || Number(jogo.id) !== Number(dados.id)) return
 
-  jogo.cod_modalidade = dados.cod_modalidade
+  const resposta = await fetch(`http://localhost:3000/jogos/${dados.id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_modalidade: Number(dados.id_modalidade),
+      horario_jogo: dados.horario_jogo,
+      status_jogo: dados.status_jogo,
+    }),
+  })
+
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o jogo.')
+    return
+  }
+
+  jogo.id_modalidade = Number(dados.id_modalidade)
   jogo.horario_jogo = dados.horario_jogo
   jogo.status_jogo = dados.status_jogo
 
   const participantesDoJogo = participa
-    .filter((participante) => participante.cod_jogo === dados.cod_jogo)
+    .filter((participante) => Number(participante.cod_jogo) === Number(dados.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   if (participantesDoJogo[0]) participantesDoJogo[0].cod_time = dados.time1

@@ -3,7 +3,6 @@ import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
 import { turmas } from '@/data/turmas';
-
 const timesApresentacao = [
     { nome: 'Azul', cor: '#2563EB', escudo: '/images/escudos/azul.svg' },
     { nome: 'Verde', cor: '#16A34A', escudo: '/images/escudos/verde.svg' },
