@@ -62,6 +62,13 @@
       "nome_arbitro": "Matheus Costa",
       "login_arbitro": "matheus",
       "senha_arbitro": "123456"
+    },
+    {
+      "id_torneio": "2",
+      "nome_arbitro": "davi augusto",
+      "login_arbitro": "davi",
+      "senha_arbitro": "1234567",
+      "id": "G1ww60IVCwQ"
     }
   ],
   "jogos": [
