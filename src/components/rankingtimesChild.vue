@@ -1,12 +1,27 @@
 <script setup>
 import { timesOrdenados } from '@/Utils/timesUtils';
+import { modalidades } from '@/data/modalidades';
 import timeCard from '@/components/timeCard.vue';
-import { jogos } from '@/data/jogos.js';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
-const quantidadedejogos = computed(() => { return jogos.length })
+import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados);
+const jogosDoTorneio = computed(() => {
+  return jogos.value.filter(jogo => {
+    const modalidade = modalidades.find(
+      modalidade => modalidade.cod_modalidade == jogo.id_modalidade
+    )
+    return modalidade?.cod_torneio == cod_torneioAtual.value
+  })
+})
+const quantidadedejogos = computed(() => { return jogosDoTorneio.value.length })
 const totalJogosConcluidos = computed(() => {
-  return jogos.filter(jogo => jogo.status === 'concluido').length
+  return jogos.value.filter(jogo => jogo.status === 'concluido').length
 })
 const isTimesRoute = window.location.pathname === '/times';
 </script>

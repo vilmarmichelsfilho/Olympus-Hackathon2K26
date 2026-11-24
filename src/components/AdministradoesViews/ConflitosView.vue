@@ -1,22 +1,37 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import ConflitoCard from '@/components/ConflitoCard.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
-import { conflitosDoTorneio } from '@/Utils/conflitosUtils'
-import { participa } from '@/data/participa'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { modalidades } from '@/data/modalidades'
+import { times } from '@/data/times'
+import { adquirirConflitos } from '@/Utils/conflitosUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa, atualizarParticipante } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
+  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+}))
+const conflitos = computed(() => adquirirConflitos(jogosDoTorneio.value, modalidades, participa.value, times))
+
 
 const conflitosIgnorados = ref(new Set())
 const jogoEmEdicao = ref(null)
 
-const conflitosVisiveis = computed(() =>
-  conflitosDoTorneio.value.filter((conflito) => !conflitosIgnorados.value.has(conflito.chave)),
-)
-
 function ignorarConflito(chave) {
   conflitosIgnorados.value = new Set([...conflitosIgnorados.value, chave])
 }
-
+const conflitosVisiveis = computed(() =>
+  conflitos.value.filter(
+    (conflito) => !conflitosIgnorados.value.has(conflito.chave),
+  ),
+)
 watch(codTorneioSelecionadoAdm, () => {
   conflitosIgnorados.value = new Set()
   jogoEmEdicao.value = null
@@ -30,20 +45,52 @@ function fecharEdicao() {
   jogoEmEdicao.value = null
 }
 
-function atualizarJogo(dados) {
+async function atualizarJogo(dados) {
   const jogo = jogoEmEdicao.value
-  if (!jogo || jogo.cod_jogo !== dados.cod_jogo) return
+  if (!jogo || Number(jogo.id) !== Number(dados.id)) return
 
-  jogo.cod_modalidade = dados.cod_modalidade
-  jogo.horario_jogo = dados.horario_jogo
-  jogo.status_jogo = dados.status_jogo
+  const resposta = await fetch(`http://localhost:3000/jogos/${dados.id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_modalidade: Number(dados.id_modalidade),
+      horario_jogo: dados.horario_jogo,
+      status_jogo: dados.status_jogo,
+    }),
+  })
 
-  const participantesDoJogo = participa
-    .filter((participante) => participante.cod_jogo === dados.cod_jogo)
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o jogo.')
+    return
+  }
+
+  atualizarJogoLocal({
+    id: dados.id,
+    id_modalidade: Number(dados.id_modalidade),
+    horario_jogo: dados.horario_jogo,
+    status_jogo: dados.status_jogo,
+  })
+
+  const participantesDoJogo = participa.value
+    .filter((participante) => Number(participante.id_jogo) === Number(dados.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
-  if (participantesDoJogo[0]) participantesDoJogo[0].cod_time = dados.time1
-  if (participantesDoJogo[1]) participantesDoJogo[1].cod_time = dados.time2
+  try {
+    if (participantesDoJogo[0]) {
+      await atualizarParticipante(participantesDoJogo[0].id, {
+        id_time: dados.time1 == null || dados.time1 === '' ? null : Number(dados.time1),
+      })
+    }
+    if (participantesDoJogo[1]) {
+      await atualizarParticipante(participantesDoJogo[1].id, {
+        id_time: dados.time2 == null || dados.time2 === '' ? null : Number(dados.time2),
+      })
+    }
+  } catch (erro) {
+    await carregarParticipa()
+    alert(erro.message)
+    return
+  }
 
   fecharEdicao()
 }

@@ -62,14 +62,21 @@
       "nome_arbitro": "Matheus Costa",
       "login_arbitro": "matheus",
       "senha_arbitro": "123456"
+    },
+    {
+      "id_torneio": "2",
+      "nome_arbitro": "davi augusto",
+      "login_arbitro": "davi",
+      "senha_arbitro": "1234567",
+      "id": "G1ww60IVCwQ"
     }
   ],
   "jogos": [
     {
       "id": "1",
-      "id_modalidade": "1",
-      "id_arbitro": "1",
-      "status_jogo": "Finalizado",
+      "id_modalidade": 1,
+      "id_arbitro": 1,
+      "status_jogo": "AoVivo",
       "horario_jogo": "2026-06-20 08:00:00",
       "fase_jogo": "Quartas de Final",
       "origem_jogo_a": null,
@@ -77,8 +84,8 @@
     },
     {
       "id": "2",
-      "id_modalidade": "1",
-      "id_arbitro": "1",
+      "id_modalidade": 1,
+      "id_arbitro": 1,
       "status_jogo": "Finalizado",
       "horario_jogo": "2026-06-20 09:00:00",
       "fase_jogo": "Quartas de Final",

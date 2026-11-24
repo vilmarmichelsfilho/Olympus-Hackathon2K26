@@ -3,7 +3,7 @@ import selecionarTorneioCard from './selecionarTorneioCard.vue'
 import { torneios } from '@/data/torneios'
 import { modificarCodTorneio } from '@/Utils/cod_torneioUtils.js';
 function modifyCodtorneio(id){
-  modificarCodTorneio(id)
+  modificarCodTorneio(Number(id))
 }
 </script>
 <template>

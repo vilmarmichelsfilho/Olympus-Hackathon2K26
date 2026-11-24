@@ -1,8 +1,13 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted} from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { jogos } from '@/data/jogos';
 import { modalidades } from '@/data/modalidades';
+import { useJogos } from '@/composables/useJogos';
+const { jogos, carregarJogos } = useJogos()
+async function carregarDados() {
+  await carregarJogos()
+}
+onMounted(carregarDados)
 const emit = defineEmits(['fecharEditarTorneio', 'atualizar']);
 const props = defineProps(['torneio']);
 const nome = ref('');
@@ -35,8 +40,8 @@ function checarDados() {
             .filter((modalidade) => modalidade.cod_torneio === props.torneio.cod_torneio)
             .map((modalidade) => modalidade.cod_modalidade),
         )
-        const jogoForaDoPeriodo = jogos.some((jogo) => {
-          if (!codigosModalidades.has(jogo.cod_modalidade)) return false
+        const jogoForaDoPeriodo = jogos.value.some((jogo) => {
+          if (!codigosModalidades.has(Number(jogo.id_modalidade))) return false
           const dataJogo = jogo.horario_jogo.split(' ')[0]
           return dataJogo < dataInicio.value || dataJogo > dataFim.value
         })

@@ -1,10 +1,26 @@
 <script setup>
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
+import { onMounted } from 'vue'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
+import { modalidades } from '@/data/modalidades'
+import { turmas } from '@/data/turmas'
+import { times } from '@/data/times'
+import { arbitros } from '@/data/arbitros'
+import { torneios } from '@/data/torneios'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
+
 
 
 function formatarData(data) {

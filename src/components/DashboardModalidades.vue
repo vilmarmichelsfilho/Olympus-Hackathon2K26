@@ -5,8 +5,17 @@ import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+const API_URL = 'http://localhost:3000';
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -14,8 +23,41 @@ function abrirEditar(id) {
   modalidadeEditar.value = true
 }
 const modalidadeAdicionar = ref(false)
-function exluirModalidade(id) {
-  apagarModalidade(id)
+async function exluirModalidade(id) {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+  if (!confirmarExclusao) return
+
+  const jogosDaModalidade = jogos.value.filter(
+    (jogo) => Number(jogo.id_modalidade) === Number(id),
+  )
+  const idsJogos = new Set(jogosDaModalidade.map((jogo) => Number(jogo.id)))
+  const participantesDaModalidade = participa.value.filter((participante) =>
+    idsJogos.has(Number(participante.id_jogo)),
+  )
+
+  for (const jogo of jogosDaModalidade) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos da modalidade.')
+      return
+    }
+    removerJogoLocal(jogo.id)
+  }
+
+  try {
+    await excluirParticipantes(participantesDaModalidade)
+  } catch (erro) {
+    alert(erro.message)
+    await carregarDados()
+    return
+  }
+
+  apagarModalidade(id, {
+    participa: participa.value,
+    modalidades,
+    codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+  })
+  await carregarDados()
 }
 </script>
 <template>

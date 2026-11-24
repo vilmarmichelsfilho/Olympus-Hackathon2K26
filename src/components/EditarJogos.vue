@@ -3,10 +3,11 @@ import { computed, ref, watch } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
 import { times } from '@/data/times';
-import { participa } from '@/data/participa';
-
+import { useParticipa } from '@/composables/useParticipa';
 const emit = defineEmits(['fecharEditarJogo', 'atualizar']);
 const props = defineProps(['jogo']);
+const { participa, carregarParticipa } = useParticipa();
+carregarParticipa();
 
 const codModalidade = ref('');
 const data = ref('');
@@ -17,7 +18,7 @@ const time2 = ref('');
 
 const codTorneioDoJogo = computed(() => {
   const modalidadeDoJogo = modalidades.find(
-    (modalidade) => modalidade.cod_modalidade === props.jogo?.cod_modalidade
+    (modalidade) => modalidade.cod_modalidade == props.jogo?.id_modalidade
   )
   return modalidadeDoJogo?.cod_torneio
 })
@@ -31,22 +32,22 @@ const timesDoTorneio = computed(() =>
 )
 
 watch(
-  () => props.jogo,
-  (novo) => {
+  [() => props.jogo, participa],
+  ([novo]) => {
     if (novo) {
-      codModalidade.value = novo.cod_modalidade || '';
+      codModalidade.value = novo.id_modalidade || '';
       status.value = novo.status_jogo || '';
 
       const [d, h] = (novo.horario_jogo || ' ').split(' ');
       data.value = d;
       hora.value = h;
 
-      const participantes = participa
-        .filter(p => p.cod_jogo === novo.cod_jogo)
+      const participantes = participa.value
+        .filter(p => p.id_jogo == novo.id)
         .sort((a, b) => a.posicao_participante - b.posicao_participante);
 
-      time1.value = participantes[0]?.cod_time || '';
-      time2.value = participantes[1]?.cod_time || '';
+      time1.value = participantes[0]?.id_time || '';
+      time2.value = participantes[1]?.id_time || '';
     }
   },
   { immediate: true }
@@ -58,8 +59,8 @@ function checarDados() {
       if (hora.value !== '') {
           if (!time1.value || !time2.value || time1.value !== time2.value) {
             emit('atualizar', {
-              cod_jogo: props.jogo.cod_jogo,
-              cod_modalidade: codModalidade.value,
+              id: props.jogo.id,
+              id_modalidade: codModalidade.value,
               horario_jogo: `${data.value} ${hora.value}`,
               status_jogo: status.value,
               time1: time1.value || null,

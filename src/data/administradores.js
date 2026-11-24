@@ -1,16 +1,15 @@
 import { reactive } from 'vue'
 
-export const administradores = reactive([
-  {
-    cod_adm: 1,
-    nome_adm: "Administrador Principal",
-    login_adm: "admin",
-    senha_adm: "123456"
-  },
-  {
-    cod_adm: 2,
-    nome_adm: "Administrador Auxiliar",
-    login_adm: "admin2",
-    senha_adm: "123456"
+export const administradores = reactive([])
+
+export async function carregarAdministradores() {
+  const resposta = await fetch('http://localhost:3000/administradores')
+
+  if (!resposta.ok) {
+    throw new Error('Não foi possível carregar os administradores.')
   }
-])
+
+  const dados = await resposta.json()
+
+  administradores.splice(0, administradores.length, ...dados)
+}

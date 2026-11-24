@@ -1,15 +1,23 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { modalidades } from '@/data/modalidades'
-import { jogos } from '@/data/jogos'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import Bracket from 'vue-tournament-bracket'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const route = useRoute()
+const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
+
+
 const modalidadeId = computed(() => Number(route.params.id))
 const modalidadeSelecionada = computed(() => {
-  return modalidades.find((m) => m.cod_modalidade === modalidadeId.value) || null
+  return modalidades.find((m) => m.cod_modalidade == modalidadeId.value) || null
 })
 const nome = computed(() => {
   return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome_modalidade : ''
@@ -21,70 +29,70 @@ const jogosdamodalidade = computed(() => {
   if (!modalidadeSelecionada.value) {
     return []
   }
-  return jogos.filter((jogo) => jogo.cod_modalidade === modalidadeSelecionada.value.cod_modalidade)
+  return jogos.value.filter((jogo) => jogo.id_modalidade == modalidadeSelecionada.value.cod_modalidade)
 })
 function getParticipantesByJogo(codJogo) {
-  return participa.filter((p) => p.cod_jogo === codJogo)
+  return participa.value.filter((p) => p.id_jogo == codJogo)
 }
 function getVencedor(codJogo) {
   const participantes = getParticipantesByJogo(codJogo)
-  if (participantes.length === 0) {
+  if (participantes.length == 0) {
     return null
   }
-  const vencedor = participantes.find((participante) => participante.resultado_time === 'Vitória')
-  return vencedor?.cod_time ?? null
+  const vencedor = participantes.find((participante) => participante.resultado_time == 'Vitória')
+  return vencedor?.id_time ?? null
 }
 function getTimeId(codJogo, posicao) {
-  const jogo = jogos.find((j) => j.cod_jogo === codJogo)
+  const jogo = jogos.value.find((j) => j.id == codJogo)
   if (!jogo) {
     return null
   }
   const participantes = getParticipantesByJogo(codJogo)
-  const timeParticipante = participantes[posicao]?.cod_time
+  const timeParticipante = participantes[posicao]?.id_time
   if (timeParticipante != null) {
     return timeParticipante
   }
-  const origem = posicao === 0 ? jogo.origem_jogo_a : jogo.origem_jogo_b
+  const origem = posicao == 0 ? jogo.origem_jogo_a : jogo.origem_jogo_b
   if (!origem) {
     return null
   }
   return getVencedor(origem)
 }
 function getPontuacao(codJogo, codTime) {
-  if (codTime === null) {
+  if (codTime == null) {
     return null
   }
-  const participante = participa.find((p) => p.cod_jogo === codJogo && p.cod_time === codTime)
+    const participante = participa.value.find((p) => p.id_jogo == codJogo && p.id_time == codTime)
   return participante?.pontuacao_time ?? null
 }
 function getTimeName(codTime) {
-  if (codTime === null) {
+  if (codTime == null) {
     return 'A definir'
   }
-  const time = times.find((t) => t.cod_time === codTime)
+  const time = times.find((t) => t.cod_time == codTime)
   return time?.nome_time ?? 'A definir'
 }
 const formatarParaBracket = (fase) => {
   return jogosdamodalidade.value
-    .filter((jogo) => jogo.fase_jogo === fase)
+    .filter((jogo) => jogo.fase_jogo == fase)
     .map((jogo) => {
-      const time1 = getTimeId(jogo.cod_jogo, 0)
-      const time2 = getTimeId(jogo.cod_jogo, 1)
-      const pontuacao1 = getPontuacao(jogo.cod_jogo, time1)
-      const pontuacao2 = getPontuacao(jogo.cod_jogo, time2)
+      const time1 = getTimeId(jogo.id, 0)
+      const time2 = getTimeId(jogo.id, 1)
+      const pontuacao1 = getPontuacao(jogo.id, time1)
+      const pontuacao2 = getPontuacao(jogo.id, time2)
       return {
-        id: jogo.cod_jogo,
+        id: jogo.id,
         player1: {
           id: time1,
           name: getTimeName(time1),
-          winner: pontuacao1 !== null && pontuacao2 !== null && pontuacao1 > pontuacao2,
+          winner: pontuacao1 != null && pontuacao2 != null && pontuacao1 > pontuacao2,
           isFirst: true,
           dataHorario: jogo.horario_jogo,
         },
         player2: {
           id: time2,
           name: getTimeName(time2),
-          winner: pontuacao1 !== null && pontuacao2 !== null && pontuacao2 > pontuacao1,
+          winner: pontuacao1 != null && pontuacao2 != null && pontuacao2 > pontuacao1,
           isFirst: false,
         },
       }

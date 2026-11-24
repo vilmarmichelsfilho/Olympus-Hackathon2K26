@@ -4,7 +4,9 @@ import loginButton from '@/components/loginButton.vue'
 import { ref } from 'vue'
 import router from '@/router'
 import { obterSessao, rotaDaSessao } from '@/Utils/loginUtils'
+import { useAdministradores } from '@/composables/useAdministradores'
 
+const { carregando, erro } = useAdministradores()
 const login = ref('')
 const senha = ref('')
 
@@ -26,8 +28,15 @@ if (sessao) router.replace(rotaDaSessao(sessao))
       </div>
       <div class="text">
         <p>Administradores e árbitros têm acesso ao painel de controle</p>
-        <loginButton :login="login" :senha="senha">Entrar</loginButton>
-      </div>
+<p v-if="carregando">Carregando dados...</p>
+
+<p v-else-if="erro" role="alert">
+  {{ erro }}
+</p>
+
+<loginButton v-else :login="login" :senha="senha">
+  Entrar
+</loginButton>      </div>
     </div>
   </div>
 </template>

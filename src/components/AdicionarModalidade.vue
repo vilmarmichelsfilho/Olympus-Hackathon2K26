@@ -1,10 +1,23 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
-import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
+import { modalidades } from '@/data/modalidades';
+import { gerarJogosModalidade, salvarJogosGerados } from '@/Utils/gerarTorneioUtils';
+import { torneios } from '@/data/torneios';
+import { times } from '@/data/times';
+import { turmas } from '@/data/turmas';
+import { arbitros } from '@/data/arbitros';
+import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
+const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const props = defineProps(['torneio', 'gerarJogos']);
 const nome = ref('');
@@ -37,6 +50,14 @@ async function checarDados() {
                 await apagarModalidade(novaModalidade.cod_modalidade);
                 alert(resultado.mensagem);
                 return;
+              }
+
+              try {
+                await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+              } catch (erro) {
+                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                alert(`Não foi possível salvar os jogos: ${erro.message}`)
+                return
               }
             }
 
