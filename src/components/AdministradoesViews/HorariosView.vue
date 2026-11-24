@@ -8,6 +8,7 @@ import DiaTorneioButton from './DiaTorneioButton.vue'
 import HorarioJogoItem from '../HorarioJogoItem.vue'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { mesmoId } from '@/services/api'
 const UM_DIA_EM_MS = 24 * 60 * 60 * 1000
 const { jogos, carregarJogos } = useJogos()
 const { participa, carregarParticipa } = useParticipa()
@@ -60,7 +61,7 @@ watch(
 function pegarDados(jogo) {
   const modalidade = modalidades.find((item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade))
   const participantes = participa.value
-    .filter((item) => Number(item.id_jogo) === Number(jogo.id))
+    .filter((item) => mesmoId(item.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const nomesDosTimes = participantes.map((participante) => {
     const time = times.find((item) => item.cod_time === participante.id_time)

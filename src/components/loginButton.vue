@@ -6,8 +6,8 @@ const props = defineProps(['login', 'senha'])
 const emit = defineEmits(['fechar'])
 const router = useRouter()
 
-function entrar() {
-  const sessao = logar(props.login, props.senha)
+async function entrar() {
+  const sessao = await logar(props.login, props.senha)
 
   if (!sessao) return
 

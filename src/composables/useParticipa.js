@@ -1,6 +1,6 @@
 import { ref } from 'vue'
+import { API_URL } from '@/services/api'
 
-const API_URL = 'http://localhost:3000'
 const participa = ref([])
 const carregando = ref(false)
 let requisicaoAtual = null
@@ -8,8 +8,8 @@ let requisicaoAtual = null
 function normalizarParticipante(item) {
   return {
     ...item,
-    id_jogo: Number(item.id_jogo),
-    id_time: item.id_time == null ? null : Number(item.id_time),
+    id_jogo: Number.isNaN(Number(item.id_jogo)) ? item.id_jogo : Number(item.id_jogo),
+    id_time: item.id_time == null ? null : Number.isNaN(Number(item.id_time)) ? item.id_time : Number(item.id_time),
   }
 }
 
@@ -36,7 +36,7 @@ async function carregarParticipa({ forcar = false } = {}) {
 
 function atualizarParticipanteLocal(participanteAtualizado) {
   const indice = participa.value.findIndex(
-    (participante) => Number(participante.id) === Number(participanteAtualizado.id),
+    (participante) => String(participante.id) === String(participanteAtualizado.id),
   )
   if (indice === -1) return
   participa.value[indice] = normalizarParticipante({
@@ -69,9 +69,9 @@ async function atualizarParticipantes(participantes) {
     }
 
     await atualizarParticipante(participante.id, {
-      id_jogo: Number(participante.id_jogo),
+      id_jogo: participante.id_jogo,
       posicao_participante: participante.posicao_participante,
-      id_time: participante.id_time == null ? null : Number(participante.id_time),
+      id_time: participante.id_time,
       forma_de_ingresso: participante.forma_de_ingresso,
       resultado_time: participante.resultado_time,
       pontuacao_time: participante.pontuacao_time,
@@ -100,7 +100,7 @@ async function excluirParticipantes(participantes) {
 
 function removerParticipanteLocal(id) {
   participa.value = participa.value.filter(
-    (participante) => Number(participante.id) !== Number(id),
+    (participante) => String(participante.id) !== String(id),
   )
 }
 

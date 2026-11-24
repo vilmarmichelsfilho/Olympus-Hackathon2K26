@@ -8,6 +8,8 @@ import { times } from '@/data/times'
 import { adquirirConflitos } from '@/Utils/conflitosUtils'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
+import { mesmoId } from '@/services/api'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
 const { participa, carregarParticipa, atualizarParticipante } = useParticipa()
 async function carregarDados() {
@@ -47,9 +49,9 @@ function fecharEdicao() {
 
 async function atualizarJogo(dados) {
   const jogo = jogoEmEdicao.value
-  if (!jogo || Number(jogo.id) !== Number(dados.id)) return
+  if (!jogo || !mesmoId(jogo.id, dados.id)) return
 
-  const resposta = await fetch(`http://localhost:3000/jogos/${dados.id}`, {
+  const resposta = await fetch(`${API_URL}/jogos/${dados.id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -72,7 +74,7 @@ async function atualizarJogo(dados) {
   })
 
   const participantesDoJogo = participa.value
-    .filter((participante) => Number(participante.id_jogo) === Number(dados.id))
+    .filter((participante) => mesmoId(participante.id_jogo, dados.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   try {

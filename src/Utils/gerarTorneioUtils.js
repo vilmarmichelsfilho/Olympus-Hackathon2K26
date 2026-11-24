@@ -1,4 +1,6 @@
 import { listarTurmas } from '@/services/turmasApi'
+import { API_URL } from '@/services/api'
+import { mesmoId } from '@/services/api'
 
 const horarioInicial = 8 * 60
 const horarioLimite = 17 * 60
@@ -147,8 +149,9 @@ async function gerarJogos(codTorneio, listas) {
     return { valido: false, mensagem: 'O período do torneio é inválido.' }
   }
 
-  let proximoCodigo = jogos.length
-    ? Math.max(...jogos.map((jogo) => Number(jogo.id))) + 1
+  const idsNumericos = jogos.map((jogo) => Number(jogo.id)).filter(Number.isFinite)
+  let proximoCodigo = idsNumericos.length
+    ? Math.max(...idsNumericos) + 1
     : 1
   let dataAtual = new Date(inicio)
   const permitirFimDeSemana = periodoPassaDeUmaSemana(inicio, fim)
@@ -273,8 +276,9 @@ async function gerarJogosModalidade(codModalidade, listas) {
     codigosModalidadesDoTorneio.has(Number(jogo.id_modalidade)),
   )
   const duracao = Math.max(Number(modalidade.tempojogemminutos_modalidade) || 60, 15)
-  let proximoCodigo = jogos.length
-    ? Math.max(...jogos.map((jogo) => Number(jogo.id))) + 1
+  const idsNumericos = jogos.map((jogo) => Number(jogo.id)).filter(Number.isFinite)
+  let proximoCodigo = idsNumericos.length
+    ? Math.max(...idsNumericos) + 1
     : 1
   let indiceArbitro = 0
   let dataAtual = new Date(inicio)
@@ -313,7 +317,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
       for (let i = 0; i < validacao.arbitros.length; i += 1) {
         const candidato = validacao.arbitros[(indiceArbitro + i) % validacao.arbitros.length]
         const ocupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
-          if (Number(jogo.id_arbitro) !== Number(candidato.cod_arbitro)) return false
+          if (!mesmoId(jogo.id_arbitro, candidato.cod_arbitro)) return false
           return temChoqueHorario(
             inicioCandidato,
             duracao,
@@ -414,7 +418,6 @@ async function gerarJogosModalidade(codModalidade, listas) {
 }
 
 async function salvarJogosGerados(novosJogos, novosParticipantes) {
-  const API_URL = 'http://localhost:3000'
   const idsPorCodigo = new Map()
 
   for (const jogo of novosJogos) {
@@ -436,6 +439,7 @@ async function salvarJogosGerados(novosJogos, novosParticipantes) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        id: String(jogo.id),
         id_modalidade: jogo.id_modalidade,
         id_arbitro: jogo.id_arbitro,
         status_jogo: jogo.status_jogo,

@@ -2,13 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
 const { participa, carregarParticipa, atualizarParticipante, atualizarParticipantes } = useParticipa()
-const API_URL = 'http://localhost:3000';
 const tabelaJogos = ref(null)
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])

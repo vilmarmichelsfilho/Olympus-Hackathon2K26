@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { mesmoId } from '@/services/api'
 import { modalidades } from '@/data/modalidades'
 import { times } from '@/data/times'
 import { codTorneioSelecionadoAdm } from '../Utils/cod_torneioAdmUtils'
@@ -34,7 +35,7 @@ function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
   const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
   const participantes = participa.value
-    .filter((p) => Number(p.id_jogo) === Number(jogo.id))
+    .filter((p) => mesmoId(p.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const [pA, pB] = participantes
   const timeA = times.find((t) => Number(t.cod_time) === Number(pA?.id_time))

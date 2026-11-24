@@ -6,6 +6,7 @@ import { modalidades } from '@/data/modalidades'
 import { times } from '@/data/times'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { mesmoId } from '@/services/api'
 const { jogos, carregarJogos } = useJogos()
 const { participa, carregarParticipa } = useParticipa()
 async function carregarDados() {
@@ -39,7 +40,7 @@ function transformarEmData(data, horario) {
 
 function buscarNomesDosTimes(idJogo) {
   const participantes = participa.value
-    .filter((p) => Number(p.id_jogo) === Number(idJogo))
+    .filter((p) => mesmoId(p.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   return [0, 1]

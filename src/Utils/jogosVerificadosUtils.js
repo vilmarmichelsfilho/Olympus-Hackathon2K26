@@ -1,4 +1,6 @@
 
+import { mesmoId } from '@/services/api'
+
 function separarDataHorario(horario_jogo) {
   const [data, horario] = horario_jogo.split(' ')
   return { data, horario }
@@ -12,7 +14,7 @@ function detalharJogo(jogo,modalidades,participa,times) {
     (m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade),
   )
   const participantes = listaParticipa.filter(
-    (p) => Number(p.id_jogo) === Number(jogo.id),
+    (p) => mesmoId(p.id_jogo, jogo.id),
   )
   const [participante1, participante2] = participantes
   const timeA = listaTimes.find(

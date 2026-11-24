@@ -34,7 +34,7 @@ async function checarDados() {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            const novaModalidade = adicionarModalidade(
+            const novaModalidade = await adicionarModalidade(
               nome.value,
               desc.value,
               imagem.value,
@@ -53,7 +53,7 @@ async function checarDados() {
                 arbitros,
               });
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                await apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
                 alert(resultado.mensagem);
                 return;
               }
@@ -61,7 +61,7 @@ async function checarDados() {
               try {
                 await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
               } catch (erro) {
-                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                await apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
                 alert(`Não foi possível salvar os jogos: ${erro.message}`)
                 return
               }

@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+import { API_URL } from './api'
 
 export async function listarTurmas() {
   const resposta = await fetch(`${API_URL}/turmas`)
@@ -6,9 +6,9 @@ export async function listarTurmas() {
   const turmas = await resposta.json()
   return turmas.map((turma) => ({
     ...turma,
-    cod_turma: Number(turma.cod_turma ?? turma.id),
-    cod_torneio: Number(turma.cod_torneio ?? turma.id_torneio),
-    cod_time: Number(turma.cod_time ?? turma.id_time),
+    cod_turma: Number.isNaN(Number(turma.cod_turma ?? turma.id)) ? (turma.cod_turma ?? turma.id) : Number(turma.cod_turma ?? turma.id),
+    cod_torneio: Number.isNaN(Number(turma.cod_torneio ?? turma.id_torneio)) ? (turma.cod_torneio ?? turma.id_torneio) : Number(turma.cod_torneio ?? turma.id_torneio),
+    cod_time: Number.isNaN(Number(turma.cod_time ?? turma.id_time)) ? (turma.cod_time ?? turma.id_time) : Number(turma.cod_time ?? turma.id_time),
   }))
 }
 

@@ -6,8 +6,8 @@ import AdicionarOuEditarTornei from './AdicionarOuEditarTornei.vue';
 import { salvarTorneio } from '@/Utils/adicionarUtils';
 const emit = defineEmits(['editar'])
 const add = ref(false)
-function aoAdicionarTorneio(dados) {
-  salvarTorneio(dados)
+async function aoAdicionarTorneio(dados) {
+  await salvarTorneio(dados)
   add.value = false
 }
 </script>

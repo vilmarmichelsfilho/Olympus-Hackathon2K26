@@ -14,6 +14,7 @@ import { times } from '@/data/times.js';
 import { arbitros } from '@/data/arbitros.js';
 import { useJogos } from '@/composables/useJogos';
 import { useParticipa } from '@/composables/useParticipa';
+import { editarTorneio } from '@/Utils/editarUtils';
 const { jogos, carregarJogos } = useJogos();
 const { participa, carregarParticipa } = useParticipa();
 async function carregarDados() {
@@ -33,13 +34,15 @@ async function aoAdicionarTorneio(dados) {
   if (torneio.value) {
     const registro = torneios.find((item) => item.cod_torneio === torneio.value)
     if (registro) {
-      registro.nome_torneio = dados.nome
-      registro.data_inicio_torneio = dados.dataInicio
-      registro.data_fim_torneio = dados.dataFim
-      registro.status_torneio = dados.status
+      await editarTorneio(torneio.value, {
+        nome_torneio: dados.nome,
+        data_inicio_torneio: dados.dataInicio,
+        data_fim_torneio: dados.dataFim,
+        status_torneio: dados.status,
+      })
     }
   } else {
-    torneio.value = salvarTorneio(dados);
+    torneio.value = await salvarTorneio(dados);
     await adicionarDadosApresentacao(torneio.value)
   }
   etapa.value=etapa.value+20;

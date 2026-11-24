@@ -2,6 +2,7 @@
 import { times } from '@/data/times';
 import { computed, ref } from 'vue';
 import { excluirTurmasDoTime } from '@/services/turmasApi'
+import { excluirEntidade } from '@/services/entidadesApi'
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 
 const props = defineProps(['id','class'])
@@ -14,7 +15,7 @@ async function deletar() {
     if (indice === -1) return
 
     await excluirTurmasDoTime(props.id)
-    times.splice(indice, 1)
+    await excluirEntidade('times', props.id, times)
 }
 </script>
 

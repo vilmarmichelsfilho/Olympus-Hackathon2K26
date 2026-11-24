@@ -1,6 +1,7 @@
 import { ref } from 'vue'
+import { API_URL } from '@/services/api'
+import { mesmoId } from '@/services/api'
 
-const API_URL = 'http://localhost:3000'
 const jogos = ref([])
 const carregando = ref(false)
 let requisicaoAtual = null
@@ -27,13 +28,13 @@ async function carregarJogos({ forcar = false } = {}) {
 }
 
 function atualizarJogoLocal(jogoAtualizado) {
-  const indice = jogos.value.findIndex((jogo) => Number(jogo.id) === Number(jogoAtualizado.id))
+  const indice = jogos.value.findIndex((jogo) => mesmoId(jogo.id, jogoAtualizado.id))
   if (indice === -1) return
   jogos.value[indice] = { ...jogos.value[indice], ...jogoAtualizado }
 }
 
 function removerJogoLocal(id) {
-  jogos.value = jogos.value.filter((jogo) => Number(jogo.id) !== Number(id))
+  jogos.value = jogos.value.filter((jogo) => !mesmoId(jogo.id, id))
 }
 
 export function useJogos() {
