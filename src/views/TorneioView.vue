@@ -27,7 +27,7 @@ function editarTorneio(id) {
    </div>
    <div class="editar-torneio" v-if="mostrarEditarTorneio">
 <EditarTorneioView @fecha="mostrarEditarTorneio = false" @tela="emit('tela', $event)"
-:torneio="torneios.find((t) => t.cod_torneio == torneioEditarId)"></EditarTorneioView>
+:torneio="torneios.find((t) => t.id_torneio == torneioEditarId)"></EditarTorneioView>
  </div>
 </section>
 </template>

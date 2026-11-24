@@ -1,9 +1,28 @@
 <script setup>
-import { jogosVerificados } from '@/data/jogosverificados';
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useJogos } from '@/composables/useJogos';
+import { modalidades } from '@/data/modalidades';
+import { times } from '@/data/times';
+import { id_torneioAtual } from '@/Utils/cod_torneioUtils';
+import { detalharJogo } from '@/Utils/jogosVerificadosUtils';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import TableJogos from '@/components/TableJogos.vue';
+import { useParticipa } from '@/composables/useParticipa';
+const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados)
+const jogosVerificados = computed(() =>
+  jogos.value
+    .filter((jogo) => {
+      const modalidade = modalidades.find((item) => item.id_modalidade === jogo.id_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.id_torneio === id_torneioAtual.value
+    })
+    .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
+)
 const menuAberto = ref(false)
 const emit = defineEmits(['loginPop'])
 function abrirMenu() {
@@ -49,7 +68,7 @@ function abrirMenu() {
 
     <div class="placares">
       <ul>
-        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.cod_jogo"
+        <TableJogos v-for="jogo in jogosVerificados" :key="jogo.id"
           :data="jogo.data"
           :horario="jogo.horario_jogo"
           :modalidade="jogo.modalidade"

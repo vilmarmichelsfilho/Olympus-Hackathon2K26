@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:full": "run-p dev api",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "api": "node scripts/start-api.mjs",
+    "test:torneio": "node scripts/test-torneio.mjs"
   },
   "dependencies": {
     "@iconify-vue/heroicons-solid": "^1.0.3",
@@ -32,6 +35,7 @@
     "eslint-plugin-oxlint": "~1.69.0",
     "eslint-plugin-vue": "~10.9.2",
     "globals": "^17.6.0",
+    "json-server": "^1.0.0-beta.15",
     "npm-run-all2": "^9.0.2",
     "oxlint": "~1.69.0",
     "prettier": "3.8.4",

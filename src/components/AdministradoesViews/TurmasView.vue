@@ -1,6 +1,9 @@
 <script setup>
 import TurmasCard from '../TurmasCard.vue';
-import { turmasFiltradasAdm } from '@/Utils/cod_torneioAdmUtils.js';
+import { turmasFiltradasAdm, carregarTurmasAdm, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils.js';
+import { onMounted, watch } from 'vue'
+onMounted(carregarTurmasAdm)
+watch(codTorneioSelecionadoAdm, carregarTurmasAdm)
 </script>
 <template>
     <div class="template">
@@ -22,8 +25,8 @@ import { turmasFiltradasAdm } from '@/Utils/cod_torneioAdmUtils.js';
         <tbody>
           <TurmasCard
             v-for="turma in turmasFiltradasAdm"
-            :key="turma.cod_turma"
-            :id="turma.cod_turma"
+            :key="turma.id_turma"
+            :id="turma.id_turma"
             :tecnico="turma.tecnico_turma"
             :ano="turma.ano_turma"
             :serie="turma.numero_turma"

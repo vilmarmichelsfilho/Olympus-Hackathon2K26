@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, onMounted } from 'vue';
 import TorneioPopUp from './TorneioComponentes/TorneioPopUp.vue';
 import ModalidadesPart from './TorneioComponentes/ModalidadesPart.vue';
 import { adicionarDadosApresentacao, salvarTorneio } from '@/Utils/adicionarUtils.js';
@@ -7,9 +7,20 @@ import TimesPart from './TorneioComponentes/TimesPart.vue';
 import TurmasPart from './TorneioComponentes/TurmasPart.vue';
 import ArbitroPart from './TorneioComponentes/ArbitroPart.vue';
 import { gerarJogos } from '@/Utils/gerarTorneioUtils.js';
-import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
-import { torneios } from '@/data/torneios.js';
-
+import { torneios, carregarTorneios } from '@/data/torneios.js';
+import { modalidades, carregarModalidades } from '@/data/modalidades.js';
+import { times, carregarTimes } from '@/data/times.js';
+import { arbitros, carregarArbitrosDados } from '@/data/arbitros.js';
+import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
+import { editarTorneio } from '@/Utils/editarUtils';
+import { confirmarRascunho, descartarRascunho, removerRascunhoDasListas } from '@/services/torneioDraft';
+const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fechar']);
 
 const torneio = ref(0);
@@ -17,58 +28,97 @@ const torneio = ref(0);
 const etapa = ref(20);
 const dadosTorneio = ref(null)
 const finalizado = ref(false)
+const salvando = ref(false)
 
-function aoAdicionarTorneio(dados) {
-  dadosTorneio.value = dados
-  if (torneio.value) {
-    const registro = torneios.find((item) => item.cod_torneio === torneio.value)
-    if (registro) {
-      registro.nome_torneio = dados.nome
-      registro.data_inicio_torneio = dados.dataInicio
-      registro.data_fim_torneio = dados.dataFim
-      registro.status_torneio = dados.status
+async function aoAdicionarTorneio(dados) {
+  if (salvando.value) return
+  salvando.value = true
+  try {
+    dadosTorneio.value = dados
+    if (torneio.value) {
+      await editarTorneio(torneio.value, {
+        nome_torneio: dados.nome,
+        data_inicio_torneio: dados.dataInicio,
+        data_fim_torneio: dados.dataFim,
+        status_torneio: dados.status,
+      })
+    } else {
+      torneio.value = await salvarTorneio(dados)
+      await adicionarDadosApresentacao(torneio.value)
     }
-  } else {
-    torneio.value = salvarTorneio(dados);
-    adicionarDadosApresentacao(torneio.value)
+    etapa.value += 20
+  } catch (erro) {
+    alert(erro.message)
+  } finally {
+    salvando.value = false
   }
-  etapa.value=etapa.value+20;
 }
 
 function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (salvando.value) return
+  if (torneio.value && !finalizado.value) {
+    descartarRascunho()
+    removerRascunhoDasListas(torneio.value, [modalidades, times, arbitros, torneios])
+  }
   torneio.value = 0
   emit('fechar')
 }
 
-function finalizar() {
-  const resultado = gerarJogos(torneio.value)
-  if (!resultado.valido) {
-    alert(resultado.mensagem)
-    return
-  }
+async function finalizar() {
+  if (salvando.value || finalizado.value) return
+  salvando.value = true
+  try {
+    const resultado = await gerarJogos(torneio.value, {
+      torneios,
+      jogos: jogos.value,
+      modalidades,
+      participa: participa.value,
+      times,
+      arbitros,
+    })
+    if (!resultado.valido) {
+      alert(resultado.mensagem)
+      return
+    }
 
-  finalizado.value = true
-  alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
-  emit('fechar')
+    await confirmarRascunho(resultado.novosJogos, resultado.novosParticipantes)
+    finalizado.value = true
+    const recarga = await Promise.allSettled([
+      carregarJogos(), carregarParticipa(), carregarTorneios(),
+      carregarModalidades(), carregarTimes(), carregarArbitrosDados(),
+    ])
+    const aviso = recarga.some(item => item.status === 'rejected')
+      ? ' Recarregue a página para atualizar os dados exibidos.'
+      : ''
+    alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.${aviso}`)
+    emit('fechar')
+  } catch (erro) {
+    alert(`Não foi possível concluir o torneio: ${erro.message}`)
+  } finally {
+    salvando.value = false
+  }
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) {
+    descartarRascunho()
+    removerRascunhoDasListas(torneio.value, [modalidades, times, arbitros, torneios])
+  }
 })
 
 </script>
 
 <template>
     <div class="display">
-        <div class="dialog">
+        <div class="dialog" :aria-busy="salvando">
+          <fieldset :disabled="salvando" style="display: contents">
             <button class="fechar" type="button" aria-label="Cancelar cadastro" @click="cancelar">×</button>
             <div class="texto">
                 <h2 v-show="etapa===20">Criar Torneio</h2>
                 <h2 v-show="etapa===40">Cadastrar Modalidades</h2>
                 <h2 v-show="etapa===60">Cadastrar Times</h2>
                 <h2 v-show="etapa===80">Cadastrar Turmas</h2>
-                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>  
+                <h2 v-show="etapa===100">Cadastrar Árbitros</h2>
                 <p>Etapa {{ etapa/20 }} de 5 · Dados gerais</p>
             </div>
             <div class="barra">
@@ -86,6 +136,7 @@ onBeforeUnmount(() => {
             <TimesPart v-if="etapa===60" :torneio="torneio" @salvar="etapa=etapa+20" @voltar="etapa=etapa-20"></TimesPart>
             <TurmasPart v-if="etapa===80" @voltar="etapa=etapa-20" :torneio="torneio" @salvar="etapa=etapa+20"></TurmasPart>
             <ArbitroPart v-if="etapa==100" :torneio="torneio" @voltar="etapa=etapa-20" @salvar="finalizar"></ArbitroPart>
+          </fieldset>
         </div>
     </div>
 </template>

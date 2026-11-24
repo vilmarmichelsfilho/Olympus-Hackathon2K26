@@ -1,17 +1,26 @@
 <script setup>
-import { ref } from 'vue'
-import { jogos } from '@/data/jogos'
-import { participa } from '@/data/participa'
+import { normalizarId } from '@/services/api'
+
+import { ref, onMounted } from 'vue'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
 import TableJogosAdm from '@/components/TableJogosAdm.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
 import EditorPlacarArbitro from '@/components/EditorPlacarArbitro.vue'
 import { finalizarJogo } from '@/Utils/partidasUtils'
-
+const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
+const { participa, carregarParticipa, atualizarParticipante, atualizarParticipantes } = useParticipa()
+const tabelaJogos = ref(null)
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const jogoEmEdicao = ref(null)
 const jogoComPlacarAberto = ref(null)
 
 function abrirEdicao(codJogo) {
-  jogoEmEdicao.value = jogos.find((j) => j.cod_jogo === codJogo)
+  jogoEmEdicao.value = jogos.value.find((j) => j.id == codJogo)
 }
 
 function fecharEdicao() {
@@ -22,31 +31,87 @@ function abrirPlacar(jogo) {
   jogoComPlacarAberto.value = jogo
 }
 
-function salvarPlacar({ codJogo, pontuacaoA, pontuacaoB }) {
-  const resultado = finalizarJogo(codJogo, pontuacaoA, pontuacaoB)
+async function salvarPlacar({ id, codJogo, pontuacaoA, pontuacaoB }) {
+  const idJogo = id ?? codJogo
+  const resultado = finalizarJogo(
+    jogos.value,
+    participa.value,
+    idJogo,
+    pontuacaoA,
+    pontuacaoB,
+  )
   if (!resultado.sucesso) {
     alert(resultado.mensagem)
     return
   }
 
-  jogoComPlacarAberto.value = null
+  try {
+    const resposta = await fetch(`${API_URL}/jogos/${idJogo}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status_jogo: 'Finalizado' }),
+    })
+
+    if (!resposta.ok) throw new Error('Não foi possível atualizar o status do jogo.')
+
+    await atualizarParticipantes(resultado.participantesAtualizados)
+    atualizarJogoLocal({ id: idJogo, status_jogo: 'Finalizado' })
+    jogoComPlacarAberto.value = null
+  } catch (erro) {
+    await Promise.all([carregarJogos({ forcar: true }), carregarParticipa()])
+    alert(erro.message)
+  }
 }
 
-function atualizarJogo(dados) {
-  const indice = jogos.findIndex((j) => j.cod_jogo === dados.cod_jogo)
-  if (indice !== -1) {
-    jogos[indice].cod_modalidade = dados.cod_modalidade
-    jogos[indice].horario_jogo = dados.horario_jogo
-    jogos[indice].status_jogo = dados.status_jogo
+async function atualizarJogo(dados) {
+  const idJogo = dados.id
+  const indice = jogos.value.findIndex((j) => j.id == idJogo)
+  if (indice === -1) return
+
+  const resposta = await fetch(`${API_URL}/jogos/${idJogo}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id_modalidade: normalizarId(dados.id_modalidade),
+      horario_jogo: dados.horario_jogo,
+      status_jogo: dados.status_jogo,
+    }),
+  })
+
+  if (!resposta.ok) {
+    alert('Não foi possível atualizar o jogo.')
+    return
   }
 
-  const participantes = participa
-    .filter((p) => p.cod_jogo === dados.cod_jogo)
+  const participantes = participa.value
+    .filter((p) => p.id_jogo == idJogo)
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
-  if (participantes[0]) participantes[0].cod_time = dados.time1
-  if (participantes[1]) participantes[1].cod_time = dados.time2
+  try {
+    if (participantes[0]) {
+      await atualizarParticipante(participantes[0].id, {
+        id_time: dados.time1 == null || dados.time1 === '' ? null : normalizarId(dados.time1),
+      })
+    }
+    if (participantes[1]) {
+      await atualizarParticipante(participantes[1].id, {
+        id_time: dados.time2 == null || dados.time2 === '' ? null : normalizarId(dados.time2),
+      })
+    }
+  } catch (erro) {
+    await Promise.all([carregarJogos({ forcar: true }), carregarParticipa()])
+    alert(erro.message)
+    return
+  }
 
+  atualizarJogoLocal({
+    id: idJogo,
+    id_modalidade: normalizarId(dados.id_modalidade),
+    horario_jogo: dados.horario_jogo,
+    status_jogo: dados.status_jogo,
+  })
+
+  await tabelaJogos.value?.carregarDados()
   fecharEdicao()
 }
 </script>
@@ -60,7 +125,11 @@ function atualizarJogo(dados) {
       </header>
 
       <div class="table-jogos">
-        <TableJogosAdm @editar="abrirEdicao" @placar="abrirPlacar" />
+        <TableJogosAdm
+          ref="tabelaJogos"
+          @editar="abrirEdicao"
+          @placar="abrirPlacar"
+        />
       </div>
     </template>
 

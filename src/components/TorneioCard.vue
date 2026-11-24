@@ -1,19 +1,36 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
+import { onMounted } from 'vue'
 import { apagarTorneio } from '@/Utils/exclusaoUtils'
 import { AlterarCodTorneio, codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
 const emit = defineEmits(['editar'])
 const props = defineProps(['nome', 'dataInicio', 'dataFim', 'status', 'id'])
+const { carregarJogos } = useJogos()
+const { carregarParticipa } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
+
 
 
 function formatarData(data) {
     const [, mes, dia] = data.split('-')
     return `${dia}/${mes}`
 }
-function excluir() {
-    apagarTorneio(props.id)
-    if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
+async function excluir() {
+    if (!window.confirm('Deseja realmente excluir este torneio?')) return
+    try {
+      await apagarTorneio(props.id)
+      if (normalizarId(codTorneioSelecionadoAdm.value) === normalizarId(props.id)) AlterarCodTorneio(null)
+    } catch (erro) {
+      alert(erro.message)
+    }
 }
 </script>
 

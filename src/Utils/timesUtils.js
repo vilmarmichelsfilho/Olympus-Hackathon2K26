@@ -1,10 +1,11 @@
 import { times } from '@/data/times'
 import { computed } from 'vue'
-import { cod_torneioAtual } from './cod_torneioUtils'
+import { id_torneioAtual } from './cod_torneioUtils'
+import { criarEntidade, atualizarEntidade } from '@/services/entidadesApi'
 
 const timesFiltradosPorTorneio = computed(() => {
-  const torneioId = cod_torneioAtual.value
-  return times.filter((time) => time.cod_torneio == torneioId)
+  const torneioId = id_torneioAtual.value
+  return times.filter((time) => time.id_torneio == torneioId)
 })
 
 const timesOrdenados = computed(() =>
@@ -14,11 +15,11 @@ const timesOrdenados = computed(() =>
 )
 
 function definirposicao(id) {
-  return timesOrdenados.value.findIndex((time) => time.cod_time == id) + 1
+  return timesOrdenados.value.findIndex((time) => time.id_time == id) + 1
 }
 
-function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
-  const timesDoTorneio = times.filter((time) => time.cod_torneio === torneio)
+async function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
+  const timesDoTorneio = times.filter((time) => time.id_torneio === torneio)
 
   if (timesDoTorneio.length >= 8) {
     alert('O torneio pode ter no máximo 8 times.')
@@ -33,26 +34,22 @@ function adicionarTime(nome, pontuacao, cor, escudo, torneio) {
     return false
   }
 
-  const maiorId = times.length ? Math.max(...times.map((time) => time.cod_time)) : 0
-  times.push({
-    cod_time: maiorId + 1,
-    cod_torneio: torneio,
+  await criarEntidade('times', {
+    id_torneio: torneio,
+    id_adm: 1,
     cor_time: cor,
     pontuacaogeral_time: Number(pontuacao) || 0,
     escudo_time: escudo,
     nome_time: nome.trim(),
-  })
+  }, times)
   return true
 }
 
-function editarTime(nome, pontuacao, cor, escudo, indice) {
-  if (!times[indice]) return false
-
-  times[indice].cor_time = cor
-  times[indice].pontuacaogeral_time = Number(pontuacao) || 0
-  times[indice].escudo_time = escudo
-  times[indice].nome_time = nome.trim()
-  return true
+async function editarTime(nome, pontuacao, cor, escudo, id) {
+  return Boolean(await atualizarEntidade('times', id, {
+    cor_time: cor, pontuacaogeral_time: Number(pontuacao) || 0,
+    escudo_time: escudo, nome_time: nome.trim(),
+  }, times))
 }
 
 export { timesOrdenados, definirposicao, adicionarTime, editarTime }

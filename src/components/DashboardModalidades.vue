@@ -1,21 +1,69 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
 import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
 import { editarModalidade } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
   modalidadeEditarId.value = id
   modalidadeEditar.value = true
 }
+async function salvarEdicao(dados) {
+  await editarModalidade(dados.id_modalidade, dados)
+  modalidadeEditar.value = false
+}
 const modalidadeAdicionar = ref(false)
-function exluirModalidade(id) {
-  apagarModalidade(id)
+async function exluirModalidade(id) {
+  const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+  if (!confirmarExclusao) return
+
+  const jogosDaModalidade = jogos.value.filter(
+    (jogo) => normalizarId(jogo.id_modalidade) === normalizarId(id),
+  )
+    const idsJogos = new Set(jogosDaModalidade.map((jogo) => String(jogo.id)))
+  const participantesDaModalidade = participa.value.filter((participante) =>
+        idsJogos.has(String(participante.id_jogo)),
+  )
+
+  for (const jogo of jogosDaModalidade) {
+    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) {
+      alert('Não foi possível excluir os jogos da modalidade.')
+      return
+    }
+    removerJogoLocal(jogo.id)
+  }
+
+  try {
+    await excluirParticipantes(participantesDaModalidade)
+  } catch (erro) {
+    alert(erro.message)
+    await carregarDados()
+    return
+  }
+
+    await apagarModalidade(id, {
+    participa: participa.value,
+    modalidades,
+    codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+  })
+  await carregarDados()
 }
 </script>
 <template>
@@ -41,8 +89,8 @@ function exluirModalidade(id) {
         <tbody>
           <modalidadesDashboardChild
             v-for="modalidade in modalidadesFiltradasAdm"
-            :key="modalidade.cod_modalidade"
-            :id="modalidade.cod_modalidade"
+            :key="modalidade.id_modalidade"
+            :id="modalidade.id_modalidade"
             :local="modalidade.localdojogo_modalidade"
             :imagem="modalidade.foto_modalidade"
             :nome="modalidade.nome_modalidade"
@@ -62,8 +110,8 @@ function exluirModalidade(id) {
       :class="{ aberto: modalidadeAdicionar }"
     ></AdicionarModalidade>
     <EditarModalidade
-      :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-      @atualizar="editarModalidade($event.cod_modalidade, $event)"
+      :modalidade="modalidades.find((m) => m.id_modalidade === modalidadeEditarId)"
+      @atualizar="salvarEdicao($event)"
       @fechar="modalidadeEditar = false"
       class="popup"
       :class="{ aberto: modalidadeEditar }"

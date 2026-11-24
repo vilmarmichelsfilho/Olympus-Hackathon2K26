@@ -1,17 +1,31 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { codTorneioSelecionadoAdm, jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
+import { normalizarId } from '@/services/api'
+
+import { computed, onMounted, ref, watch } from 'vue'
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { torneios } from '@/data/torneios'
 import DiaTorneioButton from './DiaTorneioButton.vue'
 import HorarioJogoItem from '../HorarioJogoItem.vue'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+import { mesmoId } from '@/services/api'
 const UM_DIA_EM_MS = 24 * 60 * 60 * 1000
+const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
+  return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
+}))
 const dataSelecionada = ref(null)
 const torneioSelecionado = computed(() =>
   torneios.find(
-    (torneio) => Number(torneio.cod_torneio) === Number(codTorneioSelecionadoAdm.value),
+    (torneio) => normalizarId(torneio.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value),
   ),
 )
 function criarData(dataISO) {
@@ -47,17 +61,17 @@ watch(
   { immediate: true },
 )
 function pegarDados(jogo) {
-  const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.cod_modalidade)
-  const participantes = participa
-    .filter((item) => item.cod_jogo === jogo.cod_jogo)
+  const modalidade = modalidades.find((item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade))
+  const participantes = participa.value
+    .filter((item) => mesmoId(item.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const nomesDosTimes = participantes.map((participante) => {
-    const time = times.find((item) => item.cod_time === participante.cod_time)
+    const time = times.find((item) => item.id_time === participante.id_time)
     return time?.nome_time ?? 'A definir'
   })
   const [, horario = ''] = jogo.horario_jogo.split(' ')
   return {
-    codJogo: jogo.cod_jogo,
+    codJogo: jogo.id,
     horario: horario.slice(0, 5),
     local: modalidade?.localdojogo_modalidade ?? 'Local a definir',
     modalidade: modalidade?.nome_modalidade ?? 'Modalidade',

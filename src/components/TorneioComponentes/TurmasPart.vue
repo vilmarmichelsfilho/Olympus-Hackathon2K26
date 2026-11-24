@@ -1,18 +1,28 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { times } from '@/data/times.js';
-import { turmas } from '@/data/turmas.js';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
+import { listarTurmas } from '@/services/turmasApi'
 const props = defineProps(['torneio'])
 import TurmaNewCard from '../Cards/TurmaNewCard.vue';
 const timesTorneio = computed(() => {
-    return times.filter(item => item.cod_torneio === props.torneio);
+    return times.filter(item => item.id_torneio === props.torneio);
 });
-const turmasTorneio = computed(() => {
-    return turmas.filter(item => item.cod_torneio === props.torneio);
-});
+const turmasCarregadas = ref([])
+const turmasVersao = ref(0)
+async function carregarTurmas() { turmasCarregadas.value = (await listarTurmas()).filter(item => normalizarId(item.id_torneio) === normalizarId(props.torneio)) }
+onMounted(carregarTurmas)
+watch(() => props.torneio, carregarTurmas)
+const turmasTorneio = computed(() => turmasCarregadas.value)
 import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 const add = ref(false)
 const emits = defineEmits(['salvar','voltar']);
+async function aoFecharModal() {
+    add.value = false
+    await carregarTurmas()
+    turmasVersao.value += 1
+}
 
 function avancar() {
     if (turmasTorneio.value.length < 23 || turmasTorneio.value.length > 24) {
@@ -22,7 +32,7 @@ function avancar() {
 
     let timesComDuasTurmas = 0
     for (const time of timesTorneio.value) {
-        const turmasDoTime = turmasTorneio.value.filter(turma => turma.cod_time === time.cod_time)
+        const turmasDoTime = turmasTorneio.value.filter(turma => turma.id_time === time.id_time)
         const anos = new Set(turmasDoTime.map(turma => Number(turma.ano_turma)))
 
         if (turmasDoTime.length < 2 || turmasDoTime.length > 3 || anos.size !== turmasDoTime.length) {
@@ -59,7 +69,7 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <TurmaNewCard v-for="(time, index) in timesTorneio" :key="time.cod_time" :id="time.cod_time"
+                <TurmaNewCard v-for="(time, index) in timesTorneio" :key="`${time.id_time}-${turmasVersao}`" :id="time.id_time" :refresh-key="turmasVersao" @atualizar="carregarTurmas"
                     :class="index % 2 === 0 ? 'item-branco' : 'item-preto'">
                 </TurmaNewCard>
             </ul>
@@ -69,7 +79,7 @@ function avancar() {
         <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
         <button class="salvar" v-on:click.prevent="avancar">Salvar Alterações</button>
     </div>
-    <AdicionarOuEditar v-if="add===true" @fechar="add=false" :torneio="torneio" :tipo="'adicionar'"></AdicionarOuEditar>
+<AdicionarOuEditar v-if="add===true" @fechar="aoFecharModal" :torneio="torneio" :tipo="'adicionar'"></AdicionarOuEditar>
 </template>
 
 <style scoped>

@@ -4,7 +4,9 @@ import loginButton from '@/components/loginButton.vue'
 import { ref } from 'vue'
 import router from '@/router'
 import { obterSessao, rotaDaSessao } from '@/Utils/loginUtils'
+import { useAdministradores } from '@/composables/useAdministradores'
 
+const { carregando, erro } = useAdministradores()
 const login = ref('')
 const senha = ref('')
 
@@ -31,7 +33,15 @@ if (sessao) {
       </div>
       <div class="text">
         <p>Administradores e árbitros têm acesso ao painel de controle</p>
-        <loginButton :login="login" :senha="senha" @fechar="emit('fecharPop')">Entrar</loginButton>
+        <p v-if="carregando">Carregando dados...</p>
+
+        <p v-else-if="erro" role="alert">
+          {{ erro }}
+        </p>
+
+        <loginButton v-else :login="login" :senha="senha" @fechar="emit('fecharPop')">
+          Entrar
+        </loginButton>
       </div>
       <button class="close" v-on:click.prevent="emit('fecharPop')">close</button>
     </div>
@@ -40,13 +50,16 @@ if (sessao) {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Krona+One&display=swap');
+
 .close {
   background: none;
   border: none;
 }
+
 .close:hover {
   text-decoration: underline;
 }
+
 .container {
   box-sizing: border-box;
   position: fixed;

@@ -1,10 +1,11 @@
 <script setup>
-import { arbitros } from '@/data/arbitros';
+import { useArbitros } from '@/composables/useArbitros'
+const { arbitros } = useArbitros()
 import { computed } from 'vue';
 
 const props = defineProps(['id','class'])
 const emits = defineEmits(['editar-arbitro', 'excluir-arbitro'])
-const arbitro = computed(() => arbitros.find(item => item.cod_arbitro === props.id))
+const arbitro = computed(() => arbitros.value.find(item => item.id_arbitro === props.id))
 </script>
 
 <template>

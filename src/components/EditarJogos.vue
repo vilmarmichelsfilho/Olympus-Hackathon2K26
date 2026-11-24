@@ -3,10 +3,11 @@ import { computed, ref, watch } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
 import { times } from '@/data/times';
-import { participa } from '@/data/participa';
-
+import { useParticipa } from '@/composables/useParticipa';
 const emit = defineEmits(['fecharEditarJogo', 'atualizar']);
 const props = defineProps(['jogo']);
+const { participa, carregarParticipa } = useParticipa();
+carregarParticipa();
 
 const codModalidade = ref('');
 const data = ref('');
@@ -17,36 +18,36 @@ const time2 = ref('');
 
 const codTorneioDoJogo = computed(() => {
   const modalidadeDoJogo = modalidades.find(
-    (modalidade) => modalidade.cod_modalidade === props.jogo?.cod_modalidade
+    (modalidade) => modalidade.id_modalidade == props.jogo?.id_modalidade
   )
-  return modalidadeDoJogo?.cod_torneio
+  return modalidadeDoJogo?.id_torneio
 })
 
 const modalidadesDoTorneio = computed(() =>
-  modalidades.filter((modalidade) => modalidade.cod_torneio === codTorneioDoJogo.value)
+  modalidades.filter((modalidade) => modalidade.id_torneio === codTorneioDoJogo.value)
 )
 
 const timesDoTorneio = computed(() =>
-  times.filter((time) => time.cod_torneio === codTorneioDoJogo.value)
+  times.filter((time) => time.id_torneio === codTorneioDoJogo.value)
 )
 
 watch(
-  () => props.jogo,
-  (novo) => {
+  [() => props.jogo, participa],
+  ([novo]) => {
     if (novo) {
-      codModalidade.value = novo.cod_modalidade || '';
+      codModalidade.value = novo.id_modalidade || '';
       status.value = novo.status_jogo || '';
 
       const [d, h] = (novo.horario_jogo || ' ').split(' ');
       data.value = d;
       hora.value = h;
 
-      const participantes = participa
-        .filter(p => p.cod_jogo === novo.cod_jogo)
+      const participantes = participa.value
+        .filter(p => p.id_jogo == novo.id)
         .sort((a, b) => a.posicao_participante - b.posicao_participante);
 
-      time1.value = participantes[0]?.cod_time || '';
-      time2.value = participantes[1]?.cod_time || '';
+      time1.value = participantes[0]?.id_time || '';
+      time2.value = participantes[1]?.id_time || '';
     }
   },
   { immediate: true }
@@ -58,8 +59,8 @@ function checarDados() {
       if (hora.value !== '') {
           if (!time1.value || !time2.value || time1.value !== time2.value) {
             emit('atualizar', {
-              cod_jogo: props.jogo.cod_jogo,
-              cod_modalidade: codModalidade.value,
+              id: props.jogo.id,
+              id_modalidade: codModalidade.value,
               horario_jogo: `${data.value} ${hora.value}`,
               status_jogo: status.value,
               time1: time1.value || null,
@@ -96,7 +97,7 @@ function fechar() {
         <div class="nome">
           <h3>Modalidade</h3>
           <select class="inputAnim" v-model="codModalidade">
-            <option v-for="m in modalidadesDoTorneio" :key="m.cod_modalidade" :value="m.cod_modalidade">
+            <option v-for="m in modalidadesDoTorneio" :key="m.id_modalidade" :value="m.id_modalidade">
               {{ m.nome_modalidade }}
             </option>
           </select>
@@ -107,7 +108,7 @@ function fechar() {
             <h3>Time 01</h3>
             <select class="inputAnim" v-model="time1">
               <option value="">A definir</option>
-              <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
+              <option v-for="t in timesDoTorneio" :key="t.id_time" :value="t.id_time">
                 {{ t.nome_time }}
               </option>
             </select>
@@ -116,7 +117,7 @@ function fechar() {
             <h3>Time 02</h3>
             <select class="inputAnim" v-model="time2">
               <option value="">A definir</option>
-              <option v-for="t in timesDoTorneio" :key="t.cod_time" :value="t.cod_time">
+              <option v-for="t in timesDoTorneio" :key="t.id_time" :value="t.id_time">
                 {{ t.nome_time }}
               </option>
             </select>

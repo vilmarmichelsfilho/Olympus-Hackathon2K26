@@ -1,20 +1,63 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { modalidades } from '@/data/modalidades';
 import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
 import { editarModalidade } from '@/Utils/editarUtils.js';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
+import { API_URL } from '@/services/api'
+const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
+async function exluirModalidade(id) {
+    const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
+    if (!confirmarExclusao) return
 
-function exluirModalidade(id) {
-    apagarModalidade(id)
+    const jogosDaModalidade = jogos.value.filter(
+        (jogo) => normalizarId(jogo.id_modalidade) === normalizarId(id),
+    )
+    const idsJogos = new Set(jogosDaModalidade.map((jogo) => String(jogo.id)))
+    const participantesDaModalidade = participa.value.filter((participante) =>
+        idsJogos.has(String(participante.id_jogo)),
+    )
+
+    for (const jogo of jogosDaModalidade) {
+        const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
+        if (!resposta.ok) {
+            alert('Não foi possível excluir os jogos da modalidade.')
+            return
+        }
+        removerJogoLocal(jogo.id)
+    }
+
+    try {
+        await excluirParticipantes(participantesDaModalidade)
+    } catch (erro) {
+        alert(erro.message)
+        await carregarDados()
+        return
+    }
+
+    await apagarModalidade(id, {
+        participa: participa.value,
+        modalidades,
+        codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
+    })
+    await carregarDados()
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])
 
 const modalidadesTorneio = computed(() => {
-    return modalidades.filter(item => item.cod_torneio === props.torneio);
+    return modalidades.filter(item => item.id_torneio === props.torneio);
 });
 const modalidadeAdicionar = ref(false)
 
@@ -23,6 +66,10 @@ const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
     modalidadeEditarId.value = id
     modalidadeEditar.value = true
+}
+async function salvarEdicao(dados) {
+    await editarModalidade(dados.id_modalidade, dados)
+    modalidadeEditar.value = false
 }
 function avancar() {
     if (modalidadesTorneio.value.length > 0) {
@@ -47,8 +94,8 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.cod_modalidade"
-                    :id="modalidade.cod_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
+                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.id_modalidade"
+                    :id="modalidade.id_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
                     @excluir-modalidade="exluirModalidade" @editar-modalidade="abrirEditar">
                 </ModalidadesNewCard>
             </ul>
@@ -61,8 +108,8 @@ function avancar() {
 
     <AdicionarModalidade v-show="modalidadeAdicionar" @fechar-adicionar-modalidade="modalidadeAdicionar = false"
         :torneio="torneio"></AdicionarModalidade>
-    <EditarModalidade :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-        @atualizar="editarModalidade($event.cod_modalidade, $event)" @fechar="modalidadeEditar = false"
+    <EditarModalidade :modalidade="modalidades.find((m) => m.id_modalidade === modalidadeEditarId)"
+        @atualizar="salvarEdicao($event)" @fechar="modalidadeEditar = false"
         v-show="modalidadeEditar">
     </EditarModalidade>
 </template>

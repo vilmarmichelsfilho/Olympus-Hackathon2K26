@@ -1,39 +1,41 @@
-import { jogos } from '@/data/jogos'
-import { participa } from '@/data/participa'
+import { mesmoId } from '@/services/api'
 
-function pegarParticipantes(codJogo) {
+function pegarParticipantes(participa, idJogo) {
   return participa
-    .filter((participante) => Number(participante.cod_jogo) === Number(codJogo))
+    .filter((participante) => mesmoId(participante.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 }
 
-function passarVencedor(codJogo, codTimeVencedor) {
+function passarVencedor(jogos, participa, idJogo, idTimeVencedor) {
+  const participantesAtualizados = []
   jogos.forEach((proximoJogo) => {
     let posicao = null
-    if (proximoJogo.origem_jogo_a === codJogo) posicao = 1
-    if (proximoJogo.origem_jogo_b === codJogo) posicao = 2
+    if (mesmoId(proximoJogo.origem_jogo_a, idJogo)) posicao = 1
+    if (mesmoId(proximoJogo.origem_jogo_b, idJogo)) posicao = 2
     if (posicao === null) return
 
     const participante = participa.find(
       (item) =>
-        item.cod_jogo === proximoJogo.cod_jogo && item.posicao_participante === posicao,
+        mesmoId(item.id_jogo, proximoJogo.id) && item.posicao_participante === posicao,
     )
     if (!participante) return
 
-    participante.cod_time = codTimeVencedor
+    participante.id_time = idTimeVencedor
     participante.pontuacao_time = null
     participante.resultado_time = null
+    participantesAtualizados.push(participante)
   })
+  return participantesAtualizados
 }
 
-function salvarPlacar(codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const participantes = pegarParticipantes(codJogo)
+function salvarPlacar(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
+  const jogo = jogos.find((item) => mesmoId(item.id, idJogo))
+  const participantes = pegarParticipantes(participa, idJogo)
 
   if (!jogo || participantes.length < 2) {
     return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
   }
-  if (participantes.some((participante) => participante.cod_time == null)) {
+  if (participantes.some((participante) => participante.id_time == null)) {
     return { sucesso: false, mensagem: 'Os dois times precisam estar definidos.' }
   }
 
@@ -49,14 +51,14 @@ function salvarPlacar(codJogo, pontuacaoA, pontuacaoB) {
   return { sucesso: true, placarA, placarB, participantes }
 }
 
-function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => item.cod_jogo === codJogo)
-  const participantes = pegarParticipantes(codJogo)
+function finalizarJogo(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
+  const jogo = jogos.find((item) => mesmoId(item.id, idJogo))
+  const participantes = pegarParticipantes(participa, idJogo)
 
   if (!jogo || participantes.length < 2) {
     return { sucesso: false, mensagem: 'Os participantes deste jogo não estão completos.' }
   }
-  if (participantes.some((participante) => participante.cod_time == null)) {
+  if (participantes.some((participante) => participante.id_time == null)) {
     return { sucesso: false, mensagem: 'Os dois times precisam estar definidos.' }
   }
 
@@ -76,9 +78,13 @@ function finalizarJogo(codJogo, pontuacaoA, pontuacaoB) {
   jogo.status_jogo = 'Finalizado'
 
   const vencedor = placarA > placarB ? participantes[0] : participantes[1]
-  passarVencedor(codJogo, vencedor.cod_time)
+  const participantesDoProximoJogo = passarVencedor(jogos, participa, idJogo, vencedor.id_time)
 
-  return { sucesso: true, codTimeVencedor: vencedor.cod_time }
+  return {
+    sucesso: true,
+    idTimeVencedor: vencedor.id_time,
+    participantesAtualizados: [...participantes, ...participantesDoProximoJogo],
+  }
 }
 
-export { finalizarJogo, salvarPlacar }
+export { pegarParticipantes, passarVencedor, finalizarJogo, salvarPlacar }

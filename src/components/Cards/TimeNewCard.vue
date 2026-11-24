@@ -1,22 +1,21 @@
 <script setup>
 import { times } from '@/data/times';
 import { computed, ref } from 'vue';
-import { turmas } from '@/data/turmas';
+import { excluirTurmasDoTime } from '@/services/turmasApi'
+import { excluirEntidade } from '@/services/entidadesApi'
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 
 const props = defineProps(['id','class'])
-const time = computed(() => times.find(item => item.cod_time === props.id))
+const time = computed(() => times.find(item => item.id_time === props.id))
 
 const edit = ref(false)
 
-function deletar() {
-    const indice = times.findIndex(item => item.cod_time === props.id)
+async function deletar() {
+    const indice = times.findIndex(item => item.id_time === props.id)
     if (indice === -1) return
 
-    for (let i = turmas.length - 1; i >= 0; i -= 1) {
-        if (turmas[i].cod_time === props.id) turmas.splice(i, 1)
-    }
-    times.splice(indice, 1)
+    await excluirTurmasDoTime(props.id)
+    await excluirEntidade('times', props.id, times)
 }
 </script>
 
@@ -35,7 +34,7 @@ function deletar() {
 </div>
 </li>
 
-<AdicionarOuEditarTime @fechar="edit=false" v-if="edit && time" :id="id" :nome1="time.nome_time" :cor="time.cor_time" :tipo="'editar'" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time" :torneio="time.cod_torneio"></AdicionarOuEditarTime>
+<AdicionarOuEditarTime @fechar="edit=false" v-if="edit && time" :id="id" :nome1="time.nome_time" :cor="time.cor_time" :tipo="'editar'" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time" :torneio="time.id_torneio"></AdicionarOuEditarTime>
 
 </template>
 

@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
-import { times } from '@/data/times';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar', 'adicionar'])
 const props = defineProps(['nome1', 'tipo', 'id', 'escudo', 'pontuacao_geral', 'cor', 'torneio'])
@@ -19,15 +18,15 @@ function apagar() {
     escudo.value = props.escudo
 }
 
-function adicionar() {
+async function adicionar() {
     if (props.tipo == 'adicionar') {
-        const adicionado = adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, codTorneio.value);
+        const adicionado = await adicionarTime(nome.value, pontuacao_geral.value, cor.value , escudo.value, codTorneio.value);
         if (adicionado) {
             apagar();
             emit('fechar');
         }
     } else if (props.tipo == 'editar') {
-        editarTime(nome.value, pontuacao_geral.value, cor.value, escudo.value, times.findIndex(item => item.cod_time === props.id));
+        await editarTime(nome.value, pontuacao_geral.value, cor.value, escudo.value, props.id);
         apagar();
         emit('fechar');
     }

@@ -4,7 +4,7 @@ import { computed, ref } from 'vue';
 const props = defineProps(['torneio'])
 import TimeNewCard from '../Cards/TimeNewCard.vue';
 const timesTorneio = computed(() => {
-    return times.filter(item => item.cod_torneio === props.torneio);
+    return times.filter(item => item.id_torneio === props.torneio);
 });
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 const add = ref(false)
@@ -33,7 +33,7 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <TimeNewCard v-for="(time, index) in timesTorneio" :key="time.cod_time" :id="time.cod_time"
+                <TimeNewCard v-for="(time, index) in timesTorneio" :key="time.id_time" :id="time.id_time"
                     :class="index % 2 === 0 ? 'item-branco' : 'item-preto'">
                 </TimeNewCard>
             </ul>

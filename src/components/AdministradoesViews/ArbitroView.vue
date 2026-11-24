@@ -1,28 +1,87 @@
 <script setup>
-import AdicionarArbitro from '../AdicionarArbitro.vue';
-import EditarrArbitro from '../EditarArbitroView.vue';
-import { editarArbitro } from '@/Utils/editarUtils.js'
-import { ref } from 'vue';
-import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue';
-import { arbitros } from '@/data/arbitros';
-import { arbitrosFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js';
-import { apagarArbitro } from '@/Utils/exclusaoUtils';
-function excluirArbitro(id) {
-  const resultado = apagarArbitro(id)
-  if (!resultado.sucesso) alert(resultado.mensagem)
-}
+import { ref, computed, onMounted } from 'vue'
+import AdicionarArbitro from '../AdicionarArbitro.vue'
+import EditarrArbitro from '../EditarArbitroView.vue'
+import arbitrosDashboardChild from '@/components/arbitroDashboardChild.vue'
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
+import { useArbitros } from '@/composables/useArbitros'
+import { useJogos } from '@/composables/useJogos'
+
+const {
+  arbitros,
+  carregarArbitros,
+  atualizarArbitro,
+  excluirArbitro: removerArbitro,
+} = useArbitros()
+
+const { jogos, carregarJogos } = useJogos()
+
 const adicionarrArbitro = ref(false)
 const arbitroEditar = ref(false)
 const arbitroEditarId = ref(null)
+const carregando = ref(true)
+const erro = ref('')
+
+const arbitrosFiltradosAdm = computed(() =>
+  arbitros.value.filter(
+    (arbitro) =>
+      String(arbitro.id_torneio) ===
+      String(codTorneioSelecionadoAdm.value),
+  ),
+)
+
+onMounted(async () => {
+  try {
+    await Promise.all([
+      carregarArbitros(),
+      carregarJogos(),
+    ])
+  } catch (problema) {
+    erro.value = problema.message
+  } finally {
+    carregando.value = false
+  }
+})
+
 function abrirEditarArbitro(id) {
   arbitroEditarId.value = id
   arbitroEditar.value = true
+}
+
+async function salvarEdicao(dados) {
+  try {
+    await atualizarArbitro(dados.id, dados)
+    arbitroEditar.value = false
+  } catch (problema) {
+    alert(problema.message)
+  }
+}
+
+async function excluirArbitro(id) {
+  try {
+    await carregarJogos()
+
+    const possuiJogos = jogos.value.some(
+      (jogo) => String(jogo.id_arbitro) === String(id),
+    )
+
+    if (possuiJogos) {
+      alert('Troque o árbitro dos jogos antes de excluir.')
+      return
+    }
+
+    await removerArbitro(id)
+  } catch (problema) {
+    alert(problema.message)
+  }
 }
 </script>
 <template>
   <section class="dashboard">
     <h3>Arbitros</h3>
     <p>Informações sobre os arbitros sendo elas seu nome, login e senha</p>
+    <p v-if="carregando">Carregando árbitros...</p>
+<p v-if="erro">{{ erro }}</p>
     <div class="conteiner">
       <div class="content"><img src="/images/coroa.png" alt="coroa">
         <button @click="adicionarrArbitro = true">Adicionar</button>
@@ -38,16 +97,16 @@ function abrirEditarArbitro(id) {
           </tr>
         </thead>
         <tbody>
-          <arbitrosDashboardChild
-            v-for="arbitro in arbitrosFiltradosAdm"
-            :key="arbitro.cod_arbitro"
-            :id="arbitro.cod_arbitro"
-            :nome="arbitro.nome_arbitro"
-            :login="arbitro.login_arbitro"
-            :senha="arbitro.senha_arbitro"
-            @editar-arbitro="abrirEditarArbitro($event)"
-            @excluir-arbitro="excluirArbitro($event)"
-          />
+         <arbitrosDashboardChild
+  v-for="arbitro in arbitrosFiltradosAdm"
+  :key="arbitro.id"
+  :id="arbitro.id"
+  :nome="arbitro.nome_arbitro"
+  :login="arbitro.login_arbitro"
+  :senha="arbitro.senha_arbitro"
+  @editar-arbitro="abrirEditarArbitro($event)"
+  @excluir-arbitro="excluirArbitro($event)"
+/>
         </tbody>
       </table>
     </div>
@@ -57,13 +116,15 @@ function abrirEditarArbitro(id) {
       class="popup"
       :class="{ aberto: adicionarrArbitro }"
     ></AdicionarArbitro>
-    <editarrArbitro
-      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
-      @atualizar="editarArbitro($event.cod_arbitro, $event)"
-      @fecharEditarArbitro="arbitroEditar = false"
-      class="popup"
-      :class="{ aberto: arbitroEditar }"
-    />
+    <EditarrArbitro
+  :arbitro="arbitros.find(
+    (a) => String(a.id) === String(arbitroEditarId)
+  )"
+  @atualizar="salvarEdicao"
+  @fecharEditarArbitro="arbitroEditar = false"
+  class="popup"
+  :class="{ aberto: arbitroEditar }"
+/>
   </section>
 
 </template>

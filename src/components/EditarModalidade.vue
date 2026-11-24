@@ -31,7 +31,7 @@ function checarDados() {
         if(tempo.value !== '') {
           if (imagem !== null) {
             emit('atualizar', {
-              cod_modalidade: props.modalidade.cod_modalidade,
+              id_modalidade: props.modalidade.id_modalidade,
               nome_modalidade: nome.value,
               desc_modalidade: desc.value,
               tempojogemminutos_modalidade: Number(tempo.value),

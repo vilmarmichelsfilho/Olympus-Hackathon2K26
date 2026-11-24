@@ -1,10 +1,24 @@
 
 <script setup>
-import { computed } from 'vue'
-import { jogosDoTorneio } from '@/Utils/cod_torneioAdmUtils'
+import { normalizarId } from '@/services/api'
+
+import { computed, onMounted } from 'vue'
+import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
-import { participa } from '@/data/participa'
 import { times } from '@/data/times'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+import { mesmoId } from '@/services/api'
+const { jogos, carregarJogos } = useJogos()
+const { participa, carregarParticipa } = useParticipa()
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados)
+const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
+  return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
+}))
 
 function separarDataHorario(horario_jogo) {
   const [data = '', horario = ''] = horario_jogo.split(' ')
@@ -16,8 +30,8 @@ function formatarDataBR(dataISO) {
   return `${dia}/${mes}`
 }
 
-function buscarModalidade(codModalidade) {
-  return modalidades.find((modalidade) => modalidade.cod_modalidade === codModalidade)
+function buscarModalidade(idModalidade) {
+  return modalidades.find((modalidade) => normalizarId(modalidade.id_modalidade) === normalizarId(idModalidade))
 }
 
 function transformarEmData(data, horario) {
@@ -26,15 +40,15 @@ function transformarEmData(data, horario) {
   return new Date(ano, mes - 1, dia, hora, minuto)
 }
 
-function buscarNomesDosTimes(cod_jogo) {
-  const participantes = participa
-    .filter((p) => p.cod_jogo === cod_jogo)
+function buscarNomesDosTimes(idJogo) {
+  const participantes = participa.value
+    .filter((p) => mesmoId(p.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 
   return [0, 1]
     .map((indice) => {
       const participante = participantes[indice]
-      return times.find((time) => time.cod_time === participante?.cod_time)?.nome_time ?? 'A definir'
+      return times.find((time) => time.id_time === participante?.id_time)?.nome_time ?? 'A definir'
     })
     .join(' X ')
 }
@@ -52,14 +66,14 @@ const proximosJogos = computed(() => {
     .slice(0, 5)
     .map((jogo) => {
       const { data, horario } = separarDataHorario(jogo.horario_jogo)
-      const modalidade = buscarModalidade(jogo.cod_modalidade)
+      const modalidade = buscarModalidade(jogo.id_modalidade)
       return {
         ...jogo,
         dataFormatada: formatarDataBR(data),
         horario: horario.slice(0, 5),
         nomeModalidade: modalidade?.nome_modalidade ?? 'Modalidade',
         local: modalidade?.localdojogo_modalidade ?? 'A definir',
-        times: buscarNomesDosTimes(jogo.cod_jogo),
+        times: buscarNomesDosTimes(jogo.id),
       }
     })
 })
@@ -85,7 +99,7 @@ defineEmits(['editar'])
             </tr>
           </thead>
           <tbody>
-            <tr v-for="jogo in proximosJogos" :key="jogo.cod_jogo">
+            <tr v-for="jogo in proximosJogos" :key="jogo.id">
               <td>{{ jogo.dataFormatada }} às {{ jogo.horario }}</td>
               <td>{{ jogo.local }}</td>
               <td>{{ jogo.times }}</td>

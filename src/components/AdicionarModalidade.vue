@@ -1,10 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { normalizarId } from '@/services/api'
+
+import { ref, onMounted } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 import { apagarModalidade } from '@/Utils/exclusaoUtils';
-import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
+import { modalidades } from '@/data/modalidades';
+import { gerarJogosModalidade, salvarJogosGerados } from '@/Utils/gerarTorneioUtils';
+import { torneios } from '@/data/torneios';
+import { times } from '@/data/times';
+import { arbitros } from '@/data/arbitros';
+import { useJogos } from '@/composables/useJogos';
+import { useParticipa } from '@/composables/useParticipa';
+const { jogos, carregarJogos } = useJogos();
+const { participa, carregarParticipa } = useParticipa();
+async function carregarDados() {
+  await Promise.all([carregarJogos(), carregarParticipa()])
+}
+onMounted(carregarDados);
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const props = defineProps(['torneio', 'gerarJogos']);
 const nome = ref('');
@@ -16,27 +30,42 @@ const codTorneio = ref(codTorneioSelecionadoAdm)
 if (props.torneio != undefined){
   codTorneio.value = props.torneio
 }
-function checarDados() {
+async function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            const novaModalidade = adicionarModalidade(
+            const novaModalidade = await adicionarModalidade(
               nome.value,
               desc.value,
               imagem.value,
               Number(tempo.value),
               local.value,
-              Number(codTorneio.value),
+              normalizarId(codTorneio.value),
             );
 
             if (props.gerarJogos) {
-              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
+              const resultado = await gerarJogosModalidade(novaModalidade.id_modalidade, {
+                jogos: jogos.value,
+                participa: participa.value,
+                modalidades,
+                torneios,
+                times,
+                arbitros,
+              });
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade);
+                await apagarModalidade(novaModalidade.id_modalidade, { participa: participa.value, modalidades });
                 alert(resultado.mensagem);
                 return;
+              }
+
+              try {
+                await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+              } catch (erro) {
+                await apagarModalidade(novaModalidade.id_modalidade, { participa: participa.value, modalidades });
+                alert(`Não foi possível salvar os jogos: ${erro.message}`)
+                return
               }
             }
 
