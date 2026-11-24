@@ -4,9 +4,9 @@ import { times } from '@/data/times';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { computed } from 'vue';
 import { adicionar, editar } from '@/Utils/turmasUtils';
-import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
+import { codTorneioSelecionadoAdm, carregarTurmasAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar','adicionar']);
-const props = defineProps(['torneio','tipo']);
+const props = defineProps(['torneio','tipo','id']);
 const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const timesTorneio = computed(() => {
     return times.filter(item => item.cod_torneio === codTorneio.value);
@@ -17,12 +17,14 @@ const ano = ref(1);
 const serie = ref(1);
 const time = ref();
 
-function add() {
+async function add() {
     if (props.tipo === 'adicionar') {
-        const adicionado = adicionar(tecnico.value,ano.value,serie.value,time.value,codTorneio.value)
+        const adicionado = await adicionar(tecnico.value,ano.value,serie.value,time.value,codTorneio.value)
+        if (adicionado && codTorneio.value === codTorneioSelecionadoAdm.value) await carregarTurmasAdm()
         if (adicionado) emit('fechar')
     } else if (props.tipo === 'editar') {
-        editar()
+        await editar(props.id, tecnico.value, ano.value, serie.value)
+        if (codTorneio.value === codTorneioSelecionadoAdm.value) await carregarTurmasAdm()
     }
 }
 </script>

@@ -28,49 +28,7 @@ function formatarData(data) {
     return `${dia}/${mes}`
 }
 async function excluir() {
-  const confirmarExclusao = window.confirm('Deseja realmente excluir este torneio?')
-  if (!confirmarExclusao) return
-
-  const modalidadesDoTorneio = new Set(
-    modalidades
-      .filter((modalidade) => modalidade.cod_torneio === props.id)
-      .map((modalidade) => modalidade.cod_modalidade),
-  )
-  const jogosDoTorneio = jogos.value.filter((jogo) =>
-    modalidadesDoTorneio.has(Number(jogo.id_modalidade)),
-  )
-  const idsJogos = new Set(jogosDoTorneio.map((jogo) => Number(jogo.id)))
-  const participantesDoTorneio = participa.value.filter((participante) =>
-    idsJogos.has(Number(participante.id_jogo)),
-  )
-
-  for (const jogo of jogosDoTorneio) {
-    const resposta = await fetch(`${API_URL}/jogos/${jogo.id}`, { method: 'DELETE' })
-    if (!resposta.ok) {
-      alert('Não foi possível excluir os jogos do torneio.')
-      return
-    }
-    removerJogoLocal(jogo.id)
-  }
-
-  try {
-    await excluirParticipantes(participantesDoTorneio)
-  } catch (erro) {
-    alert(erro.message)
-    await carregarDados()
-    return
-  }
-
-  apagarTorneio(props.id, {
-    participa: participa.value,
-    codigosJogos: jogosDoTorneio.map((jogo) => jogo.id),
-    modalidades,
-    turmas,
-    times,
-    arbitros,
-    torneios,
-  })
-  await carregarDados()
+    await apagarTorneio(props.id)
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

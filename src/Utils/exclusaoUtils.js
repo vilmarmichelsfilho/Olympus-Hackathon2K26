@@ -12,7 +12,7 @@ function apagarModalidade(codModalidade, { participa, modalidades, codigosJogos 
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_modalidade === codModalidade)
 }
 
-function apagarTorneio(codTorneio, { participa, codigosJogos = [], modalidades, turmas, times, arbitros, torneios }) {
+async function apagarTorneio(codTorneio) {
   const codigosModalidades = new Set(
     modalidades
       .filter((modalidade) => modalidade.cod_torneio === codTorneio)
@@ -22,7 +22,7 @@ function apagarTorneio(codTorneio, { participa, codigosJogos = [], modalidades, 
 
   tirarDaLista(participa, (participante) => jogosRelacionados.has(Number(participante.id_jogo)))
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_torneio === codTorneio)
-  tirarDaLista(turmas, (turma) => turma.cod_torneio === codTorneio)
+  await excluirTurmasDoTorneio(codTorneio)
   tirarDaLista(times, (time) => time.cod_torneio === codTorneio)
   tirarDaLista(arbitros, (arbitro) => arbitro.cod_torneio === codTorneio)
   tirarDaLista(torneios, (torneio) => torneio.cod_torneio === codTorneio)

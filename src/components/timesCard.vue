@@ -1,18 +1,20 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import EditIcon from '@iconify-vue/mdi/edit'
 import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue'
 import { times } from '@/data/times'
-import { turmas } from '@/data/turmas'
+import { listarTurmas } from '@/services/turmasApi'
 
 const props = defineProps(['id'])
 const editando = ref(false)
 
 const time = computed(() => times.find((item) => item.cod_time === props.id))
 
+const turmasCarregadas = ref([])
+onMounted(async () => { turmasCarregadas.value = await listarTurmas() })
 const nomesTurmas = computed(() => {
-  const nomes = turmas
-    .filter((turma) => turma.cod_time === props.id)
+  const nomes = turmasCarregadas.value
+    .filter((turma) => Number(turma.cod_time) === Number(props.id))
     .map((turma) => turma.nome_turma)
 
   return nomes.length ? nomes.join(', ') : 'Sem turmas vinculadas'

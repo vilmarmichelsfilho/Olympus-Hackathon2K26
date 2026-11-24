@@ -63,11 +63,11 @@ function anosDaTurma(turmasDoTime) {
   return new Set(turmasDoTime.map((turma) => Number(turma.ano_turma)))
 }
 
-function validarTorneio(codTorneio, listas) {
-  const { torneios, times, turmas, modalidades, arbitros } = listas
+async function validarTorneio(codTorneio) {
   const torneio = torneios.find((item) => item.cod_torneio === codTorneio)
   const timesDoTorneio = times.filter((item) => item.cod_torneio === codTorneio)
-  const turmasDoTorneio = turmas.filter((item) => item.cod_torneio === codTorneio)
+  const turmas = await listarTurmas()
+  const turmasDoTorneio = turmas.filter((item) => Number(item.cod_torneio) === Number(codTorneio))
   const modalidadesDoTorneio = modalidades.filter((item) => item.cod_torneio === codTorneio)
   const arbitrosDoTorneio = arbitros.filter((item) => item.cod_torneio === codTorneio)
 
@@ -78,7 +78,7 @@ function validarTorneio(codTorneio, listas) {
   if (turmasDoTorneio.length < 23 || turmasDoTorneio.length > 24) {
     return { valido: false, mensagem: 'O torneio deve possuir entre 23 e 24 turmas.' }
   }
-  if (turmasDoTorneio.some((turma) => !timesDoTorneio.some((time) => time.cod_time === turma.cod_time))) {
+  if (turmasDoTorneio.some((turma) => !timesDoTorneio.some((time) => Number(time.cod_time) === Number(turma.cod_time)))) {
     return { valido: false, mensagem: 'Existem turmas vinculadas a um time que não pertence mais ao torneio.' }
   }
   if (!modalidadesDoTorneio.length) {
@@ -91,7 +91,7 @@ function validarTorneio(codTorneio, listas) {
   let timesComDuasTurmas = 0
 
   for (const time of timesDoTorneio) {
-    const turmasDoTime = turmasDoTorneio.filter((turma) => turma.cod_time === time.cod_time)
+    const turmasDoTime = turmasDoTorneio.filter((turma) => Number(turma.cod_time) === Number(time.cod_time))
     const anos = anosDaTurma(turmasDoTime)
 
     if (turmasDoTime.length < 2 || turmasDoTime.length > 3 || anos.size !== turmasDoTime.length) {
@@ -124,9 +124,8 @@ function validarTorneio(codTorneio, listas) {
   }
 }
 
-function gerarJogos(codTorneio, listas) {
-  const { jogos, participa } = listas
-  const validacao = validarTorneio(codTorneio, listas)
+async function gerarJogos(codTorneio) {
+  const validacao = await validarTorneio(codTorneio)
   if (!validacao.valido) return validacao
 
   const jogosExistentes = jogos.filter((jogo) =>
@@ -245,12 +244,11 @@ function gerarJogos(codTorneio, listas) {
   }
 }
 
-function gerarJogosModalidade(codModalidade, listas) {
-  const { jogos, participa, modalidades } = listas
+async function gerarJogosModalidade(codModalidade) {
   const modalidade = modalidades.find((item) => item.cod_modalidade === codModalidade)
   if (!modalidade) return { valido: false, mensagem: 'Modalidade não encontrada.' }
 
-  const validacao = validarTorneio(modalidade.cod_torneio, listas)
+  const validacao = await validarTorneio(modalidade.cod_torneio)
   if (!validacao.valido) return validacao
 
   if (jogos.some((jogo) => Number(jogo.id_modalidade) === Number(codModalidade))) {

@@ -45,17 +45,9 @@ async function checarDados() {
             );
 
             if (props.gerarJogos) {
-              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade, {
-                jogos: jogos.value,
-                participa: participa.value,
-                modalidades,
-                torneios,
-                times,
-                turmas,
-                arbitros,
-              });
+              const resultado = await gerarJogosModalidade(novaModalidade.cod_modalidade);
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                await apagarModalidade(novaModalidade.cod_modalidade);
                 alert(resultado.mensagem);
                 return;
               }
