@@ -1,42 +1,57 @@
+import { arbitros } from '@/data/arbitros'
+import { modalidades } from '@/data/modalidades'
+import { times } from '@/data/times'
+import { torneios } from '@/data/torneios'
+import { excluirTurmasDoTorneio } from '@/services/turmasApi'
+import { useJogos } from '@/composables/useJogos'
+import { useParticipa } from '@/composables/useParticipa'
+
 function tirarDaLista(lista, condicao) {
   for (let indice = lista.length - 1; indice >= 0; indice -= 1) {
     if (condicao(lista[indice])) lista.splice(indice, 1)
   }
 }
-function apagarModalidade(codModalidade, { participa, modalidades, codigosJogos = [] }) {
-  const jogosRelacionados = new Set(codigosJogos.map(Number))
-  tirarDaLista(
-    participa,
-    (participante) => jogosRelacionados.has(Number(participante.id_jogo)),
-  )
-  tirarDaLista(modalidades, (modalidade) => modalidade.cod_modalidade === codModalidade)
+
+function apagarModalidade(codModalidade, { participa = [], modalidades: listaModalidades = [], codigosJogos = [] } = {}) {
+  const idsJogos = new Set(codigosJogos.map(Number))
+  tirarDaLista(participa, (item) => idsJogos.has(Number(item.id_jogo)))
+  tirarDaLista(listaModalidades, (item) => Number(item.cod_modalidade) === Number(codModalidade))
 }
 
 async function apagarTorneio(codTorneio) {
-  const codigosModalidades = new Set(
-    modalidades
-      .filter((modalidade) => modalidade.cod_torneio === codTorneio)
-      .map((modalidade) => modalidade.cod_modalidade),
-  )
-  const jogosRelacionados = new Set(codigosJogos.map(Number))
+  const { jogos, carregarJogos, removerJogoLocal } = useJogos()
+  const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
+  await Promise.all([carregarJogos(), carregarParticipa()])
 
-  tirarDaLista(participa, (participante) => jogosRelacionados.has(Number(participante.id_jogo)))
-  tirarDaLista(modalidades, (modalidade) => modalidade.cod_torneio === codTorneio)
+  const idsModalidades = new Set(modalidades
+    .filter((item) => Number(item.cod_torneio) === Number(codTorneio))
+    .map((item) => Number(item.cod_modalidade)))
+  const jogosDoTorneio = jogos.value.filter((item) => idsModalidades.has(Number(item.id_modalidade)))
+  const idsJogos = new Set(jogosDoTorneio.map((item) => Number(item.id)))
+  const participantesDoTorneio = participa.value.filter((item) => idsJogos.has(Number(item.id_jogo)))
+
+  await excluirParticipantes(participantesDoTorneio)
+  for (const jogo of jogosDoTorneio) {
+    const resposta = await fetch(`http://localhost:3000/jogos/${jogo.id}`, { method: 'DELETE' })
+    if (!resposta.ok) throw new Error(`Não foi possível excluir o jogo ${jogo.id}.`)
+    removerJogoLocal(jogo.id)
+  }
+
   await excluirTurmasDoTorneio(codTorneio)
-  tirarDaLista(times, (time) => time.cod_torneio === codTorneio)
-  tirarDaLista(arbitros, (arbitro) => arbitro.cod_torneio === codTorneio)
-  tirarDaLista(torneios, (torneio) => torneio.cod_torneio === codTorneio)
+  tirarDaLista(modalidades, (item) => Number(item.cod_torneio) === Number(codTorneio))
+  tirarDaLista(times, (item) => Number(item.cod_torneio) === Number(codTorneio))
+  tirarDaLista(arbitros, (item) => Number(item.cod_torneio) === Number(codTorneio))
+  tirarDaLista(torneios, (item) => Number(item.cod_torneio) === Number(codTorneio))
 }
 
-function apagarArbitro(codArbitro, { jogos, arbitros }) {
+function apagarArbitro(codArbitro, { jogos = [], arbitros: listaArbitros = [] } = {}) {
   if (jogos.some((jogo) => Number(jogo.id_arbitro) === Number(codArbitro))) {
     return {
       sucesso: false,
       mensagem: 'Este árbitro possui jogos atribuídos. Troque o árbitro dos jogos antes de excluir.',
     }
   }
-
-  tirarDaLista(arbitros, (arbitro) => arbitro.cod_arbitro === codArbitro)
+  tirarDaLista(listaArbitros, (arbitro) => Number(arbitro.cod_arbitro) === Number(codArbitro))
   return { sucesso: true }
 }
 

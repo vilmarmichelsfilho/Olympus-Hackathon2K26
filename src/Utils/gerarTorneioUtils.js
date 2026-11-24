@@ -1,3 +1,5 @@
+import { listarTurmas } from '@/services/turmasApi'
+
 const horarioInicial = 8 * 60
 const horarioLimite = 17 * 60
 const intervalo = 15
@@ -63,7 +65,8 @@ function anosDaTurma(turmasDoTime) {
   return new Set(turmasDoTime.map((turma) => Number(turma.ano_turma)))
 }
 
-async function validarTorneio(codTorneio) {
+async function validarTorneio(codTorneio, listas) {
+  const { torneios, times, modalidades, arbitros } = listas
   const torneio = torneios.find((item) => item.cod_torneio === codTorneio)
   const timesDoTorneio = times.filter((item) => item.cod_torneio === codTorneio)
   const turmas = await listarTurmas()
@@ -124,8 +127,9 @@ async function validarTorneio(codTorneio) {
   }
 }
 
-async function gerarJogos(codTorneio) {
-  const validacao = await validarTorneio(codTorneio)
+async function gerarJogos(codTorneio, listas) {
+  const { jogos } = listas
+  const validacao = await validarTorneio(codTorneio, listas)
   if (!validacao.valido) return validacao
 
   const jogosExistentes = jogos.filter((jogo) =>
@@ -244,11 +248,12 @@ async function gerarJogos(codTorneio) {
   }
 }
 
-async function gerarJogosModalidade(codModalidade) {
+async function gerarJogosModalidade(codModalidade, listas) {
+  const { jogos, modalidades } = listas
   const modalidade = modalidades.find((item) => item.cod_modalidade === codModalidade)
   if (!modalidade) return { valido: false, mensagem: 'Modalidade não encontrada.' }
 
-  const validacao = await validarTorneio(modalidade.cod_torneio)
+  const validacao = await validarTorneio(modalidade.cod_torneio, listas)
   if (!validacao.valido) return validacao
 
   if (jogos.some((jogo) => Number(jogo.id_modalidade) === Number(codModalidade))) {
@@ -480,3 +485,4 @@ async function salvarJogosGerados(novosJogos, novosParticipantes) {
 }
 
 export { gerarJogos, gerarJogosModalidade, validarTorneio, salvarJogosGerados }
+

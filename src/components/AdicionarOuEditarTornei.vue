@@ -11,7 +11,6 @@ import { apagarTorneio } from '@/Utils/exclusaoUtils.js';
 import { torneios } from '@/data/torneios.js';
 import { modalidades } from '@/data/modalidades.js';
 import { times } from '@/data/times.js';
-import { turmas } from '@/data/turmas.js';
 import { arbitros } from '@/data/arbitros.js';
 import { useJogos } from '@/composables/useJogos';
 import { useParticipa } from '@/composables/useParticipa';
@@ -55,7 +54,14 @@ async function cancelar() {
 async function finalizar() {
   let resultado
   try {
-    resultado = await gerarJogos(torneio.value)
+    resultado = await gerarJogos(torneio.value, {
+      torneios,
+      jogos: jogos.value,
+      modalidades,
+      participa: participa.value,
+      times,
+      arbitros,
+    })
   } catch (erro) {
     alert(erro.message)
     return
@@ -67,6 +73,7 @@ async function finalizar() {
 
   try {
     await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
+    await Promise.all([carregarJogos(), carregarParticipa()])
     finalizado.value = true
     alert(`${resultado.quantidadeJogos} jogos foram gerados com sucesso.`)
     emit('fechar')
@@ -76,7 +83,7 @@ async function finalizar() {
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value, { jogos: jogos.value, participa: participa.value, modalidades, turmas, times, arbitros, torneios })
+  if (torneio.value && !finalizado.value) void apagarTorneio(torneio.value)
 })
 
 </script>

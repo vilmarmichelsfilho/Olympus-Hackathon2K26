@@ -26,4 +26,12 @@ async function carregarTurmasAdm() {
 const arbitrosFiltradosAdm = computed(() => {
   return arbitros.filter((a) => a.cod_torneio == codTorneioSelecionadoAdm.value)
 })
-export {codTorneioSelecionadoAdm, AlterarCodTorneio, jogosDoTorneio, modalidadesFiltradasAdm, timesFiltradosAdm, turmasFiltradasAdm, carregarTurmasAdm, arbitrosFiltradosAdm}
+export {
+  codTorneioSelecionadoAdm,
+  AlterarCodTorneio,
+  modalidadesFiltradasAdm,
+  timesFiltradosAdm,
+  turmasFiltradasAdm,
+  carregarTurmasAdm,
+  arbitrosFiltradosAdm,
+}

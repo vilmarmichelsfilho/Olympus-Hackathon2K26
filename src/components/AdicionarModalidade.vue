@@ -8,7 +8,6 @@ import { modalidades } from '@/data/modalidades';
 import { gerarJogosModalidade, salvarJogosGerados } from '@/Utils/gerarTorneioUtils';
 import { torneios } from '@/data/torneios';
 import { times } from '@/data/times';
-import { turmas } from '@/data/turmas';
 import { arbitros } from '@/data/arbitros';
 import { useJogos } from '@/composables/useJogos';
 import { useParticipa } from '@/composables/useParticipa';
@@ -45,9 +44,16 @@ async function checarDados() {
             );
 
             if (props.gerarJogos) {
-              const resultado = await gerarJogosModalidade(novaModalidade.cod_modalidade);
+              const resultado = await gerarJogosModalidade(novaModalidade.cod_modalidade, {
+                jogos: jogos.value,
+                participa: participa.value,
+                modalidades,
+                torneios,
+                times,
+                arbitros,
+              });
               if (!resultado.valido) {
-                await apagarModalidade(novaModalidade.cod_modalidade);
+                apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
                 alert(resultado.mensagem);
                 return;
               }
