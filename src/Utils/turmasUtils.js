@@ -1,3 +1,4 @@
+import { normalizarId } from '@/services/api'
 import { listarTurmas, criarTurma, atualizarTurma, excluirTurma } from '@/services/turmasApi'
 import { codTorneioSelecionadoAdm } from './cod_torneioAdmUtils'
 
@@ -7,8 +8,8 @@ export async function excluir(id) {
 
 export async function adicionar(tecnico, ano, serie, time, torneio) {
   const turmas = await listarTurmas()
-  const doTorneio = turmas.filter((turma) => Number(turma.cod_torneio) === Number(torneio))
-  const doTime = doTorneio.filter((turma) => Number(turma.cod_time) === Number(time))
+  const doTorneio = turmas.filter((turma) => normalizarId(turma.id_torneio) === normalizarId(torneio))
+  const doTime = doTorneio.filter((turma) => normalizarId(turma.id_time) === normalizarId(time))
   const repetida = doTorneio.some((turma) => Number(turma.ano_turma) === Number(ano)
     && turma.tecnico_turma.trim().toLowerCase() === String(tecnico).trim().toLowerCase()
     && Number(turma.numero_turma) === Number(serie))
@@ -25,8 +26,8 @@ export async function adicionar(tecnico, ano, serie, time, torneio) {
   const proximoId = turmas.reduce((maior, turma) => Math.max(maior, Number(turma.id) || 0), 0) + 1
   await criarTurma({
     id: String(proximoId),
-    cod_torneio: Number(torneio),
-    cod_time: Number(time),
+    id_torneio: normalizarId(torneio),
+    id_time: normalizarId(time),
     tecnico_turma: tecnico,
     ano_turma: Number(ano),
     numero_turma: Number(serie),
@@ -37,17 +38,17 @@ export async function adicionar(tecnico, ano, serie, time, torneio) {
 
 export async function editar(id, tecnico, ano, serie) {
   const turmas = await listarTurmas()
-  const turma = turmas.find((item) => Number(item.cod_turma) === Number(id) || String(item.id) === String(id))
+  const turma = turmas.find((item) => normalizarId(item.id_turma) === normalizarId(id) || String(item.id) === String(id))
   if (!turma) return false
 
   const repetida = turmas.some((item) => item !== turma
-    && Number(item.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+    && normalizarId(item.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
     && Number(item.ano_turma) === Number(ano)
     && Number(item.numero_turma) === Number(serie)
     && item.tecnico_turma.trim().toLowerCase() === String(tecnico).trim().toLowerCase())
   if (repetida) { alert('Esta turma já existe!'); return false }
 
-  await atualizarTurma(turma.id ?? turma.cod_turma, {
+  await atualizarTurma(turma.id ?? turma.id_turma, {
     tecnico_turma: tecnico,
     ano_turma: Number(ano),
     numero_turma: Number(serie),

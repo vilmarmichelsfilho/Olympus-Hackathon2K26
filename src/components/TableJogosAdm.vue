@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed } from 'vue'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
@@ -17,8 +19,8 @@ async function carregarDados() {
 carregarDados()
 defineExpose({ carregarDados })
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
-  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
-  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
+  return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
 }))
 
 function separarDataHorario(horario_jogo) {
@@ -33,13 +35,13 @@ function formatarDataBR(dataISO) {
 
 function detalharJogo(jogo) {
   const { data, horario } = separarDataHorario(jogo.horario_jogo)
-  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
   const participantes = participa.value
     .filter((p) => mesmoId(p.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const [pA, pB] = participantes
-  const timeA = times.find((t) => Number(t.cod_time) === Number(pA?.id_time))
-  const timeB = times.find((t) => Number(t.cod_time) === Number(pB?.id_time))
+  const timeA = times.find((t) => normalizarId(t.id_time) === normalizarId(pA?.id_time))
+  const timeB = times.find((t) => normalizarId(t.id_time) === normalizarId(pB?.id_time))
 
   return {
     codJogo: jogo.id,

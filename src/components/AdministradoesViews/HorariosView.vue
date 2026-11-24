@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed, onMounted, ref, watch } from 'vue'
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils'
 import { modalidades } from '@/data/modalidades'
@@ -17,13 +19,13 @@ async function carregarDados() {
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
-  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
-  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
+  return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
 }))
 const dataSelecionada = ref(null)
 const torneioSelecionado = computed(() =>
   torneios.find(
-    (torneio) => Number(torneio.cod_torneio) === Number(codTorneioSelecionadoAdm.value),
+    (torneio) => normalizarId(torneio.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value),
   ),
 )
 function criarData(dataISO) {
@@ -59,12 +61,12 @@ watch(
   { immediate: true },
 )
 function pegarDados(jogo) {
-  const modalidade = modalidades.find((item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade))
+  const modalidade = modalidades.find((item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade))
   const participantes = participa.value
     .filter((item) => mesmoId(item.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const nomesDosTimes = participantes.map((participante) => {
-    const time = times.find((item) => item.cod_time === participante.id_time)
+    const time = times.find((item) => item.id_time === participante.id_time)
     return time?.nome_time ?? 'A definir'
   })
   const [, horario = ''] = jogo.horario_jogo.split(' ')

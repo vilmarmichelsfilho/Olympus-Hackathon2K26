@@ -1,19 +1,24 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { normalizarId } from '@/services/api'
+
+import { computed, ref, onMounted, watch } from 'vue';
 import { times } from '@/data/times.js';
 import { listarTurmas, excluirTurmasDoTime } from '@/services/turmasApi'
 
-const props = defineProps(['id', 'class'])
-const time = computed(() => times.find(item => item.cod_time === props.id))
+const props = defineProps(['id', 'class', 'refreshKey'])
+const emit = defineEmits(['atualizar'])
+const time = computed(() => times.find(item => item.id_time === props.id))
 
-const turmasEmTime = computed(() => turmasCarregadas.value.filter(item => Number(item.cod_time) === Number(props.id)))
+const turmasEmTime = computed(() => turmasCarregadas.value.filter(item => normalizarId(item.id_time) === normalizarId(props.id)))
 const turmasCarregadas = ref([])
 async function carregarTurmas() { turmasCarregadas.value = await listarTurmas() }
 onMounted(carregarTurmas)
+watch(() => props.refreshKey, carregarTurmas)
 
 async function deletar() {
     await excluirTurmasDoTime(props.id)
     await carregarTurmas()
+    emit('atualizar')
 }
 
 </script>

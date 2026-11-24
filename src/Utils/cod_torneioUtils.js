@@ -1,11 +1,11 @@
 import { ref, computed } from "vue";
 import { modalidades } from "@/data/modalidades";
-const cod_torneioAtual = ref(null)
-function modificarCodTorneio(cod_torneio){
-  cod_torneioAtual.value = cod_torneio
+const id_torneioAtual = ref(null)
+function modificarCodTorneio(id_torneio){
+  id_torneioAtual.value = id_torneio
 }
 const modalidadesFiltradas = computed(() => {
-  return modalidades.filter((m) => m.cod_torneio == cod_torneioAtual.value)
+  return modalidades.filter((m) => m.id_torneio == id_torneioAtual.value)
 })
 
-export {modificarCodTorneio, cod_torneioAtual, modalidadesFiltradas}
+export {modificarCodTorneio, id_torneioAtual, modalidadesFiltradas}

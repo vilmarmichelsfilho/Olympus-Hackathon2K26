@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarTime, editarTime } from '@/Utils/timesUtils';
-import { times } from '@/data/times';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
 const emit = defineEmits(['fechar', 'adicionar'])
 const props = defineProps(['nome1', 'tipo', 'id', 'escudo', 'pontuacao_geral', 'cor', 'torneio'])

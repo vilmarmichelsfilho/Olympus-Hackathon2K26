@@ -1,5 +1,11 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
+export function normalizarId(value) {
+  if (value == null || value === '') return value
+  const numero = Number(value)
+  return Number.isFinite(numero) ? numero : String(value)
+}
+
 export async function apiRequest(resource, id = '', options = {}) {
   const suffix = id === '' ? '' : `/${encodeURIComponent(id)}`
   const response = await fetch(`${API_URL}/${resource}${suffix}`, {
@@ -26,8 +32,8 @@ export function mesmoId(a, b) {
 
 export function normalizarRegistro(item, chave, chaveTorneio = 'id_torneio') {
   const codigo = item[chave] ?? item.id
-  return { ...item, id: String(item.id ?? codigo), [chave]: Number(codigo) || codigo,
-    ...(item[chaveTorneio] != null ? { cod_torneio: Number(item.cod_torneio ?? item[chaveTorneio]) } : {}) }
+  return { ...item, id: String(item.id ?? codigo), [chave]: normalizarId(codigo),
+    ...(item[chaveTorneio] != null ? { [chaveTorneio]: normalizarId(item[chaveTorneio]) } : {}) }
 }
 
 export async function carregarColecao(resource, destino, normalizar = (item) => item) {

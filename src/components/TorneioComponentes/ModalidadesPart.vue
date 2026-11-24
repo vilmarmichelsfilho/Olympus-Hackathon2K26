@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { modalidades } from '@/data/modalidades';
 import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
 import { ref, computed, onMounted } from 'vue';
@@ -20,7 +22,7 @@ async function exluirModalidade(id) {
     if (!confirmarExclusao) return
 
     const jogosDaModalidade = jogos.value.filter(
-        (jogo) => Number(jogo.id_modalidade) === Number(id),
+        (jogo) => normalizarId(jogo.id_modalidade) === normalizarId(id),
     )
     const idsJogos = new Set(jogosDaModalidade.map((jogo) => String(jogo.id)))
     const participantesDaModalidade = participa.value.filter((participante) =>
@@ -55,7 +57,7 @@ const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])
 
 const modalidadesTorneio = computed(() => {
-    return modalidades.filter(item => item.cod_torneio === props.torneio);
+    return modalidades.filter(item => item.id_torneio === props.torneio);
 });
 const modalidadeAdicionar = ref(false)
 
@@ -66,7 +68,7 @@ function abrirEditar(id) {
     modalidadeEditar.value = true
 }
 async function salvarEdicao(dados) {
-    await editarModalidade(dados.cod_modalidade, dados)
+    await editarModalidade(dados.id_modalidade, dados)
     modalidadeEditar.value = false
 }
 function avancar() {
@@ -92,8 +94,8 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.cod_modalidade"
-                    :id="modalidade.cod_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
+                <ModalidadesNewCard v-for="(modalidade, index) in modalidadesTorneio" :key="modalidade.id_modalidade"
+                    :id="modalidade.id_modalidade" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
                     @excluir-modalidade="exluirModalidade" @editar-modalidade="abrirEditar">
                 </ModalidadesNewCard>
             </ul>
@@ -106,7 +108,7 @@ function avancar() {
 
     <AdicionarModalidade v-show="modalidadeAdicionar" @fechar-adicionar-modalidade="modalidadeAdicionar = false"
         :torneio="torneio"></AdicionarModalidade>
-    <EditarModalidade :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
+    <EditarModalidade :modalidade="modalidades.find((m) => m.id_modalidade === modalidadeEditarId)"
         @atualizar="salvarEdicao($event)" @fechar="modalidadeEditar = false"
         v-show="modalidadeEditar">
     </EditarModalidade>

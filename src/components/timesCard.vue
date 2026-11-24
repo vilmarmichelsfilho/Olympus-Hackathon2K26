@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed, ref, onMounted } from 'vue'
 import EditIcon from '@iconify-vue/mdi/edit'
 import AdicionarOuEditarTime from './AdicionarOuEditarTime.vue'
@@ -8,13 +10,13 @@ import { listarTurmas } from '@/services/turmasApi'
 const props = defineProps(['id'])
 const editando = ref(false)
 
-const time = computed(() => times.find((item) => item.cod_time === props.id))
+const time = computed(() => times.find((item) => item.id_time === props.id))
 
 const turmasCarregadas = ref([])
 onMounted(async () => { turmasCarregadas.value = await listarTurmas() })
 const nomesTurmas = computed(() => {
   const nomes = turmasCarregadas.value
-    .filter((turma) => Number(turma.cod_time) === Number(props.id))
+    .filter((turma) => normalizarId(turma.id_time) === normalizarId(props.id))
     .map((turma) => turma.nome_turma)
 
   return nomes.length ? nomes.join(', ') : 'Sem turmas vinculadas'
@@ -53,12 +55,12 @@ const nomesTurmas = computed(() => {
     <AdicionarOuEditarTime
       v-if="editando && time"
       tipo="editar"
-      :id="time.cod_time"
+      :id="time.id_time"
       :nome1="time.nome_time"
       :cor="time.cor_time"
       :escudo="time.escudo_time"
       :pontuacao_geral="time.pontuacaogeral_time"
-      :torneio="time.cod_torneio"
+      :torneio="time.id_torneio"
       @fechar="editando = false"
     />
   </Teleport>

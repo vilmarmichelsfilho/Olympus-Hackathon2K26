@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed, onMounted, ref, watch } from 'vue'
 import ConflitoCard from '@/components/ConflitoCard.vue'
 import EditarJogos from '@/components/EditarJogos.vue'
@@ -17,8 +19,8 @@ async function carregarDados() {
 }
 onMounted(carregarDados)
 const jogosDoTorneio = computed(() => jogos.value.filter((jogo) => {
-  const modalidade = modalidades.find((m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade))
-  return Number(modalidade?.cod_torneio) === Number(codTorneioSelecionadoAdm.value)
+  const modalidade = modalidades.find((m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade))
+  return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneioSelecionadoAdm.value)
 }))
 const conflitos = computed(() => adquirirConflitos(jogosDoTorneio.value, modalidades, participa.value, times))
 
@@ -55,7 +57,7 @@ async function atualizarJogo(dados) {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      id_modalidade: Number(dados.id_modalidade),
+      id_modalidade: normalizarId(dados.id_modalidade),
       horario_jogo: dados.horario_jogo,
       status_jogo: dados.status_jogo,
     }),
@@ -68,7 +70,7 @@ async function atualizarJogo(dados) {
 
   atualizarJogoLocal({
     id: dados.id,
-    id_modalidade: Number(dados.id_modalidade),
+    id_modalidade: normalizarId(dados.id_modalidade),
     horario_jogo: dados.horario_jogo,
     status_jogo: dados.status_jogo,
   })
@@ -80,12 +82,12 @@ async function atualizarJogo(dados) {
   try {
     if (participantesDoJogo[0]) {
       await atualizarParticipante(participantesDoJogo[0].id, {
-        id_time: dados.time1 == null || dados.time1 === '' ? null : Number(dados.time1),
+        id_time: dados.time1 == null || dados.time1 === '' ? null : normalizarId(dados.time1),
       })
     }
     if (participantesDoJogo[1]) {
       await atualizarParticipante(participantesDoJogo[1].id, {
-        id_time: dados.time2 == null || dados.time2 === '' ? null : Number(dados.time2),
+        id_time: dados.time2 == null || dados.time2 === '' ? null : normalizarId(dados.time2),
       })
     }
   } catch (erro) {

@@ -1,9 +1,11 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import selecionarTorneioCard from './selecionarTorneioCard.vue'
 import { torneios } from '@/data/torneios'
 import { modificarCodTorneio } from '@/Utils/cod_torneioUtils.js';
 function modifyCodtorneio(id){
-  modificarCodTorneio(Number(id))
+  modificarCodTorneio(normalizarId(id))
 }
 </script>
 <template>
@@ -18,7 +20,7 @@ function modifyCodtorneio(id){
     <ul>
       <selecionarTorneioCard
         v-for="torneio in torneios"
-        :key="torneio.cod_torneio"
+        :key="torneio.id_torneio"
         :torneio="torneio"
         @mandar-codtorneio="modifyCodtorneio($event)"
       ></selecionarTorneioCard>

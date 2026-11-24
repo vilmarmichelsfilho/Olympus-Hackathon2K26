@@ -4,7 +4,7 @@ import { modalidades } from '@/data/modalidades';
 import timeCard from '@/components/timeCard.vue';
 import { computed, onMounted } from 'vue';
 import ArrowTopRightIcon from '@iconify-vue/mdi/arrow-top-right';
-import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
+import { id_torneioAtual } from '@/Utils/cod_torneioUtils';
 import { useJogos } from '@/composables/useJogos';
 const { jogos, carregarJogos } = useJogos()
 async function carregarDados() {
@@ -14,9 +14,9 @@ onMounted(carregarDados);
 const jogosDoTorneio = computed(() => {
   return jogos.value.filter(jogo => {
     const modalidade = modalidades.find(
-      modalidade => modalidade.cod_modalidade == jogo.id_modalidade
+      modalidade => modalidade.id_modalidade == jogo.id_modalidade
     )
-    return modalidade?.cod_torneio == cod_torneioAtual.value
+    return modalidade?.id_torneio == id_torneioAtual.value
   })
 })
 const quantidadedejogos = computed(() => { return jogosDoTorneio.value.length })
@@ -50,7 +50,7 @@ const isTimesRoute = window.location.pathname === '/times';
         </tr>
       </thead>
       <tbody>
-        <timeCard v-for="time in timesOrdenados" :key="time.cod_time" :id="time.cod_time" :pontuacao="time.pontuacaogeral_time"
+        <timeCard v-for="time in timesOrdenados" :key="time.id_time" :id="time.id_time" :pontuacao="time.pontuacaogeral_time"
           :nome="time.nome_time">
         </timeCard>
       </tbody>

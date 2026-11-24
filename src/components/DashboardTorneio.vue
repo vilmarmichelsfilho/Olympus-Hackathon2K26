@@ -28,9 +28,9 @@ async function aoAdicionarTorneio(dados) {
         </ul>
       </div>
       <ul>
-        <TorneioCard v-for="torneio in torneios" :key="torneio.cod_torneio" :nome="torneio.nome_torneio"
+        <TorneioCard v-for="torneio in torneios" :key="torneio.id_torneio" :nome="torneio.nome_torneio"
           :dataInicio="torneio.data_inicio_torneio" :dataFim="torneio.data_fim_torneio" :status="torneio.status_torneio"
-          :id="torneio.cod_torneio" @editar="emit('editar', $event)"></TorneioCard>
+          :id="torneio.id_torneio" @editar="emit('editar', $event)"></TorneioCard>
       </ul>
       <div class="card-info">
         <div class="topo-info">

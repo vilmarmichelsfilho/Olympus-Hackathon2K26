@@ -12,7 +12,7 @@ import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/carousel.css'
 import TableJogosDesktop from '@/components/TableJogosDesktop.vue'
 import { detalharJogo } from '@/Utils/jogosVerificadosUtils'
-import { cod_torneioAtual } from '@/Utils/cod_torneioUtils'
+import { id_torneioAtual } from '@/Utils/cod_torneioUtils'
 import { modalidades } from '@/data/modalidades'
 import { times } from '@/data/times'
 import { useJogos } from '@/composables/useJogos'
@@ -27,23 +27,23 @@ onMounted(carregarDados);
 const jogosVerificados = computed(() =>
   jogos.value
     .filter((jogo) => {
-      const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
-      return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
+      const modalidade = modalidades.find((item) => item.id_modalidade === jogo.id_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.id_torneio === id_torneioAtual.value
     })
     .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
 )
 const jogosDoTorneio = computed(() => {
   return jogos.value.filter(jogo => {
     const modalidade = modalidades.find(
-      modalidade => modalidade.cod_modalidade == jogo.id_modalidade
+      modalidade => modalidade.id_modalidade == jogo.id_modalidade
     )
-    return modalidade?.cod_torneio == cod_torneioAtual.value
+    return modalidade?.id_torneio == id_torneioAtual.value
   })
 })
 const modalAberto = ref(0)
 const modalidadeSelecionadaId = ref(null)
 const modalidadeSelecionada = computed(() => {
-  const resultado = modalidades.find((m) => m.cod_modalidade === modalidadeSelecionadaId.value)
+  const resultado = modalidades.find((m) => m.id_modalidade === modalidadeSelecionadaId.value)
   if (resultado) {
     return resultado
   } else {
@@ -110,10 +110,10 @@ const progressoPorcentagem = computed(() => {
 
 <template>
   <main>
-  <div v-if="cod_torneioAtual == null" class="selecionarTorneio">
+  <div v-if="id_torneioAtual == null" class="selecionarTorneio">
 <selecionarTorneio></selecionarTorneio>
    </div>
-    <div class="apostercodtorneioselecionado" v-if="cod_torneioAtual != null">
+    <div class="apostercodtorneioselecionado" v-if="id_torneioAtual != null">
       <div class="texto-acontece">
         <h3>Acontecendo Agora</h3>
         <p>Jogos por todo o Campus do IFC Araquari</p>
@@ -161,10 +161,10 @@ const progressoPorcentagem = computed(() => {
           <ul class="modalidades-">
             <modalidadesCard
               v-for="modalidade in modalidadesFiltradas"
-              :key="modalidade.cod_modalidade"
+              :key="modalidade.id_modalidade"
               :imagem="modalidade.foto_modalidade"
               :nome="modalidade.nome_modalidade"
-              :id="modalidade.cod_modalidade"
+              :id="modalidade.id_modalidade"
               @mostrar="mostrarModal"
             >
             </modalidadesCard>
@@ -178,11 +178,11 @@ const progressoPorcentagem = computed(() => {
             @slide-start="aoMudarSlide"
             v-model="currentSlide"
           >
-            <Slide v-for="modalidade in modalidadesFiltradas" :key="modalidade.cod_modalidade">
+            <Slide v-for="modalidade in modalidadesFiltradas" :key="modalidade.id_modalidade">
               <modalidadesCard
                 :nome="modalidade.nome_modalidade"
                 :imagem="modalidade.foto_modalidade"
-                :id="modalidade.cod_modalidade"
+                :id="modalidade.id_modalidade"
                 @mostrar="mostrarModal"
               />
             </Slide>
@@ -235,8 +235,8 @@ const progressoPorcentagem = computed(() => {
             <tbody>
               <timeCard
                 v-for="time in timesOrdenados"
-                :key="time.cod_time"
-                :id="time.cod_time"
+                :key="time.id_time"
+                :id="time.id_time"
                 :pontuacao="time.pontuacaogeral_time"
                 :nome="time.nome_time"
               >

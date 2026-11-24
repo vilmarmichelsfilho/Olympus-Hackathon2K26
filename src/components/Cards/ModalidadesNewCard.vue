@@ -4,7 +4,7 @@ import { computed } from 'vue';
 
 const props = defineProps(['id','class'])
 const emits = defineEmits(['editar-Modalidade', 'excluir-Modalidade'])
-const modalidade = computed(() => modalidades.find(item => item.cod_modalidade === props.id))
+const modalidade = computed(() => modalidades.find(item => item.id_modalidade === props.id))
 </script>
 
 <template>

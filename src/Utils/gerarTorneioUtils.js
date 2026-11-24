@@ -1,5 +1,6 @@
+import { normalizarId } from '@/services/api'
 import { listarTurmas } from '@/services/turmasApi'
-import { API_URL } from '@/services/api'
+import { criar, excluir, listar } from '@/services/api'
 import { mesmoId } from '@/services/api'
 
 const horarioInicial = 8 * 60
@@ -58,7 +59,7 @@ function temChoqueHorario(inicioA, duracaoA, inicioB, duracaoB) {
 
 function pegarDuracao(jogo, modalidades) {
   const modalidade = modalidades.find(
-    (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+    (item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade),
   )
   return Math.max(Number(modalidade?.tempojogemminutos_modalidade) || 60, 15)
 }
@@ -69,12 +70,12 @@ function anosDaTurma(turmasDoTime) {
 
 async function validarTorneio(codTorneio, listas) {
   const { torneios, times, modalidades, arbitros } = listas
-  const torneio = torneios.find((item) => item.cod_torneio === codTorneio)
-  const timesDoTorneio = times.filter((item) => item.cod_torneio === codTorneio)
+  const torneio = torneios.find((item) => item.id_torneio === codTorneio)
+  const timesDoTorneio = times.filter((item) => item.id_torneio === codTorneio)
   const turmas = await listarTurmas()
-  const turmasDoTorneio = turmas.filter((item) => Number(item.cod_torneio) === Number(codTorneio))
-  const modalidadesDoTorneio = modalidades.filter((item) => item.cod_torneio === codTorneio)
-  const arbitrosDoTorneio = arbitros.filter((item) => item.cod_torneio === codTorneio)
+  const turmasDoTorneio = turmas.filter((item) => normalizarId(item.id_torneio) === normalizarId(codTorneio))
+  const modalidadesDoTorneio = modalidades.filter((item) => item.id_torneio === codTorneio)
+  const arbitrosDoTorneio = arbitros.filter((item) => item.id_torneio === codTorneio)
 
   if (!torneio) return { valido: false, mensagem: 'Torneio não encontrado.' }
   if (timesDoTorneio.length !== 8) {
@@ -83,7 +84,7 @@ async function validarTorneio(codTorneio, listas) {
   if (turmasDoTorneio.length < 23 || turmasDoTorneio.length > 24) {
     return { valido: false, mensagem: 'O torneio deve possuir entre 23 e 24 turmas.' }
   }
-  if (turmasDoTorneio.some((turma) => !timesDoTorneio.some((time) => Number(time.cod_time) === Number(turma.cod_time)))) {
+  if (turmasDoTorneio.some((turma) => !timesDoTorneio.some((time) => normalizarId(time.id_time) === normalizarId(turma.id_time)))) {
     return { valido: false, mensagem: 'Existem turmas vinculadas a um time que não pertence mais ao torneio.' }
   }
   if (!modalidadesDoTorneio.length) {
@@ -96,7 +97,7 @@ async function validarTorneio(codTorneio, listas) {
   let timesComDuasTurmas = 0
 
   for (const time of timesDoTorneio) {
-    const turmasDoTime = turmasDoTorneio.filter((turma) => Number(turma.cod_time) === Number(time.cod_time))
+    const turmasDoTime = turmasDoTorneio.filter((turma) => normalizarId(turma.id_time) === normalizarId(time.id_time))
     const anos = anosDaTurma(turmasDoTime)
 
     if (turmasDoTime.length < 2 || turmasDoTime.length > 3 || anos.size !== turmasDoTime.length) {
@@ -136,7 +137,7 @@ async function gerarJogos(codTorneio, listas) {
 
   const jogosExistentes = jogos.filter((jogo) =>
     validacao.modalidades.some(
-      (modalidade) => Number(modalidade.cod_modalidade) === Number(jogo.id_modalidade),
+      (modalidade) => normalizarId(modalidade.id_modalidade) === normalizarId(jogo.id_modalidade),
     ),
   )
   if (jogosExistentes.length) {
@@ -182,8 +183,8 @@ async function gerarJogos(codTorneio, listas) {
 
     const jogo = {
       id: proximoCodigo++,
-      id_modalidade: modalidade.cod_modalidade,
-      id_arbitro: validacao.arbitros[indiceArbitro % validacao.arbitros.length].cod_arbitro,
+      id_modalidade: modalidade.id_modalidade,
+      id_arbitro: validacao.arbitros[indiceArbitro % validacao.arbitros.length].id_arbitro,
       status_jogo: 'Agendado',
       horario_jogo: horario,
       fase_jogo: fase,
@@ -207,7 +208,7 @@ async function gerarJogos(codTorneio, listas) {
         novosParticipantes.push({
           id_jogo: jogo.id,
           posicao_participante: posicao + 1,
-          id_time: validacao.times[indice * 2 + posicao].cod_time,
+          id_time: validacao.times[indice * 2 + posicao].id_time,
           forma_de_ingresso: 'Inscrito',
           resultado_time: null,
           pontuacao_time: null,
@@ -253,13 +254,13 @@ async function gerarJogos(codTorneio, listas) {
 
 async function gerarJogosModalidade(codModalidade, listas) {
   const { jogos, modalidades } = listas
-  const modalidade = modalidades.find((item) => item.cod_modalidade === codModalidade)
+  const modalidade = modalidades.find((item) => item.id_modalidade === codModalidade)
   if (!modalidade) return { valido: false, mensagem: 'Modalidade não encontrada.' }
 
-  const validacao = await validarTorneio(modalidade.cod_torneio, listas)
+  const validacao = await validarTorneio(modalidade.id_torneio, listas)
   if (!validacao.valido) return validacao
 
-  if (jogos.some((jogo) => Number(jogo.id_modalidade) === Number(codModalidade))) {
+  if (jogos.some((jogo) => normalizarId(jogo.id_modalidade) === normalizarId(codModalidade))) {
     return { valido: false, mensagem: 'Os jogos desta modalidade já foram gerados.' }
   }
 
@@ -270,10 +271,10 @@ async function gerarJogosModalidade(codModalidade, listas) {
   }
 
   const codigosModalidadesDoTorneio = new Set(
-    validacao.modalidades.map((item) => item.cod_modalidade),
+    validacao.modalidades.map((item) => item.id_modalidade),
   )
   const jogosDoTorneio = jogos.filter((jogo) =>
-    codigosModalidadesDoTorneio.has(Number(jogo.id_modalidade)),
+    codigosModalidadesDoTorneio.has(normalizarId(jogo.id_modalidade)),
   )
   const duracao = Math.max(Number(modalidade.tempojogemminutos_modalidade) || 60, 15)
   const idsNumericos = jogos.map((jogo) => Number(jogo.id)).filter(Number.isFinite)
@@ -300,7 +301,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
       const inicioCandidato = transformarEmData(horario)
       const localOcupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
         const modalidadeDoJogo = modalidades.find(
-          (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+          (item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade),
         )
         if (modalidadeDoJogo?.localdojogo_modalidade !== modalidade.localdojogo_modalidade) {
           return false
@@ -317,7 +318,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
       for (let i = 0; i < validacao.arbitros.length; i += 1) {
         const candidato = validacao.arbitros[(indiceArbitro + i) % validacao.arbitros.length]
         const ocupado = [...jogosDoTorneio, ...novosJogos].some((jogo) => {
-          if (!mesmoId(jogo.id_arbitro, candidato.cod_arbitro)) return false
+          if (!mesmoId(jogo.id_arbitro, candidato.id_arbitro)) return false
           return temChoqueHorario(
             inicioCandidato,
             duracao,
@@ -339,7 +340,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
 
       minutosAtuais += duracao + intervalo
       indiceArbitro = (validacao.arbitros.indexOf(arbitro) + 1) % validacao.arbitros.length
-      return { horario, codArbitro: arbitro.cod_arbitro }
+      return { horario, codArbitro: arbitro.id_arbitro }
     }
     return null
   }
@@ -350,7 +351,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
 
     const jogo = {
       id: proximoCodigo++,
-      id_modalidade: modalidade.cod_modalidade,
+      id_modalidade: modalidade.id_modalidade,
       id_arbitro: reserva.codArbitro,
       status_jogo: 'Agendado',
       horario_jogo: reserva.horario,
@@ -374,7 +375,7 @@ async function gerarJogosModalidade(codModalidade, listas) {
       novosParticipantes.push({
         id_jogo: jogo.id,
         posicao_participante: posicao + 1,
-        id_time: validacao.times[indice * 2 + posicao].cod_time,
+        id_time: validacao.times[indice * 2 + posicao].id_time,
         forma_de_ingresso: 'Inscrito',
         resultado_time: null,
         pontuacao_time: null,
@@ -419,73 +420,45 @@ async function gerarJogosModalidade(codModalidade, listas) {
 
 async function salvarJogosGerados(novosJogos, novosParticipantes) {
   const idsPorCodigo = new Map()
-
-  for (const jogo of novosJogos) {
-    const origemA = jogo.origem_jogo_a == null
-      ? null
-      : idsPorCodigo.get(jogo.origem_jogo_a)
-    const origemB = jogo.origem_jogo_b == null
-      ? null
-      : idsPorCodigo.get(jogo.origem_jogo_b)
-
-    if (jogo.origem_jogo_a != null && origemA == null) {
-      throw new Error(`Origem do jogo ${jogo.id} não encontrada.`)
+  const criados = []
+  try {
+    for (const jogo of novosJogos) {
+      const payload = { ...jogo }
+      delete payload.id
+      for (const campo of ['origem_jogo_a', 'origem_jogo_b']) {
+        if (payload[campo] == null) continue
+        const origem = idsPorCodigo.get(payload[campo])
+        if (origem == null) throw new Error(`Origem do jogo ${jogo.id} não encontrada.`)
+        payload[campo] = origem
+      }
+      const salvo = await criar('jogos', payload)
+      if (salvo?.id == null) throw new Error('A API não retornou o ID do jogo.')
+      criados.push({ resource: 'jogos', registro: salvo })
+      idsPorCodigo.set(jogo.id, salvo.id)
     }
-    if (jogo.origem_jogo_b != null && origemB == null) {
-      throw new Error(`Origem do jogo ${jogo.id} não encontrada.`)
+    for (const participante of novosParticipantes) {
+      const idJogo = idsPorCodigo.get(participante.id_jogo)
+      if (idJogo == null) throw new Error('Jogo do participante não encontrado.')
+      const payload = { ...participante, id_jogo: idJogo }
+      delete payload.id
+      const salvo = await criar('participa', payload)
+      criados.push({ resource: 'participa', registro: salvo })
     }
-
-    const resposta = await fetch(`${API_URL}/jogos`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: String(jogo.id),
-        id_modalidade: jogo.id_modalidade,
-        id_arbitro: jogo.id_arbitro,
-        status_jogo: jogo.status_jogo,
-        horario_jogo: jogo.horario_jogo,
-        fase_jogo: jogo.fase_jogo,
-        origem_jogo_a: origemA ?? null,
-        origem_jogo_b: origemB ?? null,
-      }),
-    })
-
-    if (!resposta.ok) {
-      throw new Error(`Falha ao salvar o jogo ${jogo.id}.`)
+    for (const resource of ['jogos', 'participa']) {
+      const dados = new Map((await listar(resource)).map(item => [String(item.id), item]))
+      for (const item of criados.filter(item => item.resource === resource)) {
+        if (!dados.has(String(item.registro.id))) throw new Error(`Gravação incompleta em ${resource}.`)
+      }
     }
-
-    const jogoCriado = await resposta.json()
-    if (jogoCriado?.id == null) {
-      throw new Error(`A API não retornou o id do jogo ${jogo.id}.`)
+    return { idsPorCodigo, quantidadeJogos: novosJogos.length }
+  } catch (erro) {
+    const falhas = []
+    for (const item of criados.reverse()) {
+      try { await excluir(item.resource, item.registro.id) } catch (falha) { falhas.push(falha.message) }
     }
-    idsPorCodigo.set(jogo.id, jogoCriado.id)
+    if (falhas.length) throw new Error(`${erro.message} Falha ao desfazer: ${falhas.join('; ')}`, { cause: erro })
+    throw erro
   }
-
-  for (const participante of novosParticipantes) {
-    const idJogo = idsPorCodigo.get(participante.id_jogo)
-    if (idJogo == null) {
-      throw new Error(`Jogo do participante ${participante.id_jogo} não foi criado.`)
-    }
-
-    const resposta = await fetch(`${API_URL}/participa`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id_jogo: idJogo,
-        posicao_participante: participante.posicao_participante,
-        id_time: participante.id_time,
-        forma_de_ingresso: participante.forma_de_ingresso,
-        resultado_time: participante.resultado_time,
-        pontuacao_time: participante.pontuacao_time,
-      }),
-    })
-
-    if (!resposta.ok) {
-      throw new Error(`Falha ao salvar participante do jogo ${participante.id_jogo}.`)
-    }
-  }
-
-  return { idsPorCodigo }
 }
 
 export { gerarJogos, gerarJogosModalidade, validarTorneio, salvarJogosGerados }

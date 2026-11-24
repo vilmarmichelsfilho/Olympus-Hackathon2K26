@@ -1,3 +1,4 @@
+import { normalizarId } from '@/services/api'
 
 import { mesmoId } from '@/services/api'
 
@@ -11,17 +12,17 @@ function detalharJogo(jogo,modalidades,participa,times) {
   const listaParticipa = participa?.value ?? participa ?? []
   const listaTimes = times?.value ?? times ?? []
   const modalidade = listaModalidades.find(
-    (m) => Number(m.cod_modalidade) === Number(jogo.id_modalidade),
+    (m) => normalizarId(m.id_modalidade) === normalizarId(jogo.id_modalidade),
   )
   const participantes = listaParticipa.filter(
     (p) => mesmoId(p.id_jogo, jogo.id),
   )
   const [participante1, participante2] = participantes
   const timeA = listaTimes.find(
-    (t) => Number(t.cod_time) === Number(participante1?.id_time),
+    (t) => normalizarId(t.id_time) === normalizarId(participante1?.id_time),
   )
   const timeB = listaTimes.find(
-    (t) => Number(t.cod_time) === Number(participante2?.id_time),
+    (t) => normalizarId(t.id_time) === normalizarId(participante2?.id_time),
   )
 
   return {

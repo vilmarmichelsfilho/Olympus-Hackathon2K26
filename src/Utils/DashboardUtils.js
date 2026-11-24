@@ -1,12 +1,13 @@
+import { normalizarId } from '@/services/api'
 import { modalidades } from '@/data/modalidades'
 import { adquirirConflitos } from './conflitosUtils'
 
 function adquirirJogosDoTorneio(jogos, codTorneio) {
   return jogos.filter((jogo) => {
     const modalidade = modalidades.find(
-      (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+      (item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade),
     )
-    return Number(modalidade?.cod_torneio) === Number(codTorneio)
+    return normalizarId(modalidade?.id_torneio) === normalizarId(codTorneio)
   })
 }
 

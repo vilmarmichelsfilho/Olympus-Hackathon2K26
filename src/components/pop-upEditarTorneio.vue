@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { ref, watch, onMounted} from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { modalidades } from '@/data/modalidades';
@@ -37,11 +39,11 @@ function checarDados() {
 
         const codigosModalidades = new Set(
           modalidades
-            .filter((modalidade) => modalidade.cod_torneio === props.torneio.cod_torneio)
-            .map((modalidade) => modalidade.cod_modalidade),
+            .filter((modalidade) => modalidade.id_torneio === props.torneio.id_torneio)
+            .map((modalidade) => modalidade.id_modalidade),
         )
         const jogoForaDoPeriodo = jogos.value.some((jogo) => {
-          if (!codigosModalidades.has(Number(jogo.id_modalidade))) return false
+          if (!codigosModalidades.has(normalizarId(jogo.id_modalidade))) return false
           const dataJogo = jogo.horario_jogo.split(' ')[0]
           return dataJogo < dataInicio.value || dataJogo > dataFim.value
         })
@@ -51,7 +53,7 @@ function checarDados() {
         }
 
         emit('atualizar', {
-          cod_torneio: props.torneio.cod_torneio,
+          id_torneio: props.torneio.id_torneio,
           nome_torneio: nome.value,
           data_inicio_torneio: dataInicio.value,
           data_fim_torneio: dataFim.value,

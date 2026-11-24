@@ -9,7 +9,7 @@ const emit = defineEmits(['fechar','adicionar']);
 const props = defineProps(['torneio','tipo','id']);
 const codTorneio = computed(() => props.torneio ?? codTorneioSelecionadoAdm.value)
 const timesTorneio = computed(() => {
-    return times.filter(item => item.cod_torneio === codTorneio.value);
+    return times.filter(item => item.id_torneio === codTorneio.value);
 });
 
 const tecnico = ref('Informática');
@@ -62,7 +62,7 @@ async function add() {
                     <div class="input">
                         <h3>Time</h3>
                         <select name="serie" id="serie" placeholder="Serie" v-model="time">
-                            <option :value="time.cod_time" v-for="time in timesTorneio" :key="time.cod_time">{{ time.nome_time }}</option>
+                            <option :value="time.id_time" v-for="time in timesTorneio" :key="time.id_time">{{ time.nome_time }}</option>
                         </select>
                     </div>
                 </div>

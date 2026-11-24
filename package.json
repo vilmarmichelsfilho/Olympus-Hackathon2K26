@@ -12,7 +12,8 @@
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "api": "npx json-server db.json --port 3000"
+    "api": "node scripts/start-api.mjs",
+    "test:torneio": "node scripts/test-torneio.mjs"
   },
   "dependencies": {
     "@iconify-vue/heroicons-solid": "^1.0.3",

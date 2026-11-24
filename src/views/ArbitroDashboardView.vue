@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed, ref, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import LogoutIcon from '@iconify-vue/mdi/logout'
@@ -30,16 +32,16 @@ function formatarData(dataISO) {
 
 function detalharJogo(jogo, modalidades, participa, times) {
   const modalidade = modalidades.find(
-    (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+    (item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade),
   )
   const participantes = participa
     .filter((item) => mesmoId(item.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const timeA = times.find(
-    (item) => Number(item.cod_time) === Number(participantes[0]?.id_time),
+    (item) => normalizarId(item.id_time) === normalizarId(participantes[0]?.id_time),
   )
   const timeB = times.find(
-    (item) => Number(item.cod_time) === Number(participantes[1]?.id_time),
+    (item) => normalizarId(item.id_time) === normalizarId(participantes[1]?.id_time),
   )
   const [data, horario = ''] = jogo.horario_jogo.split(' ')
 

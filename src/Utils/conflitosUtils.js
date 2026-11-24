@@ -1,3 +1,4 @@
+import { normalizarId } from '@/services/api'
 import { mesmoId } from '@/services/api'
 
 function normalizarLocal(local) {
@@ -8,7 +9,7 @@ function obterConfronto(idJogo, participa, times) {
     .filter((participante) => mesmoId(participante.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
     .map((participante) => {
-      const time = times.find((item) => Number(item.cod_time) === Number(participante.id_time))
+      const time = times.find((item) => normalizarId(item.id_time) === normalizarId(participante.id_time))
       return time?.nome_time ?? 'A definir'
     })
   return `${nomes[0] ?? 'A definir'} x ${nomes[1] ?? 'A definir'}`
@@ -31,7 +32,7 @@ function formatarHorario(minutos) {
 function adquirirConflitos(jogosDoTorneio, modalidades, participa, times){
   const jogosDetalhados = jogosDoTorneio.map((jogo) => {
     const modalidade = modalidades.find(
-      (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
+      (item) => normalizarId(item.id_modalidade) === normalizarId(jogo.id_modalidade),
     )
     const local = modalidade?.localdojogo_modalidade?.trim()
     const [data, horario = ''] = jogo.horario_jogo.split(' ')

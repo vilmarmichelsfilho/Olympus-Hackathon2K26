@@ -1,14 +1,17 @@
+import { normalizarId } from '@/services/api'
 import { API_URL } from './api'
+import { adicionarAoRascunho, listarRascunho, rascunhoAtivo, pertenceAoRascunho, atualizarNoRascunho, excluirDoRascunho } from './torneioDraft'
 
 export async function listarTurmas() {
   const resposta = await fetch(`${API_URL}/turmas`)
   if (!resposta.ok) throw new Error('Não foi possível carregar as turmas.')
   const turmas = await resposta.json()
-  return turmas.map((turma) => ({
+  const dados = rascunhoAtivo() ? [...turmas, ...listarRascunho('turmas')] : turmas
+  return dados.map((turma) => ({
     ...turma,
-    cod_turma: Number.isNaN(Number(turma.cod_turma ?? turma.id)) ? (turma.cod_turma ?? turma.id) : Number(turma.cod_turma ?? turma.id),
-    cod_torneio: Number.isNaN(Number(turma.cod_torneio ?? turma.id_torneio)) ? (turma.cod_torneio ?? turma.id_torneio) : Number(turma.cod_torneio ?? turma.id_torneio),
-    cod_time: Number.isNaN(Number(turma.cod_time ?? turma.id_time)) ? (turma.cod_time ?? turma.id_time) : Number(turma.cod_time ?? turma.id_time),
+    id_turma: Number.isNaN(Number(turma.id_turma ?? turma.id)) ? (turma.id_turma ?? turma.id) : Number(turma.id_turma ?? turma.id),
+    id_torneio: Number.isNaN(Number(turma.id_torneio)) ? turma.id_torneio : Number(turma.id_torneio),
+    id_time: Number.isNaN(Number(turma.id_time)) ? turma.id_time : Number(turma.id_time),
   }))
 }
 
@@ -18,12 +21,16 @@ export async function criarTurma(turma) {
   const id = String(Math.max(Number(turma.id) || 0, maiorId + 1))
   const payload = {
     id,
-    id_torneio: String(turma.cod_torneio ?? turma.id_torneio),
-    id_time: String(turma.cod_time ?? turma.id_time),
+    id_torneio: String(turma.id_torneio),
+    id_time: String(turma.id_time),
     tecnico_turma: turma.tecnico_turma,
     ano_turma: Number(turma.ano_turma),
     numero_turma: Number(turma.numero_turma),
     nome_turma: turma.nome_turma,
+  }
+  if (pertenceAoRascunho(turma.id_torneio)) {
+    adicionarAoRascunho('turmas', payload)
+    return { ...payload, id_turma: normalizarId(id) }
   }
   const resposta = await fetch(`${API_URL}/turmas`, {
     method: 'POST',
@@ -31,10 +38,13 @@ export async function criarTurma(turma) {
     body: JSON.stringify(payload),
   })
   if (!resposta.ok) throw new Error('Não foi possível salvar a turma.')
-  return { ...await resposta.json(), cod_turma: Number(id) }
+  const salvo = await resposta.json()
+  return { ...salvo, id_turma: normalizarId(salvo.id) }
 }
 
 export async function atualizarTurma(id, turma) {
+  const local = atualizarNoRascunho('turmas', id, turma)
+  if (local) return local
   const resposta = await fetch(`${API_URL}/turmas/${encodeURIComponent(id)}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -50,20 +60,21 @@ export async function atualizarTurma(id, turma) {
 }
 
 export async function excluirTurma(id) {
+  if (excluirDoRascunho('turmas', id)) return
   const resposta = await fetch(`${API_URL}/turmas/${encodeURIComponent(id)}`, { method: 'DELETE' })
   if (!resposta.ok) throw new Error('Não foi possível excluir a turma.')
 }
 
-export async function excluirTurmasDoTorneio(codTorneio) {
+export async function excluirTurmasDoTorneio(idTorneio) {
   const turmas = await listarTurmas()
   await Promise.all(turmas
-    .filter((turma) => Number(turma.cod_torneio) === Number(codTorneio))
-    .map((turma) => excluirTurma(turma.id ?? turma.cod_turma)))
+    .filter((turma) => normalizarId(turma.id_torneio) === normalizarId(idTorneio))
+    .map((turma) => excluirTurma(turma.id ?? turma.id_turma)))
 }
 
 export async function excluirTurmasDoTime(codTime) {
   const turmas = await listarTurmas()
   await Promise.all(turmas
-    .filter((turma) => Number(turma.cod_time) === Number(codTime))
-    .map((turma) => excluirTurma(turma.id ?? turma.cod_turma)))
+    .filter((turma) => normalizarId(turma.id_time) === normalizarId(codTime))
+    .map((turma) => excluirTurma(turma.id ?? turma.id_turma)))
 }

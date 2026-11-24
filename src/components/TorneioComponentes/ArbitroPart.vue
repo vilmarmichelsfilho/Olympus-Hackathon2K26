@@ -17,7 +17,7 @@ const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar','voltar'])
 
 const arbitrosTorneio = computed(() => {
-    return arbitros.value.filter(item => item.cod_torneio === props.torneio);
+    return arbitros.value.filter(item => item.id_torneio === props.torneio);
 });
 
 async function excluirArbitro(id) {
@@ -67,8 +67,8 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <ArbitroNewCard v-for="(arbitro, index) in arbitrosTorneio" :key="arbitro.cod_arbitro"
-                    :id="arbitro.cod_arbitro" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
+                <ArbitroNewCard v-for="(arbitro, index) in arbitrosTorneio" :key="arbitro.id_arbitro"
+                    :id="arbitro.id_arbitro" :class="index % 2 === 0 ? 'item-branco' : 'item-preto'"
                     @excluir-arbitro="excluirArbitro" @editar-arbitro="abrirEditarArbitro">
                 </ArbitroNewCard>
             </ul>
@@ -83,7 +83,7 @@ function avancar() {
       v-if="adicionarrArbitro"
     ></AdicionarArbitro>
     <editarrArbitro
-      :arbitro="arbitros.find((a) => a.cod_arbitro === arbitroEditarId)"
+      :arbitro="arbitros.find((a) => a.id_arbitro === arbitroEditarId)"
       @atualizar="salvarEdicao($event)"
       @fecharEditarArbitro="arbitroEditar = false"
       v-if="arbitroEditar"

@@ -11,7 +11,7 @@ function abrirEditarTorneio() {
   mostrarEditarTorneio.value = true
 }
 async function atualizarTorneio(novoTorneio) {
-  await editarTorneio(props.torneio.cod_torneio, novoTorneio);
+  await editarTorneio(props.torneio.id_torneio, novoTorneio);
   mostrarEditarTorneio.value = false;
 }
 function Fechar(){

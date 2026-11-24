@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { ref, onMounted } from 'vue'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
@@ -70,7 +72,7 @@ async function atualizarJogo(dados) {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      id_modalidade: Number(dados.id_modalidade),
+      id_modalidade: normalizarId(dados.id_modalidade),
       horario_jogo: dados.horario_jogo,
       status_jogo: dados.status_jogo,
     }),
@@ -88,12 +90,12 @@ async function atualizarJogo(dados) {
   try {
     if (participantes[0]) {
       await atualizarParticipante(participantes[0].id, {
-        id_time: dados.time1 == null || dados.time1 === '' ? null : Number(dados.time1),
+        id_time: dados.time1 == null || dados.time1 === '' ? null : normalizarId(dados.time1),
       })
     }
     if (participantes[1]) {
       await atualizarParticipante(participantes[1].id, {
-        id_time: dados.time2 == null || dados.time2 === '' ? null : Number(dados.time2),
+        id_time: dados.time2 == null || dados.time2 === '' ? null : normalizarId(dados.time2),
       })
     }
   } catch (erro) {
@@ -104,7 +106,7 @@ async function atualizarJogo(dados) {
 
   atualizarJogoLocal({
     id: idJogo,
-    id_modalidade: Number(dados.id_modalidade),
+    id_modalidade: normalizarId(dados.id_modalidade),
     horario_jogo: dados.horario_jogo,
     status_jogo: dados.status_jogo,
   })

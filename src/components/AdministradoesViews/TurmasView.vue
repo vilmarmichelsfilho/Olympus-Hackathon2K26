@@ -25,8 +25,8 @@ watch(codTorneioSelecionadoAdm, carregarTurmasAdm)
         <tbody>
           <TurmasCard
             v-for="turma in turmasFiltradasAdm"
-            :key="turma.cod_turma"
-            :id="turma.cod_turma"
+            :key="turma.id_turma"
+            :id="turma.id_turma"
             :tecnico="turma.tecnico_turma"
             :ano="turma.ano_turma"
             :serie="turma.numero_turma"

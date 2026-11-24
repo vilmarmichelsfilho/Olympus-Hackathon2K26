@@ -6,12 +6,12 @@ import { excluirEntidade } from '@/services/entidadesApi'
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 
 const props = defineProps(['id','class'])
-const time = computed(() => times.find(item => item.cod_time === props.id))
+const time = computed(() => times.find(item => item.id_time === props.id))
 
 const edit = ref(false)
 
 async function deletar() {
-    const indice = times.findIndex(item => item.cod_time === props.id)
+    const indice = times.findIndex(item => item.id_time === props.id)
     if (indice === -1) return
 
     await excluirTurmasDoTime(props.id)
@@ -34,7 +34,7 @@ async function deletar() {
 </div>
 </li>
 
-<AdicionarOuEditarTime @fechar="edit=false" v-if="edit && time" :id="id" :nome1="time.nome_time" :cor="time.cor_time" :tipo="'editar'" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time" :torneio="time.cod_torneio"></AdicionarOuEditarTime>
+<AdicionarOuEditarTime @fechar="edit=false" v-if="edit && time" :id="id" :nome1="time.nome_time" :cor="time.cor_time" :tipo="'editar'" :escudo="time.escudo_time" :pontuacao_geral="time.pontuacaogeral_time" :torneio="time.id_torneio"></AdicionarOuEditarTime>
 
 </template>
 

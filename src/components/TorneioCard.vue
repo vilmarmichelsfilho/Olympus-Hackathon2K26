@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import PencilOutlineIcon from '@iconify-vue/mdi/pencil-outline'
 import TrashCanOutlineIcon from '@iconify-vue/mdi/trash-can-outline'
 import { onMounted } from 'vue'
@@ -25,7 +27,7 @@ async function excluir() {
     if (!window.confirm('Deseja realmente excluir este torneio?')) return
     try {
       await apagarTorneio(props.id)
-      if (Number(codTorneioSelecionadoAdm.value) === Number(props.id)) AlterarCodTorneio(null)
+      if (normalizarId(codTorneioSelecionadoAdm.value) === normalizarId(props.id)) AlterarCodTorneio(null)
     } catch (erro) {
       alert(erro.message)
     }

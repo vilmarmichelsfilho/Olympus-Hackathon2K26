@@ -1,3 +1,4 @@
+import { normalizarId } from '@/services/api'
 import { arbitros } from '@/data/arbitros'
 import { modalidades } from '@/data/modalidades'
 import { times } from '@/data/times'
@@ -28,9 +29,9 @@ async function apagarTorneio(codTorneio) {
   await Promise.all([carregarJogos(), carregarParticipa()])
 
   const idsModalidades = new Set(modalidades
-    .filter((item) => Number(item.cod_torneio) === Number(codTorneio))
-    .map((item) => Number(item.cod_modalidade)))
-  const jogosDoTorneio = jogos.value.filter((item) => idsModalidades.has(Number(item.id_modalidade)))
+    .filter((item) => normalizarId(item.id_torneio) === normalizarId(codTorneio))
+    .map((item) => normalizarId(item.id_modalidade)))
+  const jogosDoTorneio = jogos.value.filter((item) => idsModalidades.has(normalizarId(item.id_modalidade)))
   const idsJogos = new Set(jogosDoTorneio.map((item) => String(item.id)))
   const participantesDoTorneio = participa.value.filter((item) => idsJogos.has(String(item.id_jogo)))
 
@@ -44,8 +45,8 @@ async function apagarTorneio(codTorneio) {
   await excluirTurmasDoTorneio(codTorneio)
   for (const lista of [modalidades, times, arbitros]) {
     const tipo = lista === modalidades ? 'modalidades' : lista === times ? 'times' : 'arbitros'
-    for (const registro of [...lista].filter((item) => Number(item.cod_torneio) === Number(codTorneio))) {
-      await excluirEntidade(tipo, registro.cod_modalidade ?? registro.cod_time ?? registro.cod_arbitro, lista)
+    for (const registro of [...lista].filter((item) => normalizarId(item.id_torneio) === normalizarId(codTorneio))) {
+      await excluirEntidade(tipo, registro.id_modalidade ?? registro.id_time ?? registro.id_arbitro, lista)
     }
   }
   await excluirEntidade('torneios', codTorneio, torneios)

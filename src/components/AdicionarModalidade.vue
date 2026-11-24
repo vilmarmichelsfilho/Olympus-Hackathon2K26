@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { ref, onMounted } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
 import { adicionarModalidade } from '@/Utils/adicionarUtils';
@@ -40,11 +42,11 @@ async function checarDados() {
               imagem.value,
               Number(tempo.value),
               local.value,
-              Number(codTorneio.value),
+              normalizarId(codTorneio.value),
             );
 
             if (props.gerarJogos) {
-              const resultado = await gerarJogosModalidade(novaModalidade.cod_modalidade, {
+              const resultado = await gerarJogosModalidade(novaModalidade.id_modalidade, {
                 jogos: jogos.value,
                 participa: participa.value,
                 modalidades,
@@ -53,7 +55,7 @@ async function checarDados() {
                 arbitros,
               });
               if (!resultado.valido) {
-                await apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                await apagarModalidade(novaModalidade.id_modalidade, { participa: participa.value, modalidades });
                 alert(resultado.mensagem);
                 return;
               }
@@ -61,7 +63,7 @@ async function checarDados() {
               try {
                 await salvarJogosGerados(resultado.novosJogos, resultado.novosParticipantes)
               } catch (erro) {
-                await apagarModalidade(novaModalidade.cod_modalidade, { participa: participa.value, modalidades });
+                await apagarModalidade(novaModalidade.id_modalidade, { participa: participa.value, modalidades });
                 alert(`Não foi possível salvar os jogos: ${erro.message}`)
                 return
               }

@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import modalidadesDashboardChild from '@/components/modalidadeDashboardChild.vue';
 import { modalidades } from '@/data/modalidades';
 import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
@@ -23,7 +25,7 @@ function abrirEditar(id) {
   modalidadeEditar.value = true
 }
 async function salvarEdicao(dados) {
-  await editarModalidade(dados.cod_modalidade, dados)
+  await editarModalidade(dados.id_modalidade, dados)
   modalidadeEditar.value = false
 }
 const modalidadeAdicionar = ref(false)
@@ -32,7 +34,7 @@ async function exluirModalidade(id) {
   if (!confirmarExclusao) return
 
   const jogosDaModalidade = jogos.value.filter(
-    (jogo) => Number(jogo.id_modalidade) === Number(id),
+    (jogo) => normalizarId(jogo.id_modalidade) === normalizarId(id),
   )
     const idsJogos = new Set(jogosDaModalidade.map((jogo) => String(jogo.id)))
   const participantesDaModalidade = participa.value.filter((participante) =>
@@ -87,8 +89,8 @@ async function exluirModalidade(id) {
         <tbody>
           <modalidadesDashboardChild
             v-for="modalidade in modalidadesFiltradasAdm"
-            :key="modalidade.cod_modalidade"
-            :id="modalidade.cod_modalidade"
+            :key="modalidade.id_modalidade"
+            :id="modalidade.id_modalidade"
             :local="modalidade.localdojogo_modalidade"
             :imagem="modalidade.foto_modalidade"
             :nome="modalidade.nome_modalidade"
@@ -108,7 +110,7 @@ async function exluirModalidade(id) {
       :class="{ aberto: modalidadeAdicionar }"
     ></AdicionarModalidade>
     <EditarModalidade
-      :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
+      :modalidade="modalidades.find((m) => m.id_modalidade === modalidadeEditarId)"
       @atualizar="salvarEdicao($event)"
       @fechar="modalidadeEditar = false"
       class="popup"

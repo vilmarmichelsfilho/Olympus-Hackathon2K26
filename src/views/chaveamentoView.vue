@@ -1,4 +1,6 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { computed, onMounted } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { modalidades } from '@/data/modalidades'
@@ -15,9 +17,9 @@ async function carregarDados() {
 onMounted(carregarDados);
 
 
-const modalidadeId = computed(() => Number(route.params.id))
+const modalidadeId = computed(() => normalizarId(route.params.id))
 const modalidadeSelecionada = computed(() => {
-  return modalidades.find((m) => m.cod_modalidade == modalidadeId.value) || null
+  return modalidades.find((m) => m.id_modalidade == modalidadeId.value) || null
 })
 const nome = computed(() => {
   return modalidadeSelecionada.value ? modalidadeSelecionada.value.nome_modalidade : ''
@@ -29,7 +31,7 @@ const jogosdamodalidade = computed(() => {
   if (!modalidadeSelecionada.value) {
     return []
   }
-  return jogos.value.filter((jogo) => jogo.id_modalidade == modalidadeSelecionada.value.cod_modalidade)
+  return jogos.value.filter((jogo) => jogo.id_modalidade == modalidadeSelecionada.value.id_modalidade)
 })
 function getParticipantesByJogo(codJogo) {
   return participa.value.filter((p) => p.id_jogo == codJogo)
@@ -69,7 +71,7 @@ function getTimeName(codTime) {
   if (codTime == null) {
     return 'A definir'
   }
-  const time = times.find((t) => t.cod_time == codTime)
+  const time = times.find((t) => t.id_time == codTime)
   return time?.nome_time ?? 'A definir'
 }
 const formatarParaBracket = (fase) => {

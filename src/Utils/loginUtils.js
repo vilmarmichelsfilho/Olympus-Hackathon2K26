@@ -53,8 +53,8 @@ async function logar(usuario, senha) {
         tipo: 'administrador',
       }
     : {
-        codigo: arbitro.cod_arbitro,
-        codTorneio: arbitro.cod_torneio,
+        codigo: arbitro.id_arbitro,
+        codTorneio: arbitro.id_torneio,
         nome: arbitro.nome_arbitro,
         tipo: 'arbitro',
       }

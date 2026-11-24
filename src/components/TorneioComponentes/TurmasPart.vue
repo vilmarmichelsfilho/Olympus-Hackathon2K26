@@ -1,14 +1,17 @@
 <script setup>
+import { normalizarId } from '@/services/api'
+
 import { times } from '@/data/times.js';
 import { computed, ref, onMounted, watch } from 'vue';
 import { listarTurmas } from '@/services/turmasApi'
 const props = defineProps(['torneio'])
 import TurmaNewCard from '../Cards/TurmaNewCard.vue';
 const timesTorneio = computed(() => {
-    return times.filter(item => item.cod_torneio === props.torneio);
+    return times.filter(item => item.id_torneio === props.torneio);
 });
 const turmasCarregadas = ref([])
-async function carregarTurmas() { turmasCarregadas.value = (await listarTurmas()).filter(item => Number(item.cod_torneio) === Number(props.torneio)) }
+const turmasVersao = ref(0)
+async function carregarTurmas() { turmasCarregadas.value = (await listarTurmas()).filter(item => normalizarId(item.id_torneio) === normalizarId(props.torneio)) }
 onMounted(carregarTurmas)
 watch(() => props.torneio, carregarTurmas)
 const turmasTorneio = computed(() => turmasCarregadas.value)
@@ -18,6 +21,7 @@ const emits = defineEmits(['salvar','voltar']);
 async function aoFecharModal() {
     add.value = false
     await carregarTurmas()
+    turmasVersao.value += 1
 }
 
 function avancar() {
@@ -28,7 +32,7 @@ function avancar() {
 
     let timesComDuasTurmas = 0
     for (const time of timesTorneio.value) {
-        const turmasDoTime = turmasTorneio.value.filter(turma => turma.cod_time === time.cod_time)
+        const turmasDoTime = turmasTorneio.value.filter(turma => turma.id_time === time.id_time)
         const anos = new Set(turmasDoTime.map(turma => Number(turma.ano_turma)))
 
         if (turmasDoTime.length < 2 || turmasDoTime.length > 3 || anos.size !== turmasDoTime.length) {
@@ -65,7 +69,7 @@ function avancar() {
                 <li>Ações</li>
             </ul>
             <ul class="cardss">
-                <TurmaNewCard v-for="(time, index) in timesTorneio" :key="time.cod_time" :id="time.cod_time"
+                <TurmaNewCard v-for="(time, index) in timesTorneio" :key="`${time.id_time}-${turmasVersao}`" :id="time.id_time" :refresh-key="turmasVersao" @atualizar="carregarTurmas"
                     :class="index % 2 === 0 ? 'item-branco' : 'item-preto'">
                 </TurmaNewCard>
             </ul>

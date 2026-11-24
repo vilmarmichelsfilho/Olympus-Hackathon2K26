@@ -28,8 +28,8 @@ import { timesFiltradosAdm } from '@/Utils/cod_torneioAdmUtils.js'
           <tbody>
             <timesCard
               v-for="time in timesFiltradosAdm"
-              :key="time.cod_time"
-              :id="time.cod_time"
+              :key="time.id_time"
+              :id="time.id_time"
             />
           </tbody>
         </table>

@@ -4,7 +4,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useJogos } from '@/composables/useJogos';
 import { modalidades } from '@/data/modalidades';
 import { times } from '@/data/times';
-import { cod_torneioAtual } from '@/Utils/cod_torneioUtils';
+import { id_torneioAtual } from '@/Utils/cod_torneioUtils';
 import { detalharJogo } from '@/Utils/jogosVerificadosUtils';
 import MenuAlt4Icon from '@iconify-vue/heroicons-solid/menu-alt-4';
 import TableJogos from '@/components/TableJogos.vue';
@@ -18,8 +18,8 @@ onMounted(carregarDados)
 const jogosVerificados = computed(() =>
   jogos.value
     .filter((jogo) => {
-      const modalidade = modalidades.find((item) => item.cod_modalidade === jogo.id_modalidade)
-      return jogo.status_jogo === 'AoVivo' && modalidade?.cod_torneio === cod_torneioAtual.value
+      const modalidade = modalidades.find((item) => item.id_modalidade === jogo.id_modalidade)
+      return jogo.status_jogo === 'AoVivo' && modalidade?.id_torneio === id_torneioAtual.value
     })
     .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
 )
