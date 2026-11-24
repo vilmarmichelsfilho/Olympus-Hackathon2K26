@@ -1,112 +1,72 @@
 import { reactive } from 'vue'
 
-export const modalidades = reactive([
-  {
-    cod_modalidade: 1,
-    nome_modalidade: "Futsal",
-    desc_modalidade: "Competição de futsal",
-    tempojogemminutos_modalidade: 40,
-    localdojogo_modalidade: "Quadra B",
-    foto_modalidade: "/images/imagem-modalidades/futsal-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 2,
-    nome_modalidade: "Voleibol",
-    desc_modalidade: "Competição de voleibol",
-    tempojogemminutos_modalidade: 60,
-    localdojogo_modalidade: "Quadra A",
-    foto_modalidade: "/images/imagem-modalidades/volei-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 3,
-    nome_modalidade: "Basquete",
-    desc_modalidade: "Competição de basquete",
-    tempojogemminutos_modalidade: 50,
-    localdojogo_modalidade: "Quadra C",
-    foto_modalidade: "/images/imagem-modalidades/basquete-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 4,
-    nome_modalidade: "Valorant",
-    desc_modalidade: "Competição de Valorant",
-    tempojogemminutos_modalidade: 60,
-    localdojogo_modalidade: "Sala E-Sports",
-    foto_modalidade: "/images/imagem-modalidades/valorant-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 5,
-    nome_modalidade: "Xadrez",
-    desc_modalidade: "Competição de xadrez",
-    tempojogemminutos_modalidade: 30,
-    localdojogo_modalidade: "Biblioteca",
-    foto_modalidade: "/images/imagem-modalidades/xadrez-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 6,
-    nome_modalidade: "Brawl Stars",
-    desc_modalidade: "Competição de Brawl Stars",
-    tempojogemminutos_modalidade: 30,
-    localdojogo_modalidade: "Sala Mobile",
-    foto_modalidade: "/images/imagem-modalidades/brawlstars-v2.png",
-    cod_torneio: 1
-  },
-  {
-    cod_modalidade: 7,
-    nome_modalidade: "Futebol de Campo",
-    desc_modalidade: "Competição de futebol de campo",
-    tempojogemminutos_modalidade: 90,
-    localdojogo_modalidade: "Campo",
-    foto_modalidade: "/images/imagem-modalidades/futebol-v2.png",
-    cod_torneio: 2
-  },
-  {
-    cod_modalidade: 8,
-    nome_modalidade: "Handebol",
-    desc_modalidade: "Competição de handebol",
-    tempojogemminutos_modalidade: 50,
-    localdojogo_modalidade: "Quadra A",
-    foto_modalidade: "/images/imagem-modalidades/handebol-v2.png",
-    cod_torneio: 2
-  },
-  {
-    cod_modalidade: 9,
-    nome_modalidade: "Tênis de Mesa",
-    desc_modalidade: "Competição de tênis de mesa",
-    tempojogemminutos_modalidade: 30,
-    localdojogo_modalidade: "Ginásio",
-    foto_modalidade: "/images/imagem-modalidades/tenis-mesa-v2.png",
-    cod_torneio: 2
-  },
-  {
-    cod_modalidade: 10,
-    nome_modalidade: "Atletismo",
-    desc_modalidade: "Competição de atletismo",
-    tempojogemminutos_modalidade: 45,
-    localdojogo_modalidade: "Pista",
-    foto_modalidade: "/images/imagem-modalidades/atletismo-v2.png",
-    cod_torneio: 2
-  },
-  {
-    cod_modalidade: 11,
-    nome_modalidade: "EA FC",
-    desc_modalidade: "Competição de EA FC",
-    tempojogemminutos_modalidade: 25,
-    localdojogo_modalidade: "Sala E-Sports",
-    foto_modalidade: "/images/imagem-modalidades/eafc-v2.png",
-    cod_torneio: 2
-  },
-  {
-    cod_modalidade: 12,
-    nome_modalidade: "Queimada",
-    desc_modalidade: "Competição de queimada",
-    tempojogemminutos_modalidade: 40,
-    localdojogo_modalidade: "Quadra B",
-    foto_modalidade: "/images/imagem-modalidades/queimada-v2.png",
-    cod_torneio: 2
+const url = 'http://localhost:3000/modalidades'
+
+export const modalidades = reactive([])
+
+function prepararModalidade(modalidade) {
+  const codigo = Number(modalidade.id)
+  const torneio = Number(modalidade.id_torneio)
+
+  return {
+    ...modalidade,
+    cod_modalidade: Number.isNaN(codigo) ? modalidade.id : codigo,
+    cod_torneio: Number.isNaN(torneio) ? modalidade.id_torneio : torneio,
   }
-])
+}
+
+function dadosDaModalidade(dados, modalidadeAtual = {}) {
+  const torneio = dados.cod_torneio ?? dados.id_torneio ?? modalidadeAtual.cod_torneio
+
+  return {
+    nome_modalidade: dados.nome_modalidade,
+    desc_modalidade: dados.desc_modalidade,
+    tempojogemminutos_modalidade: dados.tempojogemminutos_modalidade,
+    localdojogo_modalidade: dados.localdojogo_modalidade,
+    foto_modalidade: dados.foto_modalidade,
+    id_torneio: String(torneio),
+  }
+}
+
+async function buscarModalidades() {
+  const resposta = await fetch(url)
+  if (!resposta.ok) throw new Error('Não foi possível buscar as modalidades.')
+
+  const dados = await resposta.json()
+  modalidades.splice(0, modalidades.length, ...dados.map(prepararModalidade))
+}
+
+async function salvarModalidade(dados) {
+  const resposta = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dadosDaModalidade(dados)),
+  })
+  if (!resposta.ok) throw new Error('Não foi possível salvar a modalidade.')
+
+  const modalidade = prepararModalidade(await resposta.json())
+  modalidades.push(modalidade)
+  return modalidade
+}
+
+async function editarModalidade(id, dados) {
+  const indice = modalidades.findIndex((modalidade) => String(modalidade.cod_modalidade) === String(id))
+  const resposta = await fetch(`${url}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dadosDaModalidade(dados, modalidades[indice])),
+  })
+  if (!resposta.ok) throw new Error('Não foi possível editar a modalidade.')
+
+  if (indice !== -1) modalidades[indice] = prepararModalidade(await resposta.json())
+}
+
+async function apagarModalidade(id) {
+  const resposta = await fetch(`${url}/${id}`, { method: 'DELETE' })
+  if (!resposta.ok) throw new Error('Não foi possível excluir a modalidade.')
+
+  const indice = modalidades.findIndex((modalidade) => String(modalidade.cod_modalidade) === String(id))
+  if (indice !== -1) modalidades.splice(indice, 1)
+}
+
+export { buscarModalidades, salvarModalidade, editarModalidade, apagarModalidade }

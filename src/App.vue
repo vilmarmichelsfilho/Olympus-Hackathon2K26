@@ -3,12 +3,19 @@ import { RouterView } from 'vue-router'
 import loginView from './components/loginView.vue'
 import AppHeader from './components/AppHeader.vue'
 import FooterApp from './components/FooterApp.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { buscarModalidades } from './data/modalidades'
 if (localStorage.getItem('primeiraVisita') === null) {
   localStorage.setItem('logado', 'false')
   localStorage.setItem('primeiraVisita', 'true')
 }
 const loginPop = ref(false)
+
+onMounted(() => {
+  buscarModalidades().catch(() => {
+    console.log('Inicie o json-server para carregar as modalidades.')
+  })
+})
 
 function abrirLogin() {
   loginPop.value = true

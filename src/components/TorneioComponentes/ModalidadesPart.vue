@@ -4,11 +4,21 @@ import ModalidadesNewCard from '../Cards/ModalidadesNewCard.vue';
 import { ref, computed } from 'vue';
 import AdicionarModalidade from '../AdicionarModalidade.vue';
 import EditarModalidade from '../EditarModalidade.vue';
-import { editarModalidade } from '@/Utils/editarUtils.js';
-import { apagarModalidade } from '@/Utils/exclusaoUtils';
+import { apagarModalidade, editarModalidade } from '@/data/modalidades';
 
-function exluirModalidade(id) {
-    apagarModalidade(id)
+async function exluirModalidade(id) {
+    try {
+        await apagarModalidade(id)
+    } catch (erro) {
+        alert(erro.message)
+    }
+}
+async function atualizarModalidade(modalidade) {
+    try {
+        await editarModalidade(modalidade.cod_modalidade, modalidade)
+    } catch (erro) {
+        alert(erro.message)
+    }
 }
 const props = defineProps(['torneio'])
 const emits = defineEmits(['salvar', 'voltar'])
@@ -62,7 +72,7 @@ function avancar() {
     <AdicionarModalidade v-show="modalidadeAdicionar" @fechar-adicionar-modalidade="modalidadeAdicionar = false"
         :torneio="torneio"></AdicionarModalidade>
     <EditarModalidade :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-        @atualizar="editarModalidade($event.cod_modalidade, $event)" @fechar="modalidadeEditar = false"
+        @atualizar="atualizarModalidade($event)" @fechar="modalidadeEditar = false"
         v-show="modalidadeEditar">
     </EditarModalidade>
 </template>

@@ -1,9 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import ContentSaveOutlineIcon from '@iconify-vue/mdi/content-save-outline';
-import { adicionarModalidade } from '@/Utils/adicionarUtils';
+import { salvarModalidade, apagarModalidade } from '@/data/modalidades';
 import { codTorneioSelecionadoAdm } from '@/Utils/cod_torneioAdmUtils';
-import { apagarModalidade } from '@/Utils/exclusaoUtils';
 import { gerarJogosModalidade } from '@/Utils/gerarTorneioUtils';
 const emit = defineEmits(['fecharAdicionarModalidade']);
 const props = defineProps(['torneio', 'gerarJogos']);
@@ -16,36 +15,40 @@ const codTorneio = ref(codTorneioSelecionadoAdm)
 if (props.torneio != undefined){
   codTorneio.value = props.torneio
 }
-function checarDados() {
+async function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
         if(local.value !== '') {
           if (imagem.value !== null) {
-            const novaModalidade = adicionarModalidade(
-              nome.value,
-              desc.value,
-              imagem.value,
-              Number(tempo.value),
-              local.value,
-              Number(codTorneio.value),
-            );
+            try {
+              const novaModalidade = await salvarModalidade({
+                nome_modalidade: nome.value,
+                desc_modalidade: desc.value,
+                foto_modalidade: imagem.value,
+                tempojogemminutos_modalidade: Number(tempo.value),
+                localdojogo_modalidade: local.value,
+                cod_torneio: Number(codTorneio.value),
+              });
 
-            if (props.gerarJogos) {
-              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
-              if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade);
-                alert(resultado.mensagem);
-                return;
+              if (props.gerarJogos) {
+                const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
+                if (!resultado.valido) {
+                  await apagarModalidade(novaModalidade.cod_modalidade);
+                  alert(resultado.mensagem);
+                  return;
+                }
               }
-            }
 
-            emit('fecharAdicionarModalidade');
-            nome.value = '';
-            desc.value = '';
-            imagem.value = null;
-            tempo.value = '';
-            local.value = '';
+              emit('fecharAdicionarModalidade');
+              nome.value = '';
+              desc.value = '';
+              imagem.value = null;
+              tempo.value = '';
+              local.value = '';
+            } catch (erro) {
+              alert(erro.message);
+            }
           } else {
             alert('Adicione uma imagem à modalidade')
           }

@@ -4,9 +4,8 @@ import { modalidades } from '@/data/modalidades';
 import { modalidadesFiltradasAdm } from '@/Utils/cod_torneioAdmUtils';
 import AdicionarModalidade from '@/components/AdicionarModalidade.vue'
 import EditarModalidade from '@/components/EditarModalidade.vue'
-import { editarModalidade } from '@/Utils/editarUtils.js'
+import { apagarModalidade, editarModalidade } from '@/data/modalidades'
 import { ref } from 'vue';
-import { apagarModalidade } from '@/Utils/exclusaoUtils'
 const modalidadeEditar = ref(false)
 const modalidadeEditarId = ref(null)
 function abrirEditar(id) {
@@ -14,8 +13,19 @@ function abrirEditar(id) {
   modalidadeEditar.value = true
 }
 const modalidadeAdicionar = ref(false)
-function exluirModalidade(id) {
-  apagarModalidade(id)
+async function exluirModalidade(id) {
+  try {
+    await apagarModalidade(id)
+  } catch (erro) {
+    alert(erro.message)
+  }
+}
+async function atualizarModalidade(modalidade) {
+  try {
+    await editarModalidade(modalidade.cod_modalidade, modalidade)
+  } catch (erro) {
+    alert(erro.message)
+  }
 }
 </script>
 <template>
@@ -63,7 +73,7 @@ function exluirModalidade(id) {
     ></AdicionarModalidade>
     <EditarModalidade
       :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-      @atualizar="editarModalidade($event.cod_modalidade, $event)"
+      @atualizar="atualizarModalidade($event)"
       @fechar="modalidadeEditar = false"
       class="popup"
       :class="{ aberto: modalidadeEditar }"
