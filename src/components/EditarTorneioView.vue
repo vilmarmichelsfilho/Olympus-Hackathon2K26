@@ -10,8 +10,8 @@ const anodotorneio = ref(props.torneio.data_inicio_torneio.split('-')[0].replace
 function abrirEditarTorneio() {
   mostrarEditarTorneio.value = true
 }
-function atualizarTorneio(novoTorneio) {
-  editarTorneio(props.torneio.cod_torneio, novoTorneio);
+async function atualizarTorneio(novoTorneio) {
+  await editarTorneio(props.torneio.cod_torneio, novoTorneio);
   mostrarEditarTorneio.value = false;
 }
 function Fechar(){

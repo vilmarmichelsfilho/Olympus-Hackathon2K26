@@ -3,6 +3,7 @@ import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
 import { listarTurmas, criarTurma } from '@/services/turmasApi'
+import { criarEntidade } from '@/services/entidadesApi'
 
 const timesApresentacao = [
     { nome: 'Azul', cor: '#2563EB', escudo: '/images/escudos/azul.svg' },
@@ -79,57 +80,40 @@ const arbitrosApresentacao = [
 async function adicionarDadosApresentacao(codTorneio) {
     if (times.some(item => item.cod_torneio === codTorneio)) return
 
-    let proximoTime = times.length ? Math.max(...times.map(item => item.cod_time)) + 1 : 1
-    const turmas = await listarTurmas()
-    let proximaTurma = turmas.length ? Math.max(...turmas.map(item => Number(item.id) || 0)) + 1 : 1
-    let proximaModalidade = modalidades.length
-        ? Math.max(...modalidades.map(item => item.cod_modalidade)) + 1
-        : 1
-    let proximoArbitro = arbitros.length
-        ? Math.max(...arbitros.map(item => item.cod_arbitro)) + 1
-        : 1
-
-    modalidadesApresentacao.forEach((modelo) => {
-        modalidades.push({
-            cod_modalidade: proximaModalidade++,
+    for (const modelo of modalidadesApresentacao) {
+        await criarEntidade('modalidades', {
             cod_torneio: codTorneio,
             nome_modalidade: modelo.nome,
             desc_modalidade: modelo.descricao,
             tempojogemminutos_modalidade: modelo.tempo,
             localdojogo_modalidade: modelo.local,
             foto_modalidade: modelo.imagem,
-        })
-    })
+        }, modalidades)
+    }
 
-    arbitrosApresentacao.forEach((nome, indice) => {
-        arbitros.push({
-            cod_arbitro: proximoArbitro++,
-            cod_torneio: codTorneio,
+    for (const [indice, nome] of arbitrosApresentacao.entries()) {
+        await criarEntidade('arbitros', {
+            id_torneio: codTorneio,
             nome_arbitro: nome,
             login_arbitro: `arbitro${codTorneio}${indice + 1}`,
             senha_arbitro: '123456',
-        })
-    })
+        }, arbitros)
+    }
 
     for (const [indice, modelo] of timesApresentacao.entries()) {
-        const codTime = proximoTime++
-
-        times.push({
-            cod_time: codTime,
-            cod_torneio: codTorneio,
-            cod_adm: 1,
+        const timeSalvo = await criarEntidade('times', {
+            id_torneio: codTorneio,
+            id_adm: 1,
             cor_time: modelo.cor,
             pontuacaogeral_time: 0,
             escudo_time: modelo.escudo,
             nome_time: modelo.nome,
-        })
+        }, times)
 
         for (const [ano, [tecnico, serie]] of turmasApresentacao[indice].entries()) {
-            const codTurma = proximaTurma++
             await criarTurma({
-                cod_turma: codTurma,
                 cod_torneio: codTorneio,
-                cod_time: codTime,
+                cod_time: timeSalvo.cod_time,
                 tecnico_turma: tecnico,
                 ano_turma: ano + 1,
                 numero_turma: serie,
@@ -139,7 +123,7 @@ async function adicionarDadosApresentacao(codTorneio) {
     }
 }
 
-function adicionarTimes(nome, cor, imagem, cod_torneio) {
+async function adicionarTimes(nome, cor, imagem, cod_torneio) {
     const timesDoTorneio = times.filter(item => item.cod_torneio === cod_torneio)
     if (timesDoTorneio.length >= 8) {
         alert('O torneio pode ter no máximo 8 times.')
@@ -149,57 +133,43 @@ function adicionarTimes(nome, cor, imagem, cod_torneio) {
         alert('Já existe um time com este nome neste torneio!')
         return false
     }
-    const maiorId = times.length
-        ? Math.max(...times.map(item => item.cod_time))
-        : 0;
-    times.push({
-        cod_time: maiorId + 1,
+    await criarEntidade('times', {
+        id_torneio: cod_torneio,
+        id_adm: 1,
         escudo_time: imagem,
         nome_time: nome,
         cor_time: cor,
         pontuacaogeral_time: 0,
-        cod_torneio: cod_torneio,
-    })
+    }, times)
     return true
 }
-function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
-    const maiorId = modalidades.length ? Math.max(...modalidades.map(item => item.cod_modalidade)) : 0;
-    const novaModalidade = {
-        cod_torneio: torneio,
-        cod_modalidade: maiorId+1,
+async function adicionarModalidade(nome, desc, imagem, tempo, local, torneio) {
+    return criarEntidade('modalidades', {
+        id_torneio: torneio,
         foto_modalidade: imagem,
         nome_modalidade: nome,
         desc_modalidade: desc,
         tempojogemminutos_modalidade: tempo,
         localdojogo_modalidade: local,
-    }
-    modalidades.push(novaModalidade)
-    return novaModalidade
+    }, modalidades)
 }
-function adicionarArbitro(nome, login, senha, torneio){
- const maiorId = arbitros.length ? Math.max(...arbitros.map(item => item.cod_arbitro)) : 0;
-    arbitros.push({
-        cod_torneio: torneio,
-        cod_arbitro: maiorId+1,
+async function adicionarArbitro(nome, login, senha, torneio){
+    return criarEntidade('arbitros', {
+        id_torneio: torneio,
         nome_arbitro: nome,
         login_arbitro: login,
         senha_arbitro: senha,
-    })
+    }, arbitros)
 }
-function salvarTorneio(dadosDoFormulario) {
-  const novoCodigo = torneios.length
-    ? Math.max(...torneios.map(t => t.cod_torneio)) + 1
-    : 1
-
-  torneios.push({
-    cod_torneio: novoCodigo,
+async function salvarTorneio(dadosDoFormulario) {
+  const salvo = await criarEntidade('torneios', {
     nome_torneio: dadosDoFormulario.nome,
     data_inicio_torneio: dadosDoFormulario.dataInicio,
     data_fim_torneio: dadosDoFormulario.dataFim,
     status_torneio: dadosDoFormulario.status,
-    cod_adm: 1,
-  })
-  return novoCodigo
+    id_adm: 1,
+  }, torneios)
+  return salvo.cod_torneio
 }
 export{adicionarTimes, adicionarModalidade, adicionarArbitro, adicionarDadosApresentacao, salvarTorneio}
 

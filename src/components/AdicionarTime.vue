@@ -9,11 +9,11 @@ const emit = defineEmits(['fechar']);
 const nome = ref('');
 const cor = ref('');
 const imagem = ref(null);
-function checarDados() {
+async function checarDados() {
     if (nome.value !== '') {
         if (cor.value !== '') {
             if (imagem.value !== null) {
-                const adicionado = adicionarTimes(nome.value, cor.value, imagem.value, codTorneio.value);
+                const adicionado = await adicionarTimes(nome.value, cor.value, imagem.value, codTorneio.value);
                 if (adicionado) {
                     emit('fechar');
                     nome.value = '';

@@ -1,9 +1,11 @@
+import { mesmoId } from '@/services/api'
+
 function normalizarLocal(local) {
   return local.trim().toLocaleLowerCase('pt-BR')
 }
 function obterConfronto(idJogo, participa, times) {
   const nomes = participa
-    .filter((participante) => Number(participante.id_jogo) === Number(idJogo))
+    .filter((participante) => mesmoId(participante.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
     .map((participante) => {
       const time = times.find((item) => Number(item.cod_time) === Number(participante.id_time))

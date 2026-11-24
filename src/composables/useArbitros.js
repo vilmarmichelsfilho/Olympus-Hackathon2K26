@@ -1,13 +1,14 @@
 import { ref } from 'vue'
+import { API_URL } from '@/services/api'
 
-const API_URL = 'http://localhost:3000/arbitros'
+const ARBITROS_URL = `${API_URL}/arbitros`
 
 const arbitros = ref([])
 let requisicaoAtual = null
 const normalizar = item => ({ ...item, cod_arbitro: item.id, cod_torneio: Number(item.id_torneio) })
 
 async function requisitar(caminho = '', opcoes = {}) {
-  const resposta = await fetch(`${API_URL}${caminho}`, opcoes)
+  const resposta = await fetch(`${ARBITROS_URL}${caminho}`, opcoes)
 
   if (!resposta.ok) {
     throw new Error(`Erro ao acessar árbitros: ${resposta.status}`)

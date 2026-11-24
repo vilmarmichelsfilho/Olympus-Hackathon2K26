@@ -1,6 +1,8 @@
+import { mesmoId } from '@/services/api'
+
 function pegarParticipantes(participa, idJogo) {
   return participa
-    .filter((participante) => Number(participante.id_jogo) === Number(idJogo))
+    .filter((participante) => mesmoId(participante.id_jogo, idJogo))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
 }
 
@@ -8,13 +10,13 @@ function passarVencedor(jogos, participa, idJogo, idTimeVencedor) {
   const participantesAtualizados = []
   jogos.forEach((proximoJogo) => {
     let posicao = null
-    if (Number(proximoJogo.origem_jogo_a) === Number(idJogo)) posicao = 1
-    if (Number(proximoJogo.origem_jogo_b) === Number(idJogo)) posicao = 2
+    if (mesmoId(proximoJogo.origem_jogo_a, idJogo)) posicao = 1
+    if (mesmoId(proximoJogo.origem_jogo_b, idJogo)) posicao = 2
     if (posicao === null) return
 
     const participante = participa.find(
       (item) =>
-        Number(item.id_jogo) === Number(proximoJogo.id) && item.posicao_participante === posicao,
+        mesmoId(item.id_jogo, proximoJogo.id) && item.posicao_participante === posicao,
     )
     if (!participante) return
 
@@ -27,7 +29,7 @@ function passarVencedor(jogos, participa, idJogo, idTimeVencedor) {
 }
 
 function salvarPlacar(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => Number(item.id) === Number(idJogo))
+  const jogo = jogos.find((item) => mesmoId(item.id, idJogo))
   const participantes = pegarParticipantes(participa, idJogo)
 
   if (!jogo || participantes.length < 2) {
@@ -50,7 +52,7 @@ function salvarPlacar(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
 }
 
 function finalizarJogo(jogos, participa, idJogo, pontuacaoA, pontuacaoB) {
-  const jogo = jogos.find((item) => Number(item.id) === Number(idJogo))
+  const jogo = jogos.find((item) => mesmoId(item.id, idJogo))
   const participantes = pegarParticipantes(participa, idJogo)
 
   if (!jogo || participantes.length < 2) {

@@ -10,9 +10,10 @@ import { encerrarSessao, obterSessao } from '@/Utils/loginUtils'
 import { finalizarJogo } from '@/Utils/partidasUtils'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
+import { mesmoId } from '@/services/api'
 const { jogos, carregarJogos, atualizarJogoLocal } = useJogos()
 const { participa, carregarParticipa, atualizarParticipantes } = useParticipa()
-const API_URL = 'http://localhost:3000'
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
 }
@@ -32,7 +33,7 @@ function detalharJogo(jogo, modalidades, participa, times) {
     (item) => Number(item.cod_modalidade) === Number(jogo.id_modalidade),
   )
   const participantes = participa
-    .filter((item) => Number(item.id_jogo) === Number(jogo.id))
+    .filter((item) => mesmoId(item.id_jogo, jogo.id))
     .sort((a, b) => a.posicao_participante - b.posicao_participante)
   const timeA = times.find(
     (item) => Number(item.cod_time) === Number(participantes[0]?.id_time),
@@ -63,7 +64,7 @@ const jogosDoArbitro = computed(() => {
   const prioridade = { AoVivo: 0, Agendado: 1, Finalizado: 2 }
 
   return jogos.value
-    .filter((jogo) => Number(jogo.id_arbitro) == Number(sessao?.codigo))
+    .filter((jogo) => mesmoId(jogo.id_arbitro, sessao?.codigo))
     .map((jogo) => detalharJogo(jogo, modalidades, participa.value, times))
     .sort((jogoA, jogoB) => {
       const diferencaStatus = prioridade[jogoA.status] - prioridade[jogoB.status]
@@ -81,8 +82,8 @@ function alterarPlacar(id) {
 }
 
 async function salvarPlacar({ id, pontuacaoA, pontuacaoB }) {
-  const jogo = jogos.value.find((item) => Number(item.id) === Number(id))
-  if (!jogo || Number(jogo.id_arbitro) !== Number(sessao?.codigo)) return
+  const jogo = jogos.value.find((item) => mesmoId(item.id, id))
+  if (!jogo || !mesmoId(jogo.id_arbitro, sessao?.codigo)) return
 
   const resultado = finalizarJogo(
     jogos.value,

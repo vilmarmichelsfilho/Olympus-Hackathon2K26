@@ -1,6 +1,10 @@
 
 # Olympus - Hackathon2K26
 
+## Desenvolvimento local
+
+Instale as dependências com `npm install` e inicie a interface e a API local juntas com `npm run dev:full`. A API `json-server` usa `db.json` na porta 3000. Para iniciar os processos separadamente, use `npm run dev` e `npm run api` em terminais diferentes. A URL base da API pode ser substituída pela variável `VITE_API_URL`.
+
 A organização das Olimpíadas Internas do Instituto Federal Catarinense (IFC) – Campus Araquari envolve o gerenciamento de diversas informações, como equipes, modalidades, partidas, horários, locais, árbitros, resultados e classificações. O controle dessas informações pode gerar dificuldades logísticas, conflitos de horários e problemas na comunicação com os participantes. Nesse contexto, o projeto propõe o desenvolvimento de uma aplicação web que auxilie na gestão e organização das Olimpíadas Internas do Campus Araquari, buscando centralizar as informações e facilitar tanto a administração quanto o acompanhamento das competições.
 
 Integrantes: Vilmar Michels Filho, Igor Gabriel Decker, Vitor Avanzi Lipinski, Davi Augusto Ramos.

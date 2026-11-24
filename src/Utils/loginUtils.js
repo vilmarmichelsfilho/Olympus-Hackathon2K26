@@ -1,5 +1,7 @@
 import { administradores } from '@/data/administradores'
 import { arbitros } from '@/data/arbitros'
+import { carregarAdministradores } from '@/data/administradores'
+import { carregarArbitrosDados } from '@/data/arbitros'
 
 const CHAVE_SESSAO = 'sessaoOlympus'
 
@@ -21,7 +23,8 @@ function obterSessao() {
   }
 }
 
-function logar(usuario, senha) {
+async function logar(usuario, senha) {
+  await Promise.all([carregarAdministradores(), carregarArbitrosDados()])
   const loginInformado = usuario.trim().toLowerCase()
   const administrador = administradores.find(
     (item) => item.login_adm.toLowerCase() === loginInformado,

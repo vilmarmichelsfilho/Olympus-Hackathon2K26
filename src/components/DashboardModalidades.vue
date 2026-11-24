@@ -9,9 +9,9 @@ import { ref, onMounted} from 'vue';
 import { apagarModalidade } from '@/Utils/exclusaoUtils'
 import { useJogos } from '@/composables/useJogos'
 import { useParticipa } from '@/composables/useParticipa'
+import { API_URL } from '@/services/api'
 const { jogos, carregarJogos, removerJogoLocal } = useJogos()
 const { participa, carregarParticipa, excluirParticipantes } = useParticipa()
-const API_URL = 'http://localhost:3000';
 async function carregarDados() {
   await Promise.all([carregarJogos(), carregarParticipa()])
 }
@@ -22,6 +22,10 @@ function abrirEditar(id) {
   modalidadeEditarId.value = id
   modalidadeEditar.value = true
 }
+async function salvarEdicao(dados) {
+  await editarModalidade(dados.cod_modalidade, dados)
+  modalidadeEditar.value = false
+}
 const modalidadeAdicionar = ref(false)
 async function exluirModalidade(id) {
   const confirmarExclusao = window.confirm('Deseja realmente excluir esta modalidade?')
@@ -30,9 +34,9 @@ async function exluirModalidade(id) {
   const jogosDaModalidade = jogos.value.filter(
     (jogo) => Number(jogo.id_modalidade) === Number(id),
   )
-  const idsJogos = new Set(jogosDaModalidade.map((jogo) => Number(jogo.id)))
+    const idsJogos = new Set(jogosDaModalidade.map((jogo) => String(jogo.id)))
   const participantesDaModalidade = participa.value.filter((participante) =>
-    idsJogos.has(Number(participante.id_jogo)),
+        idsJogos.has(String(participante.id_jogo)),
   )
 
   for (const jogo of jogosDaModalidade) {
@@ -52,7 +56,7 @@ async function exluirModalidade(id) {
     return
   }
 
-  apagarModalidade(id, {
+    await apagarModalidade(id, {
     participa: participa.value,
     modalidades,
     codigosJogos: jogosDaModalidade.map((jogo) => jogo.id),
@@ -105,7 +109,7 @@ async function exluirModalidade(id) {
     ></AdicionarModalidade>
     <EditarModalidade
       :modalidade="modalidades.find((m) => m.cod_modalidade === modalidadeEditarId)"
-      @atualizar="editarModalidade($event.cod_modalidade, $event)"
+      @atualizar="salvarEdicao($event)"
       @fechar="modalidadeEditar = false"
       class="popup"
       :class="{ aberto: modalidadeEditar }"
