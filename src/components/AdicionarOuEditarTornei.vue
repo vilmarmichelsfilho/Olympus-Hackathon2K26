@@ -18,7 +18,7 @@ const etapa = ref(20);
 const dadosTorneio = ref(null)
 const finalizado = ref(false)
 
-function aoAdicionarTorneio(dados) {
+async function aoAdicionarTorneio(dados) {
   dadosTorneio.value = dados
   if (torneio.value) {
     const registro = torneios.find((item) => item.cod_torneio === torneio.value)
@@ -30,19 +30,25 @@ function aoAdicionarTorneio(dados) {
     }
   } else {
     torneio.value = salvarTorneio(dados);
-    adicionarDadosApresentacao(torneio.value)
+    await adicionarDadosApresentacao(torneio.value)
   }
   etapa.value=etapa.value+20;
 }
 
-function cancelar() {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+async function cancelar() {
+  if (torneio.value && !finalizado.value) await apagarTorneio(torneio.value)
   torneio.value = 0
   emit('fechar')
 }
 
-function finalizar() {
-  const resultado = gerarJogos(torneio.value)
+async function finalizar() {
+  let resultado
+  try {
+    resultado = await gerarJogos(torneio.value)
+  } catch (erro) {
+    alert(erro.message)
+    return
+  }
   if (!resultado.valido) {
     alert(resultado.mensagem)
     return
@@ -54,7 +60,7 @@ function finalizar() {
 }
 
 onBeforeUnmount(() => {
-  if (torneio.value && !finalizado.value) apagarTorneio(torneio.value)
+  if (torneio.value && !finalizado.value) void apagarTorneio(torneio.value)
 })
 
 </script>

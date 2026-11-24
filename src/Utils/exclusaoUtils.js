@@ -4,7 +4,7 @@ import { modalidades } from '@/data/modalidades'
 import { participa } from '@/data/participa'
 import { times } from '@/data/times'
 import { torneios } from '@/data/torneios'
-import { turmas } from '@/data/turmas'
+import { excluirTurmasDoTorneio } from '@/services/turmasApi'
 
 function tirarDaLista(lista, condicao) {
   for (let indice = lista.length - 1; indice >= 0; indice -= 1) {
@@ -21,7 +21,7 @@ function apagarModalidade(codModalidade) {
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_modalidade === codModalidade)
 }
 
-function apagarTorneio(codTorneio) {
+async function apagarTorneio(codTorneio) {
   const codigosModalidades = new Set(
     modalidades
       .filter((modalidade) => modalidade.cod_torneio === codTorneio)
@@ -36,7 +36,7 @@ function apagarTorneio(codTorneio) {
   tirarDaLista(participa, (participante) => codigosJogos.has(participante.cod_jogo))
   tirarDaLista(jogos, (jogo) => codigosModalidades.has(jogo.cod_modalidade))
   tirarDaLista(modalidades, (modalidade) => modalidade.cod_torneio === codTorneio)
-  tirarDaLista(turmas, (turma) => turma.cod_torneio === codTorneio)
+  await excluirTurmasDoTorneio(codTorneio)
   tirarDaLista(times, (time) => time.cod_torneio === codTorneio)
   tirarDaLista(arbitros, (arbitro) => arbitro.cod_torneio === codTorneio)
   tirarDaLista(torneios, (torneio) => torneio.cod_torneio === codTorneio)

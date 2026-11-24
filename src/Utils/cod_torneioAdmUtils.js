@@ -1,8 +1,8 @@
 import { ref, computed } from "vue";
+import { listarTurmas } from '@/services/turmasApi'
 import { modalidades} from "@/data/modalidades";
 import { jogos } from "@/data/jogos";
 import { arbitros } from "@/data/arbitros";
-import { turmas } from "@/data/turmas";
 import { times } from "@/data/times";
 const CHAVE_TORNEIO_ADM = 'torneioSelecionadoAdm'
 const torneioSalvo = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(CHAVE_TORNEIO_ADM) : null
@@ -27,10 +27,12 @@ const jogosDoTorneio = computed(() => {
 const timesFiltradosAdm = computed(() => {
   return times.filter((t) => t.cod_torneio == codTorneioSelecionadoAdm.value)
 })
-const turmasFiltradasAdm = computed(() => {
-  return turmas.filter((t) => t.cod_torneio == codTorneioSelecionadoAdm.value)
-})
+const turmasFiltradasAdm = ref([])
+async function carregarTurmasAdm() {
+  const turmas = await listarTurmas()
+  turmasFiltradasAdm.value = turmas.filter((t) => Number(t.cod_torneio) === Number(codTorneioSelecionadoAdm.value))
+}
 const arbitrosFiltradosAdm = computed(() => {
   return arbitros.filter((a) => a.cod_torneio == codTorneioSelecionadoAdm.value)
 })
-export {codTorneioSelecionadoAdm, AlterarCodTorneio, jogosDoTorneio, modalidadesFiltradasAdm, timesFiltradosAdm, turmasFiltradasAdm, arbitrosFiltradosAdm}
+export {codTorneioSelecionadoAdm, AlterarCodTorneio, jogosDoTorneio, modalidadesFiltradasAdm, timesFiltradosAdm, turmasFiltradasAdm, carregarTurmasAdm, arbitrosFiltradosAdm}

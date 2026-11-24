@@ -1,21 +1,19 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { times } from '@/data/times.js';
-import { turmas } from '@/data/turmas.js';
+import { listarTurmas, excluirTurmasDoTime } from '@/services/turmasApi'
 
 const props = defineProps(['id', 'class'])
 const time = computed(() => times.find(item => item.cod_time === props.id))
 
-const turmasEmTime = computed(() => {
-    return turmas.filter(item => item.cod_time === props.id);
-});
+const turmasEmTime = computed(() => turmasCarregadas.value.filter(item => Number(item.cod_time) === Number(props.id)))
+const turmasCarregadas = ref([])
+async function carregarTurmas() { turmasCarregadas.value = await listarTurmas() }
+onMounted(carregarTurmas)
 
-function deletar() {
-    for (let i = turmas.length - 1; i >= 0; i--) {
-        if (turmas[i].cod_time == props.id) {
-            turmas.splice(i, 1);
-        }
-    }
+async function deletar() {
+    await excluirTurmasDoTime(props.id)
+    await carregarTurmas()
 }
 
 </script>

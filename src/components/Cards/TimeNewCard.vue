@@ -1,7 +1,7 @@
 <script setup>
 import { times } from '@/data/times';
 import { computed, ref } from 'vue';
-import { turmas } from '@/data/turmas';
+import { excluirTurmasDoTime } from '@/services/turmasApi'
 import AdicionarOuEditarTime from '../AdicionarOuEditarTime.vue';
 
 const props = defineProps(['id','class'])
@@ -9,13 +9,11 @@ const time = computed(() => times.find(item => item.cod_time === props.id))
 
 const edit = ref(false)
 
-function deletar() {
+async function deletar() {
     const indice = times.findIndex(item => item.cod_time === props.id)
     if (indice === -1) return
 
-    for (let i = turmas.length - 1; i >= 0; i -= 1) {
-        if (turmas[i].cod_time === props.id) turmas.splice(i, 1)
-    }
+    await excluirTurmasDoTime(props.id)
     times.splice(indice, 1)
 }
 </script>

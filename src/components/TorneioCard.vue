@@ -11,8 +11,8 @@ function formatarData(data) {
     const [, mes, dia] = data.split('-')
     return `${dia}/${mes}`
 }
-function excluir() {
-    apagarTorneio(props.id)
+async function excluir() {
+    await apagarTorneio(props.id)
     if (codTorneioSelecionadoAdm.value === props.id) AlterarCodTorneio(null)
 }
 </script>

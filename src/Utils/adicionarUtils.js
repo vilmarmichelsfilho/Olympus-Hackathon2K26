@@ -2,7 +2,7 @@ import { times } from '@/data/times'
 import { modalidades } from '@/data/modalidades'
 import {arbitros} from '@/data/arbitros';
 import { torneios } from '@/data/torneios';
-import { turmas } from '@/data/turmas';
+import { listarTurmas, criarTurma } from '@/services/turmasApi'
 
 const timesApresentacao = [
     { nome: 'Azul', cor: '#2563EB', escudo: '/images/escudos/azul.svg' },
@@ -76,11 +76,12 @@ const arbitrosApresentacao = [
     'Fernanda Costa',
 ]
 
-function adicionarDadosApresentacao(codTorneio) {
+async function adicionarDadosApresentacao(codTorneio) {
     if (times.some(item => item.cod_torneio === codTorneio)) return
 
     let proximoTime = times.length ? Math.max(...times.map(item => item.cod_time)) + 1 : 1
-    let proximaTurma = turmas.length ? Math.max(...turmas.map(item => item.cod_turma)) + 1 : 1
+    const turmas = await listarTurmas()
+    let proximaTurma = turmas.length ? Math.max(...turmas.map(item => Number(item.id) || 0)) + 1 : 1
     let proximaModalidade = modalidades.length
         ? Math.max(...modalidades.map(item => item.cod_modalidade)) + 1
         : 1
@@ -110,7 +111,7 @@ function adicionarDadosApresentacao(codTorneio) {
         })
     })
 
-    timesApresentacao.forEach((modelo, indice) => {
+    for (const [indice, modelo] of timesApresentacao.entries()) {
         const codTime = proximoTime++
 
         times.push({
@@ -123,9 +124,10 @@ function adicionarDadosApresentacao(codTorneio) {
             nome_time: modelo.nome,
         })
 
-        turmasApresentacao[indice].forEach(([tecnico, serie], ano) => {
-            turmas.push({
-                cod_turma: proximaTurma++,
+        for (const [ano, [tecnico, serie]] of turmasApresentacao[indice].entries()) {
+            const codTurma = proximaTurma++
+            await criarTurma({
+                cod_turma: codTurma,
                 cod_torneio: codTorneio,
                 cod_time: codTime,
                 tecnico_turma: tecnico,
@@ -133,8 +135,8 @@ function adicionarDadosApresentacao(codTorneio) {
                 numero_turma: serie,
                 nome_turma: `${ano + 1}${tecnico}${serie}`,
             })
-        })
-    })
+        }
+    }
 }
 
 function adicionarTimes(nome, cor, imagem, cod_torneio) {
@@ -200,3 +202,5 @@ function salvarTorneio(dadosDoFormulario) {
   return novoCodigo
 }
 export{adicionarTimes, adicionarModalidade, adicionarArbitro, adicionarDadosApresentacao, salvarTorneio}
+
+

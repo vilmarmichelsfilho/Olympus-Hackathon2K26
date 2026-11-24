@@ -1,18 +1,24 @@
 <script setup>
 import { times } from '@/data/times.js';
-import { turmas } from '@/data/turmas.js';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
+import { listarTurmas } from '@/services/turmasApi'
 const props = defineProps(['torneio'])
 import TurmaNewCard from '../Cards/TurmaNewCard.vue';
 const timesTorneio = computed(() => {
     return times.filter(item => item.cod_torneio === props.torneio);
 });
-const turmasTorneio = computed(() => {
-    return turmas.filter(item => item.cod_torneio === props.torneio);
-});
+const turmasCarregadas = ref([])
+async function carregarTurmas() { turmasCarregadas.value = (await listarTurmas()).filter(item => Number(item.cod_torneio) === Number(props.torneio)) }
+onMounted(carregarTurmas)
+watch(() => props.torneio, carregarTurmas)
+const turmasTorneio = computed(() => turmasCarregadas.value)
 import AdicionarOuEditar from '../AdicionarOuEditar.vue';
 const add = ref(false)
 const emits = defineEmits(['salvar','voltar']);
+async function aoFecharModal() {
+    add.value = false
+    await carregarTurmas()
+}
 
 function avancar() {
     if (turmasTorneio.value.length < 23 || turmasTorneio.value.length > 24) {
@@ -69,7 +75,7 @@ function avancar() {
         <button class="voltar" v-on:click.prevent="emits('voltar')">Voltar</button>
         <button class="salvar" v-on:click.prevent="avancar">Salvar Alterações</button>
     </div>
-    <AdicionarOuEditar v-if="add===true" @fechar="add=false" :torneio="torneio" :tipo="'adicionar'"></AdicionarOuEditar>
+<AdicionarOuEditar v-if="add===true" @fechar="aoFecharModal" :torneio="torneio" :tipo="'adicionar'"></AdicionarOuEditar>
 </template>
 
 <style scoped>

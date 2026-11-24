@@ -3129,5 +3129,6 @@
       "numero_turma": 3,
       "nome_turma": "3Química3"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

@@ -16,7 +16,7 @@ const codTorneio = ref(codTorneioSelecionadoAdm)
 if (props.torneio != undefined){
   codTorneio.value = props.torneio
 }
-function checarDados() {
+async function checarDados() {
   if (nome.value !== '') {
     if (desc.value !== '') {
       if(tempo.value !== '') {
@@ -32,9 +32,9 @@ function checarDados() {
             );
 
             if (props.gerarJogos) {
-              const resultado = gerarJogosModalidade(novaModalidade.cod_modalidade);
+              const resultado = await gerarJogosModalidade(novaModalidade.cod_modalidade);
               if (!resultado.valido) {
-                apagarModalidade(novaModalidade.cod_modalidade);
+                await apagarModalidade(novaModalidade.cod_modalidade);
                 alert(resultado.mensagem);
                 return;
               }
